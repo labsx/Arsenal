@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
 
 /*
@@ -24,5 +25,8 @@ Route::post('/items', [ItemController::class, 'create']);
 Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
 Route::put('/items/{item}/edit', [ItemController::class, 'update']);
 Route::delete('/items/{item}', [ItemController::class, 'destroy']);
+
+Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
+Route::post('/issue/items', [IssueItemController::class, 'create']);
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

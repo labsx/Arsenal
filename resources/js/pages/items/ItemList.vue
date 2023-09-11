@@ -56,9 +56,13 @@
                              <i class="fa fa-edit mr-2"></i>
                         </router-link>
 
-                      <a href="" @click.prevent="deleteItems(item.id)">
+                      <router-link to="" @click.prevent="deleteItems(item.id)">
                         <i class="fa fa-trash text-danger"></i>
-                      </a>
+                      </router-link>
+
+                      <router-link :to="`/admin/items/${item.id}/issue`" class="ml-2">
+                        <i class="fa fa-user-plus"></i>
+                      </router-link>
                     </td>
                   </tr>
                 </tbody>

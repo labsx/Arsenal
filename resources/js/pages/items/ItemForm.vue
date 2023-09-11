@@ -126,9 +126,7 @@ const createItem = () => {
   axios.post('/items', form)
     .then((response) => {
       toastr.success('Item created successfully!');
-      Object.keys(form).forEach((key) => {
-        form[key] = '';
-      });
+      router.push('/admin/items/list'); 
     })
     .catch((error) => {
       if (error.response && error.response.status === 422) {
@@ -169,6 +167,7 @@ onMounted (() => {
         editMode.value = true;
          getItems();
     }
+
 
     flatpickr(".flatpickr", {
         enableTime: true,
