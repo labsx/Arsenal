@@ -23,6 +23,8 @@ class ItemController extends Controller
             'model' => ['required', 'min:3', 'max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'description' => ['required', 'min:3', 'max:255'],
+        ], [
+            'serial' => 'Item already added'
         ]);
         Item::create($formFields);
         
@@ -32,6 +34,28 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         $item->delete();
+        return response()->json(['success' => true]);
+    }
+
+    public function edit(Item $item)
+    {
+        return $item;
+    }
+
+    public function update(Request $request, Item $item)
+    {
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', 'max:50'],
+            'serial' => ['required', 'min:3','max:100', Rule::unique('items', 'serial')->ignore($item->id)],
+            'date' => ['required'],
+            'model' => ['required', 'min:3', 'max:30'],
+            'status' => ['required', 'min:3', 'max:10'],
+            'description' => ['required', 'min:3', 'max:255'],
+        ], [
+            'serial' => 'Item already added'
+        ]);
+        $item->update($formFields);
+        
         return response()->json(['success' => true]);
     }
 }

@@ -52,9 +52,9 @@
                       <span class="badge badge-success">{{ item.status }}</span>
                     </td>
                     <td>
-                      <a href="">
-                        <i class="fa fa-edit mr-2"></i>
-                      </a>
+                       <router-link :to="`/admin/items/${item.id}/edit`">
+                             <i class="fa fa-edit mr-2"></i>
+                        </router-link>
 
                       <a href="" @click.prevent="deleteItems(item.id)">
                         <i class="fa fa-trash text-danger"></i>

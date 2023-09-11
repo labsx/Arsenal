@@ -3,7 +3,10 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">ADD ITEM</h1>
+                    <h1 class="m-0">
+                         <span v-if="editMode">EDIT ITEMS</span>
+                        <span v-else>ADD ITEMS</span>
+                    </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -13,7 +16,10 @@
                         <li class="breadcrumb-item">
                             <router-link to="/admin/items/list">Items</router-link>
                         </li>
-                        <li class="breadcrumb-item active">Create</li>
+                        <li class="breadcrumb-item active">
+                            <span v-if="editMode">Edit</span>
+                            <span v-else>Create</span>
+                            </li>
                     </ol>
                 </div>
             </div>
@@ -26,7 +32,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form @submit.prevent="createItem()">
+                            <form @submit.prevent="handleSubmit()">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -88,11 +94,15 @@
 import axios from 'axios';
 import { reactive, ref, onMounted } from 'vue';
 import { useToastr } from '../../toastr';
+import { useRouter, useRoute } from 'vue-router';
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/themes/light.css';
 
 const toastr = useToastr();
 const errors = ref([]);
+const router = useRouter();
+const route = useRoute();
+const editMode = ref(false);
 
 const form = reactive({
     name: '',
@@ -103,20 +113,63 @@ const form = reactive({
     description: '',
 });
 
+const handleSubmit = (values) => {
+    if(editMode.value){
+        editItem(values);
+    }else{
+        createItem(values);
+    }
+};
+
+
 const createItem = () => {
-    axios.post('/items', form)
-      .then((response) => {
-        toastr.success('Items created successfully!');  
-        // router.push('/admin/users');   
+  axios.post('/items', form)
+    .then((response) => {
+      toastr.success('Item created successfully!');
+      Object.keys(form).forEach((key) => {
+        form[key] = '';
+      });
     })
-     .catch((error) => {
+    .catch((error) => {
+      if (error.response && error.response.status === 422) {
+        errors.value = error.response.data.errors;
+      }
+    });
+};
+
+
+const editItem  = (values) => {
+    axios.put(`/items/${route.params.id}/edit`, form)
+    .then((response) => {
+       router.push('/admin/items/list');    
+       toastr.success('Items updated successfully !')  ;
+    })
+      .catch((error) => {
       if(error.response && error.response.status === 422){
          errors.value = error.response.data.errors;
       }
     });
 };
 
+
+const getItems = () => {
+    axios.get(`/items/${route.params.id}/edit`)
+    .then(({data}) => {
+        form.name = data.name;
+        form.serial = data.serial;
+        form.date = data.date;
+        form.model = data.model;
+        form.status = data.status;
+        form.description = data.description;
+    })
+};
+
 onMounted (() => {
+    if (route.name === 'admin.items.edit') {
+        editMode.value = true;
+         getItems();
+    }
+
     flatpickr(".flatpickr", {
         enableTime: true,
         dateFormat: "Y-m-d h:i K",

@@ -9,16 +9,19 @@ export default[
         name: 'admin.dashboard',
         component: Dashboard,
     },
-
     {
         path: '/admin/items/list',
         name: 'admin.items.list',
         component: ItemList,
     },
-
     {
         path: '/admin/items/create',
         name: 'admin.items.create',
+        component: ItemForm,
+    },
+    {
+        path: '/admin/items/:id/edit',
+        name: 'admin.items.edit',
         component: ItemForm,
     }
 ]
