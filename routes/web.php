@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ApplicationController;
 
 /*
@@ -17,5 +18,7 @@ use App\Http\Controllers\ApplicationController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/items', [ItemController::class, 'create']);
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
