@@ -8,6 +8,12 @@ use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
+    public function index()
+    {
+        $items = Item::latest()->get();
+        return $items;
+    }
+
     public function create(Request $request)
     {
         $formFields = $request->validate([
@@ -20,6 +26,12 @@ class ItemController extends Controller
         ]);
         Item::create($formFields);
         
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy(Item $item)
+    {
+        $item->delete();
         return response()->json(['success' => true]);
     }
 }

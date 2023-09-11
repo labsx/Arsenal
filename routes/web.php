@@ -19,6 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/items', [ItemController::class, 'index']);
 Route::post('/items', [ItemController::class, 'create']);
+Route::delete('/items/{item}', [ItemController::class, 'destroy']);
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
