@@ -6,6 +6,7 @@ import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
 import ReturnForm from './pages/item-issued/ReturnForm.vue';
 import History from './pages/history/History.vue';
+import UserLists from './pages/users/UsersList.vue';
 
 export default[
  
@@ -53,5 +54,10 @@ export default[
         path: '/admin/items/history',
         name: 'admin.items.history',
         component: History,
+    },
+    {
+        path: '/admin/users',
+        name: 'admin.users',
+        component: UserLists,
     }
 ]

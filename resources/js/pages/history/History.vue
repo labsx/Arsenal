@@ -40,7 +40,7 @@
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody v-if="history.data.length>0">
+                <tbody v-if="history.data.length > 0">
                   <tr v-for="(data, index) in history.data" :key="data.id">
                      <td>{{ index +1 }}</td>
                     <td>{{ data.item_name }}</td>

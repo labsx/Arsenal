@@ -1,12 +1,13 @@
 <?php
 
+use App\Models\History;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
-use App\Models\History;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::post('/items/return', [HistoryController::class, 'create']);
 Route::get('/items/history', [HistoryController::class, 'index']);
 Route::delete('/return/{data}', [HistoryController::class, 'destroy']);;
 Route::get('/items/search', [HistoryController::class, 'search']);
+
+Route::get('/users', [UserController::class, 'index']);
 
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
