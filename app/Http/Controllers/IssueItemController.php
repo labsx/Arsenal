@@ -9,6 +9,12 @@ use Illuminate\Validation\Rule;
 
 class IssueItemController extends Controller
 {
+    public function index()
+    {
+        $issues = Issue::latest()->get();
+        return $issues;
+    }
+
     public function edit(Item $item)
     {
         return $item;

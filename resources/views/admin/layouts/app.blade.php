@@ -160,7 +160,16 @@ Nora Silvester
                     <router-link to="/admin/items/list" active-class="active" class="nav-link">
                         <i class="nav-icon fas fa-list"></i>
                         <p>
-                             Item List
+                             Items List
+                        </p>
+                     </router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/admin/items/issue/list" active-class="active" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                             Items Issue List
                         </p>
                      </router-link>
                 </li>
