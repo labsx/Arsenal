@@ -19,13 +19,14 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
               <router-link to="/admin/items/create">
                 <button class="btn btn-primary">
                   <i class="fa fa-plus-circle mr-1"></i> Add New Items
                 </button>
               </router-link>
-            </div>
+              <div>
+                <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+              </div>
           </div>
           <div class="card">
             <div class="card-body">
@@ -41,7 +42,7 @@
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="items.length > 0">
                   <tr v-for="(item, index) in items" :key="item.id">
                     <td>{{ index +1 }}</td>
                     <td>{{ item.name }}</td>
@@ -66,6 +67,11 @@
                     </td>
                   </tr>
                 </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="7" class="text-danger text-center" >No Data found !...</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -77,9 +83,9 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
-
+ 
 const items = ref([]);
 const getItems = () => {
     axios.get('/items')
@@ -121,6 +127,24 @@ const deleteItems = (id) => {
     });
 };
 
+const searchQuery =ref(null);
+const search = () => {
+  axios.get('/items/search', {
+    params: {
+      query: searchQuery.value
+    }
+  })
+  .then(response => {
+    items.value = response.data;
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}; 
+
+watch(searchQuery, () =>{
+  search();
+})
 onMounted (() => {
     getItems();
 });

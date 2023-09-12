@@ -58,4 +58,12 @@ class ItemController extends Controller
         
         return response()->json(['success' => true]);
     }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        
+        $items = Item::where('serial', 'like', "%{$searchQuery}%")->get();
+        return response()->json($items);
+    }
 }

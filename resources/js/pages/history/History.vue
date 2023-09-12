@@ -32,6 +32,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -43,7 +44,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="data in history" :key="data.id">
+                  <tr v-for="(data, index) in history" :key="data.id">
+                     <td>{{ index +1 }}</td>
                     <td>{{ data.item_name }}</td>
                     <td>{{ data.serial}}</td>
                     <td>{{data.model}}</td>
@@ -54,7 +56,7 @@
                     </td>
                     <td>{{data.issued_to}}</td>
                     <td>
-                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                       <router-link to="" @click.prevent="delHistory(data.id)">
                         <i class="fa fa-trash text-danger"></i>
                       </router-link>
                     </td>
@@ -74,6 +76,7 @@ import axios from "axios";
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
+
 const history = ref([]);
 const getHistory = () => {
     axios.get('/items/history')
@@ -84,6 +87,37 @@ const getHistory = () => {
         console.error('Error fetching items:', error);
     });
 };
+
+const delHistory = (id) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/return/${id}`)
+            .then(() => {
+                history.value = history.value.filter(data => data.id !== id);
+
+                Swal.fire(
+                    'Deleted!',
+                    'Item has been deleted.',
+                    'success'
+                );
+               
+                getHistory();
+            })
+            .catch((error) => {
+                console.error('Error deleting event:', error);
+            });
+        }
+    });
+};
+
 
 onMounted (() => {
     getHistory();

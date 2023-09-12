@@ -32,7 +32,7 @@ class HistoryController extends Controller
             'issued_to' => ['required', 'min:3', 'max:50'],
             'return_date' => ['required', 'min:3', 'max:50'],
         ]);
-          
+
         $formFields['serial'] = $request->input('serial');
         $issue = History::create($formFields);
         if ($formFields['status'] === 'Bad') {
@@ -84,6 +84,7 @@ class HistoryController extends Controller
      */
     public function destroy(History $history)
     {
-        //
+        $history->delete();
+        return response()->json(['success' => true]);
     }
 }

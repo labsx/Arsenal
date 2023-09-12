@@ -6,6 +6,7 @@ use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
+use App\Models\History;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
 Route::put('/items/{item}/edit', [ItemController::class, 'update']);
 Route::delete('/items/{item}', [ItemController::class, 'destroy']);
 
+Route::get('/items/search', [ItemController::class, 'search']);
+
 Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
 Route::post('/issue/items', [IssueItemController::class, 'create']);
 Route::get('/issue/items', [IssueItemController::class, 'index']);
@@ -38,6 +41,7 @@ Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
 
 Route::post('/items/return', [HistoryController::class, 'create']);
 Route::get('/items/history', [HistoryController::class, 'index']);
+Route::delete('/return/{data}', [HistoryController::class, 'destroy']);;
 
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
