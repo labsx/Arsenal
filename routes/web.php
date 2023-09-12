@@ -29,5 +29,7 @@ Route::delete('/items/{item}', [ItemController::class, 'destroy']);
 Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
 Route::post('/issue/items', [IssueItemController::class, 'create']);
 Route::get('/issue/items', [IssueItemController::class, 'index']);
+Route::get('/items/{issue}/list', [IssueItemController::class, 'show']);
+Route::put('/items/{issue}/lists', [IssueItemController::class, 'update']);
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

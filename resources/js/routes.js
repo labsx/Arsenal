@@ -3,7 +3,7 @@ import ItemList from './pages/items/ItemList.vue';
 import ItemForm from './pages/items/ItemForm.vue';
 import IssueForm from './pages/items/IssueForm.vue';
 import ItemUserList from './pages/item-issued/ItemUserList.vue';
-
+import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
 export default[
  
     {
@@ -35,5 +35,10 @@ export default[
         path: '/admin/items/issue/list',
         name: 'admin.items.issue.list',
         component: ItemUserList,
+    },
+    {
+        path: '/admin/items/:id/lists',
+        name: 'admin.items.issue.lists',
+        component: ItemUserUpdate,
     }
 ]
