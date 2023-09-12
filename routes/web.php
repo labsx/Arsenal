@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ReturnController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
 
@@ -31,5 +33,11 @@ Route::post('/issue/items', [IssueItemController::class, 'create']);
 Route::get('/issue/items', [IssueItemController::class, 'index']);
 Route::get('/items/{issue}/list', [IssueItemController::class, 'show']);
 Route::put('/items/{issue}/lists', [IssueItemController::class, 'update']);
+
+Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
+
+Route::post('/items/return', [HistoryController::class, 'create']);
+Route::get('/items/history', [HistoryController::class, 'index']);
+
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Item Issued List</h1>
+          <h1 class="m-0">History</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Issued Item</li>
+            <li class="breadcrumb-item active">History</li>
           </ol>
         </div>
       </div>
@@ -20,6 +20,11 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
+              <!-- <router-link to="/admin/items/create">
+                <button class="btn btn-primary">
+                  <i class="fa fa-plus-circle mr-1"></i> Add New Items
+                </button>
+              </router-link> -->
             </div>
           </div>
           <div class="card">
@@ -27,36 +32,30 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Item Name</th>
+                    <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
-                    <th scope="col">Date Issued</th>
-                    <th scope="col">Issued to</th>
+                    <th scope="col">Date issued</th>
+                     <th scope="col">Date return</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Issued to</th>
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(issue, index) in issues" :key="issue.id">
-                    <td>{{ index +1 }}</td>
-                    <td>{{issue.item_name}}</td>
-                    <td>{{issue.serial}}</td>
-                    <td>{{issue.model}}</td>
-                    <td>{{ issue.issued_date }}</td>
-                    <td>{{ issue.issued_to }}</td>
+                  <tr v-for="data in history" :key="data.id">
+                    <td>{{ data.item_name }}</td>
+                    <td>{{ data.serial}}</td>
+                    <td>{{data.model}}</td>
+                    <td>{{data.issued_date}}</td>
+                    <td>{{data.return_date}}</td>
                     <td>
-                      <span class="badge badge-primary">{{ issue.status }}
-                      </span>
+                      <span class="badge badge-success">{{data.status}}</span>
                     </td>
+                    <td>{{data.issued_to}}</td>
                     <td>
-                         
-                       <router-link :to="`/admin/items/${issue.id}/lists`">
-                             	<i class=" 	fas fa-user-tie"></i>
-                        </router-link>
-
-                       <router-link :to="`/admin/items/${issue.id}/return`">
-                        <i class="fa fa-undo text-danger ml-3"></i>
+                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                        <i class="fa fa-trash text-danger"></i>
                       </router-link>
                     </td>
                   </tr>
@@ -69,23 +68,24 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from 'vue';
 import Swal from 'sweetalert2';
 
-const issues = ref([]);
-
-const getItems = () => {
-    axios.get('/issue/items')
+const history = ref([]);
+const getHistory = () => {
+    axios.get('/items/history')
     .then((response) => {
-        issues.value = response.data; 
+        history.value = response.data; 
     })
     .catch((error) => {
         console.error('Error fetching items:', error);
     });
 };
+
 onMounted (() => {
-    getItems();
+    getHistory();
 });
 </script>

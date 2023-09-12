@@ -4,6 +4,9 @@ import ItemForm from './pages/items/ItemForm.vue';
 import IssueForm from './pages/items/IssueForm.vue';
 import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
+import ReturnForm from './pages/item-issued/ReturnForm.vue';
+import History from './pages/history/History.vue';
+
 export default[
  
     {
@@ -40,5 +43,15 @@ export default[
         path: '/admin/items/:id/lists',
         name: 'admin.items.issue.lists',
         component: ItemUserUpdate,
+    },
+    {
+        path: '/admin/items/:id/return',
+        name: 'admin.items.return',
+        component: ReturnForm,
+    },
+    {
+        path: '/admin/items/history',
+        name: 'admin.items.history',
+        component: History,
     }
 ]
