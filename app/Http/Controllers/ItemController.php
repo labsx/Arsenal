@@ -10,7 +10,7 @@ class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::latest()->get();
+        $items = Item::latest()->paginate(10);
         return $items;
     }
 
@@ -63,7 +63,7 @@ class ItemController extends Controller
     {
         $searchQuery = request('query');
         
-        $items = Item::where('serial', 'like', "%{$searchQuery}%")->get();
+        $items = Item::where('serial', 'like', "%{$searchQuery}%")->paginate(10);
         return response()->json($items);
     }
 }
