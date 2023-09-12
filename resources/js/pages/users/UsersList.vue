@@ -52,7 +52,7 @@
                              <i class="fa fa-edit mr-2"></i>
                         </router-link>
 
-                      <router-link to="" >
+                      <router-link to="" @click.prevent="deleteUsers(user.id)" >
                         <i class="fa fa-trash text-danger"></i>
                       </router-link> 
 
@@ -76,6 +76,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref, watch } from 'vue';
+import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 
 const users = ref({'data': []});
@@ -108,6 +109,35 @@ const search = () => {
 watch(searchQuery, () => {
   search();
 })
+
+const deleteUsers = (id) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/users/${id}`)
+            .then(() => {
+                users.value.data = users.value.data.filter(user => user.id !== id);
+
+                Swal.fire(
+                    'Deleted!',
+                    'Item has been deleted.',
+                    'success'
+                );   
+                getUsers();
+            })
+            .catch((error) => {
+                console.error('Error deleting event:', error);
+            });
+        }
+    });
+};
 onMounted(() => {
     getUsers();
 });

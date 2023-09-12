@@ -47,5 +47,6 @@ Route::get('/items/search', [HistoryController::class, 'search']);
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/users', [UserController::class, 'search']);
+Route::delete('/users/{user}', [UserController::class, 'destroy']); 
 
 Route::get('{view}', ApplicationController::class)->where('view', '(.*)');

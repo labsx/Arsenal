@@ -22,4 +22,10 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return response()->json(['success' => true]);
+    }
 }
