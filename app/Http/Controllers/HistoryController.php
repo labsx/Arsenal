@@ -15,7 +15,7 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $history = History::latest()->get();
+        $history = History::latest()->paginate(10);
         return $history;
     }
 
@@ -86,5 +86,17 @@ class HistoryController extends Controller
     {
         $history->delete();
         return response()->json(['success' => true]);
+    }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $history = History::where(function ($query) use ($searchQuery) {
+            $query->where('serial', 'like', "%{$searchQuery}%")
+                ->orWhere('item_name', 'like', "%{$searchQuery}%")
+                ->orWhere('model', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%");
+        })->paginate(10);
+        return response()->json($history);
     }
 }

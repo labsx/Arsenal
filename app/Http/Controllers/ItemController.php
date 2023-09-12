@@ -62,8 +62,12 @@ class ItemController extends Controller
     public function search()
     {
         $searchQuery = request('query');
-        
-        $items = Item::where('serial', 'like', "%{$searchQuery}%")->paginate(10);
+        $items = Item::where(function ($query) use ($searchQuery) {
+            $query->where('serial', 'like', "%{$searchQuery}%")
+                ->orWhere('name', 'like', "%{$searchQuery}%")
+                ->orWhere('model', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%");
+        })->paginate(10);
         return response()->json($items);
     }
 }

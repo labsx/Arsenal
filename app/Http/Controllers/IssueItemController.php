@@ -11,7 +11,7 @@ class IssueItemController extends Controller
 {
     public function index()
     {
-        $issues = Issue::latest()->get();
+        $issues = Issue::latest()->paginate(10);
         return $issues;
     }
 
@@ -59,6 +59,18 @@ class IssueItemController extends Controller
         $issue->update($formFields);
     
         return response()->json(['success' => true]);
+    }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $issues = Issue::where(function ($query) use ($searchQuery) {
+            $query->where('serial', 'like', "%{$searchQuery}%")
+                ->orWhere('item_name', 'like', "%{$searchQuery}%")
+                ->orWhere('model', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%");
+        })->paginate(10);
+        return response()->json($issues);
     }
 }
 

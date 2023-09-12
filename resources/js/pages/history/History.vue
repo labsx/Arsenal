@@ -19,13 +19,10 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
+            <div></div>
             <div>
-              <!-- <router-link to="/admin/items/create">
-                <button class="btn btn-primary">
-                  <i class="fa fa-plus-circle mr-1"></i> Add New Items
-                </button>
-              </router-link> -->
-            </div>
+                <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+              </div>
           </div>
           <div class="card">
             <div class="card-body">
@@ -43,8 +40,8 @@
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="(data, index) in history" :key="data.id">
+                <tbody v-if="history.data.length>0">
+                  <tr v-for="(data, index) in history.data" :key="data.id">
                      <td>{{ index +1 }}</td>
                     <td>{{ data.item_name }}</td>
                     <td>{{ data.serial}}</td>
@@ -62,9 +59,16 @@
                     </td>
                   </tr>
                 </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="9" class="text-danger text-center" >No Data found !...</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
+          <div class="float-right"><Bootstrap4Pagination :data="history" @pagination-change-page="getHistory" /></div>
+          
         </div>
       </div>
     </div>
@@ -73,13 +77,14 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 
 
-const history = ref([]);
-const getHistory = () => {
-    axios.get('/items/history')
+const history = ref({'data': []});
+const getHistory = (page = 1) => {
+    axios.get(`/items/history?page=${page}`)
     .then((response) => {
         history.value = response.data; 
     })
@@ -101,7 +106,7 @@ const delHistory = (id) => {
         if (result.isConfirmed) {
             axios.delete(`/return/${id}`)
             .then(() => {
-                history.value = history.value.filter(data => data.id !== id);
+                history.value.data = history.value.data.filter(data => data.id !== id);
 
                 Swal.fire(
                     'Deleted!',
@@ -117,6 +122,25 @@ const delHistory = (id) => {
         }
     });
 };
+
+const searchQuery =ref(null);
+const search = () => {
+  axios.get('/items/search', {
+    params: {
+      query: searchQuery.value
+    }
+  })
+  .then(response => {
+    history.value = response.data;
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}; 
+
+watch(searchQuery, () => {
+  search();
+})
 
 
 onMounted (() => {
