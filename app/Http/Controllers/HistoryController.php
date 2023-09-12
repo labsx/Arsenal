@@ -34,7 +34,7 @@ class HistoryController extends Controller
         ]);
         $formFields['serial'] = $request->input('serial');
         $issue = History::create($formFields);
-        Item::where('serial', $issue->serial)->update(['status' => 'Good']);
+        Item::where('serial', $issue->serial)->update(['status' => $formFields['status'], 'date' => $formFields['return_date']]);
         Issue::where('serial', $issue->serial)->delete();
         return response()->json(['success' => true]);
     }
