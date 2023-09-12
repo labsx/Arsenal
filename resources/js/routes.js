@@ -7,9 +7,15 @@ import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
 import ReturnForm from './pages/item-issued/ReturnForm.vue';
 import History from './pages/history/History.vue';
 import UserLists from './pages/users/UsersList.vue';
+import UserForm from './pages/users/UserForm.vue';
+import Login from './pages/auth/Login.vue';
 
 export default[
- 
+    {
+        path: '/login',
+        name: 'admin.login',
+        component: Login,
+    },
     {
         path: '/admin/dashboard',
         name: 'admin.dashboard',
@@ -59,5 +65,10 @@ export default[
         path: '/admin/users',
         name: 'admin.users',
         component: UserLists,
+    },
+    {
+        path: '/admin/users/edit',
+        name: 'admin.users.edit',
+        component: UserForm,
     }
 ]

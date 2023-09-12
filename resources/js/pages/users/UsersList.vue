@@ -48,8 +48,9 @@
                   
                    
                     <td>
-                       <router-link to="">
-                             <i class="fa fa-edit mr-2"></i>
+                       <router-link to="/admin/users/edit">
+                             <i class="fa fa-user-plus mr-2" ></i>
+
                         </router-link>
 
                       <router-link to="" @click.prevent="deleteUsers(user.id)" >

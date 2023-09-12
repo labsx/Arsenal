@@ -46,6 +46,7 @@ Route::delete('/return/{data}', [HistoryController::class, 'destroy']);;
 Route::get('/items/search', [HistoryController::class, 'search']);
 
 Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'create']);
 Route::get('/users', [UserController::class, 'search']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']); 
 
