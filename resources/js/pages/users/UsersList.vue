@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">users information</li>
+            <li class="breadcrumb-item active"></li>
           </ol>
         </div>
       </div>
@@ -19,6 +19,17 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
+            <div></div>
+            <div>
+                <div class="input-group">
+                <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                </div>
+                </div>
+
+
+              </div>
           </div>
           <div class="card">
             <div class="card-body">
@@ -30,8 +41,8 @@
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr v-for="user in users" :key="user.id">
+                <tbody v-if="users.data.length > 0">
+                  <tr v-for="user in users.data" :key="user.id">
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
                   
@@ -48,9 +59,15 @@
                     </td>
                   </tr>
                 </tbody>
+                <tbody v-else>
+                    <tr>
+                         <td colspan="9" class="text-danger text-center" >No Data found !...</td>
+                    </tr>
+                </tbody>
               </table>
             </div>
           </div>
+          <div class="float-right"><Bootstrap4Pagination :data="users" @pagination-change-page="getUsers" /></div>
         </div>
       </div>
     </div>
@@ -58,12 +75,13 @@
 </template>
 <script setup>
 import axios from "axios";
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 
-const users = ref([]);
+const users = ref({'data': []});
 
-const getUsers = () => {
-    axios.get('/users')
+const getUsers = (page = 1) => {
+    axios.get(`/users?page=${page}`)
     .then((response) => {
         users.value = response.data; 
     })
@@ -71,6 +89,25 @@ const getUsers = () => {
         console.error('Error fetching items:', error);
     });
 };
+
+const searchQuery =ref(null);
+const search = () => {
+  axios.get('/users', {
+    params: {
+      query: searchQuery.value
+    }
+  })
+  .then(response => {
+    users.value = response.data;
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}; 
+
+watch(searchQuery, () => {
+  search();
+})
 onMounted(() => {
     getUsers();
 });
