@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('item_name');
             $table->string('serial');
-            $table->date('issued_date');
-            $table->date('return_date')->nullable();
+            $table->dateTime('issued_date');
+            $table->dateTime('return_date')->nullable();
             $table->string('model');
             $table->string('status');
             $table->string('issued_to');

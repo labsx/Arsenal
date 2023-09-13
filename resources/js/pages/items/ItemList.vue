@@ -48,7 +48,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
-                    <td>{{ item.date }}</td>
+                    <td>{{ formatDate(item.date) }}</td>
                     <td>
                       <span class="badge badge-success">{{ item.status }}</span>
                     </td>
@@ -87,6 +87,7 @@ import axios from "axios";
 import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+import { formatDate } from '../../helper.js';
  
  const items = ref({'data': []});
 // const getItems = () => {

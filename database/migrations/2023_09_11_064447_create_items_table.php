@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('serial');
-            $table->date('date');
+            $table->dateTime('date');
             $table->string('model');
             $table->string('status');
             $table->longText('description');
