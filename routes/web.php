@@ -50,12 +50,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/users', [UserController::class, 'search']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']); 
     Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/profile', [ProfileController::class, 'profile']);
-   
 
-   
-    Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
-    
+    Route::get('/users/profile', [ProfileController::class, 'profile']);
+    Route::put('/users/profile', [ProfileController::class, 'update']); 
 });
+Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 
 

@@ -25,9 +25,7 @@
                     <img class="profile-user-img img-circle" src="/noimage.png" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center">{{ form.name }}</h3>
-
-                <p class="text-muted text-center">{{ form.email }}</p>
+                <h3 class="profile-username text-center mt-3" >{{ form.name }}</h3>
             </div>
         </div>
     </div>
@@ -44,7 +42,7 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="profile">
-                            <form class="form-horizontal">
+                            <form @submit.prevent="updateProfile()" class="form-horizontal">
                                 <div class="form-group row">
                                     <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                     <div class="col-sm-10">
@@ -54,7 +52,7 @@
                                 <div class="form-group row">
                                     <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control " id="inputEmail" placeholder="Email">
+                                        <input v-model="form.email" type="email" class="form-control " id="inputEmail" placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -106,7 +104,9 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted } from 'vue';
+import { useToastr } from '../../toastr';
 
+const toastr = useToastr();
 const form = ref({
    name: '',
    email: '',
@@ -118,6 +118,17 @@ const getUser = () => {
    });
 };
 
+const updateProfile = () => {
+    axios.put('/users/profile', form.value)
+    .then((response) => {
+        toastr.success('Successfully updated profile data!');
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 422) {
+          errors.value = error.response.data.errors;
+      }
+    });
+};
 onMounted(() => {
     getUser();
 });
