@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -16,6 +17,12 @@ class DashboardController extends Controller
         }
         $count = $query->count();
     
+        return response()->json(['count' => $count]);
+    }
+
+    public function usersCount(Request $request )
+    {
+        $count = User::count();
         return response()->json(['count' => $count]);
     }
 }

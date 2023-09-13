@@ -25,7 +25,12 @@
                 </button>
               </router-link>
               <div>
+                <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                  </div>
+                </div>
               </div>
           </div>
           <div class="card">
@@ -33,7 +38,6 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Items</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -43,8 +47,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="items.data.length > 0">
-                  <tr v-for="(item, index) in items.data" :key="item.id">
-                    <td>{{ index +1 }}</td>
+                  <tr v-for="item in items.data" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
@@ -53,17 +56,18 @@
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
                     <td >  
+                      
                       <div class="text-align-center">
                           <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
                           <i :class="statusIconClass(item.status)"></i>
                       </router-link>
 
-                      <router-link to="" @click.prevent="deleteItems(item.id)">
-                        <i class="fa fa-trash text-danger ml-2"></i>
-                      </router-link>
-
                       <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
                          <i :class="icon(item.status)" class="ml-2"></i>
+                      </router-link>
+
+                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                        <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
                       </div>
                     

@@ -21,7 +21,12 @@
           <div class="d-flex justify-content-between mb-2">
             <div></div>
             <div>
+                <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                  </div>
+                </div>
               </div>
           </div>
           <div class="card">
@@ -29,7 +34,6 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -40,21 +44,21 @@
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody v-if="history.data.length > 0">
-                  <tr v-for="(data, index) in history.data" :key="data.id">
-                     <td>{{ index +1 }}</td>
-                    <td>{{ data.item_name }}</td>
-                    <td>{{ data.serial}}</td>
-                    <td>{{data.model}}</td>
-                    <td>{{ formatDate(data.issued_date) }}</td>
-                    <td>{{ formatDate(data.return_date) }}</td>
+                <tbody v-if="items.data.length > 0">
+                  <tr v-for="item in items.data" :key="item.id">
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.serial}}</td>
+                    <td>{{item.model}}</td>
+                    <td>{{ formatDate(item.issued_date) }}</td>
+                    <td>{{ formatDate(item.return_date) }}</td>
                     <td>
-                      <span :class="getStatusClass(data.status)">{{ data.status }}</span>
+                      <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
-                    <td>{{data.issued_to}}</td>
+                    <td>{{item.issued_to}}</td>
                     <td>
-                       <router-link to="" @click.prevent="delHistory(data.id)">
-                        <i class="fa fa-trash text-danger"></i>
+  
+                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                        <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
                     </td>
                   </tr>
@@ -67,7 +71,7 @@
               </table>
             </div>
           </div>
-          <div class="float-right"><Bootstrap4Pagination :data="history" @pagination-change-page="getHistory" /></div>
+          <div class="float-right"><Bootstrap4Pagination :data="items" @pagination-change-page="getHistory" /></div>
           
         </div>
       </div>
@@ -83,18 +87,18 @@ import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
 
 
-const history = ref({'data': []});
+const items = ref({'data': []});
 const getHistory = (page = 1) => {
     axios.get(`/items/history?page=${page}`)
     .then((response) => {
-        history.value = response.data; 
+        items.value = response.data; 
     })
     .catch((error) => {
         console.error('Error fetching items:', error);
     });
 };
 
-const delHistory = (id) => {
+const deleteItems = (id) => {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -105,9 +109,9 @@ const delHistory = (id) => {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.delete(`/return/${id}`)
+            axios.delete(`/delete/${id}`)
             .then(() => {
-                history.value.data = history.value.data.filter(data => data.id !== id);
+                items.value.data = items.value.data.filter(item => item.id !== id);
 
                 Swal.fire(
                     'Deleted!',
@@ -132,7 +136,7 @@ const search = () => {
     }
   })
   .then(response => {
-    history.value = response.data;
+    items.value = response.data;
   })
   .catch(error => {
     console.log(error);

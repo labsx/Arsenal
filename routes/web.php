@@ -4,12 +4,13 @@ use App\Models\History;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,7 @@ use App\Http\Controllers\DashboardController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function(){
     Route::get('/items', [ItemController::class, 'index']);
     Route::post('/items', [ItemController::class, 'create']);
@@ -43,8 +41,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
 
     Route::post('/items/return', [HistoryController::class, 'create']);
-    Route::get('/items/history', [HistoryController::class, 'index']);
-    Route::delete('/return/{data}', [HistoryController::class, 'destroy']);;
+    Route::get('/items/history', [HistoryController::class, 'itemHistory']);
+    Route::delete('/delete/{item}', [HistoryController::class, 'destroy']);;
     Route::get('/items/search', [HistoryController::class, 'search']);
 
     Route::post('/users', [UserController::class, 'create']);
@@ -58,6 +56,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']); 
 
     Route::get('/dashboard', [DashboardController::class, 'itemsCount']);
+    Route::get('/dashboard/users', [DashboardController::class, 'usersCount']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });

@@ -46,7 +46,23 @@
           </div>
         </div>
 
-        <!-- ... (unchanged HTML for the User Count) ... -->
+         <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <div class="d-flex justify-content-between">
+                <h3>Users</h3>
+              </div>
+              <h1 class="text-center">{{ totalUsersCount }}</h1>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <router-link to="/admin/items/list" class="small-box-footer">
+              View User List
+              <i class="fas fa-arrow-circle-right"></i>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -57,12 +73,12 @@ import axios from "axios";
 import { onMounted, ref, watch } from 'vue';
 
 const totalItemsCount = ref(0);
-const statusFilter = ref('TODAY'); // Default filter value
+const statusFilter = ref('TODAY'); 
 
 const getItemsCount = () => {
     axios.get('/dashboard', {
       params: {
-        status: statusFilter.value, // Pass the selected status as a query parameter
+        status: statusFilter.value, 
       },
     })
     .then((response) => {
@@ -73,8 +89,20 @@ const getItemsCount = () => {
     });
 };
 
+const totalUsersCount = ref(0);
+const getUsersCount = () => {
+    axios.get('/dashboard/users')
+    .then((response) => {
+        totalUsersCount.value = response.data.count;
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+};
+
 onMounted(() => {
     getItemsCount();
+    getUsersCount();
 });
 </script>
 <style scoped>

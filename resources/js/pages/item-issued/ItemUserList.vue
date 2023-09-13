@@ -21,7 +21,12 @@
           <div class="d-flex justify-content-between mb-2">
             <div></div>
               <div>
+                <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
+                  <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                  </div>
+                </div>
               </div>
           </div>
           <div class="card">
@@ -29,7 +34,6 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -40,8 +44,7 @@
                   </tr>
                 </thead>
                 <tbody v-if="issues.data.length > 0">
-                  <tr v-for="(issue, index) in issues.data" :key="issue.id">
-                    <td>{{ index +1 }}</td>
+                  <tr v-for="issue in issues.data" :key="issue.id">
                     <td>{{issue.item_name}}</td>
                     <td>{{issue.serial}}</td>
                     <td>{{issue.model}}</td>
@@ -52,10 +55,10 @@
                       </span>
                     </td>
                     <td>
-                         
                        <router-link :to="`/admin/items/${issue.id}/lists`">
                              	<i class=" 	fas fa-user-tie"></i>
                         </router-link>
+                        
                        <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link>

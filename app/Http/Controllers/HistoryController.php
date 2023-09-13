@@ -13,10 +13,10 @@ class HistoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function itemHistory()
     {
-        $history = History::latest()->paginate(10);
-        return $history;
+        $items = History::latest()->paginate(10);
+        return $items;
     }
 
     /**

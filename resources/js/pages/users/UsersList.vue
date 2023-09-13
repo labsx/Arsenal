@@ -23,12 +23,10 @@
             <div>
                 <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                    <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                  <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
+                  </div>
                 </div>
-                </div>
-
-
               </div>
           </div>
           <div class="card">
