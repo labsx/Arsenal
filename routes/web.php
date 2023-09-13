@@ -9,6 +9,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Route::middleware('auth')->group(function(){
     Route::put('/users/profile', [ProfileController::class, 'update']); 
     Route::post('/users/profile', [ProfileController::class, 'updatePassword']); 
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']); 
+
+    Route::get('/dashboard', [DashboardController::class, 'itemsCount']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
