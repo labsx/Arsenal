@@ -21,6 +21,10 @@
               <input v-model="form.password" type="password" class="form-control" id="password" placeholder="password">
             </div>
             <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
+
+            <div v-if="errorMessage" class="alert alert-danger " role="alert">
+                <p class="text-center">{{ errorMessage }}</p>
+            </div>
  
           </form>
         </div>
@@ -31,17 +35,28 @@
 </template>
 <script setup> 
 import axios from 'axios';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
+const errorMessage = ref('');
 const form = reactive({
     email: '',
     password: '',
 });
 
 const handleSubmit = () => {
+    if (!form.email.trim() || !form.password.trim()) {
+        errorMessage.value = " email and password required.";
+        return; 
+    }
     axios.post('/login', form)
     .then(() => {
         window.location.href="/admin/dashboard";
+    })
+    .catch((error) => {
+        errorMessage.value = error.response.data.message;
+         setTimeout(() => {
+            errorMessage.value = '';
+        }, 3000);
     });
 };
 </script>
