@@ -49,7 +49,7 @@
                     <td>{{ formatDate(data.issued_date) }}</td>
                     <td>{{ formatDate(data.return_date) }}</td>
                     <td>
-                      <span class="badge badge-success">{{data.status}}</span>
+                      <span :class="getStatusClass(data.status)">{{ data.status }}</span>
                     </td>
                     <td>{{data.issued_to}}</td>
                     <td>
@@ -143,8 +143,30 @@ watch(searchQuery, () => {
   search();
 })
 
+const getStatusClass = (status) => {
+    if (status === 'Good') {
+        return 'badge badge-success good-status';
+    } else if (status === 'Bad') { 
+        return 'badge badge-danger bad-status';
+    } else {
+        return 'badge badge-default';
+    }
+};
+
+
 
 onMounted (() => {
     getHistory();
 });
 </script>
+<style scoped>
+.good-status {
+    background-color: green;
+    color: white;
+}
+
+.issued-status {
+    background-color: blue;
+    color: white;
+}
+</style>

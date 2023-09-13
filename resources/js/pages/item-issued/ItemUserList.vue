@@ -48,7 +48,7 @@
                     <td>{{ formatDate(issue.issued_date) }}</td>
                     <td>{{ issue.issued_to }}</td>
                     <td>
-                      <span class="badge badge-success">{{ issue.status }}
+                      <span class="badge badge-primary">{{ issue.status }}
                       </span>
                     </td>
                     <td>

@@ -50,19 +50,19 @@
                     <td>{{ item.model }}</td>
                     <td>{{ formatDate(item.date) }}</td>
                     <td>
-                      <span class="badge badge-success">{{ item.status }}</span>
+                      <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
                     <td>
                        <router-link :to="`/admin/items/${item.id}/edit`">
-                             <i class="fa fa-edit mr-2"></i>
+                             <i class="fa fa-edit text-primary"></i>
                         </router-link>
 
                       <router-link to="" @click.prevent="deleteItems(item.id)">
-                        <i class="fa fa-trash text-danger"></i>
+                        <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
 
                       <router-link :to="`/admin/items/${item.id}/issue`" class="ml-2">
-                        <i class="fa fa-user-plus"></i>
+                        <i class="fa fa-user-plus text-secondary"></i>
                       </router-link>
                     </td>
                   </tr>
@@ -157,7 +157,36 @@ const search = () => {
 watch(searchQuery, () =>{
   search();
 })
+const getStatusClass = (status) => {
+    if (status === 'Good') {
+        return 'badge badge-success good-status';
+    } else if (status === 'issued') { 
+        return 'badge badge-warning issued-status';
+    } else if (status === 'Bad') { 
+        return 'badge badge-danger bad-status';
+    } else {
+        return 'badge badge-default';
+    }
+};
+
 onMounted (() => {
     getItems();
 });
+
 </script>
+
+<style scoped>
+.good-status {
+    background-color: green;
+    color: white;
+}
+
+.issued-status {
+    background-color: blue;
+    color: white;
+}
+.issued-Bad {
+    background-color: blue;
+    color: white;
+}
+</style>
