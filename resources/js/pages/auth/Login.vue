@@ -1,56 +1,35 @@
 <template>
-      <div class="login-box">
+    <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="text-center text-dark mt-5"></h2>
+        <div class="text-center mb-5 text-dark"></div>
+        <div class="card my-5">
 
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a href="#" class="h1"><b>Admin</b>Login</a>
-            </div>
-            <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
-                <form @submit.prevent="handleSubmit">
-                    <div class="input-group mb-3">
-                        <input v-model="form.email" type="email" class="form-control" placeholder="Email">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <input v-model="form.password" type="text" class="form-control" placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
-                        </div>
+          <form @submit.prevent="handleSubmit" class="card-body cardbody-color p-lg-5">
 
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-
-                    </div>
-                </form>
-
-                <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
+            <div class="text-center">
+              <img src="https://www.seekpng.com/png/detail/334-3345000_inventory-packaging-vector-logo.png" class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3"
+                width="200px" alt="profile">
             </div>
 
+            <div class="mb-3">
+              <input v-model="form.email" type="text" class="form-control" id="Username" aria-describedby="emailHelp"
+                placeholder="User Name">
+            </div>
+            <div class="mb-3">
+              <input v-model="form.password" type="password" class="form-control" id="password" placeholder="password">
+            </div>
+            <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100">Login</button></div>
+ 
+          </form>
         </div>
-    </div>
-</template>
 
-<script setup>
+      </div>
+    </div>
+  </div>
+</template>
+<script setup> 
 import axios from 'axios';
 import { reactive } from 'vue';
 
@@ -66,3 +45,26 @@ const handleSubmit = () => {
     });
 };
 </script>
+<style scoped>
+.btn-color{
+  background-color: #0e1c36;
+  color: #fff;
+  
+}
+
+.profile-image-pic{
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+}
+
+
+
+.cardbody-color{
+  background-color: #ebf2fa;
+}
+
+a{
+  text-decoration: none;
+}
+</style>

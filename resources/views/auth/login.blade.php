@@ -9,7 +9,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="hold-transition login-page">
+<body>
     <div id="app">
         <router-view>
             <Login/>
