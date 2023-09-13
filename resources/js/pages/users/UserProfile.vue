@@ -68,34 +68,36 @@
                         </div>
 
                         <div class="tab-pane" id="changePassword">
-                            <form class="form-horizontal">
-                                <div class="form-group row">
-                                    <label for="currentPassword" class="col-sm-3 col-form-label">Current
-                                        Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control " id="currentPassword" placeholder="Current Password">
-                                    </div>
+                            <form @submit.prevent="handleChangePassword()" class="form-horizontal">
+                            <div class="form-group row">
+                                <label for="currentPassword" class="col-sm-3 col-form-label">Current
+                                    Password</label>
+                                <div class="col-sm-9">
+                                    <input v-model="changePasswordForm.currentPassword" type="password" class="form-control " id="currentPassword" placeholder="Current Password">
+                                    <span v-if="errors && errors.current_password" class="text-danger text-sm">{{ errors.current_password[0]}}</span>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="newPassword" class="col-sm-3 col-form-label">New
-                                        Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control " id="newPassword" placeholder="New Password">
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="newPassword" class="col-sm-3 col-form-label">New
+                                    Password</label>
+                                <div class="col-sm-9">
+                                    <input v-model="changePasswordForm.password" type="password" class="form-control " id="newPassword" placeholder="New Password">
+                                    <span v-if="errors && errors.password" class="text-danger text-sm">{{ errors.password[0]}}</span>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="passwordConfirmation" class="col-sm-3 col-form-label">Confirm
-                                        New Password</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" class="form-control " id="passwordConfirmation" placeholder="Confirm New Password">
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="passwordConfirmation" class="col-sm-3 col-form-label">Confirm
+                                    New Password</label>
+                                <div class="col-sm-9">
+                                    <input v-model="changePasswordForm.passwordConfirmation" type="password" class="form-control " id="passwordConfirmation" placeholder="Confirm New Password">
                                 </div>
-                                <div class="form-group row">
-                                    <div class="offset-sm-3 col-sm-9">
-                                        <button type="submit" class="btn btn-success"><i class="fa fa-save mr-1"></i> Save Changes</button>
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="offset-sm-3 col-sm-9">
+                                    <button type="submit" class="btn btn-success"><i class="fa fa-save mr-1"></i> Save Changes</button>
                                 </div>
-                            </form>
+                            </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -107,7 +109,7 @@
 </template>
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import { useToastr } from '../../toastr';
 
 const toastr = useToastr();
@@ -150,7 +152,27 @@ const handleFileChange = (event) => {
     axios.post('/users/profile/picture', formData)
     .then((response) => {
         toastr.success('Image uploaded successfully!');
-    
+    });
+};
+
+const changePasswordForm = reactive({
+    currentPassword: '',
+    newPassword: '',
+    passwordConfirmation: '',
+});
+
+const handleChangePassword = () => {
+    axios.post('/users/profile', changePasswordForm)
+     .then((response) => {
+        toastr.success('Successfully updated password!');
+        for(const field in changePasswordForm){
+            changePasswordForm[field] = '';
+        }
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 422) {
+          errors.value = error.response.data.errors;
+      }
     });
 };
 onMounted(() => {
