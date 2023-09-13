@@ -193,13 +193,24 @@ Nora Silvester
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link" >
-                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <router-link to="/admin/users/update" active-class="active" class="nav-link">
+                        <i class="nav-icon fas fa-user-edit"></i>
                         <p>
-                             Log out
+                             Profile
                         </p>
-                    </a>
+                     </router-link>
+                </li>
 
+                <li class="nav-item">
+                    <form method="POST" action="{{ route('logout') }}" class="nav-link">
+                        @csrf
+                        <a href="#" onclick="event.preventDefault(); this.closest('form').submit();" >
+                            <i class="nav-icon fas fa-sign-out-alt"></i>
+                            <p>
+                                 Log out
+                            </p>
+                        </a>
+                    </form>
                 </form>
                
             </li>

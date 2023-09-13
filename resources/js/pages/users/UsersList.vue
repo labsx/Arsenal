@@ -48,7 +48,7 @@
                   
                    
                     <td>
-                       <router-link to="/admin/users/edit">
+                       <router-link to="/admin/users/create">
                              <i class="fa fa-user-plus mr-2" ></i>
 
                         </router-link>

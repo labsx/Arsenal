@@ -8,6 +8,7 @@ import ReturnForm from './pages/item-issued/ReturnForm.vue';
 import History from './pages/history/History.vue';
 import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
+import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
 
 export default[
@@ -67,8 +68,13 @@ export default[
         component: UserLists,
     },
     {
-        path: '/admin/users/edit',
-        name: 'admin.users.edit',
+        path: '/admin/users/create',
+        name: 'admin.users.create',
         component: UserForm,
+    },
+    {
+        path: '/admin/users/update',
+        name: 'admin.users.update',
+        component: UserProfile,
     }
 ]
