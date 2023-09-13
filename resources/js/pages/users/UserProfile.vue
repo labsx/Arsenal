@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Profile</h1>
+          <h1 class="m-0">Profile Information</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Issued Item</li>
+            <li class="breadcrumb-item active"></li>
           </ol>
         </div>
       </div>
@@ -19,13 +19,14 @@
       <div class="row">
     <div class="col-md-3">
         <div class="card card-primary card-outline">
-            <div class="card-body box-profile">
+            <div class="card-body box-profile" >
                 <div class="text-center">
-                    <input type="file" class="d-none">
-                    <img class="profile-user-img img-circle" src="/noimage.png" alt="User profile picture">
+                    <input @change="handleFileChange" ref="fileInput" type="file" class="d-none">
+                    <img @click="openFileInput" class="profile-user-img img-circle" :src="profilePictureUrl ? profilePictureUrl 
+                    : form.avatar" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center mt-3" >{{ form.name }}</h3>
+                <h3 class="profile-username text-center " >{{ form.name }}</h3>
             </div>
         </div>
     </div>
@@ -133,7 +134,32 @@ const updateProfile = () => {
       }
     });
 };
+
+const fileInput = ref(null);
+const openFileInput = () => {
+    fileInput.value.click();
+};
+
+const profilePictureUrl = ref(null); 
+const handleFileChange = (event) => {
+    const file = event.target.files[0];
+
+    const formData = new FormData();
+    formData.append('profile_picture', file);
+
+    axios.post('/users/profile/picture', formData)
+    .then((response) => {
+        toastr.success('Image uploaded successfully!');
+    
+    });
+};
 onMounted(() => {
     getUser();
 });
 </script>
+<style scoped>
+    .profile-user-img:hover{
+        background-color: blue;
+        cursor: pointer;
+    }
+</style>

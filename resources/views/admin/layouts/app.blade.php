@@ -128,19 +128,15 @@ Nora Silvester
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-        <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Name</span>
-        </a>
 
         <div class="sidebar">
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="no-img.png">
+            <img src="{{ auth()->user()->avatar }}">
         </div>
         <div class="info">
-        <a href="#" class="d-block">User</a>
+        <a href="#" class="d-block">{{ auth()->user()->name }}</a>
         </div>
         </div>
 
@@ -247,7 +243,7 @@ Nora Silvester
 Anything you want
 </div>
 
-<strong>Copyright &copy; @sample <a href="#">@sample</a>.</strong> All rights reserved.
+<strong>Copyright &copy; {{ auth()->user()->created_at }}  <a href="#"> {{ auth()->user()->name }}</a>.</strong> All rights reserved.
 </footer>
 </div>
 <script>

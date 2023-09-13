@@ -53,7 +53,10 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/users/profile', [ProfileController::class, 'profile']);
     Route::put('/users/profile', [ProfileController::class, 'update']); 
+    Route::post('/users/profile/picture', [ProfileController::class, 'upload']); 
+
+    Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
-Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
+
 
 
