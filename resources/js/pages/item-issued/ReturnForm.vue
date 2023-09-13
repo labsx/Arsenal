@@ -136,7 +136,7 @@ const returnItem= () => {
   axios.post('/items/return', form)
     .then((response) => {
       toastr.success('Return item successfully!');
-      //router.push('/admin/items/list'); 
+      router.push('/admin/items/history'); 
     })
     .catch((error) => {
       if (error.response && error.response.status === 422) {

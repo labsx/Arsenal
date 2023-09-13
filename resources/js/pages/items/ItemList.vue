@@ -141,7 +141,7 @@ const deleteItems = (id) => {
 
 const searchQuery =ref(null);
 const search = () => {
-  axios.get('/items/search', {
+  axios.get('/items/list/search', {
     params: {
       query: searchQuery.value
     }

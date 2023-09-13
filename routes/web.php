@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
     Route::put('/items/{item}/edit', [ItemController::class, 'update']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']); 
-    Route::get('/items/search', [ItemController::class, 'search']);
+    Route::get('/items/list/search', [ItemController::class, 'search']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);
@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/search', [HistoryController::class, 'search']);
 
     Route::post('/users', [UserController::class, 'create']);
-    Route::get('/users', [UserController::class, 'search']);
+    Route::get('/users/search', [UserController::class, 'searchUser']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']); 
     Route::get('/users', [UserController::class, 'index']);
 

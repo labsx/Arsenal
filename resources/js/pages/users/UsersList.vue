@@ -94,7 +94,7 @@ const getUsers = (page = 1) => {
 
 const searchQuery =ref(null);
 const search = () => {
-  axios.get('/users', {
+  axios.get('/users/search', {
     params: {
       query: searchQuery.value
     }

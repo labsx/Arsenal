@@ -14,7 +14,7 @@ class UserController extends Controller
         return $users;
     }
 
-    public function search()
+    public function searchUser()
     {
         $searchQuery = request('query');
         $users = User::where(function ($query) use ($searchQuery) {

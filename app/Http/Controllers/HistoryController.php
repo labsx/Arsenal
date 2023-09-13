@@ -95,7 +95,8 @@ class HistoryController extends Controller
             $query->where('serial', 'like', "%{$searchQuery}%")
                 ->orWhere('item_name', 'like', "%{$searchQuery}%")
                 ->orWhere('model', 'like', "%{$searchQuery}%")
-                ->orWhere('status', 'like', "%{$searchQuery}%");
+                ->orWhere('status', 'like', "%{$searchQuery}%")
+                ->orWhere('issued_to', 'like', "%{$searchQuery}%");
         })->paginate(10);
         return response()->json($history);
     }
