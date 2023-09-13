@@ -35,14 +35,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="title">Item Name</label>
-                                            <input v-model="form.item_name" type="text" class="form-control" id="title" placeholder="Enter item name" readonly="readonly" >
+                                            <input v-model="form.item_name" type="text" class="form-control" id="title" placeholder="Enter item name" disabled >
                                               
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="client">Serial #</label>
-                                             <input v-model="form.serial"  type="text" class="form-control" id="title" placeholder="Enter item serial number" readonly="readonly" >
+                                             <input v-model="form.serial"  type="text" class="form-control" id="title" placeholder="Enter item serial number" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -50,18 +50,16 @@
                                     <div class="col-md-6">
                                          <div class="form-group">
                                             <label>Model</label>
-                                            <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" readonly="readonly">
+                                            <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" disabled>
                                            
                                         </div>
     
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="client">Status</label>
-                                            <select v-model="form.status"  class="form-control">
-                                                <option value="Good">Good</option>
-                                                 <option value="Bad">Bad</option>
-                                            </select>
+                                            <label>Issue to</label>
+                                            <input v-model="form.issued_to" type="text" class="form-control" placeholder="" readonly="readonly">
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -70,20 +68,25 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Date Issued</label>
-                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" readonly="readonly">
+                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" disabled>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date return</label>
                                             <input v-model="form.return_date" type="date" class="form-control flatpickr" placeholder="">
+                                            <span v-if="errors && errors.return_date" class="text-danger text-sm">{{ errors.return_date[0]}}</span>
                                         </div>
                                     </div>
 
                                       <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Issue to</label>
-                                            <input v-model="form.issued_to" type="text" class="form-control" placeholder="" readonly="readonly">
+                                             <label for="client">Status</label>
+                                                <select v-model="form.status"  class="form-control">
+                                                    <option value="Good">Good</option>
+                                                    <option value="Bad">Bad</option>
+                                                </select>
+                                                <span v-if="errors && errors.status" class="text-danger text-sm">{{ errors.status[0]}}</span>
                                         </div>
                                     </div>
                                     

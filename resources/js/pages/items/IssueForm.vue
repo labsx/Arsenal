@@ -96,11 +96,12 @@
 <script setup>
 import axios from 'axios';
 import { reactive, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useToastr } from '../../toastr';
 import flatpickr from "flatpickr";
 import 'flatpickr/dist/themes/light.css';
 
+const router = useRouter();
 const route = useRoute();
 const toastr = useToastr(); 
 const errors = ref([]);
@@ -126,7 +127,7 @@ const createIssueItem = () => {
   axios.post('/issue/items', form)
     .then((response) => {
       toastr.success('Successfully issued item!');
-      router.push('/admin/items/list'); 
+      router.push('/admin/items/issue/list'); 
     })
     .catch((error) => {
       if (error.response && error.response.status === 422) {

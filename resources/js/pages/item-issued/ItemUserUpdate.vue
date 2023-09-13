@@ -81,7 +81,7 @@
                                     
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Update Data</button>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-save mr-1"></i> Update Data</button>
                             </form>
                         </div>
                     </div>

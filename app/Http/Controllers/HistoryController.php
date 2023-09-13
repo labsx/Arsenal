@@ -28,7 +28,7 @@ class HistoryController extends Controller
             'item_name' => ['required', 'min:3', 'max:50'],
             'issued_date' => ['required'],
             'model' => ['required', 'min:3', 'max:30'],
-            'status' => ['required', 'min:3', 'max:10'],
+            'status' => ['required', 'in:Good,Bad'],
             'issued_to' => ['required', 'min:3', 'max:50'],
             'return_date' => ['required', 'min:3', 'max:50'],
         ]);
