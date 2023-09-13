@@ -52,18 +52,21 @@
                     <td>
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
-                    <td>
-                       <router-link :to="`/admin/items/${item.id}/edit`">
-                             <i class="fa fa-edit text-primary"></i>
-                        </router-link>
+                    <td >  
+                      <div class="text-align-center">
+                          <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
+                          <i :class="statusIconClass(item.status)"></i>
+                      </router-link>
 
                       <router-link to="" @click.prevent="deleteItems(item.id)">
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
 
-                      <router-link :to="`/admin/items/${item.id}/issue`" class="ml-2">
-                        <i class="fa fa-user-plus text-secondary"></i>
+                      <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
+                         <i :class="icon(item.status)" class="ml-2"></i>
                       </router-link>
+                      </div>
+                    
                     </td>
                   </tr>
                 </tbody>
@@ -88,17 +91,49 @@ import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
+import { computed } from 'vue';
  
  const items = ref({'data': []});
-// const getItems = () => {
-//     axios.get('/items')
-//     .then((response) => {
-//         items.value = response.data; 
-//     })
-//     .catch((error) => {
-//         console.error('Error fetching items:', error);
-//     });
-// };
+
+const icon = computed(() => (status) =>{
+  if (status === 'Good') {
+    return 'fa fa-user-plus';
+  }else{
+     return 'fa fa-user-plus';
+  }
+});
+const statusIconClass = computed(() => (status) => {
+  if (status === 'Good') {
+    return 'fa fa-edit';
+  } else if (status === 'issued') {
+    return 'fa fa-exclamation-circle text-warning';
+  } else if (status === 'Bad') {
+    return 'fa fa-times-circle text-danger';
+  } else {
+    return 'fa fa-user-plus';
+  }
+});
+
+const disabledStatuses = ['Bad', 'issued'];
+
+const shouldDisableLink = (status) => {
+  return disabledStatuses.includes(status);
+};
+
+const handleLinkClick = (status, event) => {
+  if (isStatusBad(status) || isStatusIssued(status)) {
+    event.preventDefault(); 
+  }
+};
+
+const isStatusBad = (status) => {
+  return status === 'Bad';
+};
+
+const isStatusIssued = (status) => {
+  return status === 'issued';
+};
+
 const getItems = (page = 1) => {
     axios.get(`/items?page=${page}`)
     .then((response) => {
