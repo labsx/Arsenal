@@ -41,7 +41,6 @@
                      <th scope="col">Date return</th>
                     <th scope="col">Status</th>
                     <th scope="col">Issued to</th>
-                    <th scope="col">Options</th>
                   </tr>
                 </thead>
                 <tbody v-if="items.data.length > 0">
@@ -55,12 +54,6 @@
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
                     <td>{{item.issued_to}}</td>
-                    <td>
-  
-                      <router-link to="" @click.prevent="del(item.id)">
-                        <i class="fa fa-trash text-danger ml-2"></i>
-                      </router-link>
-                    </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -95,36 +88,6 @@ const getHistory = (page = 1) => {
     })
     .catch((error) => {
         console.error('Error fetching items:', error);
-    });
-};
-
-const del = (id) => {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            axios.delete(`/delete/${id}`)
-            .then(() => {
-                items.value.data = items.value.data.filter(item => item.id !== id);
-
-                Swal.fire(
-                    'Deleted!',
-                    'Item has been deleted.',
-                    'success'
-                );
-               
-                getHistory();
-            })
-            .catch((error) => {
-                console.error('Error deleting history:', error);
-            });
-        }
     });
 };
 

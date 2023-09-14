@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -33,7 +34,10 @@ class ItemController extends Controller
 
     public function destroy(Item $item)
     {
+        $serial = $item->serial;
+        History::where('serial', $serial)->delete();
         $item->delete();
+    
         return response()->json(['success' => true]);
     }
 
