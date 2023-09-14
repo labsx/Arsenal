@@ -56,7 +56,7 @@ const handleSubmit = () => {
         errorMessage.value = error.response.data.message;
          setTimeout(() => {
             errorMessage.value = '';
-        }, 3000);
+        }, 2000);
     });
 };
 </script>

@@ -81,7 +81,7 @@
                                         placeholder="Enter Description"></textarea>
                                         <span v-if="errors && errors.description" class="text-danger text-sm">{{ errors.description[0]}}</span>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary"> <i class="fa fa-save mr-1"></i>Submit</button>
                             </form>
                         </div>
                     </div>

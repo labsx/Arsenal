@@ -13,10 +13,10 @@
                             <router-link to="/admin/dashboard">Home</router-link>
                         </li>
                         <li class="breadcrumb-item">
-                            <router-link to="/admin/items/list">Users</router-link>
+                            <router-link to="/admin/items/list">Issue</router-link>
                         </li>
                         <li class="breadcrumb-item active">
-                           Add
+                           Item
                             </li>
                     </ol>
                 </div>
@@ -83,7 +83,7 @@
                                     
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary"> <i class="fa fa-save mr-1"></i>Issue item</button>
                             </form>
                         </div>
                     </div>

@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">USERS DATA</h1>
+          <h1 class="m-0">Users Data</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -43,8 +43,6 @@
                   <tr v-for="user in users.data" :key="user.id">
                     <td>{{user.name}}</td>
                     <td>{{user.email}}</td>
-                  
-                   
                     <td>
                        <router-link to="/admin/users/create">
                              <i class="fa fa-user-plus mr-2" ></i>
@@ -137,6 +135,8 @@ const deleteUsers = (id) => {
         }
     });
 };
+
+
 onMounted(() => {
     getUsers();
 });

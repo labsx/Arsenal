@@ -98,8 +98,6 @@ const getHistory = (page = 1) => {
     });
 };
 
-
-
 const del = (id) => {
     Swal.fire({
         title: 'Are you sure?',
@@ -124,7 +122,7 @@ const del = (id) => {
                 getHistory();
             })
             .catch((error) => {
-                console.error('Error delete history:', error);
+                console.error('Error deleting history:', error);
             });
         }
     });

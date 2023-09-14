@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function(){
 
     Route::post('/items/return', [HistoryController::class, 'create']);
     Route::get('/items/history', [HistoryController::class, 'itemHistory']);
-   
     Route::get('/items/search', [HistoryController::class, 'search']);
     Route::delete('/delete/{item}', [HistoryController::class, 'destroyHistory']);
+
     Route::post('/users', [UserController::class, 'create']);
     Route::get('/users/search', [UserController::class, 'searchUser']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']); 

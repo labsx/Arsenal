@@ -43,6 +43,8 @@
                           id="inputName"
                           placeholder="Name"
                         />
+                         <span v-if="errors && errors.name" class="text-danger text-sm">{{ errors.name[0]}}</span>
+                        
                       </div>
                     </div>
                     <div class="form-group row">
@@ -56,6 +58,7 @@
                           id="inputEmail"
                           placeholder="Email"
                         />
+                         <span v-if="errors && errors.email" class="text-danger text-sm">{{ errors.email[0]}}</span>
                       </div>
                     </div>
 
@@ -70,6 +73,7 @@
                           id="inputEmail"
                           placeholder="Password"
                         />
+                         <span v-if="errors && errors.password" class="text-danger text-sm">{{ errors.password[0]}}</span>
                       </div>
                     </div>
 
@@ -92,7 +96,7 @@
 </template>
 <script setup>
 import axios from "axios";
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useToastr } from '../../toastr';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -105,6 +109,7 @@ email: '',
 password: '',
 });
 
+const errors = ref([]);
 const creatUser = () => {
 axios.post('/users', form)
  .then((response) => {

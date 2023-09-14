@@ -39,8 +39,13 @@
                             </router-link>
                         </li>
 
-                        <li class="nav-item">
-                            <router-link to="/admin/items/list" active-class="active" class="nav-link">
+                         <li class="nav-item">
+                            <router-link
+                                to="/admin/items/list"
+                                active-class="active"
+                                class="nav-link"
+                                :class="$route.path.startsWith('/admin/items/list') ||
+                                         $route.path.startsWith('/admin/items/create')  ? 'active' : ''">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>
                                     Items List
@@ -67,7 +72,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <router-link to="/admin/users" active-class="active" class="nav-link">
+                            <router-link to="/admin/users" active-class="active" class="nav-link"
+                            :class="
+                                         $route.path.startsWith('/admin/users/create')  ? 'active' : ''">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>
                                     User List
