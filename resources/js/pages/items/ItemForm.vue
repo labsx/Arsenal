@@ -44,7 +44,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="client">Serial #</label>
-                                            <div v-if="editMode"><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}" readonly="readonly"></div>
+                                            <div v-if="editMode"><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}" ></div>
                                             <div v-else><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}"></div>
                                              <span v-if="errors && errors.serial" class="text-danger text-sm">{{ errors.serial[0]}}</span>
                                         </div>

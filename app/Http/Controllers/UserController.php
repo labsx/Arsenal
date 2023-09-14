@@ -40,7 +40,7 @@ class UserController extends Controller
         ]);
 
         $formFields['password'] = Hash::make($formFields['password']);
-        $user = User::create($formFields);
+        $users = User::create($formFields);
     
         return response()->json(['success' => true]);
     }

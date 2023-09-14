@@ -23,6 +23,7 @@ use App\Http\Controllers\ApplicationController;
 |
 */
 Route::get('/', [LoginController::class, 'index']);
+
 Route::middleware('auth')->group(function(){
     Route::get('/items', [ItemController::class, 'index']);
     Route::post('/items', [ItemController::class, 'create']);

@@ -75,7 +75,7 @@
                                         <div class="form-group">
                                             <label>Issued to</label>
                                             <input v-model="form.issued_to" type="text" class="form-control" placeholder="">
-                                            <!-- <span v-if="errors && errors.issued_to" class="text-danger text-sm">{{ errors.issued_to[0]}}</span> -->
+                                            <span v-if="errors && errors.issued_to" class="text-danger text-sm">{{ errors.issued_to[0]}}</span>
                                         </div>
                                     </div>
                                     
@@ -127,7 +127,7 @@ const UpdateUserItem = (values) => {
     axios.put(`/items/${route.params.id}/lists`, form)
     .then((response) => {
     router.push('/admin/items/issue/list');    
-    toastr.success('Items updated successfully !')  ;
+    toastr.success('Items successfully issued!')  ;
     })
       .catch((error) => {
       if(error.response && error.response.status === 422){

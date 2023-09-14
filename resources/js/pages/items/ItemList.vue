@@ -63,7 +63,7 @@
                       </router-link>
 
                       <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
-                         <i :class="icon(item.status)" class="ml-2"></i>
+                         <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
                       </router-link>
 
                       <router-link to="" @click.prevent="deleteItems(item.id)">
@@ -97,7 +97,7 @@ import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
 import { computed } from 'vue';
  
- const items = ref({'data': []});
+const items = ref({'data': []});
 
 const icon = computed(() => (status) =>{
   if (status === 'Good') {
@@ -106,6 +106,7 @@ const icon = computed(() => (status) =>{
      return 'fa fa-user-plus';
   }
 });
+
 const statusIconClass = computed(() => (status) => {
   if (status === 'Good') {
     return 'fa fa-edit';
@@ -200,7 +201,7 @@ const getStatusClass = (status) => {
     if (status === 'Good') {
         return 'badge badge-success good-status';
     } else if (status === 'issued') { 
-        return 'badge badge-warning issued-status';
+        return 'badge badge-primary issued-status';
     } else if (status === 'Bad') { 
         return 'badge badge-danger bad-status';
     } else {
@@ -213,19 +214,3 @@ onMounted (() => {
 });
 
 </script>
-
-<style scoped>
-.good-status {
-    background-color: green;
-    color: white;
-}
-
-.issued-status {
-    background-color: blue;
-    color: white;
-}
-.issued-Bad {
-    background-color: blue;
-    color: white;
-}
-</style>
