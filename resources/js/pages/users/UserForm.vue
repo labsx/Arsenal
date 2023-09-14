@@ -33,46 +33,23 @@
                 <div class="tab-pane active" id="profile">
                   <form @submit.prevent="creatUser()" class="form-horizontal">
                     <div class="form-group row">
-                      <label for="inputName" class="col-sm-2 col-form-label"
-                        >Name</label
-                      >
-                      <div class="col-sm-10">
-                        <input v-model="form.name"
-                          type="text"
-                          class="form-control"
-                          id="inputName"
-                          placeholder="Name"
-                        />
+                      <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                      <div class="col-sm-10"><input v-model="form.name" type="text" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': errors.name }"/>
                          <span v-if="errors && errors.name" class="text-danger text-sm">{{ errors.name[0]}}</span>
-                        
                       </div>
                     </div>
                     <div class="form-group row">
-                      <label for="inputEmail" class="col-sm-2 col-form-label"
-                        >Email</label
-                      >
+                      <label for="inputEmail" class="col-sm-2 col-form-label" >Email</label>
                       <div class="col-sm-10">
-                        <input v-model="form.email"
-                          type="email"
-                          class="form-control"
-                          id="inputEmail"
-                          placeholder="Email"
-                        />
+                         <input v-model="form.email" type="email" class="form-control" id="inputEmail" placeholder="Email" :class="{ 'is-invalid': errors.email }" />
                          <span v-if="errors && errors.email" class="text-danger text-sm">{{ errors.email[0]}}</span>
                       </div>
                     </div>
 
                      <div class="form-group row">
-                      <label for="inputEmail" class="col-sm-2 col-form-label"
-                        >Password</label
-                      >
+                      <label for="inputEmail" class="col-sm-2 col-form-label">Password</label>
                       <div class="col-sm-10">
-                        <input v-model="form.password"
-                          type="password"
-                          class="form-control"
-                          id="inputEmail"
-                          placeholder="Password"
-                        />
+                        <input v-model="form.password" type="password" class="form-control" id="inputEmail" placeholder="Password" :class="{ 'is-invalid': errors.password }"/>
                          <span v-if="errors && errors.password" class="text-danger text-sm">{{ errors.password[0]}}</span>
                       </div>
                     </div>
