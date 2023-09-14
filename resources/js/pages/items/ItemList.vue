@@ -19,11 +19,18 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
+            <div>
               <router-link to="/admin/items/create">
                 <button class="btn btn-primary">
                   <i class="fa fa-plus-circle mr-1"></i> Add New Items
                 </button>
               </router-link>
+
+                <button v-if="selectedItems.length > 0" @click="bulkDelete" class="btn btn-danger ml-2">
+                  <i class="fa fa-plus-circle mr-1"></i> Delete Selected
+              </button>
+            </div>
+              
               <div>
                 <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
@@ -38,6 +45,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                    <th><input type="checkbox"/></th>
                     <th scope="col">Items</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -48,6 +56,7 @@
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
+                     <td><input type="checkbox" @change="toggleSelection(item)"></td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
@@ -96,7 +105,10 @@ import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
 import { computed } from 'vue';
- 
+import { useToastr } from '../../toastr';
+
+const toastr = useToastr();
+
 const items = ref({'data': []});
 
 const icon = computed(() => (status) =>{
@@ -208,6 +220,35 @@ const getStatusClass = (status) => {
         return 'badge badge-default';
     }
 };
+
+const selectedItems = ref([]);
+const toggleSelection = (item) => {
+  const index = selectedItems.value.indexOf(item.id);
+  if (index === -1) {
+    selectedItems.value.push(item.id);
+  } else {
+    selectedItems.value.splice(index, 1);
+  }
+};
+
+const bulkDelete = () => {
+  axios
+    .delete('/items', {
+      data: {
+        ids: selectedItems.value
+      }
+    })
+    .then((response) => {
+      items.value.data = items.value.data.filter(item => !selectedItems.value.includes(item.id));
+      selectedItems.value.splice(0);
+
+      toastr.success('Items deleted successfully');
+    })
+    .catch((error) => {
+      console.error('Error deleting items:', error);
+    });
+};
+
 
 onMounted (() => {
     getItems();

@@ -74,4 +74,10 @@ class ItemController extends Controller
         })->paginate(10);
         return response()->json($items);
     }
+
+    public function bulkDelete()
+    {
+        Item::whereIn('id', request('ids'))->delete();
+        return response()->json(['message' => 'Items deleted successfully']);
+    }
 }

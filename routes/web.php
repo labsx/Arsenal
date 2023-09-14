@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
     Route::put('/items/{item}/edit', [ItemController::class, 'update']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']); 
+    Route::delete('/items', [ItemController::class, 'bulkDelete']); 
     Route::get('/items/list/search', [ItemController::class, 'search']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
