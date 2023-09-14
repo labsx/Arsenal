@@ -57,7 +57,7 @@
                     <td>{{item.issued_to}}</td>
                     <td>
   
-                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                      <router-link to="" @click.prevent="del(item.id)">
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
                     </td>
@@ -98,7 +98,9 @@ const getHistory = (page = 1) => {
     });
 };
 
-const deleteItems = (id) => {
+
+
+const del = (id) => {
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -122,7 +124,7 @@ const deleteItems = (id) => {
                 getHistory();
             })
             .catch((error) => {
-                console.error('Error deleting event:', error);
+                console.error('Error delete history:', error);
             });
         }
     });
@@ -156,8 +158,6 @@ const getStatusClass = (status) => {
         return 'badge badge-default';
     }
 };
-
-
 
 onMounted (() => {
     getHistory();

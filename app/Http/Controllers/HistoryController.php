@@ -80,7 +80,7 @@ class HistoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(History $history)
+    public function destroyHistory(History $history)
     {
         $history->delete();
         return response()->json(['success' => true]);

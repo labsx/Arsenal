@@ -152,8 +152,12 @@ const handleFileChange = (event) => {
     axios.post('/users/profile/picture', formData)
     .then((response) => {
         toastr.success('Image uploaded successfully!');
+        
     });
 };
+if (profilePictureUrl.value) {
+  
+}
 
 const changePasswordForm = reactive({
     currentPassword: '',
