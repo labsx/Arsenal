@@ -49,9 +49,10 @@
 
                         </router-link>
 
-                      <router-link to="" @click.prevent="deleteUsers(user.id)" >
-                        <i class="fa fa-trash text-danger"></i>
-                      </router-link> 
+                      <router-link
+                          v-if="user.email !== 'admin@gmail.com'" to="" @click.prevent="deleteUsers(user.id)">
+                          <i class="fa fa-trash text-danger"></i>
+                       </router-link>
 
                     </td>
                   </tr>
