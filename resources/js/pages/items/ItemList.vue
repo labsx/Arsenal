@@ -45,7 +45,8 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th><input type="checkbox"/></th>
+                    <th> <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /></th>
+                  
                     <th scope="col">Items</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -56,7 +57,13 @@
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
-                     <td><input type="checkbox" @change="toggleSelection(item)"></td>
+                           <td>
+                            <input
+          type="checkbox"
+          @change="toggleSelection(item)"
+          :checked="isSelected(item)"
+        />
+      </td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
@@ -221,15 +228,15 @@ const getStatusClass = (status) => {
     }
 };
 
-const selectedItems = ref([]);
-const toggleSelection = (item) => {
-  const index = selectedItems.value.indexOf(item.id);
-  if (index === -1) {
-    selectedItems.value.push(item.id);
-  } else {
-    selectedItems.value.splice(index, 1);
-  }
-};
+// const selectedItems = ref([]);
+// const toggleSelection = (item) => {
+//   const index = selectedItems.value.indexOf(item.id);
+//   if (index === -1) {
+//     selectedItems.value.push(item.id);
+//   } else {
+//     selectedItems.value.splice(index, 1);
+//   }
+// };
 
 const bulkDelete = () => {
   axios
@@ -247,6 +254,31 @@ const bulkDelete = () => {
     .catch((error) => {
       console.error('Error deleting items:', error);
     });
+};
+
+const isSelected = (item) => {
+  return selectedItems.value.includes(item.id);
+};
+
+const selectedItems = ref([]);
+const selectAll = ref(false);
+
+const toggleSelectAll = () => {
+  if (selectAll.value) {
+    // Select all items
+    selectedItems.value = items.value.data.map((item) => item.id);
+  } else {
+    // Deselect all items
+    selectedItems.value = [];
+  }
+};
+const toggleSelection = (item) => {
+  const index = selectedItems.value.indexOf(item.id);
+  if (index === -1) {
+    selectedItems.value.push(item.id);
+  } else {
+    selectedItems.value.splice(index, 1);
+  }
 };
 
 
