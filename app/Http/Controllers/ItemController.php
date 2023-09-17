@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
@@ -19,17 +20,26 @@ class ItemController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'serial' => ['required', 'min:3','max:100', Rule::unique('items', 'serial')],
-            'date' => ['required'],
+            'serial' => ['required', 'min:3', 'max:100', Rule::unique('items', 'serial')],
+            'date' => ['required', 'date'],
             'model' => ['required', 'min:3', 'max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'description' => ['required', 'min:3', 'max:255'],
         ], [
-            'serial' => 'Item already added'
+            'serial.unique' => 'Item already added',
+            'date.required' => 'Date is required',
+            'date.date' => 'Invalid date format',
         ]);
-        Item::create($formFields);
         
-        return response()->json(['success' => true]);
+        $providedDate = Carbon::parse($formFields['date']);
+        $currentDate = Carbon::now();
+        
+        if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
+            Item::create($formFields);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Error! Date selected is incorrect !    '], 400);
+        }
     }
 
     public function destroy(Item $item)
