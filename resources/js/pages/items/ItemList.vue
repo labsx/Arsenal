@@ -43,10 +43,9 @@
           <div class="card">
             <div class="card-body">
               <table class="table table-bordered">
-                <thead>
+                <thead >
                   <tr>
-                    <th> <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /></th>
-                  
+                    <th v-if="items.data.length > 0"> <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /></th>
                     <th scope="col">Items</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -57,13 +56,9 @@
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
-                           <td>
-                            <input
-          type="checkbox"
-          @change="toggleSelection(item)"
-          :checked="isSelected(item)"
-        />
-      </td>
+                     <td>
+                        <input type="checkbox" @change="toggleSelection(item)" :checked="isSelected(item)"/>
+                    </td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
