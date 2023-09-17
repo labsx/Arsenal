@@ -65,9 +65,17 @@ class IssueItemController extends Controller
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
         ]);
-        $issue->update($formFields);
-    
-        return response()->json(['success' => true]);
+
+        $providedDate = Carbon::parse($formFields['issued_date']);
+        $currentDate = Carbon::now();
+        
+        if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
+            $issue->update($formFields);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Error! Date selected is incorrect !    '], 400);
+        }
+
     }
 
     public function search()
