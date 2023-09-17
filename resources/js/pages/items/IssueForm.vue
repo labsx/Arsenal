@@ -130,8 +130,12 @@ const createIssueItem = () => {
       router.push('/admin/items/issue/list'); 
     })
     .catch((error) => {
-      if (error.response && error.response.status === 422) {
+      if (error.response && error.response.status === 400) {
+        toastr.error(error.response.data.error);
+      } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
+      } else {
+        toastr.error('An unexpected error occurred. Please try again.');
       }
     });
 };

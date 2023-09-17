@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Issue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class IssueItemController extends Controller
@@ -20,25 +21,33 @@ class IssueItemController extends Controller
         return $item;
     }
 
-    public function create(Request $request) 
+    public function create(Request $request, Issue $issue) 
     {
         $formFields = $request->validate([
             'item_name' => ['required', 'min:3', 'max:50'],
             'serial' => ['required', 'min:3', 'max:100', Rule::unique('issues', 'serial')],
-            'issued_date' => ['required'],
+            'issued_date' => ['required', 'date'],
             'model' => ['required', 'min:3', 'max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
         ], [
-            'serial.unique' => 'Item already issued !.',
-            'issued_date' => 'Date is required !.',
-            'issued_to' => 'Name is required !.'
+            'serial.unique' => 'Item already issued.',
+            'issued_date.required' => 'Date is required.',
+            'issued_date.date' => 'Invalid date format.',
+            'issued_to.required' => 'Name is required.',
         ]);
     
-        $issue = Issue::create($formFields);
-        Item::where('serial', $issue->serial)->update(['status' => 'issued']);
+        $currentDate = now();
     
-        return response()->json(['success' => true]);
+        $providedDate = Carbon::parse($formFields['issued_date']);
+        if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
+            $issue = Issue::create($formFields);
+            Item::where('serial', $issue->serial)->update(['status' => 'issued']);
+    
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Error! Date selected is incorrect !'], 400);
+        }
     }
 
     public function show(Issue $issue)
