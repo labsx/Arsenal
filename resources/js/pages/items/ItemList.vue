@@ -27,7 +27,7 @@
               </router-link>
 
                 <button v-if="selectedItems.length > 0" @click="bulkDelete" class="btn btn-danger ml-2">
-                  <i class="fa fa-plus-circle mr-1"></i> Delete Selected
+                  <i class="fa fa-trash ml-2"></i> Delete Selected
               </button>
             </div>
               

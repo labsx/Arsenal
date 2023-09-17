@@ -21,7 +21,7 @@
           <div class="small-box bg-info">
             <div class="inner">
               <div class="d-flex justify-content-between">
-                <h3>Item</h3>
+                <h3>Items</h3>
                 <select
                   v-model="statusFilter"
                   style="height: 2rem; outline: 2px solid transparent;"
