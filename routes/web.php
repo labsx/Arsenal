@@ -41,11 +41,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/issue/search', [IssueItemController::class, 'search']);
 
     Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
+    Route::post('/items/return', [ReturnController::class, 'return']);
 
-    Route::post('/items/return', [HistoryController::class, 'create']);
     Route::get('/items/history', [HistoryController::class, 'itemHistory']);
     Route::get('/items/search', [HistoryController::class, 'search']);
-    Route::delete('/items/{item}/history', [HistoryController::class, 'destroyHistory']);
 
     Route::post('/users', [UserController::class, 'create']);
     Route::get('/users/search', [UserController::class, 'searchUser']);
