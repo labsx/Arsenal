@@ -18,6 +18,7 @@
              <img  src="//5.imimg.com/data5/DJ/TC/BR/SELLER-8938681/inventory-management-software-500x500.png" width="200" height="200" >
           </div>
             <div class="social-grp">
+             <p>Data</p>
               <div class="btn"><a><img src="https://symbols.getvecta.com/stencil_68/10_boy-clean.2f0b8a28e3.svg" alt="" width="32" height="32" /><span>Profile</span></a></div>
               <div class="btn"><a><img src="https://cdn-icons-png.flaticon.com/512/6797/6797273.png" alt="" width="45" height="32" /><span>Data</span></a></div>
             </div>
@@ -36,10 +37,10 @@
                 <span id="span-password">Password</span>
               </label>
               <input type="submit" value="Login" class="text-secondary">
-               <div v-if="errorMessage" class="alert alert-danger " role="alert">
+            </form>
+             <div v-if="errorMessage" class="alert alert-danger " role="alert">
                 <p class="text-center">{{ errorMessage }}</p>
             </div>
-            </form>
           </div>
         </div>
       </section>
