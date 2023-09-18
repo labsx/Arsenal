@@ -1,13 +1,8 @@
 <template>
      <div class="wrapper" id="app">
-
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <ul class="navbar-nav">
-                <li class="nav-item" id="toggleMenuIcon">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-            </ul>
-        </nav>
+        
+        <AppNavBar />
+    
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <div class="sidebar">
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -111,6 +106,7 @@
 <script setup> 
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import AppNavBar from './components/AppNavBar.vue';
 
 const user = ref({});
 const fetchUser = () => {
