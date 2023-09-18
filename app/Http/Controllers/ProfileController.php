@@ -11,7 +11,7 @@ class ProfileController extends Controller
 {
     public function profile(Request $request)
     {
-        return $request->user()->only(['name', 'email', 'avatar']);
+        return $request->user()->only(['name', 'email', 'avatar', 'created_at']);
     }
 
     public function update(Request $request)
