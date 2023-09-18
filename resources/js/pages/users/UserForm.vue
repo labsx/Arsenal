@@ -90,7 +90,7 @@ const errors = ref([]);
 const creatUser = () => {
 axios.post('/users', form)
  .then((response) => {
-      toastr.success('Successfully issued item!');
+      toastr.success('Successfully created user !');
       router.push('/admin/users'); 
     })
     .catch((error) => {

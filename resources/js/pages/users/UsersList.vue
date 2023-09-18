@@ -111,7 +111,7 @@ watch(searchQuery, () => {
 const deleteUsers = (id) => {
     Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "You won't be able to revert this",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -125,7 +125,7 @@ const deleteUsers = (id) => {
 
                 Swal.fire(
                     'Deleted!',
-                    'Item has been deleted.',
+                    'User has been deleted.',
                     'success'
                 );   
                 getUsers();

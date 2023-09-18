@@ -9,11 +9,9 @@
   <title>Inventory System</title>
 </head>
 
-<body onmousemove="getCursorPosition(event)">
-    <div id="app">
-        <router-view>
-            <Login/>
-        </router-view>
+<body>
+    <div id="login">
+            <Login/> 
     </div>
 </body>
 

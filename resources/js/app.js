@@ -7,9 +7,9 @@ import { createApp } from 'vue/dist/vue.esm-bundler.js';
 import { createRouter, createWebHistory } from 'vue-router';
 import Routes from './routes.js';
 import Login from './pages/auth/Login.vue';
+import App from './App.vue';
 
-
-const app = createApp({});
+const app = createApp(App);
 
 const router = createRouter({
     routes: Routes,
@@ -17,5 +17,12 @@ const router = createRouter({
 });
 
 app.use(router);
-app.component('Login', Login);
-app.mount('#app');
+
+if(window.location.pathname === '/login'){
+    const currentApp = createApp ({});
+    currentApp.component('Login', Login);
+    currentApp.mount('#login');
+}else{
+    app.mount('#app');
+}
+
