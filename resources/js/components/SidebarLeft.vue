@@ -93,11 +93,13 @@
 
 <script setup>
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 defineProps({
     user: Object,
 })
 
+const router = useRouter();
 const logout = () => {
     axios.post('/logout')
     .then((response)=> {

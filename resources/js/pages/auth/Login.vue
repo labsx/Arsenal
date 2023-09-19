@@ -56,7 +56,9 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter
 const errorMessage = ref('');
 const form = reactive({
     email: '',
@@ -70,6 +72,7 @@ const handleSubmit = () => {
     }
     axios.post('/login', form)
     .then(() => {
+      // router.push('/admin/dashboard');
         window.location.href="/admin/dashboard";
     })
     .catch((error) => {

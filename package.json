@@ -13,10 +13,12 @@
     },
     "dependencies": {
         "@vitejs/plugin-vue": "^4.3.4",
+        "@vueuse/core": "^10.4.1",
         "admin-lte": "^3.2.0",
         "flatpickr": "^4.6.13",
         "laravel-vue-pagination": "^4.1.1",
         "moment": "^2.29.4",
+        "pinia": "^2.1.6",
         "sweetalert2": "^11.7.27",
         "vue-router": "^4.2.4"
     }
