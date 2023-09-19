@@ -48,6 +48,7 @@
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Date Stored</th>
+                     <th scope="col">Description</th>
                     <th scope="col">Status</th>
                     <th scope="col">Options</th>
                   </tr>
@@ -61,6 +62,7 @@
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
                     <td>{{ formatDate(item.date) }}</td>
+                    <td>{{item.description}}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
@@ -127,7 +129,6 @@
                                         <div class="form-group">
                                             <label for="client">Serial #</label>
                                            <input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" >
-                                            <!-- <div v-else><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}"></div> -->
                                              <span v-if="errors && errors.serial" class="text-danger text-sm">{{ errors.serial[0]}}</span>
                                         </div>
                                     </div>
@@ -189,6 +190,7 @@ import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
 import { computed } from 'vue';
 import { useToastr } from '../../toastr';
+import flatpickr from "flatpickr";
 
 const toastr = useToastr();
 const errors = ref([]);
@@ -202,6 +204,8 @@ const form = reactive({
     status: 'Good',
     description: '',
 });
+
+
 
 const createItem= () => {
   axios.post('/items', form)
@@ -339,16 +343,6 @@ const getStatusClass = (status) => {
     }
 };
 
-// const selectedItems = ref([]);
-// const toggleSelection = (item) => {
-//   const index = selectedItems.value.indexOf(item.id);
-//   if (index === -1) {
-//     selectedItems.value.push(item.id);
-//   } else {
-//     selectedItems.value.splice(index, 1);
-//   }
-// };
-
 const bulkDelete = () => {
   axios
     .delete('/items', {
@@ -376,10 +370,8 @@ const selectAll = ref(false);
 
 const toggleSelectAll = () => {
   if (selectAll.value) {
-    // Select all items
     selectedItems.value = items.value.data.map((item) => item.id);
   } else {
-    // Deselect all items
     selectedItems.value = [];
   }
 };
@@ -392,9 +384,15 @@ const toggleSelection = (item) => {
   }
 };
 
-
 onMounted (() => {
+
     getItems();
+
+     flatpickr(".flatpickr", {
+        enableTime: true,
+        dateFormat: "Y-m-d h:i K",
+        defaultHour: 10,
+    });
 });
 
 </script>

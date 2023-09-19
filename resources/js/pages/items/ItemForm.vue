@@ -4,8 +4,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">
-                         <span v-if="editMode">EDIT ITEMS</span>
-                        <span v-else>ADD ITEMS</span>
+                        EDIT ITEMS
                     </h1>
                 </div>
                 <div class="col-sm-6">
@@ -17,8 +16,8 @@
                             <router-link to="/admin/items/list">Items</router-link>
                         </li>
                         <li class="breadcrumb-item active">
-                            <span v-if="editMode">Edit</span>
-                            <span v-else>Create</span>
+                            Edit
+                           
                             </li>
                     </ol>
                 </div>
@@ -32,7 +31,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <form @submit.prevent="handleSubmit()">
+                            <form @submit.prevent="editItem()">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -44,8 +43,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="client">Serial #</label>
-                                            <div v-if="editMode"><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}" ></div>
-                                            <div v-else><input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}"></div>
+                                            <input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}" >
+   
                                              <span v-if="errors && errors.serial" class="text-danger text-sm">{{ errors.serial[0]}}</span>
                                         </div>
                                     </div>
@@ -103,7 +102,6 @@ const toastr = useToastr();
 const errors = ref([]);
 const router = useRouter();
 const route = useRoute();
-const editMode = ref(false);
 
 const form = reactive({
     name: '',
@@ -113,33 +111,6 @@ const form = reactive({
     status: 'Good',
     description: '',
 });
-
-const handleSubmit = (values) => {
-    if(editMode.value){
-        editItem(values);
-    }else{
-        createItem(values);
-    }
-};
-
-
-const createItem = () => {
-  axios.post('/items', form)
-    .then((response) => {
-      toastr.success('Item created successfully!');
-      router.push('/admin/items/list'); 
-    })
-    .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        toastr.error(error.response.data.error);
-      } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      } else {
-        toastr.error('An unexpected error occurred. Please try again.');
-      }
-    });
-};
-
 
 const editItem  = (values) => {
     axios.put(`/items/${route.params.id}/edit`, form)
@@ -154,7 +125,6 @@ const editItem  = (values) => {
     });
 };
 
-
 const getItems = () => {
     axios.get(`/items/${route.params.id}/edit`)
     .then(({data}) => {
@@ -168,11 +138,8 @@ const getItems = () => {
 };
 
 onMounted (() => {
-    if (route.name === 'admin.items.edit') {
-        editMode.value = true;
-         getItems();
-    }
 
+    getItems();
 
     flatpickr(".flatpickr", {
         enableTime: true,
