@@ -99,8 +99,9 @@
     </div>
   </div>
 
+  <ModalAdd />
 <!-- modal -->
-  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <!-- <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
   <div class="modal-dialog" role="document" style="max-width: 70%;">
     <div class="modal-content">
       <div class="modal-header">
@@ -179,7 +180,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 </template>
 
 <script setup>
@@ -191,47 +192,46 @@ import { formatDate } from '../../helper.js';
 import { computed } from 'vue';
 import { useToastr } from '../../toastr';
 import flatpickr from "flatpickr";
+import ModalAdd from '../../pages/items/ModalAddItem.vue';
 
 const toastr = useToastr();
 const errors = ref([]);
 const items = ref({'data': []});
 
-const form = reactive({
-    name: '',
-    serial: '',
-    date: '',
-    model: '',
-    status: 'Good',
-    description: '',
-});
+// const form = reactive({
+//     name: '',
+//     serial: '',
+//     date: '',
+//     model: '',
+//     status: 'Good',
+//     description: '',
+// });
 
+// const createItem= () => {
+//   axios.post('/items', form)
+//     .then((response) => {
+//       toastr.success('Item created successfully!');
+//         $('#createModal').modal('hide'); 
+//         clearForm();
+//         getItems();
+//     })
+//     .catch((error) => {
+//       if (error.response && error.response.status === 400) {
+//         toastr.error(error.response.data.error);
+//       } else { (error.response && error.response.status === 422) 
+//         errors.value = error.response.data.errors;
+//       } 
+//     });
+// };
 
-
-const createItem= () => {
-  axios.post('/items', form)
-    .then((response) => {
-      toastr.success('Item created successfully!');
-        $('#createModal').modal('hide'); 
-        clearForm();
-        getItems();
-    })
-    .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        toastr.error(error.response.data.error);
-      } else { (error.response && error.response.status === 422) 
-        errors.value = error.response.data.errors;
-      } 
-    });
-};
-
-const clearForm = () => {
-  form.name = '';
-  form.serial = '';
-  form.date = '';
-  form.model = '';
-  form.status = 'Good';
-  form.description = '';
-};
+// const clearForm = () => {
+//   form.name = '';
+//   form.serial = '';
+//   form.date = '';
+//   form.model = '';
+//   form.status = 'Good';
+//   form.description = '';
+// };
 
 const icon = computed(() => (status) =>{
   if (status === 'Good') {
