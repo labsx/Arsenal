@@ -22,8 +22,8 @@
             <div class="card-body box-profile" >
                 <div class="text-center">
                     <input @change="handleFileChange" ref="fileInput" type="file" class="d-none">
-                    <img @click="openFileInput" class="profile-user-img img-circle" :src="profilePictureUrl ? profilePictureUrl 
-                    : authuserStore.user.avatar" alt="User profile picture">
+                    <img @click="openFileInput" class="profile-user-img img-circle" :src="
+                    authuserStore.user.avatar" alt="User profile picture">
                 </div>
 
                 <h3 class="profile-username text-center " >{{ authuserStore.user.name }}</h3>
@@ -138,9 +138,10 @@ const openFileInput = () => {
     fileInput.value.click();
 };
 
-const profilePictureUrl = ref(null); 
+
 const handleFileChange = (event) => {
     const file = event.target.files[0];
+    authuserStore.user.avatar = URL.createObjectURL(file);
 
     const formData = new FormData();
     formData.append('profile_picture', file);
