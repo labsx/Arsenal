@@ -36,7 +36,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="date">Date</label>
-                                            <input v-model="form.date" type="date" class="form-control flatpickr"  >
+                                            <input v-model="form.date" type="date" class="form-control flatpickr">
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>
@@ -83,9 +83,10 @@
 
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
 import { useToastr } from '../../toastr';
 
+const { getItemsFn } = defineProps(['getItemsFn']);
 const toastr = useToastr();
 const errors = ref([]);
 const form = ref({
@@ -103,24 +104,27 @@ const createItem = () => {
     .then((response) => {
       toastr.success('Item created successfully!');
       $('#createModal').modal('hide');
-      clearForm(form);
-      getItems();
+      clearForm();
+      getItemsFn();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
-      }   else { (error.response && error.response.status === 422) 
-           errors.value = error.response.data.errors;
+      } else if (error.response && error.response.status === 422) {
+        errors.value = error.response.data.errors;
+        getItemsFn();
+        
       }
     });
+};
 
 const clearForm = () => {
-  form.name = '';
-  form.serial = '';
-  form.date = '';
-  form.model = '';
-  form.status = 'Good';
-  form.description = '';
-};
+  form.value.name = '';
+  form.value.serial = '';
+  form.value.date = '';
+  form.value.model = '';
+  form.value.status = 'Good';
+  form.value.description = '';
 };
 </script>
+
