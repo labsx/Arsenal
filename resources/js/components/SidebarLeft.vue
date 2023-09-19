@@ -6,7 +6,7 @@
                             <img :src="user.avatar">
                         </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{user.name}}</a>
+                        <a href="#" class="d-block">{{autUserStore.user.name}}</a>
                     </div>
                 </div>
                 <nav class="mt-2">
@@ -94,7 +94,9 @@
 <script setup>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useAuthUserStore } from '../store/themeStore.js';
 
+const autUserStore = useAuthUserStore();
 defineProps({
     user: Object,
 })
@@ -103,6 +105,7 @@ const router = useRouter();
 const logout = () => {
     axios.post('/logout')
     .then((response)=> {
+        // router.push('/login');
         window.location.href = "/login";
     });
 };

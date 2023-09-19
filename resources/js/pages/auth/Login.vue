@@ -67,7 +67,7 @@ const form = reactive({
 
 const handleSubmit = () => {
     if (!form.email.trim() || !form.password.trim()) {
-        errorMessage.value = " email and password required.";
+        errorMessage.value = " Email and password required.";
         return; 
     }
     axios.post('/login', form)

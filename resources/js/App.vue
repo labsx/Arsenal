@@ -19,7 +19,11 @@ import { onMounted, ref } from 'vue';
 import AppNavBar from './components/AppNavBar.vue';
 import SideBarLeft from './components/SidebarLeft.vue';
 import Footer from './components/Footer.vue';
-import { useSettingStore } from './store/themeStore.js'
+import { useSettingStore } from './store/themeStore.js';
+import { useAuthUserStore}  from './store/themeStore.js';
+
+const authuserStore = useAuthUserStore();
+authuserStore.getAuthUser();
 
 const settingStore = useSettingStore();
 const user = ref({});

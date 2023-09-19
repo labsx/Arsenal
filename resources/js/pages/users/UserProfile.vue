@@ -23,10 +23,10 @@
                 <div class="text-center">
                     <input @change="handleFileChange" ref="fileInput" type="file" class="d-none">
                     <img @click="openFileInput" class="profile-user-img img-circle" :src="profilePictureUrl ? profilePictureUrl 
-                    : form.avatar" alt="User profile picture">
+                    : authuserStore.user.avatar" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center " >{{ form.name }}</h3>
+                <h3 class="profile-username text-center " >{{ authuserStore.user.name }}</h3>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@
                                 <div class="form-group row">
                                     <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                     <div class="col-sm-10">
-                                        <input v-model="form.name" type="text" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': errors.name }">
+                                        <input v-model="authuserStore.user.name" type="text" class="form-control" id="inputName" placeholder="Name" :class="{ 'is-invalid': errors.name }">
                                         <span v-if="errors && errors.name" class="text-danger text-sm">{{ errors.name[0]}}</span>
                                     </div>
                                     
@@ -55,7 +55,7 @@
                                 <div class="form-group row">
                                     <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                     <div class="col-sm-10">
-                                        <input v-model="form.email" type="email" class="form-control " id="inputEmail" placeholder="Email" :class="{ 'is-invalid': errors.email }">
+                                        <input v-model="authuserStore.user.email" type="email" class="form-control " id="inputEmail" placeholder="Email" :class="{ 'is-invalid': errors.email }">
                                          <span v-if="errors && errors.email" class="text-danger text-sm">{{ errors.email[0]}}</span>
                                     </div>
                                 </div>
@@ -110,23 +110,19 @@
 <script setup>
 import axios from "axios";
 import { ref, onMounted, reactive } from 'vue';
+import { useAuthUserStore } from "../../store/themeStore";
 import { useToastr } from '../../toastr';
+
+const authuserStore = useAuthUserStore();
 
 const toastr = useToastr();
 const errors = ref([]);
-const form = ref({
-   name: '',
-   email: '',
-});
-const getUser = () => {
-   axios.get('/users/profile')
-   .then((response) => {
-      form.value = response.data;
-   });
-};
 
 const updateProfile = () => {
-    axios.put('/users/profile', form.value)
+    axios.put('/users/profile', {
+        name: authuserStore.user.name,
+        email: authuserStore.user.email,
+    })
     .then((response) => {
         toastr.success('Successfully updated profile data!');
     })
@@ -176,7 +172,7 @@ const handleChangePassword = () => {
     });
 };
 onMounted(() => {
-    getUser();
+    
 });
 </script>
 <style scoped>
