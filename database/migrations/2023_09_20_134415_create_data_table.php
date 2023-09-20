@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('issued_to')->nullable();    
             $table->integer('count');   
             $table->timestamps();
-            $table->timestamps();
         });
     }
 

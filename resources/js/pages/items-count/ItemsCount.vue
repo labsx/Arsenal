@@ -47,6 +47,7 @@
                     <th scope="col">Items</th>
                     <th scope="col">Count</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Date Stored</th>
                     <th scope="col">Status</th>
                     <th scope="col">Manage</th>
                    
@@ -59,6 +60,7 @@
                     </td>
                     <td>20</td>
                     <td>Good</td>
+                    <td>Date</td>
                     <td>Red</td>
                   
                    
@@ -105,185 +107,23 @@
     </div>
   </div>
 
-  <!-- <ModalAdd :getItemsFn="getItems"/> -->
+  <ModalAddItemsCount/>
 
 </template>
 
-// <script setup>
-// import axios from "axios";
-// import { ref, onMounted, watch, reactive } from 'vue';
-// import Swal from 'sweetalert2';
-// import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-// import { formatDate } from '../../helper.js';
-// import { computed } from 'vue';
-// import { useToastr } from '../../toastr';
-// import flatpickr from "flatpickr";
-// import ModalAdd from '../../pages/items/ModalAddItem.vue';
+ <script setup>
 
-// const toastr = useToastr();
-// const errors = ref([]);
-// const items = ref({'data': []});
+ import ModalAddItemsCount from '../../pages/items-count/ModalItemsCount.vue';
+ import flatpickr from "flatpickr";
+ import { onMounted } from 'vue';
 
-// const icon = computed(() => (status) =>{
-//   if (status === 'Good') {
-//     return 'fa fa-user-plus';
-//   }else{
-//      return 'fa fa-user-plus';
-//   }
-// });
+onMounted (() => {
 
-// const statusIconClass = computed(() => (status) => {
-//   if (status === 'Good') {
-//     return 'fa fa-edit';
-//   } else if (status === 'issued') {
-//     return 'fa fa-exclamation-circle text-warning';
-//   } else if (status === 'Bad') {
-//     return 'fa fa-times-circle text-danger';
-//   } else {
-//     return 'fa fa-user-plus';
-//   }
-// });
+     flatpickr(".flatpickr", {
+        enableTime: true,
+        dateFormat: "Y-m-d h:i K",
+        defaultHour: 10,
+    });
+});
 
-// const disabledStatuses = ['Bad', 'issued'];
-
-// const shouldDisableLink = (status) => {
-//   return disabledStatuses.includes(status);
-// };
-
-// const handleLinkClick = (status, event) => {
-//   if (isStatusBad(status) || isStatusIssued(status)) {
-//     event.preventDefault(); 
-//   }
-// };
-
-// const isStatusBad = (status) => {
-//   return status === 'Bad';
-// };
-
-// const isStatusIssued = (status) => {
-//   return status === 'issued';
-// };
-
-// const getItems = (page = 1) => {
-//     axios.get(`/items?page=${page}`)
-//     .then((response) => {
-//         items.value = response.data; 
-//     })
-//     .catch((error) => {
-//         console.error('Error fetching items:', error);
-//     });
-// };
-
-// const deleteItems = (id) => {
-//     Swal.fire({
-//         title: 'Are you sure?',
-//         text: "You won't be able to revert this!",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Yes, delete it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             axios.delete(`/items/${id}`)
-//             .then(() => {
-//                 items.value.data = items.value.data.filter(item => item.id !== id);
-
-//                 Swal.fire(
-//                     'Deleted!',
-//                     'Item has been deleted.',
-//                     'success'
-//                 );
-               
-//                 getItems();
-//             })
-//             .catch((error) => {
-//                 console.error('Error deleting event:', error);
-//             });
-//         }
-//     });
-// };
-
-// const searchQuery =ref(null);
-// const search = () => {
-//   axios.get('/items/list/search', {
-//     params: {
-//       query: searchQuery.value
-//     }
-//   })
-//   .then(response => {
-//     items.value = response.data;
-//   })
-//   .catch(error => {
-//     console.log(error);
-//   });
-// }; 
-
-// watch(searchQuery, () =>{
-//   search();
-// })
-// const getStatusClass = (status) => {
-//     if (status === 'Good') {
-//         return 'badge badge-success good-status';
-//     } else if (status === 'issued') { 
-//         return 'badge badge-primary issued-status';
-//     } else if (status === 'Bad') { 
-//         return 'badge badge-danger bad-status';
-//     } else {
-//         return 'badge badge-default';
-//     }
-// };
-
-// const bulkDelete = () => {
-//   axios
-//     .delete('/items', {
-//       data: {
-//         ids: selectedItems.value
-//       }
-//     })
-//     .then((response) => {
-//       items.value.data = items.value.data.filter(item => !selectedItems.value.includes(item.id));
-//       selectedItems.value.splice(0);
-
-//       toastr.success('Items deleted successfully');
-//     })
-//     .catch((error) => {
-//       console.error('Error deleting items:', error);
-//     });
-// };
-
-// const isSelected = (item) => {
-//   return selectedItems.value.includes(item.id);
-// };
-
-// const selectedItems = ref([]);
-// const selectAll = ref(false);
-
-// const toggleSelectAll = () => {
-//   if (selectAll.value) {
-//     selectedItems.value = items.value.data.map((item) => item.id);
-//   } else {
-//     selectedItems.value = [];
-//   }
-// };
-// const toggleSelection = (item) => {
-//   const index = selectedItems.value.indexOf(item.id);
-//   if (index === -1) {
-//     selectedItems.value.push(item.id);
-//   } else {
-//     selectedItems.value.splice(index, 1);
-//   }
-// };
-
-// onMounted (() => {
-
-//     getItems();
-
-//      flatpickr(".flatpickr", {
-//         enableTime: true,
-//         dateFormat: "Y-m-d h:i K",
-//         defaultHour: 10,
-//     });
-// });
-
-// </script>
+ </script>
