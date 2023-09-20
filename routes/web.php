@@ -2,6 +2,7 @@
 
 use App\Models\History;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
@@ -61,6 +62,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/items', [DashboardController::class, 'itemsList']);
     Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
     Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
+
+    Route::post('/data', [DataController::class, 'create']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
