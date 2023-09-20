@@ -1,5 +1,5 @@
 <template>
-     <div class="wrapper" :class="settingStore.theme === 'dark' ? 'dark-mode' : ''" id="app">
+     <div v-if="authUserStore.user.name !== ''" class="wrapper" :class="settingStore.theme === 'dark' ? 'dark-mode' : ''" id="app">
 
         <AppNavBar />
 
@@ -12,6 +12,9 @@
         <Footer :user="user" />
       
     </div>
+    <div v-else>
+          <router-view></router-view>
+    </div>
 </template>
 <script setup> 
 import axios from 'axios';
@@ -19,12 +22,9 @@ import { onMounted, ref } from 'vue';
 import AppNavBar from './components/AppNavBar.vue';
 import SideBarLeft from './components/SidebarLeft.vue';
 import Footer from './components/Footer.vue';
-import { useSettingStore } from './store/themeStore.js';
-import { useAuthUserStore}  from './store/themeStore.js';
+ import {useAuthUserStore, useSettingStore } from './store/themeStore.js'
 
-const authuserStore = useAuthUserStore();
-authuserStore.getAuthUser();
-
+ const authUserStore = useAuthUserStore();
 const settingStore = useSettingStore();
 const user = ref({});
 

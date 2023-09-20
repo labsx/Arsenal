@@ -3,10 +3,10 @@
                 <div class="sidebar">
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img :src="autUserStore.user.avatar">
+                            <img :src="authUserStore.user.avatar">
                         </div>
                     <div class="info">
-                        <a href="#" class="d-block">{{autUserStore.user.name}}</a>
+                        <a href="#" class="d-block">{{authUserStore.user.name}}</a>
                     </div>
                 </div>
                 <nav class="mt-2">
@@ -96,7 +96,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useAuthUserStore } from '../store/themeStore.js';
 
-const autUserStore = useAuthUserStore();
+const authUserStore = useAuthUserStore();
 defineProps({
     user: Object,
 })
@@ -105,8 +105,8 @@ const router = useRouter();
 const logout = () => {
     axios.post('/logout')
     .then((response)=> {
-        // router.push('/login');
-        window.location.href = "/login";
+         router.push('/login');
+         authUserStore.user.name = '';
     });
 };
 
