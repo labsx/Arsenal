@@ -70,20 +70,17 @@
               <div class="d-flex justify-content-between">
                 <h3>Items Count</h3>
                 <select
-                  v-model="statusFilter"
+                  v-model="statusFilters"
                   style="height: 2rem; outline: 2px solid transparent"
                   class="px-1 rounded border-0 hover"
                   @change="getItemsCountByName"
                 >
-                  <option value="" class="hover"></option>
-                  <option
-                    v-for="item in uniqueItems"
+                  <option  v-for="item in uniqueItems"
                     :key="item.name"
                     :value="item.name"
                     class="hover"
                   >
-                    {{ item.name }}
-                  </option>
+                    {{ item.name }} </option>
                 </select>
               </div>
               <h1 class="text-center" v-if="selectedItemCount !== null">
@@ -112,6 +109,7 @@ import { onMounted, ref, watch } from "vue";
 
 const totalItemsCount = ref(0);
 const statusFilter = ref("TODAY");
+const statusFilters = ref();
 const selectedItemCount = ref(0);
 
 const uniqueItems = ref([]);
@@ -131,7 +129,7 @@ const fetchItems = () => {
 const getItemsCountByName = () => {
   if (statusFilter.value !== "") {
     axios
-      .get(`/dashboard/items/count?name=${statusFilter.value}`)
+      .get(`/dashboard/items/count?name=${statusFilters.value}`)
       .then((response) => {
         selectedItemCount.value = response.data.count;
       })
