@@ -67,10 +67,10 @@
                     <td >  
                       
                      <div class="text-align-center">
-                          <!-- <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
-                          <i :class="statusIconClass(item.status)"></i>
+                        <router-link :to="`/admin/data/${data.id}/edit`" >
+                          <i class="fa fa-edit"></i>
                       </router-link>
-
+                    <!--
                       <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
                          <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
                       </router-link> -->

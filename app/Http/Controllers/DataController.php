@@ -44,4 +44,24 @@ class DataController extends Controller
         $data->delete();
         return response()->json(['success' => true]);
     }
+
+    public function show(Data $data)
+    {
+        return $data;
+    }
+
+    public function update(Request $request, Data $data)
+    {
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', 'max:50',Rule::unique('data', 'name')->ignore($data->id)],
+            'count' => ['required', 'max:255'],
+            'date' => ['required', 'date'],
+            'status' => ['required'],
+            'description' => ['required', 'min:3', 'max:255'],
+        ]);
+
+        $data->update($formFields);
+        
+        return response()->json(['success' => true]);
+    }
 }

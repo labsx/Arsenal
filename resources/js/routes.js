@@ -11,6 +11,7 @@ import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
 import ItemsCount from './pages/items-count/ItemsCount.vue';
+import ItemsCountEdit from './pages/items-count/ItemsCountEdit.vue';
 
 export default[
     {
@@ -82,5 +83,10 @@ export default[
         path: '/admin/list/count',
         name: 'admin.list.count',
         component: ItemsCount,
+    },
+    {
+        path: '/admin/data/:id/edit',
+        name: 'admin.data.edit',
+        component: ItemsCountEdit,
     }
 ]

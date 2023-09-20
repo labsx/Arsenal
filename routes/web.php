@@ -66,6 +66,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/data', [DataController::class, 'index']);
     Route::post('/data', [DataController::class, 'create']);
     Route::delete('/data/{data}', [DataController::class, 'destroy']); 
+    Route::get('/data/{data}/edit', [DataController::class, 'show']); 
+    Route::put('/data/{data}/edit', [DataController::class, 'update']); 
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
