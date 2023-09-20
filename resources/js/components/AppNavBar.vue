@@ -21,4 +21,21 @@ import  { useSettingStore } from '../store/themeStore.js'
 
 const settingStore = useSettingStore();
 
+document.addEventListener('DOMContentLoaded', () => {
+   const toggleMenuIcon = document.getElementById('toggleMenuIcon');
+   const body = document.querySelector('body');
+
+   toggleMenuIcon.addEventListener('click', () => {
+      if (body.classList.contains('sidebar-collapse')) {
+          localStorage.setItem('sidebarState', 'expanded');
+      } else {
+         localStorage.setItem('sidebarState', 'collapsed');
+      }
+      });
+
+      const sidebarState = localStorage.getItem('sidebarState');
+         if (sidebarState === 'collapsed') {
+            body.classList.add('sidebar-collapse');
+         }
+      });
 </script>
