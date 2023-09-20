@@ -84,11 +84,8 @@
                     {{ item.name }} </option>
                 </select>
               </div>
-              <h1 class="text-center text-white" v-if="statusFilters !== 'All'">
-                {{ selectedItemCount }}
-              </h1>
-              <h1 class="text-center text-white" v-else>
-                {{ totalItemsCount }}
+              <h1 class="text-center text-white">
+                   {{ statusFilters === 'All' ? totalItemsCount : selectedItemCount }}
               </h1>
             </div>
             <div class="icon">
