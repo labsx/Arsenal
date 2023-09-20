@@ -69,17 +69,17 @@
                     <td >  
                       
                       <div class="text-align-center">
-                          <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
+                        <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
                           <i :class="statusIconClass(item.status)"></i>
-                      </router-link>
+                        </router-link>
 
-                      <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
-                         <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
-                      </router-link>
+                        <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
+                          <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
+                        </router-link>
 
-                      <router-link to="" @click.prevent="deleteItems(item.id)">
-                        <i class="fa fa-trash text-danger ml-2"></i>
-                      </router-link>
+                        <router-link to="" @click.prevent="deleteItems(item.id)">
+                          <i class="fa fa-trash text-danger ml-2"></i>
+                        </router-link>
                       </div>
                     
                     </td>
@@ -95,15 +95,25 @@
           </div>
           <div><Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
          <div class="btn-group float-right">
-            <router-link to="/admin/items/list"  class="btn btn-secondary">
+            <router-link
+                to="/admin/items/list"
+                class="btn"
+                :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
+                @click="activateTable(1)"
+              >
                 <span class="mr-1">Items 1</span>
                 <span class="badge badge-pill badge-info"></span>
-            </router-link>
+              </router-link>
 
-            <router-link to="/admin/list/count"  class="btn btn-default">
+              <router-link
+                to="/admin/list/count"
+                class="btn"
+                :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
+                @click="activateTable(2)"
+              >
                 <span class="mr-1">Items 2</span>
                 <span class="badge badge-pill badge-primary"></span>
-            </router-link>
+             </router-link>
         </div>
           </div>
 
@@ -280,6 +290,16 @@ const toggleSelection = (item) => {
     selectedItems.value.push(item.id);
   } else {
     selectedItems.value.splice(index, 1);
+  }
+};
+
+const isTable1Active = ref(true); 
+
+const activateTable = (tableNumber) => {
+  if (tableNumber === 1) {
+    isTable1Active.value = true;
+  } else if (tableNumber === 2) {
+    isTable1Active.value = false;
   }
 };
 

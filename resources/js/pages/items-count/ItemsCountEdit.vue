@@ -4,7 +4,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">
-                        EDIT ITEMS
+                       <router-link to="/admin/list/count"><i class="fa fa-arrow-left mr-2 text-dark"></i></router-link> EDIT ITEMS
                     </h1>
                 </div>
                 <div class="col-sm-6">

@@ -70,9 +70,9 @@
                         <router-link :to="`/admin/data/${data.id}/edit`" >
                           <i class="fa fa-edit"></i>
                       </router-link>
-                    <!--
-                      <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
-                         <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
+                   
+                      <!-- <router-link :to="`/admin/data/${data.id}/issue`">
+                         <i class="fa fa-user-plus ml-2 tex"></i>
                       </router-link> -->
 
                       <router-link to="" @click.prevent="deleteItemsCount(data.id)">
@@ -88,20 +88,28 @@
             </div>
           </div>
           <div>
-         <div class="btn-group float-right">
-            <router-link to="/admin/items/list"  class="btn btn-secondary">
-                <span class="mr-1">Items 1</span>
-                <span class="badge badge-pill badge-info"></span>
-            </router-link>
+            <div class="btn-group float-right">
+                <router-link
+                    to="/admin/items/list"
+                    class="btn"
+                    :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
+                    @click="activateTable(1)"
+                  >
+                    <span class="mr-1">Items 1</span>
+                    <span class="badge badge-pill badge-info"></span>
+                  </router-link>
 
-            <router-link to="/admin/list/count"  class="btn btn-default">
-                <span class="mr-1">Items 2</span>
-                <span class="badge badge-pill badge-primary"></span>
-            </router-link>
-        </div>
+                  <router-link
+                    to="/admin/list/count"
+                    class="btn"
+                    :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
+                    @click="activateTable(2)"
+                  >
+                    <span class="mr-1">Items 2</span>
+                    <span class="badge badge-pill badge-primary"></span>
+                </router-link>
+            </div>
           </div>
-
-            
         </div>
       </div>
     </div>
@@ -158,6 +166,16 @@ const deleteItemsCount = (id) => {
             });
         }
     });
+};
+
+const isTable1Active = ref(false); 
+
+const activateTable = (tableNumber) => {
+  if (tableNumber === 1) {
+    isTable1Active.value = false;
+  } else if (tableNumber === 2) {
+    isTable1Active.value = true;
+  }
 };
 
 onMounted (() => {
