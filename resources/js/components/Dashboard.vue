@@ -75,6 +75,7 @@
                   class="px-1 rounded border-0 hover"
                   @change="getItemsCountByName"
                 >
+                  <option value="All" class="hover">All</option>
                   <option  v-for="item in uniqueItems"
                     :key="item.name"
                     :value="item.name"
@@ -83,10 +84,12 @@
                     {{ item.name }} </option>
                 </select>
               </div>
-              <h1 class="text-center" v-if="selectedItemCount !== null">
+              <h1 class="text-center text-white" v-if="statusFilters !== 'All'">
                 {{ selectedItemCount }}
               </h1>
-              <h1 class="text-center" v-else>No items selected</h1>
+              <h1 class="text-center text-white" v-else>
+                {{ totalItemsCount }}
+              </h1>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -127,17 +130,28 @@ const fetchItems = () => {
 };
 
 const getItemsCountByName = () => {
-  if (statusFilter.value !== "") {
-    axios
-      .get(`/dashboard/items/count?name=${statusFilters.value}`)
+  if (statusFilters.value === 'All') {
+    axios.get(`/dashboard/items/count-name`)
+    .then((response) => {
+      if (response.data && response.data.counts) {
+       selectedItemCount.value = response.data.count;
+       }
+    })
+    .catch((error) => {
+      console.error('Error fetching items data', error);
+    });
+  } else {
+    axios.get(`/dashboard/items/count?name=${statusFilters.value}`)
       .then((response) => {
-        selectedItemCount.value = response.data.count;
+        if (response.data && response.data.count !== undefined) {
+          selectedItemCount.value = response.data.count;
+        } else {
+          console.error('Invalid or empty response for item count by name:', response);
+        }
       })
       .catch((error) => {
-        console.error(error);
+        console.error('Error fetching item count by name:', error);
       });
-  } else {
-    selectedItemCount.value = 0;
   }
 };
 

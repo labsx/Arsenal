@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -29,14 +30,18 @@ class DashboardController extends Controller
     public function itemsList(Request $request )
     {
         $uniqueItems = Item::select('name')->distinct()->get();
-
         return response()->json(['items' => $uniqueItems]);
     }
-    public function ItemsCountByName(Request $request)
+    public function itemsCountByName(Request $request)
     {
         $itemName = $request->query('name');
         $count = Item::where('name', $itemName)->count();
         
+        return response()->json(['count' => $count]);
+    }
+
+    public function itemsCountAll(Request $request){
+        $count = Item::count();
         return response()->json(['count' => $count]);
     }
 }

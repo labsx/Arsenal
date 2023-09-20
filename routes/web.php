@@ -59,7 +59,8 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'itemsCount']);
     Route::get('/dashboard/users', [DashboardController::class, 'usersCount']);
     Route::get('/dashboard/items', [DashboardController::class, 'itemsList']);
-    Route::get('/dashboard/items/count', [DashboardController::class, 'ItemsCountByName']);
+    Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
+    Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
