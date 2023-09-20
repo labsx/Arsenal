@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('data', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->dateTime('date');
             $table->dateTime('issued_date')->nullable();
             $table->dateTime('return_date')->nullable();
             $table->string('description');

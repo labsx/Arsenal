@@ -63,7 +63,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
     Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
 
+    Route::get('/data', [DataController::class, 'index']);
     Route::post('/data', [DataController::class, 'create']);
+    Route::delete('/data/{data}', [DataController::class, 'destroy']); 
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });

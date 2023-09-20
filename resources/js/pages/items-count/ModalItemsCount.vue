@@ -34,11 +34,20 @@
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Count</label>
-                                            <input v-model="form.count" type="number" class="form-control" placeholder="Enter model" >
+                                            <input v-model="form.count" type="number" class="form-control" placeholder="Enter items count" >
                                             <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>
+                                        </div>
+                                        
+                                    </div>
+
+                                     <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <input v-model="form.status" type="text" class="form-control" Value="Good" disabled>
+                                            
                                         </div>
                                         
                                     </div>
@@ -81,6 +90,7 @@ const form = ref({
     date: '',
     count: '',
     description: '',
+    status: 'Good',
 });
 
 const createItemCount = () => {
