@@ -21,7 +21,7 @@
           <div class="small-box bg-info">
             <div class="inner">
               <div class="d-flex justify-content-between">
-                <h3>Items</h3>
+                <h3>Item Status</h3>
                 <select
                   v-model="statusFilter"
                   style="height: 2rem; outline: 2px solid transparent"
@@ -65,27 +65,38 @@
         </div>
 
         <div class="col-lg-3 col-6">
-          <div class="small-box bg-warning">
+          <div class="small-box bg-danger">
             <div class="inner">
               <div class="d-flex justify-content-between">
-                <h3>Items Count</h3>
+                <h3 class="text-white">Items Count</h3>
                 <select
                   v-model="statusFilters"
-                  style="height: 2rem; outline: 2px solid transparent"
+                  style="
+                    height: 2rem;
+                    max-height: 50px;
+                    overflow-y: auto;
+                    outline: 2px solid transparent;
+                  "
                   class="px-1 rounded border-0 hover"
                   @change="getItemsCountByName"
                 >
                   <option value="All" class="hover">All</option>
-                  <option  v-for="item in uniqueItems"
+                  <option
+                    v-for="item in uniqueItems"
                     :key="item.name"
                     :value="item.name"
                     class="hover"
                   >
-                    {{ item.name }} </option>
+                    {{ item.name }}
+                  </option>
                 </select>
               </div>
               <h1 class="text-center text-white">
-                   {{ statusFilters === 'All' ? totalItemsCount : selectedItemCount }}
+                {{
+                  statusFilters === "All"
+                    ? selectedItemCount
+                    : selectedItemCount
+                }}
               </h1>
             </div>
             <div class="icon">
@@ -97,7 +108,6 @@
             </router-link>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -113,6 +123,7 @@ const statusFilters = ref();
 const selectedItemCount = ref(0);
 
 const uniqueItems = ref([]);
+
 const fetchItems = () => {
   axios
     .get("/dashboard/items")
@@ -127,27 +138,32 @@ const fetchItems = () => {
 };
 
 const getItemsCountByName = () => {
-  if (statusFilters.value === 'All') {
-    axios.get(`/dashboard/items/count-name`)
-    .then((response) => {
-      if (response.data && response.data.counts) {
-       selectedItemCount.value = response.data.count;
-       }
-    })
-    .catch((error) => {
-      console.error('Error fetching items data', error);
-    });
+  if (statusFilters.value === "All") {
+    axios
+      .get(`/dashboard/items/count-name`)
+      .then((response) => {
+        if (response.data && response.data.count) {
+          selectedItemCount.value = response.data.count;
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching items data", error);
+      });
   } else {
-    axios.get(`/dashboard/items/count?name=${statusFilters.value}`)
+    axios
+      .get(`/dashboard/items/count?name=${statusFilters.value}`)
       .then((response) => {
         if (response.data && response.data.count !== undefined) {
           selectedItemCount.value = response.data.count;
         } else {
-          console.error('Invalid or empty response for item count by name:', response);
+          console.error(
+            "Invalid or empty response for item count by name:",
+            response
+          );
         }
       })
       .catch((error) => {
-        console.error('Error fetching item count by name:', error);
+        console.error("Error fetching item count by name:", error);
       });
   }
 };

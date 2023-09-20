@@ -287,6 +287,7 @@ section {
 .btn:hover {
   transform: scale(1.01);
   filter: brightness(90%);
+  cursor: pointer;;
 }
 
 .btn a {
