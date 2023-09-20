@@ -24,7 +24,7 @@
                 <h3>Items</h3>
                 <select
                   v-model="statusFilter"
-                  style="height: 2rem; outline: 2px solid transparent;"
+                  style="height: 2rem; outline: 2px solid transparent"
                   class="px-1 rounded border-0 hover"
                   @change="getItemsCount"
                 >
@@ -46,7 +46,7 @@
           </div>
         </div>
 
-         <div class="col-lg-3 col-6">
+        <div class="col-lg-3 col-6">
           <div class="small-box bg-primary">
             <div class="inner">
               <div class="d-flex justify-content-between">
@@ -63,6 +63,44 @@
             </router-link>
           </div>
         </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <div class="d-flex justify-content-between">
+                <h3>Items Count</h3>
+                <select
+                  v-model="statusFilter"
+                  style="height: 2rem; outline: 2px solid transparent"
+                  class="px-1 rounded border-0 hover"
+                  @change="getItemsCountByName"
+                >
+                  <option value="" class="hover"></option>
+                  <option
+                    v-for="item in uniqueItems"
+                    :key="item.name"
+                    :value="item.name"
+                    class="hover"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+              <h1 class="text-center" v-if="selectedItemCount !== null">
+                {{ selectedItemCount }}
+              </h1>
+              <h1 class="text-center" v-else>No items selected</h1>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <router-link to="/admin/items/list" class="small-box-footer">
+              View Items List
+              <i class="fas fa-arrow-circle-right"></i>
+            </router-link>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -70,39 +108,72 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from "vue";
 
 const totalItemsCount = ref(0);
-const statusFilter = ref('TODAY'); 
+const statusFilter = ref("TODAY");
+const selectedItemCount = ref(0);
+
+const uniqueItems = ref([]);
+const fetchItems = () => {
+  axios
+    .get("/dashboard/items")
+    .then((response) => {
+      const itemsData = response.data.items;
+      const uniqueItemNames = new Set(itemsData.map((item) => item.name));
+      uniqueItems.value = Array.from(uniqueItemNames).map((name) => ({ name }));
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const getItemsCountByName = () => {
+  if (statusFilter.value !== "") {
+    axios
+      .get(`/dashboard/items/count?name=${statusFilter.value}`)
+      .then((response) => {
+        selectedItemCount.value = response.data.count;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } else {
+    selectedItemCount.value = 0;
+  }
+};
 
 const getItemsCount = () => {
-    axios.get('/dashboard', {
+  axios
+    .get("/dashboard", {
       params: {
-        status: statusFilter.value, 
+        status: statusFilter.value,
       },
     })
     .then((response) => {
-        totalItemsCount.value = response.data.count;
+      totalItemsCount.value = response.data.count;
     })
     .catch((error) => {
-        console.error(error);
+      console.error(error);
     });
 };
 
 const totalUsersCount = ref(0);
 const getUsersCount = () => {
-    axios.get('/dashboard/users')
+  axios
+    .get("/dashboard/users")
     .then((response) => {
-        totalUsersCount.value = response.data.count;
+      totalUsersCount.value = response.data.count;
     })
     .catch((error) => {
-        console.error(error);
+      console.error(error);
     });
 };
 
 onMounted(() => {
-    getItemsCount();
-    getUsersCount();
+  getItemsCount();
+  getUsersCount();
+  fetchItems();
 });
 </script>
 <style scoped>
