@@ -93,7 +93,21 @@
               </table>
             </div>
           </div>
-            <Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
+          <div><Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
+         <div class="btn-group float-right">
+            <router-link to="/admin/items/list"  class="btn btn-secondary">
+                <span class="mr-1">Items 1</span>
+                <span class="badge badge-pill badge-info"></span>
+            </router-link>
+
+            <router-link to="/admin/list/count"  class="btn btn-default">
+                <span class="mr-1">Items 2</span>
+                <span class="badge badge-pill badge-primary"></span>
+            </router-link>
+        </div>
+          </div>
+
+            
         </div>
       </div>
     </div>

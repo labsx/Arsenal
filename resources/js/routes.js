@@ -10,6 +10,7 @@ import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
+import ItemsCount from './pages/items-count/ItemsCount.vue';
 
 export default[
     {
@@ -76,5 +77,10 @@ export default[
         path: '/admin/users/update',
         name: 'admin.users.update',
         component: UserProfile,
+    },
+    {
+        path: '/admin/list/count',
+        name: 'admin.list.count',
+        component: ItemsCount,
     }
 ]
