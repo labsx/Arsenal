@@ -10,6 +10,7 @@ use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataIssueController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ApplicationController;
 
@@ -69,6 +70,9 @@ Route::middleware('auth')->group(function(){
     Route::get('/data/{data}/edit', [DataController::class, 'show']); 
     Route::put('/data/{data}/edit', [DataController::class, 'update']); 
     Route::get('/items/data/search', [DataController::class, 'search']);
+
+    Route::get('/data/{data}/issue', [DataIssueController::class, 'index']);
+    Route::post('/issue_data', [DataIssueController::class, 'create']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });

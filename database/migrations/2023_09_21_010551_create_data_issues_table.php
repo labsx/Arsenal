@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data', function (Blueprint $table) {
+        Schema::create('data_issues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('date');
-            $table->dateTime('issued_item')->nullable();
-            $table->dateTime('return_date')->nullable();
-            $table->string('description');
+            $table->dateTime('issued_date');
             $table->string('status');
-            $table->string('issued_to')->nullable();    
-            $table->integer('count');   
+            $table->string('issued_to');    
+            $table->integer('count'); 
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data');
+        Schema::dropIfExists('data_issues');
     }
 };

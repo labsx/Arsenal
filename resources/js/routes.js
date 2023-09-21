@@ -12,6 +12,7 @@ import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
 import ItemsCount from './pages/items-count/ItemsCount.vue';
 import ItemsCountEdit from './pages/items-count/ItemsCountEdit.vue';
+import ItemCountIssue from './pages/items-count/ItemCountIssue.vue';
 
 export default[
     {
@@ -88,5 +89,11 @@ export default[
         path: '/admin/data/:id/edit',
         name: 'admin.data.edit',
         component: ItemsCountEdit,
+    },
+    {
+        path: '/admin/data/:id/issue',
+        name: 'admin.data.issue',
+        component: ItemCountIssue,
     }
+    
 ]

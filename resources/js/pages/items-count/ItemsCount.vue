@@ -69,9 +69,9 @@
                           <i class="fa fa-edit"></i>
                       </router-link>
                    
-                      <!-- <router-link :to="`/admin/data/${data.id}/issue`">
+                      <router-link :to="`/admin/data/${data.id}/issue`">
                          <i class="fa fa-user-plus ml-2 tex"></i>
-                      </router-link> -->
+                      </router-link>
 
                       <router-link to="" @click.prevent="deleteItemsCount(data.id)">
                         <i class="fa fa-trash text-danger ml-2"></i>
