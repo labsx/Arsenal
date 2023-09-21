@@ -21,7 +21,6 @@ class DataIssueController extends Controller
 
     public function create(Request $request, DataIssue $dataissue )
     {
-
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'count' => ['required', 'numeric', 'max:255'], // Ensure count is numeric
@@ -53,6 +52,24 @@ class DataIssueController extends Controller
         } else {
             return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
         }
+    }
+
+    public function showData()
+    {
+        $datas = DataIssue::latest()->paginate(10);
+        return $datas;
+    }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $datas = DataIssue::where(function ($query) use ($searchQuery) {
+            $query->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('issued_to', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%");
+        })->paginate(10);
+        
+        return response()->json($datas);
     }
 }
 

@@ -35,34 +35,29 @@
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
-                    <th scope="col">Serial</th>
-                    <th scope="col">Model</th>
+                    <th scope="col">Item Count</th>
                     <th scope="col">Date Issued</th>
                     <th scope="col">Issued to</th>
                     <th scope="col">Status</th>
                     <th scope="col">Options</th>
                   </tr>
                 </thead>
-                <tbody v-if="issues.data.length > 0">
-                  <tr v-for="issue in issues.data" :key="issue.id">
-                    <td>{{issue.item_name}}</td>
-                    <td>{{issue.serial}}</td>
-                    <td>{{issue.model}}</td>
-                    <td>{{ formatDate(issue.issued_date) }}</td>
-                    <td>{{ issue.issued_to }}</td>
+                <tbody  v-if="datas.data.length > 0">
+                  <tr v-for="data in datas.data" :key="data">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.count }}</td>
+                    <td>{{ formatDate(data.issued_date) }}</td>
+                    <td>{{ data.issued_to }}</td>
                     <td>
-                      <span class="badge badge-primary">{{ issue.status }}
+                      <span class="badge badge-primary">{{ data.status }}
                       </span>
                     </td>
-                    <td>
-                       <router-link :to="`/admin/items/${issue.id}/lists`">
-                             	<i class=" 	fas fa-user-tie"></i>
-                        </router-link>
-                        
+                    <!-- <td>
                        <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
-                      </router-link>
-                    </td>
+                      </router-link> 
+                    </td> -->
+
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -73,12 +68,12 @@
               </table>
             </div>
           </div>
-            <Bootstrap4Pagination :data="issues" @pagination-change-page="getItems" />
+            <Bootstrap4Pagination :data="datas" @pagination-change-page="getItems" />
              <div class="btn-group float-right">
             <router-link
                 to="/admin/items/issue/list"
                 class="btn"
-                :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
+                :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
                 @click="activateTable(1)"
               >
                 <span class="mr-1">Items 1</span>
@@ -88,7 +83,7 @@
               <router-link
                 to="/admin/data/items/issue"
                 class="btn"
-                :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
+                :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
                 @click="activateTable(2)"
               >
                 <span class="mr-1">Items 2</span>
@@ -101,18 +96,18 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
-import { ref, onMounted, watch } from 'vue';
-import Swal from 'sweetalert2';
-import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-import { formatDate } from '../../helper.js';
+ import axios from "axios";
+ import { ref, onMounted, watch } from 'vue';
+ import Swal from 'sweetalert2';
+ import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+ import { formatDate } from '../../../helper.js';
 
-const issues = ref({'data': []});
+ const datas = ref({'data': []});
 
 const getItems = (page = 1) => {
-    axios.get(`/issue/items?page=${page}`)
+    axios.get(`/data/issue/items?page=${page}`)
     .then((response) => {
-        issues.value = response.data; 
+        datas.value = response.data; 
     })
     .catch((error) => {
         console.error('Error fetching items:', error);
@@ -121,13 +116,13 @@ const getItems = (page = 1) => {
 
 const searchQuery =ref(null);
 const search = () => {
-  axios.get('/issue/search', {
+  axios.get('/data/issue/search', {
     params: {
       query: searchQuery.value
     }
   })
   .then(response => {
-    issues.value = response.data;
+    datas.value = response.data;
   })
   .catch(error => {
     console.log(error);

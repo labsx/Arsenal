@@ -13,6 +13,7 @@ import Login from './pages/auth/Login.vue';
 import ItemsCount from './pages/items-count/ItemsCount.vue';
 import ItemsCountEdit from './pages/items-count/ItemsCountEdit.vue';
 import ItemCountIssue from './pages/items-count/ItemCountIssue.vue';
+import IssuedItemCount from './pages/items-count/item-count-issued/ItemIssued.vue';
 
 export default[
     {
@@ -94,6 +95,11 @@ export default[
         path: '/admin/data/:id/issue',
         name: 'admin.data.issue',
         component: ItemCountIssue,
+    },
+    {
+        path: '/admin/data/items/issue',
+        name: 'admin.data.items/issue',
+        component: IssuedItemCount,
     }
     
 ]
