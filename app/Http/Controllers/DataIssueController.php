@@ -23,7 +23,7 @@ class DataIssueController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'count' => ['required', 'numeric', 'max:255'], // Ensure count is numeric
+            'count' => ['required', 'numeric', 'max:255'], 
             'issued_date' => ['required', 'date'],
             'status' => ['required'],
             'issued_to' => ['required', 'min:3', 'max:255'],
@@ -68,8 +68,13 @@ class DataIssueController extends Controller
                 ->orWhere('issued_to', 'like', "%{$searchQuery}%")
                 ->orWhere('status', 'like', "%{$searchQuery}%");
         })->paginate(10);
-        
+
         return response()->json($datas);
+    }
+
+    public function showReturn(DataIssue $data)
+    {
+        return $data;
     }
 }
 

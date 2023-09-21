@@ -14,6 +14,7 @@ import ItemsCount from './pages/items-count/ItemsCount.vue';
 import ItemsCountEdit from './pages/items-count/ItemsCountEdit.vue';
 import ItemCountIssue from './pages/items-count/ItemCountIssue.vue';
 import IssuedItemCount from './pages/items-count/item-count-issued/ItemIssued.vue';
+import ItemReturnForm from './pages/items-count/item-count-issued/ItemReturnForm.vue';
 
 export default[
     {
@@ -100,6 +101,11 @@ export default[
         path: '/admin/data/items/issue',
         name: 'admin.data.items/issue',
         component: IssuedItemCount,
+    },
+    {
+        path: '/admin/data/:id/return',
+        name: 'admin.data.return',
+        component: ItemReturnForm,
     }
     
 ]

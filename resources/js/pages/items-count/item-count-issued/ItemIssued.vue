@@ -52,11 +52,11 @@
                       <span class="badge badge-primary">{{ data.status }}
                       </span>
                     </td>
-                    <!-- <td>
-                       <router-link :to="`/admin/items/${issue.id}/return`">
+                    <td>
+                       <router-link :to="`/admin/data/${data.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link> 
-                    </td> -->
+                    </td>
 
                   </tr>
                 </tbody>

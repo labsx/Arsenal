@@ -75,6 +75,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/issue_data', [DataIssueController::class, 'create']);
     Route::get('/data/issue/items', [DataIssueController::class, 'showData']);
     Route::get('/data/issue/search', [DataIssueController::class, 'search']);
+    Route::get('/data/{data}/return', [DataIssueController::class, 'showReturn']);
+    Route::post('/data/return', [DataIssueController::class, 'return']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
