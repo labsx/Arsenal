@@ -45,6 +45,7 @@
                   <tr>
                     <th v-if="items.data.length > 0"> <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /></th>
                     <th scope="col">Items</th>
+                    <th scope="col">Item Count</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Date Stored</th>
@@ -59,6 +60,7 @@
                         <input type="checkbox" @change="toggleSelection(item)" :checked="isSelected(item)"/>
                     </td>
                     <td>{{ item.name }}</td>
+                    <td>{{ item.count }}</td>
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
                     <td>{{ formatDate(item.date) }}</td>

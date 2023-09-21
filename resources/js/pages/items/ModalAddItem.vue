@@ -26,23 +26,33 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="client">Serial #</label>
+                                            <label for="client">Serial # (Optional)</label>
                                            <input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" >
                                              <span v-if="errors && errors.serial" class="text-danger text-sm">{{ errors.serial[0]}}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Date</label>
                                             <input v-model="form.date" type="date" class="form-control flatpickr">
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>
+
+                                     <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Count (Optional)</label>
+                                            <input v-model="form.count" type="text" class="form-control" placeholder="Enter items count" >
+                                            <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>
+                                        </div>
+                                        
+                                    </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Model</label>
+                                            <label>Model (Optional)</label>
                                             <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" >
                                             <span v-if="errors && errors.model" class="text-danger text-sm">{{ errors.model[0]}}</span>
                                         </div>
@@ -95,6 +105,7 @@ const form = ref({
   date: '',
   model: '',
   status: 'Good',
+  count: '',
   description: '',
 });
 
@@ -125,6 +136,7 @@ const clearForm = () => {
   form.value.model = '';
   form.value.status = 'Good';
   form.value.description = '';
+  form.value.count = '';
 };
 </script>
 

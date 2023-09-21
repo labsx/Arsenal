@@ -18,27 +18,34 @@ class ItemController extends Controller
 
     public function create(Request $request)
     {
+
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'serial' => ['required', 'min:3', 'max:100', Rule::unique('items', 'serial')],
+            'serial' => [
+                'max:100',
+                Rule::unique('items', 'serial')->where(function ($query) use ($request) {
+                    return $query->where('count', null)->orWhere('name', $request->input('name'));
+                })
+            ],
             'date' => ['required', 'date'],
-            'model' => ['required', 'min:3', 'max:30'],
+            'model' => ['max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'description' => ['required', 'min:3', 'max:255'],
+            'count' => ['max:255'],
         ], [
-            'serial.unique' => 'Item already added',
+            'serial.unique' => 'Item with this serial already added',
             'date.required' => 'Date is required',
             'date.date' => 'Invalid date format',
         ]);
-        
+    
         $providedDate = Carbon::parse($formFields['date']);
         $currentDate = Carbon::now();
-        
+    
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
             Item::create($formFields);
             return response()->json(['success' => true]);
         } else {
-            return response()->json(['error' => 'Error! Date selected is incorrect !    '], 400);
+            return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
         }
     }
 

@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('serial');
+            $table->string('serial')->nullable();
             $table->dateTime('date');
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->string('status');
+            $table->integer('count')->nullable();
+            $table->integer('issued_item')->nullable();
             $table->longText('description');
             $table->timestamps();
         });
