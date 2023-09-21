@@ -72,12 +72,13 @@ class IssueItemController extends Controller
     public function update(Request $request,Issue $issue)
     {
         $formFields = $request->validate([
-            'item_name' => ['required', 'min:3', 'max:50'],
-            'serial' => ['required', 'min:3', 'max:100', Rule::unique('issues', 'serial')->ignore($issue->id)],
+            'name' => ['max:50'],
+            'serial' => ['max:100'],
             'issued_date' => ['required'],
-            'model' => ['required', 'min:3', 'max:30'],
+            'model' => ['max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
+            'count' => ['max:255'],
         ]);
 
         $providedDate = Carbon::parse($formFields['issued_date']);
