@@ -42,24 +42,35 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label for="client">Serial #</label>
+                                            <label for="client">Serial (Optional)</label>
                                             <input v-model="form.serial" type="text" class="form-control" id="title" placeholder="Enter item serial number" :class="{ 'is-invalid': errors.serial}" >
    
                                              <span v-if="errors && errors.serial" class="text-danger text-sm">{{ errors.serial[0]}}</span>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Date</label>
                                             <input v-model="form.date" type="date" class="form-control flatpickr"  :class="{ 'is-invalid': errors.date }">
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>
+
+                                    
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Model</label>
+                                            <label for="date">Count (Optional)</label>
+                                            <input v-model="form.count" type="number" class="form-control"  :class="{ 'is-invalid': errors.date }">
+                                            <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Model (Optional)</label>
                                             <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" :class="{ 'is-invalid': errors.model }">
                                             <span v-if="errors && errors.model" class="text-danger text-sm">{{ errors.model[0]}}</span>
                                         </div>
@@ -110,6 +121,7 @@ const form = reactive({
     model: '',
     status: 'Good',
     description: '',
+    count: '',
 });
 
 const editItem  = (values) => {
@@ -134,6 +146,7 @@ const getItems = () => {
         form.model = data.model;
         form.status = data.status;
         form.description = data.description;
+         form.count = data.count;
     })
 };
 
