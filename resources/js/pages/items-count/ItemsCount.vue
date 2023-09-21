@@ -45,7 +45,7 @@
                   <tr>
                    
                     <th scope="col">Items</th>
-                    <th scope="col">Count</th>
+                    <th scope="col">Available Item</th>
                     <th scope="col">Description</th>
                     <th scope="col">Date Stored</th>
                     <th scope="col">Status</th>

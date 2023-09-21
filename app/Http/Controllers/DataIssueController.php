@@ -21,6 +21,7 @@ class DataIssueController extends Controller
 
     public function create(Request $request, DataIssue $dataissue )
     {
+
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'count' => ['required', 'numeric', 'max:255'], // Ensure count is numeric
@@ -42,6 +43,9 @@ class DataIssueController extends Controller
                 $data->update([
                     'issued_item' => $totalIssuedItem,
                 ]);
+
+                $data->count -= (int) $formFields['count'];
+                $data->save();
             }
     
             DataIssue::create($formFields);
