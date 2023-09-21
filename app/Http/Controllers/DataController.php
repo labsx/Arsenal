@@ -11,8 +11,8 @@ class DataController extends Controller
 {
     public function index()
     {
-        $datas = Data::latest()->get();
-        return $datas;
+        $datass = Data::latest()->paginate(10);
+        return $datass;
     }
 
     public function create(Request $request)
@@ -72,7 +72,7 @@ class DataController extends Controller
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('description', 'like', "%{$searchQuery}%")
                 ->orWhere('status', 'like', "%{$searchQuery}%");
-        })->get();
+        })->paginate(10);
         return response()->json($datas);
     }
 }

@@ -53,8 +53,8 @@
                    
                   </tr>
                 </thead>
-                <tbody v-if="datas.length > 0">
-                  <tr v-for="data in datas" :key="data">
+                <tbody v-if="datas.data.length > 0">
+                  <tr v-for="data in datas.data" :key="data">
                      <td>
                        {{data.name}}
                     </td>
@@ -62,8 +62,6 @@
                     <td>{{data.description}}</td>
                     <td>{{data.date}}</td>
                     <td>{{data.status}}</td>
-                  
-                   
                     <td >  
                       
                      <div class="text-align-center">
@@ -92,6 +90,7 @@
             </div>
           </div>
           <div>
+           <Bootstrap4Pagination :data="datas" @pagination-change-page="getItemsCount" />
             <div class="btn-group float-right">
                 <router-link
                     to="/admin/items/list"
@@ -129,16 +128,17 @@
  import { onMounted, ref, watch } from 'vue';
  import axios from 'axios';
  import Swal from 'sweetalert2';
+ import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 
-const datas = ref({});
+const datas = ref({'data': []});
 
- const getItemsCount = () => {
-    axios.get('/data')
+ const getItemsCount = (page = 1) => {
+    axios.get(`/data?page=${page}`)
     .then((response) => {
         datas.value = response.data; 
     })
     .catch((error) => {
-        console.error('Error fetching items:', error);
+        console.error('Error fetching datas:', error);
     });
 };
 
@@ -155,7 +155,7 @@ const deleteItemsCount = (id) => {
         if (result.isConfirmed) {
             axios.delete(`/data/${id}`)
             .then(() => {
-                datas.value= datas.value.filter(data => data.id !== id);
+                datas.value.data= datas.value.data.filter(data => data.id !== id);
 
                 Swal.fire(
                     'Deleted!',
