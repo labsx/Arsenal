@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->dateTime('date');
-            $table->dateTime('issued_item')->nullable();
+            $table->integer('issued_item')->nullable();
             $table->dateTime('return_date')->nullable();
             $table->string('description');
             $table->string('status');

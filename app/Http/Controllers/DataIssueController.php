@@ -19,11 +19,11 @@ class DataIssueController extends Controller
         ];
     }
 
-    public function create(Request $request)
+    public function create(Request $request, DataIssue $dataissue )
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'count' => ['required', 'max:255'],
+            'count' => ['required', 'numeric', 'max:255'], // Ensure count is numeric
             'issued_date' => ['required', 'date'],
             'status' => ['required'],
             'issued_to' => ['required', 'min:3', 'max:255'],
@@ -31,14 +31,24 @@ class DataIssueController extends Controller
             'date.required' => 'Date is required',
             'date.date' => 'Invalid date format',
         ]);
-
+    
         $providedDate = Carbon::parse($formFields['issued_date']);
         $currentDate = Carbon::now();
+    
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
+            $data = Data::where('name', $formFields['name'])->first();
+            if ($data) {
+                $totalIssuedItem = (int) $formFields['count'] + (int) $data->issued_item;
+                $data->update([
+                    'issued_item' => $totalIssuedItem,
+                ]);
+            }
+    
             DataIssue::create($formFields);
             return response()->json(['success' => true]);
         } else {
-            return response()->json(['error' => 'Error! Date selected is incorrect !'], 400);
+            return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
         }
     }
 }
+

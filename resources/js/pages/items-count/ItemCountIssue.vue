@@ -117,7 +117,7 @@ const createIssueItem = () => {
   axios.post('/issue_data', form)
     .then((response) => {
       toastr.success('Successfully issued item!');
-      router.push('/admin/data/list'); 
+      router.push('/admin/list/count'); 
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

@@ -49,6 +49,7 @@
                     <th scope="col">Description</th>
                     <th scope="col">Date Stored</th>
                     <th scope="col">Status</th>
+                     <th scope="col">Issued Item</th>
                     <th scope="col">Manage</th>
                    
                   </tr>
@@ -62,6 +63,7 @@
                     <td>{{data.description}}</td>
                     <td>{{data.date}}</td>
                     <td>{{data.status}}</td>
+                     <td>{{data.issued_item}}</td>
                     <td >  
                       
                      <div class="text-align-center">
