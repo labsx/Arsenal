@@ -64,4 +64,15 @@ class DataController extends Controller
         
         return response()->json(['success' => true]);
     }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $datas = Data::where(function ($query) use ($searchQuery) {
+            $query->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('description', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%");
+        })->get();
+        return response()->json($datas);
+    }
 }

@@ -30,12 +30,12 @@
             </div>
               
               <div>
-                <!-- <div class="input-group">
+                <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
                   <div class="input-group-append">
                       <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
                   </div>
-                </div> -->
+                </div>
               </div>
           </div>
           <div class="card">
@@ -53,7 +53,7 @@
                    
                   </tr>
                 </thead>
-                <tbody>
+                <tbody v-if="datas.length > 0">
                   <tr v-for="data in datas" :key="data">
                      <td>
                        {{data.name}}
@@ -83,7 +83,11 @@
                     </td>
                   </tr>
                 </tbody>
-              
+                  <tbody v-else>
+                    <tr>
+                      <td colspan="7" class="text-danger text-center" >No Data found !...</td>
+                    </tr>
+                  </tbody>
               </table>
             </div>
           </div>
@@ -122,7 +126,7 @@
  <script setup>
  import ModalAddItemsCount from '../../pages/items-count/ModalItemsCount.vue';
  import flatpickr from "flatpickr";
- import { onMounted, ref } from 'vue';
+ import { onMounted, ref, watch } from 'vue';
  import axios from 'axios';
  import Swal from 'sweetalert2';
 
@@ -177,6 +181,25 @@ const activateTable = (tableNumber) => {
     isTable1Active.value = true;
   }
 };
+
+const searchQuery =ref(null);
+const search = () => {
+  axios.get('/items/data/search', {
+    params: {
+      query: searchQuery.value
+    }
+  })
+  .then(response => {
+    datas.value = response.data;
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}; 
+
+watch(searchQuery, () =>{
+  search();
+})
 
 onMounted (() => {
     getItemsCount();
