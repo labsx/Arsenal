@@ -35,7 +35,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="title">Item Name</label>
-                                            <input v-model="form.item_name" type="text" class="form-control" id="title" placeholder="Enter item name" readonly="readonly" >
+                                            <input v-model="form.name" type="text" class="form-control" id="title" placeholder="Enter item name" readonly="readonly" >
                                               
                                         </div>
                                     </div>
@@ -56,10 +56,18 @@
                                         </div>
     
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status</label>
                                             <input v-model="form.status" type="text" class="form-control" placeholder="Enter model" readonly="readonly">
+                                           
+                                        </div>
+                                    </div>
+
+                                     <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Item Count (Optional)</label>
+                                            <input v-model="form.count" type="text" class="form-control" placeholder="Enter items to be issued" >
                                            
                                         </div>
                                     </div>
@@ -106,20 +114,22 @@ const route = useRoute();
 const toastr = useToastr(); 
 const errors = ref([]);
 const form = reactive({
-  item_name: '',
+  name: '',
   serial: '',
   issued_date: '',
   model: '',
   status: 'issued',
   issued_to:'',
+  count:'',
 });
 
 const getItemsData = () => {
     axios.get(`/items/${route.params.id}/issue`)
     .then(({data}) => {
-        form.item_name = data.name;
+        form.name = data.name;
         form.serial = data.serial; 
         form.model = data.model;
+        form.count = data.count;
     })
 };
 

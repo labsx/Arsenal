@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Data;
 use App\Models\Item;
 use App\Models\Issue;
 use Illuminate\Http\Request;
@@ -21,15 +22,16 @@ class IssueItemController extends Controller
         return $item;
     }
 
-    public function create(Request $request, Issue $issue) 
+    public function create(Request $request, Issue $issue, Item $data) 
     {
         $formFields = $request->validate([
-            'item_name' => ['required', 'min:3', 'max:50'],
-            'serial' => ['required', 'min:3', 'max:100', Rule::unique('issues', 'serial')],
+            'name' => ['max:50'],
+            'serial' => ['max:100'],
             'issued_date' => ['required', 'date'],
-            'model' => ['required', 'min:3', 'max:30'],
+            'model' => ['max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
+            'count' => ['max:255'],            
         ], [
             'serial.unique' => 'Item already issued.',
             'issued_date.required' => 'Date is required.',
@@ -41,6 +43,18 @@ class IssueItemController extends Controller
     
         $providedDate = Carbon::parse($formFields['issued_date']);
         if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
+            
+            $data = Item::where('name', $formFields['name'])->first();
+            if ($data) {
+                $totalIssuedItem = (int) $formFields['count'] + (int) $data->issued_item;
+                $data->update([
+                    'issued_item' => $totalIssuedItem,
+                ]);
+
+                $data->count -= (int) $formFields['count'];
+                $data->save();
+            }
+
             $issue = Issue::create($formFields);
             Item::where('serial', $issue->serial)->update(['status' => 'issued']);
     

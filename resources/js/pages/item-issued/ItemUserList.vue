@@ -35,6 +35,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
+                     <th scope="col">Item Count</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Date Issued</th>
@@ -45,7 +46,8 @@
                 </thead>
                 <tbody v-if="issues.data.length > 0">
                   <tr v-for="issue in issues.data" :key="issue.id">
-                    <td>{{issue.item_name}}</td>
+                    <td>{{issue.name}}</td>
+                     <td>{{issue.count}}</td>
                     <td>{{issue.serial}}</td>
                     <td>{{issue.model}}</td>
                     <td>{{ formatDate(issue.issued_date) }}</td>

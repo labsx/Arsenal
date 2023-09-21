@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
-            $table->string('item_name');
-            $table->string('serial');
+            $table->string('name');
+            $table->string('serial')->nullable();
             $table->dateTime('issued_date');
             $table->dateTime('return_date')->nullable();
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->string('status');
+            $table->integer('count')->nullable();
             $table->string('issued_to');
             $table->timestamps();
         });
