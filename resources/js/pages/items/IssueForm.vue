@@ -67,8 +67,8 @@
                                      <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
-                                            <input v-model="form.count" type="text" class="form-control" placeholder="Enter items to be issued" >
-                                           
+                                            <input v-model="form.count" type="text" class="form-control" :disabled="form.count == 0" />
+                                            <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>                                
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@ const form = reactive({
   model: '',
   status: 'issued',
   issued_to:'',
-  count:'',
+  count:0,
 });
 
 const getItemsData = () => {

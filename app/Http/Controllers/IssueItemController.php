@@ -31,36 +31,51 @@ class IssueItemController extends Controller
             'model' => ['max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
-            'count' => ['max:255'],            
+            'count' => [
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if ($value !== null && $value <= 0) {
+                        $fail('Count cannot be zero.');
+                    }
+                }
+            ],
         ], [
             'serial.unique' => 'Item already issued.',
             'issued_date.required' => 'Date is required.',
             'issued_date.date' => 'Invalid date format.',
             'issued_to.required' => 'Name is required.',
+            'count' => 'Item reach the maximum limit to release !..'
         ]);
-    
-        $currentDate = now();
-    
-        $providedDate = Carbon::parse($formFields['issued_date']);
-        if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
-            
+        
+        if ($formFields['count'] > 0) {
             $data = Item::where('name', $formFields['name'])->first();
-            if ($data) {
-                $totalIssuedItem = (int) $formFields['count'] + (int) $data->issued_item;
-                $data->update([
-                    'issued_item' => $totalIssuedItem,
-                ]);
-
-                $data->count -= (int) $formFields['count'];
-                $data->save();
+        
+            if ($data && $data->count < $formFields['count']) {
+                return response()->json(['error' => 'Item number exceed the current item.'], 400);
             }
-
-            $issue = Issue::create($formFields);
-            Item::where('serial', $issue->serial)->update(['status' => 'issued']);
-    
-            return response()->json(['success' => true]);
-        } else {
-            return response()->json(['error' => 'Error! Date selected is incorrect !'], 400);
+        
+            $currentDate = now();
+            $providedDate = Carbon::parse($formFields['issued_date']);
+        
+            if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
+                $data = Item::where('name', $formFields['name'])->first();
+                if ($data) {
+                    $totalIssuedItem = (int) $formFields['count'] + (int) $data->issued_item;
+                    $data->update([
+                        'issued_item' => $totalIssuedItem,
+                    ]);
+        
+                    $data->count -= (int) $formFields['count'];
+                    $data->save();
+                }
+        
+                $issue = Issue::create($formFields);
+                Item::where('serial', $issue->serial)->update(['status' => 'issued']);
+        
+                return response()->json(['success' => true]);
+            } else {
+                return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
+            }
         }
     }
 

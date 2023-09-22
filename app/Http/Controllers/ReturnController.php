@@ -16,7 +16,7 @@ class ReturnController extends Controller
 
     public function return(Request $request, Item $data)
     {
-        $formFields = $request->validate([
+         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'issued_date' => ['required', 'date'],
             'model' => ['max:30'],
@@ -39,13 +39,13 @@ class ReturnController extends Controller
             ]);
 
             Issue::where('name', $formFields['name'])
+            ->where('issued_date', $formFields['issued_date'])
             ->delete();
-
                 History::create($formFields);
         
             return response()->json(['success' => true]);
         } else {
             return response()->json(['error' => 'Item not found'], 404);
         }
-    }               
+    }                       
 }
