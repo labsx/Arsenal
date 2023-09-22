@@ -21,10 +21,16 @@ class ItemController extends Controller
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'serial' => [
+                'nullable',
                 'max:100',
                 Rule::unique('items', 'serial')->where(function ($query) use ($request) {
                     return $query->where('count', null)->orWhere('name', $request->input('name'));
-                })
+                }),
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value && $request->input('count') > 1) {
+                        $fail('Error. Item exceed the limit !.');
+                    }
+                }
             ],
             'date' => ['required', 'date'],
             'model' => ['max:30'],
