@@ -37,6 +37,7 @@
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
+                    <th scope="col">Issued Item</th>
                     <th scope="col">Date issued</th>
                      <th scope="col">Date return</th>
                     <th scope="col">Status</th>
@@ -48,6 +49,7 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial}}</td>
                     <td>{{item.model}}</td>
+                    <td>{{item.count}}</td>
                     <td>{{ formatDate(item.issued_date) }}</td>
                     <td>{{ formatDate(item.return_date) }}</td>
                     <td>

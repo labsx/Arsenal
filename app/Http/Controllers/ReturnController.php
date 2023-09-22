@@ -14,7 +14,7 @@ class ReturnController extends Controller
         return $issue;
     }
 
-    public function return(Request $request, History $history, Issue $issue)
+    public function return(Request $request, Item $data)
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
@@ -29,34 +29,24 @@ class ReturnController extends Controller
             'return_date.after_or_equal' => 'Error! Selected date is incorrect!',
         ]);
         
-        if (($request->filled('name') && $request->filled('count')) || ($request->filled('name') && $request->filled('serial'))) {
-            if ($request->filled('serial')) {
-                Issue::where('name', $request->input('name'))
-                    ->where('serial', $request->input('serial'))
-                    ->delete();
+        $data = Item::where('name', $formFields['name'])->first();
+        if ($data) {
+            $totalIssuedItem = (int) $data->count + (int) $formFields['count'];
+            $data->update([
+                'count' => $totalIssuedItem,
+                'issued_item' => $data->issued_item - (int) $formFields['count'],
+                'status' => 'Good'
+            ]);
+            Issue::where('name', $formFields['name'])
+                // ->where('serial', $formFields['serial'])
+                ->where('count', $formFields['count'])
+                ->delete();
+
+                History::create($formFields);
         
-                Item::where('serial', $request->input('serial'))->update(['status' => 'Good']);
-                return response()->json(['success' => true]);
-            } elseif ($request->filled('count')) {
-                Issue::where('name', $request->input('name'))
-                    ->where('count', $request->input('count'))
-                    ->delete();
-        
-                Item::where('name', $request->input('name'))->update(['status' => 'Good']);
-                return response()->json(['success' => true]);
-            }
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Item not found'], 404);
         }
-        
-        $formFields['serial'] = $request->input('serial');
-        $issue = History::create($formFields);
-        
-        Item::where('serial', $issue->serial)->update([
-            'status' => $formFields['status'],
-            'date' => $formFields['return_date'],
-        ]);
-        
-        Issue::where('serial', $issue->serial)->delete();
-        
-        return response()->json(['success' => true]);
-    }
+    }               
 }
