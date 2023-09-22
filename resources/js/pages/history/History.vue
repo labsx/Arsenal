@@ -42,6 +42,7 @@
                      <th scope="col">Date return</th>
                     <th scope="col">Status</th>
                     <th scope="col">Issued to</th>
+                     <th scope="col">Option</th>
                   </tr>
                 </thead>
                 <tbody v-if="items.data.length > 0">
@@ -56,6 +57,11 @@
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
                     <td>{{item.issued_to}}</td>
+                    <td>
+                       <router-link to="" @click.prevent="deleteItems(item.id)">
+                            <i class="fa fa-trash text-danger ml-2"></i>
+                          </router-link>
+                    </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -81,6 +87,35 @@ import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
 
+const deleteItems = (id) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/items/delete/${id}`)
+            .then(() => {
+                items.value.data = items.value.data.filter(item => item.id !== id);
+
+                Swal.fire(
+                    'Deleted!',
+                    'History item has been deleted.',
+                    'success'
+                );
+               
+                getHistory();
+            })
+            .catch((error) => {
+                console.error('Error deleting event:', error);
+            });
+        }
+    });
+};
 
 const items = ref({'data': []});
 const getHistory = (page = 1) => {

@@ -76,27 +76,6 @@
             </div>
           </div>
             <Bootstrap4Pagination :data="issues" @pagination-change-page="getItems" />
-             <div class="btn-group float-right">
-            <router-link
-                to="/admin/items/issue/list"
-                class="btn"
-                :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
-                @click="activateTable(1)"
-              >
-                <span class="mr-1">Items 1</span>
-                <span class="badge badge-pill badge-info"></span>
-              </router-link>
-
-              <router-link
-                to="/admin/data/items/issue"
-                class="btn"
-                :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
-                @click="activateTable(2)"
-              >
-                <span class="mr-1">Items 2</span>
-                <span class="badge badge-pill badge-primary"></span>
-             </router-link>
-        </div>
         </div>
       </div>
     </div>

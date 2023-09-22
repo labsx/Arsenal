@@ -70,4 +70,13 @@ class HistoryController extends Controller
         })->paginate(10);
         return response()->json($history);
     }
+
+    public function deleteHistory(History $item)
+    {
+        $itemId = $item->id; // Get the ID of the item
+        History::where('id', $itemId)->delete(); // Delete history record by ID
+        $item->delete(); // Delete the item
+        
+        return response()->json(['success' => true]);
+    }
 }

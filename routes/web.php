@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/items/history', [HistoryController::class, 'itemHistory']);
     Route::get('/items/search', [HistoryController::class, 'search']);
+    Route::delete('/items/delete/{item}', [HistoryController::class, 'deleteHistory']);
 
     Route::post('/users', [UserController::class, 'create']);
     Route::get('/users/search', [UserController::class, 'searchUser']);

@@ -39,7 +39,7 @@ class ReturnController extends Controller
         
         if ($formFields['count'] > 0) {
             $issue = Issue::where('name', $formFields['name'])->first();
-              
+
             if ($issue && $issue->count < $formFields['count']) {
                 return response()->json(['error' => 'Item exceed the current item !.'], 400);
             }
@@ -51,8 +51,15 @@ class ReturnController extends Controller
                 $data->update([
                     'count' => $totalIssuedItem,
                     'issued_item' => $data->issued_item - (int) $formFields['count'],
-                    'status' => $formFields['status'],
+                     'status' => 'Good',
                 ]);
+
+                if ($formFields['serial']) {
+                    $data->update([
+                        'status' => $formFields['status'],
+                    ]);
+                }
+    
         
                 Issue::where('name', $formFields['name'])
                     ->where('issued_date', $formFields['issued_date'])
