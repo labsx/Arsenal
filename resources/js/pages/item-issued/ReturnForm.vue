@@ -66,8 +66,8 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
-                                            <input v-model="form.count" type="number" class="form-control" placeholder="" >
-                                           
+                                            <input v-model="form.count" type="text" class="form-control" :disabled="form.count == 0" />
+                                            <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span> 
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@ const form = reactive({
   status: '',
   issued_to:'',
   return_date: '',
-  count: '',
+  count: 0,
 });
 
 const ItemReturn = () => {
@@ -152,8 +152,12 @@ const returnItem= () => {
       router.push('/admin/items/history'); 
     })
     .catch((error) => {
-      if (error.response && error.response.status === 422) {
+      if (error.response && error.response.status === 400) {
+        toastr.error(error.response.data.error);
+      } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
+      } else {
+        toastr.error('An unexpected error occurred. Please try again.');
       }
     });
 };
