@@ -35,12 +35,10 @@ class ReturnController extends Controller
             $data->update([
                 'count' => $totalIssuedItem,
                 'issued_item' => $data->issued_item - (int) $formFields['count'],
-                'status' => 'Good'
+                'status' => $formFields['status'],
             ]);
             Issue::where('name', $formFields['name'])
-                // ->where('serial', $formFields['serial'])
-                ->where('count', $formFields['count'])
-                ->delete();
+            ->delete();
 
                 History::create($formFields);
         

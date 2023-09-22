@@ -64,19 +64,19 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
     Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
 
-    Route::get('/data', [DataController::class, 'index']);
-    Route::post('/data', [DataController::class, 'create']);
-    Route::delete('/data/{data}', [DataController::class, 'destroy']); 
-    Route::get('/data/{data}/edit', [DataController::class, 'show']); 
-    Route::put('/data/{data}/edit', [DataController::class, 'update']); 
-    Route::get('/items/data/search', [DataController::class, 'search']);
+    // Route::get('/data', [DataController::class, 'index']);
+    // Route::post('/data', [DataController::class, 'create']);
+    // Route::delete('/data/{data}', [DataController::class, 'destroy']); 
+    // Route::get('/data/{data}/edit', [DataController::class, 'show']); 
+    // Route::put('/data/{data}/edit', [DataController::class, 'update']); 
+    // Route::get('/items/data/search', [DataController::class, 'search']);
 
-    Route::get('/data/{data}/issue', [DataIssueController::class, 'index']);
-    Route::post('/issue_data', [DataIssueController::class, 'create']);
-    Route::get('/data/issue/items', [DataIssueController::class, 'showData']);
-    Route::get('/data/issue/search', [DataIssueController::class, 'search']);
-    Route::get('/data/{data}/return', [DataIssueController::class, 'showReturn']);
-    Route::post('/data/return', [DataIssueController::class, 'return']);
+    // Route::get('/data/{data}/issue', [DataIssueController::class, 'index']);
+    // Route::post('/issue_data', [DataIssueController::class, 'create']);
+    // Route::get('/data/issue/items', [DataIssueController::class, 'showData']);
+    // Route::get('/data/issue/search', [DataIssueController::class, 'search']);
+    // Route::get('/data/{data}/return', [DataIssueController::class, 'showReturn']);
+    // Route::post('/data/return', [DataIssueController::class, 'return']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });
