@@ -35,8 +35,9 @@ class ReturnController extends Controller
             $data->update([
                 'count' => $totalIssuedItem,
                 'issued_item' => $data->issued_item - (int) $formFields['count'],
-                'status' => $formFields['status'],
+                 'status' => $formFields['status'],
             ]);
+
             Issue::where('name', $formFields['name'])
             ->delete();
 

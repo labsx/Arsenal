@@ -70,22 +70,22 @@
                     <td>
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
-                    <td >  
-                      
-                      <div class="text-align-center">
-                        <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
-                          <i :class="statusIconClass(item.status)"></i>
-                        </router-link>
+                    <td>
+                        <div class="text-align-center">
+                          <router-link :to="`/admin/items/${item.id}/edit`" v-if="!shouldDisableLink(item.status)">
+                            <i :class="statusIconClass(item.status, item.count, item.serial)"></i>
+                          </router-link>
 
-                        <router-link :to="`/admin/items/${item.id}/issue`" v-if="!shouldDisableLink(item.status)">
-                          <i :class="icon(item.status)" class="ml-2 text-secondary"></i>
-                        </router-link>
+                          <template v-if="item.status !== 'Bad'">
+                            <router-link :to="`/admin/items/${item.id}/issue`">
+                              <i class="fa fa-user-plus ml-2 text-secondary"></i>
+                            </router-link>
+                          </template>
 
-                        <router-link to="" @click.prevent="deleteItems(item.id)">
-                          <i class="fa fa-trash text-danger ml-2"></i>
-                        </router-link>
-                      </div>
-                    
+                          <router-link to="" @click.prevent="deleteItems(item.id)">
+                            <i class="fa fa-trash text-danger ml-2"></i>
+                          </router-link>
+                        </div>
                     </td>
                   </tr>
                 </tbody>
@@ -97,32 +97,10 @@
               </table>
             </div>
           </div>
-          <div><Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
-         <div class="btn-group float-right">
-            <router-link
-                to="/admin/items/list"
-                class="btn"
-                :class="{ 'btn-secondary': isTable1Active, 'btn-default': !isTable1Active }"
-                @click="activateTable(1)"
-              >
-                <span class="mr-1">Items 1</span>
-                <span class="badge badge-pill badge-info"></span>
-              </router-link>
-
-              <router-link
-                to="/admin/list/count"
-                class="btn"
-                :class="{ 'btn-secondary': !isTable1Active, 'btn-default': isTable1Active }"
-                @click="activateTable(2)"
-              >
-                <span class="mr-1">Items 2</span>
-                <span class="badge badge-pill badge-primary"></span>
-             </router-link>
-        </div>
-          </div>
-
-            
-        </div>
+          <div>
+            <Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
+          </div> 
+       </div>
       </div>
     </div>
   </div>
@@ -294,16 +272,6 @@ const toggleSelection = (item) => {
     selectedItems.value.push(item.id);
   } else {
     selectedItems.value.splice(index, 1);
-  }
-};
-
-const isTable1Active = ref(true); 
-
-const activateTable = (tableNumber) => {
-  if (tableNumber === 1) {
-    isTable1Active.value = true;
-  } else if (tableNumber === 2) {
-    isTable1Active.value = false;
   }
 };
 

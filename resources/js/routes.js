@@ -10,11 +10,6 @@ import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
-import ItemsCount from './pages/items-count/ItemsCount.vue';
-import ItemsCountEdit from './pages/items-count/ItemsCountEdit.vue';
-import ItemCountIssue from './pages/items-count/ItemCountIssue.vue';
-import IssuedItemCount from './pages/items-count/item-count-issued/ItemIssued.vue';
-import ItemReturnForm from './pages/items-count/item-count-issued/ItemReturnForm.vue';
 
 export default[
     {
@@ -81,31 +76,5 @@ export default[
         path: '/admin/users/update',
         name: 'admin.users.update',
         component: UserProfile,
-    },
-    {
-        path: '/admin/list/count',
-        name: 'admin.list.count',
-        component: ItemsCount,
-    },
-    {
-        path: '/admin/data/:id/edit',
-        name: 'admin.data.edit',
-        component: ItemsCountEdit,
-    },
-    {
-        path: '/admin/data/:id/issue',
-        name: 'admin.data.issue',
-        component: ItemCountIssue,
-    },
-    {
-        path: '/admin/data/items/issue',
-        name: 'admin.data.items/issue',
-        component: IssuedItemCount,
-    },
-    {
-        path: '/admin/data/:id/return',
-        name: 'admin.data.return',
-        component: ItemReturnForm,
     }
-    
 ]
