@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->string('item_name');
+            $table->string('name');
             $table->string('serial');
             $table->dateTime('issued_date');
             $table->dateTime('return_date')->nullable();
             $table->string('model');
             $table->string('status');
             $table->string('issued_to');    
+            $table->integer('count'); 
             $table->timestamps();
         });
     }

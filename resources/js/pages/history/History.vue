@@ -45,7 +45,7 @@
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
-                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.name }}</td>
                     <td>{{ item.serial}}</td>
                     <td>{{item.model}}</td>
                     <td>{{ formatDate(item.issued_date) }}</td>
