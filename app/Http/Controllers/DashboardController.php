@@ -10,13 +10,21 @@ class DashboardController extends Controller
 {
     public function itemsCount(Request $request)
     {   
-        $status = $request->query('status', 'TODAY'); 
+        $status = $request->query('status', 'TODAY');
+        $serial = $request->query('serial'); 
         $query = Item::query();
+        
         if ($status !== 'TODAY') {
             $query->where('status', $status);
         }
+        
+        if ($serial) {
+            $query->where('serial', $serial);
+        }
+
+        $query->whereNotNull('serial');   
         $count = $query->count();
-    
+        
         return response()->json(['count' => $count]);
     }
 
@@ -28,14 +36,21 @@ class DashboardController extends Controller
 
     public function itemsList(Request $request )
     {
-        $uniqueItems = Item::select('name')->distinct()->get();
+        $uniqueItems = Item::whereNotNull('serial')
+            ->select('name')
+            ->distinct()
+            ->get();
+
         return response()->json(['items' => $uniqueItems]);
     }
+
     public function itemsCountByName(Request $request)
     {
         $itemName = $request->query('name');
-        $count = Item::where('name', $itemName)->count();
-        
+        $count = Item::where('name', $itemName)
+            ->whereNotNull('serial')
+            ->count();
+
         return response()->json(['count' => $count]);
     }
 
