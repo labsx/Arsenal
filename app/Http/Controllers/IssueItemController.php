@@ -51,7 +51,7 @@ class IssueItemController extends Controller
             $data = Item::where('name', $formFields['name'])->first();
         
             if ($data && $data->count < $formFields['count']) {
-                return response()->json(['error' => 'Item exceed the current item !.'], 400);
+                return response()->json(['error' => 'Item reach the maximun limit !'], 400);
             }
         
             $currentDate = now();

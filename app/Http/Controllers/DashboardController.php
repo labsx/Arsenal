@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function itemsCount(Request $request)
-    {
+    {   
         $status = $request->query('status', 'TODAY'); 
         $query = Item::query();
         if ($status !== 'TODAY') {

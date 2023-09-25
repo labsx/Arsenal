@@ -67,7 +67,7 @@
                                      <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
-                                            <input v-model="form.count" type="text" class="form-control" :disabled="form.count == 0" />
+                                             <input v-model="form.count" type="text" class="form-control" :class="{ 'is-invalid': errors.count }"/>
                                             <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>                                
                                         </div>
                                     </div>
@@ -77,14 +77,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="date">Date Issued</label>
-                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" >
+                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" :class="{ 'is-invalid': errors.issued_date }">
                                             <span v-if="errors && errors.issued_date" class="text-danger text-sm">{{ errors.issued_date[0]}}</span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Issued to</label>
-                                            <input v-model="form.issued_to" type="text" class="form-control" placeholder="">
+                                            <input v-model="form.issued_to" type="text" class="form-control" placeholder="" :class="{ 'is-invalid': errors.issued_to }">
                                             <span v-if="errors && errors.issued_to" class="text-danger text-sm">{{ errors.issued_to[0]}}</span>
                                         </div>
                                     </div>
