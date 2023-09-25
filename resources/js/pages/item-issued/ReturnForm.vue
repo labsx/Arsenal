@@ -66,7 +66,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
-                                            <input v-model="form.count" type="text" class="form-control" :disabled="form.count == 0" />
+                                            <input v-model="form.count" type="text" class="form-control" :class="{ 'is-invalid': errors.count}"/>
                                             <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span> 
                                         </div>
                                     </div>
@@ -82,7 +82,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Date return</label>
-                                            <input v-model="form.return_date" type="date" class="form-control flatpickr" placeholder="">
+                                            <input v-model="form.return_date" type="date" class="form-control flatpickr" placeholder="" :class="{ 'is-invalid': errors.return_date }">
                                             <span v-if="errors && errors.return_date" class="text-danger text-sm">{{ errors.return_date[0]}}</span>
                                         </div>
                                     </div>
@@ -90,7 +90,7 @@
                                       <div class="col-md-6">
                                         <div class="form-group">
                                              <label for="client">Status</label>
-                                                <select v-model="form.status"  class="form-control">
+                                                <select v-model="form.status"  class="form-control" :class="{ 'is-invalid': errors.status }">
                                                     <option value="Good">Good</option>
                                                     <option value="Bad">Bad</option>
                                                 </select>
