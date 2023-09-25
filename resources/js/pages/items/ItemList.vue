@@ -25,7 +25,7 @@
                 </button>
               </div>
                <button class="btn btn-primary" data-toggle="modal" data-target="#createModal"> 
-                  <i class="fa fa-plus-circle mr-1"></i> Add New Items
+                  <i class="fa fa-plus-circle mr-1"></i>New Items
                 </button>
 
                 <button v-if="selectedItems.length > 0" @click="bulkDelete" class="btn btn-danger ml-2">
@@ -146,6 +146,9 @@ const printItems = () => {
           <th>Item Name</th>
           <th>Items Available</th>
           <th>Items Issued</th>
+          <th>Serial</th>
+          <th>Model</th>
+          <th>Date</th>
           <th>Status</th>
           <th>Description</th>
         </tr>
@@ -156,6 +159,9 @@ const printItems = () => {
             <td>${item.name}</td>
             <td>${item.count}</td>
             <td>${item.issued_item}</td>
+             <td>${item.serial}</td>
+             <td>${item.model}</td>
+             <td>${ formatDate(item.date) }</td>
             <td>${item.status}</td>
             <td>${item.description}</td>
           </tr>
@@ -168,7 +174,7 @@ const printItems = () => {
   printWindow.document.write(`
     <html>
       <head>
-        <title style="text-align: center">Print Items</title>
+        <title>Print Items</title>
         <style>
           table {
             width: 100%;
@@ -184,6 +190,9 @@ const printItems = () => {
 
           th {
             background-color: #f0f0f0;
+          }
+          h1 {
+            text-align: center;
           }
         </style>
       </head>
@@ -202,14 +211,13 @@ const printItems = () => {
   };
 };
 
-
-
 const printTable = () => {
   fetchAllItems();
   setTimeout(() => {
     window.print();
   }, 1000);
 };
+
 const icon = computed(() => (status) =>{
   if (status === 'Good') {
     return 'fa fa-user-plus';
@@ -250,13 +258,18 @@ const isStatusIssued = (status) => {
   return status === 'issued';
 };
 
-const getItems = (page = 1) => {
-    axios.get(`/items?page=${page}`)
+const getItems = (page = 1, status = null) => {
+  let url = `/items?page=${page}`;
+  if (status) {
+    url += `&status=${status}`;
+  }
+
+  axios.get(url)
     .then((response) => {
-        items.value = response.data; 
+      items.value = response.data; 
     })
     .catch((error) => {
-        console.error('Error fetching items:', error);
+      console.error('Error fetching items:', error);
     });
 };
 
@@ -373,28 +386,4 @@ onMounted (() => {
 });
 
 </script>
-<style scoped>
-@media print {
-  /* Hide elements not needed for printing */
-  .content-header, .breadcrumb, .d-flex {
-    display: none !important;
-  }
 
-  /* Add custom styles for printing */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 10px;
-  }
-
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f0f0f0;
-  }
-}
-</style>
