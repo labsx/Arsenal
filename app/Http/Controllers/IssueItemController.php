@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Data;
+use App\Models\History;
 use App\Models\Item;
 use App\Models\Issue;
 use Illuminate\Http\Request;
@@ -120,10 +121,28 @@ class IssueItemController extends Controller
         return response()->json($issues);
     }
     
-    public function destroyIssue(Issue $issue)
+    public function destroyIssue($id)
     {
-        $issue->delete();
-        return response()->json(['success' => true]);
-    }
+        $issue = Issue::find($id);
+        if ($issue) {
+            $issueData = [
+                'name' => $issue->name,
+                'issued_date' => $issue->issued_date,
+                'model' => $issue->model,
+                'status' => $issue->status,
+                'issued_to' => $issue->issued_to,
+                'return_date' => $issue->return_date,
+                'count' => $issue->count,
+            ];
+
+            $issue->delete();
+            History::create($issueData);
+        
+            return response()->json(['message' => 'Issue deleted and saved to history']);
+        } else {
+            return response()->json(['message' => 'Issue not found'], 404);
+        }
+     }
+        
 }
 

@@ -65,7 +65,7 @@
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link>
 
-                         <router-link to="" @click.prevent="deleteIssueItems(issue.id)">
+                         <router-link to="" @click.prevent="deleteIssueItems(issue.id)" v-if="!issue.serial">
                             <i class="fa fa-trash text-danger ml-2"></i>
                           </router-link>
                     </td>
