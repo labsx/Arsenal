@@ -15,10 +15,12 @@
    </ul>
 
       <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
+       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" @click="notifyNewItem">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">{{ totalAddedItems }}</span>
+          <span class="badge badge-warning navbar-badge" @click="clearNewItems">
+            {{ totalAddedItems }}
+          </span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-header">{{ totalAddedItems }} Notifications</span>
@@ -44,45 +46,36 @@ const newItems = ref([]);
 const addedItems = ref({});
 const totalAddedItems = ref(0);
 
+let itemCountsMap = new Map();
+
 const clearNewItems = () => {
-  // Clear new items once they are displayed
-  newItems.value = [];
+  totalAddedItems.value = 0; 
+  for (const itemName of itemCountsMap.keys()) {
+    localStorage.setItem(`itemCount_${itemName}`, 0);
+  }
 };
 
 const notifyNewItem = () => {
   setInterval(() => {
     checkForNewItemInDatabase();
-  }, 5000);
+  }, 1000);
 };
 
 const checkForNewItemInDatabase = () => {
   axios
     .get("/notification")
     .then((response) => {
-      const itemCounts = response.data.itemCounts;
       const itemNames = response.data.itemNames;
 
-      // Update the new items
-      const updatedNewItems = itemNames.map((name, index) => ({
-        name,
-        count: itemCounts[index]
-      }));
-
-      // Update the added items and their counts
-      itemNames.forEach((itemName, index) => {
-        if (!addedItems.value.hasOwnProperty(itemName)) {
-          addedItems.value[itemName] = 0;
-        }
-        addedItems.value[itemName] += itemCounts[index];
+      const updatedNewItems = itemNames.map((name) => {
+        const lastCount = parseInt(localStorage.getItem(`itemCount_${name}`)) || 0;
+        const count = lastCount + 1; 
+        localStorage.setItem(`itemCount_${name}`, count);
+        return { name, count };
       });
 
-      // Update the total added items count
-      totalAddedItems.value = Object.keys(addedItems.value).length;
+      totalAddedItems.value = updatedNewItems.length; 
 
-      // Clear new items once they are displayed
-      clearNewItems();
-
-      // Display a notification for each new item
       updatedNewItems.forEach((item) => {
         const notification = new Notification('New Item Added', {
           body: `New item added: ${item.name}`,
@@ -94,6 +87,11 @@ const checkForNewItemInDatabase = () => {
     .catch((error) => {
       console.error('Error fetching item data:', error);
     });
+};
+
+const handleNotificationClick = () => {
+  clearNewItems();
+  notifyNewItem();
 };
 
 const settingStore = useSettingStore();
@@ -117,10 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 onMounted(() => {
-  // Fetch initial notifications when the component is mounted
   checkForNewItemInDatabase();
 });
-
-// Call notifyNewItem to start checking for new items
 notifyNewItem();
 </script>
