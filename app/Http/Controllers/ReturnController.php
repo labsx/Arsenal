@@ -24,53 +24,59 @@ class ReturnController extends Controller
             'issued_to' => ['required', 'min:3', 'max:50'],
             'return_date' => ['required', 'date', 'after_or_equal:issued_date'],
             'count' => [
-                'max:255',
+                'required',
+                'integer',
+                'min:1',
                 function ($attribute, $value, $fail) {
-                    if ($value !== null && $value <= 0) {
-                        $fail('Count cannot be zero.');
+                    if ($value <= 0) {
+                        $fail('Return item must be 1.');
                     }
                 }
             ],
             'serial' => ['max:255'],
-        ], [
-            'return_date.after_or_equal' => 'Error! Selected date is incorrect!',
-            'count' => 'Invalid input please try again !..'
         ]);
         
         if ($formFields['count'] > 0) {
-            $issue = Issue::where('name', $formFields['name'])->first();
-
+            $issue = Issue::where('name', $formFields['name'])
+                ->where('issued_date', $formFields['issued_date'])
+                ->first();
+        
             if ($issue && $issue->count < $formFields['count']) {
-                return response()->json(['error' => 'Item exceed the current item !.'], 400);
+                return response()->json(['error' => 'Item count exceeds the available count.'], 400);
             }
+        
+            $deletedCount = $formFields['count'];  
+            if ($issue) {
+                $deletedCount  -=  $issue->count ;
+                $issue->save();
+            }
+        
+            History::create([
+                'name' => $formFields['name'],
+                'issued_date' => $formFields['issued_date'],
+                'model' => $formFields['model'],
+                'status' => 'issued',
+                'issued_to' => $formFields['issued_to'],
+                'return_date' => $formFields['return_date'],
+                'count' => -$deletedCount,  
+                'serial' => $formFields['serial'],
+            ]);
         
             $data = Item::where('name', $formFields['name'])->first();
+            $totalIssuedItem = $data->count + $formFields['count'];
+            $data->update([
+                'count' => $totalIssuedItem,
+                'issued_item' => $data->issued_item - $formFields['count'],
+                'status' => 'issued', 
+            ]);
         
-            if ($data) {
-                $totalIssuedItem = (int) $data->count + (int) $formFields['count'];
-                $data->update([
-                    'count' => $totalIssuedItem,
-                    'issued_item' => $data->issued_item - (int) $formFields['count'],
-                     'status' => 'Good',
-                ]);
-
-                if ($formFields['serial']) {
-                    $data->update([
-                        'status' => $formFields['status'],
-                    ]);
-                }
-    
+            Issue::where('name', $formFields['name'])
+                ->where('issued_date', $formFields['issued_date'])
+                ->delete();
         
-                Issue::where('name', $formFields['name'])
-                    ->where('issued_date', $formFields['issued_date'])
-                    ->delete();
-        
-                History::create($formFields);
-        
-                return response()->json(['success' => true]);
-            } else {
-                return response()->json(['error' => 'Item not found'], 404);
-            }
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Invalid count'], 400);
         }
     }                    
 }

@@ -150,6 +150,8 @@ watch(searchQuery, () => {
 const getStatusClass = (status) => {
     if (status === 'Good') {
         return 'badge badge-success good-status';
+    } else if (status === 'issued') { 
+        return 'badge badge-primary issued-status';
     } else if (status === 'Bad') { 
         return 'badge badge-danger bad-status';
     } else {
