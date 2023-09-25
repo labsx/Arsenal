@@ -131,7 +131,7 @@ class IssueItemController extends Controller
                 'model' => $issue->model,
                 'status' => $issue->status,
                 'issued_to' => $issue->issued_to,
-                'return_date' => $issue->return_date,
+                'return_date' => now(),
                 'count' => $issue->count,
             ];
 

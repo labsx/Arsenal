@@ -27,8 +27,13 @@ class ItemController extends Controller
                     return $query->where('count', null)->orWhere('name', $request->input('name'));
                 }),
                 function ($attribute, $value, $fail) use ($request) {
-                    if ($value && $request->input('count') > 1) {
-                        $fail('Error. Item exceed the limit !.');
+                    if ($value && $request->input('count') !== '1') {
+                        $fail('Error. count input is invalid !');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if (empty($value)) {
+                        $fail('Serial is required when count is 1.');
                     }
                 }
             ],
@@ -42,10 +47,14 @@ class ItemController extends Controller
             'date.required' => 'Date is required',
             'date.date' => 'Invalid date format',
         ]);
-    
+        
+        if ($formFields['count'] == 1 && empty($formFields['serial'])) {
+            return response()->json(['error' => 'Error. Serial is required when count is 1.'], 400);
+        }
+        
         $providedDate = Carbon::parse($formFields['date']);
         $currentDate = Carbon::now();
-    
+        
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
             Item::create($formFields);
             return response()->json(['success' => true]);

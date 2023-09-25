@@ -55,7 +55,7 @@ class ReturnController extends Controller
                 'name' => $formFields['name'],
                 'issued_date' => $formFields['issued_date'],
                 'model' => $formFields['model'],
-                'status' => 'issued',
+                'status' => $formFields['status'],
                 'issued_to' => $formFields['issued_to'],
                 'return_date' => $formFields['return_date'],
                 'count' => -$deletedCount,  
@@ -67,7 +67,7 @@ class ReturnController extends Controller
             $data->update([
                 'count' => $totalIssuedItem,
                 'issued_item' => $data->issued_item - $formFields['count'],
-                'status' => 'issued', 
+                'status' => $formFields['status'],
             ]);
         
             Issue::where('name', $formFields['name'])

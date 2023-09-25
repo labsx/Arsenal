@@ -39,9 +39,9 @@
                     <th scope="col">Model</th>
                     <th scope="col">Issued Item</th>
                     <th scope="col">Date issued</th>
-                     <th scope="col">Date return</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Date return</th>
                     <th scope="col">Issued to</th>
+                    <th scope="col">Status</th>
                      <th scope="col">Option</th>
                   </tr>
                 </thead>
@@ -53,10 +53,10 @@
                     <td>{{item.count}}</td>
                     <td>{{ formatDate(item.issued_date) }}</td>
                     <td>{{ formatDate(item.return_date) }}</td>
+                    <td>{{item.issued_to}}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{ item.status }}</span>
                     </td>
-                    <td>{{item.issued_to}}</td>
                     <td>
                        <router-link to="" @click.prevent="deleteItems(item.id)">
                             <i class="fa fa-trash text-danger ml-2"></i>
