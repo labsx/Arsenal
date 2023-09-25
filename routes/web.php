@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function(){
     Route::delete('/items/{item}', [ItemController::class, 'destroy']); 
     Route::delete('/items', [ItemController::class, 'bulkDelete']); 
     Route::get('/items/list/search', [ItemController::class, 'search']);
+    Route::get('/items/all', [ItemController::class, 'print']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);

@@ -110,4 +110,10 @@ class ItemController extends Controller
         Item::whereIn('id', request('ids'))->delete();
         return response()->json(['message' => 'Items deleted successfully']);
     }
+
+    public function print()
+    {
+        $items = Item::latest()->get();
+        return $items;
+    }
 }

@@ -13,13 +13,17 @@
       </div>
     </div>
   </div>
-
   <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
+              <div class="float-right ml-2">
+                 <button @click="printItems" class="btn btn-primary">
+                    <i class="fa fa-print mr-1"></i> Print
+                </button>
+              </div>
                <button class="btn btn-primary" data-toggle="modal" data-target="#createModal"> 
                   <i class="fa fa-plus-circle mr-1"></i> Add New Items
                 </button>
@@ -124,6 +128,88 @@ const toastr = useToastr();
 const errors = ref([]);
 const items = ref({'data': []});
 
+const fetchAllItems = () => {
+  axios.get('/items/all')
+    .then((response) => {
+      items.value.data = response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching all items:', error);
+    });
+};
+
+const printItems = () => {
+  const tableContent = `
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Items Available</th>
+          <th>Items Issued</th>
+          <th>Status</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${items.value.data.map(item => `
+          <tr>
+            <td>${item.name}</td>
+            <td>${item.count}</td>
+            <td>${item.issued_item}</td>
+            <td>${item.status}</td>
+            <td>${item.description}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  const printWindow = window.open('', '_blank');
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title style="text-align: center">Print Items</title>
+        <style>
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+          }
+
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+          }
+
+          th {
+            background-color: #f0f0f0;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>List of Items</h1>
+        ${tableContent}
+      </body>
+    </html>
+  `);
+
+  printWindow.onload = function () {
+    printWindow.print();
+    printWindow.onafterprint = function () {
+      printWindow.close();
+    };
+  };
+};
+
+
+
+const printTable = () => {
+  fetchAllItems();
+  setTimeout(() => {
+    window.print();
+  }, 1000);
+};
 const icon = computed(() => (status) =>{
   if (status === 'Good') {
     return 'fa fa-user-plus';
@@ -276,7 +362,7 @@ const toggleSelection = (item) => {
 };
 
 onMounted (() => {
-
+    fetchAllItems();
     getItems();
 
      flatpickr(".flatpickr", {
@@ -287,3 +373,28 @@ onMounted (() => {
 });
 
 </script>
+<style scoped>
+@media print {
+  /* Hide elements not needed for printing */
+  .content-header, .breadcrumb, .d-flex {
+    display: none !important;
+  }
+
+  /* Add custom styles for printing */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f0f0f0;
+  }
+}
+</style>
