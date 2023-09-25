@@ -64,6 +64,10 @@
                        <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link>
+
+                         <router-link to="" @click.prevent="deleteIssueItems(issue.id)">
+                            <i class="fa fa-trash text-danger ml-2"></i>
+                          </router-link>
                     </td>
                   </tr>
                 </tbody>
@@ -123,6 +127,36 @@ const activateTable = (tableNumber) => {
   } else if (tableNumber === 2) {
     isTable1Active.value = true;
   }
+};
+
+const deleteIssueItems = (id) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/issue/${id}`)
+            .then(() => {
+                issues.value.data = issues.value.data.filter(issue => issue.id !== id);
+
+                Swal.fire(
+                    'Deleted!',
+                    'Item has been deleted.',
+                    'success'
+                );
+               
+                getItems();
+            })
+            .catch((error) => {
+                console.error('Error deleting event:', error);
+            });
+        }
+    });
 };
 
 watch(searchQuery, () => {

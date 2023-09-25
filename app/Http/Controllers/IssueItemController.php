@@ -119,5 +119,11 @@ class IssueItemController extends Controller
         })->paginate(10);
         return response()->json($issues);
     }
+    
+    public function destroyIssue(Issue $issue)
+    {
+        $issue->delete();
+        return response()->json(['success' => true]);
+    }
 }
 
