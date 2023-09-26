@@ -57,8 +57,19 @@
                   <textarea v-model="form.notes" class="form-control" id="description" rows="3" :class="{ 'is-invalid': errors.notes}"
                     placeholder="Add some notes ..."></textarea>
                     <span v-if="errors && errors.notes" class="text-danger text-sm">{{ errors.notes[0]}}</span>
+                    <button type="submit" class="btn btn-primary btn-sm float-right mt-1"><i class="fa fa-save mr-2"></i>Save</button>
             </div>
-            <button type="submit" class="btn btn-primary btn-sm float-right"><i class="fa fa-save mr-2"></i>Save</button>
+
+              <div v-if="notes.length > 0" class="mt-5">
+                 <div v-for="note in notes" :key="note.id" class="container darker">
+                    <p>{{ note.notes }} <i class="fa fa-times text-red float-right"></i></p>
+                    <span class="time-right">11:00</span>
+                  </div>
+                </div>
+              <div v-else>
+                <p>No notes available.</p>
+              </div>
+
             </form>
         </div>
       </div>
@@ -77,6 +88,7 @@ const form = ref({
 });
 const errors = ref([]);
 const toastr = useToastr();
+const notes = ref([]); 
 
 const createNote = () => {
   axios.post('/notes', form.value)
@@ -97,6 +109,16 @@ const createNote = () => {
 };
 const clearForm = () => {
   form.value.notes = '';
+};
+
+const getNotes = () => {
+  axios.get('/notes/data')
+    .then((response) => {
+      notes.value = response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching all items:', error);
+    });
 };
 
 // const newItems = ref([]);
@@ -178,8 +200,52 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// onMounted(() => {
+onMounted(() => {
 //   checkForNewItemInDatabase();
-// });
+getNotes();
+ });
 // notifyNewItem();
 </script>
+<style scoped>
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+} 
+</style>

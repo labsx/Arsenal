@@ -68,8 +68,10 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
     Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
 
+    Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);
     Route::post('/notes', [NavBarController::class, 'notes']);
+    
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });

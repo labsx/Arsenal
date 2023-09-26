@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class NavBarController extends Controller
 {
+    public function index()
+    {
+        $notes = Note::latest()->get();
+        return $notes;
+    }
+
     public function notification (){
         $items = Item::latest()->get();
-        $itemCounts = $items->pluck('count')->toArray(); // Convert to array
-        $itemNames = $items->pluck('name')->toArray();   // Convert to array
+        $itemCounts = $items->pluck('count')->toArray(); 
+        $itemNames = $items->pluck('name')->toArray();   
     
         return response()->json([
             'itemCounts' => $itemCounts,
