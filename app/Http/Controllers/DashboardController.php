@@ -58,15 +58,4 @@ class DashboardController extends Controller
         $count = Item::count();
         return response()->json(['count' => $count]);
     }
-
-    public function notification (){
-        $items = Item::latest()->get();
-        $itemCounts = $items->pluck('count');
-        $itemNames = $items->pluck('name');
-    
-        return response()->json([
-            'itemCounts' => $itemCounts,
-            'itemNames' => $itemNames,
-        ]);
-    }
 }
