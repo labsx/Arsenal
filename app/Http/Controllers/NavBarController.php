@@ -28,7 +28,7 @@ class NavBarController extends Controller
     public function notes(Request $request)
     {
         $formFields = $request->validate([
-            'notes' => ['required', 'min:5', 'max:50'],
+            'notes' => ['required', 'min:5', 'max:255'],
         ]);
 
         Note::create([

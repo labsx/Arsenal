@@ -32,28 +32,27 @@
         </div>
       </li> -->
 
-                <li class="nav-item">
-                    <a class="nav-link"  role="button" data-toggle="modal" data-target="#exampleModal">
-                      <i class="fa fa-sticky-note"></i>
-                    </a>
-                </li>
+      <li class="nav-item">
+        <a class="nav-link"  role="button" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-sticky-note"></i>
+         </a>
+      </li>
     </ul>
   </nav>
   
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog mr-2 mt-2 " role="document">
+     <div class="modal-dialog modal-dialog mr-2 mt-2 custom-modal" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModal"><img src="https://cdn-icons-png.flaticon.com/512/6797/6797273.png" alt="" width="25" height="25" class="mr-1 mb-1"/> Note</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <h5 class="modal-title" id="exampleModal"><img src="https://cdn-icons-png.flaticon.com/512/6797/6797273.png" alt="" width="25" height="25" class="mr-1 mb-1"/> Notes</h5>
+          <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <form  @submit.prevent="createNote()">
             <div class="form-group">
-                <label for="description"></label>
                   <textarea v-model="form.notes" class="form-control" id="description" rows="3" :class="{ 'is-invalid': errors.notes}"
                     placeholder="Add some notes ..."></textarea>
                     <span v-if="errors && errors.notes" class="text-danger text-sm">{{ errors.notes[0]}}</span>
@@ -66,9 +65,8 @@
                        <router-link to="" @click.prevent="deleteNotes(note.id)">
                             <i class="fa fa-times text-red float-right"></i>
                           </router-link>
-                    <!-- <i class="fa fa-times text-red float-right"></i>-->
                     </p> 
-                    <span class="time-right">11:00</span>
+                    <span class="time-right">{{ timeDate(note.created_at) }}</span>
                   </div>
                 </div>
               <div v-else>
@@ -88,6 +86,7 @@ import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useToastr } from './../toastr';
 import Swal from 'sweetalert2';
+import { timeDate } from './../helper.js';
 
 const form = ref({
   notes: '',
@@ -101,6 +100,7 @@ const createNote = () => {
     .then((response) => {
       toastr.success('Note created successfully!');
       clearForm();
+      getNotes();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -243,6 +243,14 @@ getNotes();
 // notifyNewItem();
 </script>
 <style scoped>
+.custom-modal {
+  max-height: 100vh; 
+  overflow-y: auto;
+}
+.custom-modal .modal-body {
+  max-height: calc(100vh - 120px);
+  overflow-y: auto; 
+}
 .container {
   border: 2px solid #dedede;
   background-color: #f1f1f1;
