@@ -73,9 +73,9 @@ class HistoryController extends Controller
 
     public function deleteHistory(History $item)
     {
-        $itemId = $item->id; // Get the ID of the item
-        History::where('id', $itemId)->delete(); // Delete history record by ID
-        $item->delete(); // Delete the item
+        $itemId = $item->id; 
+        History::where('id', $itemId)->delete(); 
+        $item->delete(); 
         
         return response()->json(['success' => true]);
     }

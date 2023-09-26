@@ -62,7 +62,12 @@
 
               <div v-if="notes.length > 0" class="mt-5">
                  <div v-for="note in notes" :key="note.id" class="container darker">
-                    <p>{{ note.notes }} <i class="fa fa-times text-red float-right"></i></p>
+                    <p>{{ note.notes }} 
+                       <router-link to="" @click.prevent="deleteNotes(note.id)">
+                            <i class="fa fa-times text-red float-right"></i>
+                          </router-link>
+                    <!-- <i class="fa fa-times text-red float-right"></i>-->
+                    </p> 
                     <span class="time-right">11:00</span>
                   </div>
                 </div>
@@ -82,6 +87,7 @@ import { useSettingStore } from '../store/themeStore.js';
 import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useToastr } from './../toastr';
+import Swal from 'sweetalert2';
 
 const form = ref({
   notes: '',
@@ -118,6 +124,36 @@ const getNotes = () => {
     })
     .catch((error) => {
       console.error('Error fetching all items:', error);
+    });
+};
+
+const deleteNotes = (id) => {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.delete(`/notes/${id}`)
+            .then(() => {
+                notes.value = notes.value.filter(note => note.id !== id);
+
+                Swal.fire(
+                    'Deleted!',
+                    'Notes has been deleted.',
+                    'success'
+                );
+               
+                getNotes();
+            })
+            .catch((error) => {
+                console.error('Error deleting notes:', error);
+            });
+        }
     });
 };
 

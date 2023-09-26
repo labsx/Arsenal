@@ -37,4 +37,13 @@ class NavBarController extends Controller
 
         return response()->json(['message' => true]);
     }
+
+    public function destroy(Note $note)
+    {
+        $noteId = $note->id; 
+        Note::where('id', $noteId)->delete(); 
+        $note->delete(); 
+        
+        return response()->json(['success' => true]);
+    }
 }
