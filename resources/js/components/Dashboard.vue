@@ -139,7 +139,7 @@
 
                     <div class="row">
                        <div class="col-md-3 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-50 py-6">
                                <div class="d-flex justify-content-between mr-1">
                                   <h3></h3>
                                       <select
@@ -170,7 +170,7 @@
                         </div>
 
                          <div class="col-md-3 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card border-left-primary shadow h-50 py-2">
                                <div class="d-flex justify-content-between mr-1">
                                   <h3></h3>
                                       <select
@@ -201,20 +201,36 @@
                         </div>
 
                         <!-- Notes -->
-                        <div class="col-xl-6 col-lg-5">
-                            <div class="card shadow mb-4">
-        
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Notes</h6>
-                                </div>
-                             
-                                <div class="card-body">
-                                   <p>notes will be display</p>
-                                </div>
+                     <div class="col-xl-6 col-lg-5">
+                        <div class="card shadow mb-4">
+                            <div class="card-body" v-if="notes.length > 0">
+                                <section style="background-color: #eee;">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center p-3"
+                                            style="border-top: 4px solid #ffa900;">
+                                            <h5 class="mb-0">Notes (latest)</h5>
+                                        </div>
+                                        <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 180px; overflow-y: auto;">
+                                            <div v-for="note in notes" :key="note.id">
+                                                <div class="d-flex flex-row justify-content-start">
+                                                    <img :src="note.userAvatar" alt="avatar 1" style="width: 30px; height: 30%;">
+                                                    <div>
+                                                        <p class="small p-2 ms-3 mb-3 rounded-3 ml-3" style="background-color:#FAF0E6">{{ note.notes }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div v-else>
+                                <p>No notes available.</p>
                             </div>
                         </div>
                     </div>
+                    </div>
+
+
 
                     <!-- Content Row -->
                     <div class="row">
@@ -234,13 +250,13 @@
                                         <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">Issued<span
+                                    <h4 class="small font-weight-bold">Issued Items<span
                                             class="float-right">60%</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar" role="progressbar" style="width: 60%"
                                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
-                                    <h4 class="small font-weight-bold">Good<span
+                                    <h4 class="small font-weight-bold">Good Items<span
                                             class="float-right">Complete!</span></h4>
                                     <div class="progress">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
@@ -298,14 +314,46 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref, watch } from "vue";
+import { timeDate } from './../helper.js';
 
 const totalItemsCount = ref(0);
 const statusFilter = ref("TODAY");
 const statusFilters = ref();
 const selectedItemCount = ref(0);
 const totalNotes = ref(0);
+const notes = ref([]); 
 
 const uniqueItems = ref([]);
+
+const getNotes = () => {
+  axios.get('/notes/data')
+    .then((response) => {
+      const notesData = response.data;
+      const notePromises = notesData.map(note => {
+        return axios.get(`/user/${note.user_id}`)  
+          .then(userResponse => ({
+            id: note.id,
+            notes: note.notes,
+            created_at: note.created_at,
+            userName: userResponse.data.name,
+            userAvatar: userResponse.data.avatar 
+          }))
+          .catch(error => {
+            console.error('Error fetching user:', error);
+            return null;
+          });
+      });
+
+      Promise.all(notePromises)
+        .then(notesWithUser => {
+          notes.value = notesWithUser.filter(note => note !== null);
+        });
+    })
+    .catch((error) => {
+      console.error('Error fetching all items:', error);
+    });
+};
+
 
 const fetchNote = () => {
   axios
@@ -394,6 +442,7 @@ onMounted(() => {
   getUsersCount();
   fetchItems();
   fetchNote();
+  getNotes();
 });
 </script>
 <style scoped>
