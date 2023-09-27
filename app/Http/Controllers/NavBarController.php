@@ -15,13 +15,12 @@ class NavBarController extends Controller
     }
 
     public function notification (){
-        $items = Item::latest()->get();
-        $itemCounts = $items->pluck('count')->toArray(); 
-        $itemNames = $items->pluck('name')->toArray();   
+        $totalCount = Item::count('name');
+        $itemNames = Item::latest()->get();  
     
         return response()->json([
-            'itemCounts' => $itemCounts,
-            'itemNames' => $itemNames,
+            'totalCount' => $totalCount,
+            'itemNames' => $itemNames,  
         ]);
     }
     
@@ -44,6 +43,15 @@ class NavBarController extends Controller
         Note::where('id', $noteId)->delete(); 
         $note->delete(); 
         
+        return response()->json(['success' => true]);
+    }
+
+    public function clear()
+    {
+        $itemCount = Item::firstOrNew(['id' => 1]);
+        $itemCount->count = 0;
+        $itemCount->save();
+    
         return response()->json(['success' => true]);
     }
 }

@@ -25,6 +25,10 @@ use App\Http\Controllers\ApplicationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 Route::get('/', [LoginController::class, 'index']);
 
 Route::middleware('auth')->group(function(){
@@ -72,7 +76,6 @@ Route::middleware('auth')->group(function(){
     Route::get('/notification', [NavBarController::class, 'notification']);
     Route::post('/notes', [NavBarController::class, 'notes']);
     Route::delete('/notes/{note}', [NavBarController::class, 'destroy']);
-    
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 
 });

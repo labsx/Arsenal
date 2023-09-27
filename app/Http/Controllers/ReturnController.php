@@ -20,7 +20,7 @@ class ReturnController extends Controller
             'name' => ['required', 'min:3', 'max:50'],
             'issued_date' => ['required', 'date'],
             'model' => ['max:30'],
-            'status' => ['required', 'in:Good,Bad'],
+            'status' => ['required', 'in:Good,Bad,issued'],
             'issued_to' => ['required', 'min:3', 'max:50'],
             'return_date' => ['required', 'date', 'after_or_equal:issued_date'],
             'count' => [

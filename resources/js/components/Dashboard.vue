@@ -109,6 +109,36 @@
           </div>
         </div>
       </div>
+       <h3 class="m-0 mt-3">List of Item with serial</h3>
+       <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <div class="d-flex justify-content-between">
+                <h3>Item Status</h3>
+                <select
+                  v-model="statusFilter"
+                  style="height: 2rem; outline: 2px solid transparent"
+                  class="px-1 rounded border-0 hover"
+                  @change="getItemsCount"
+                >
+                  <option value="TODAY" class="hover">All</option>
+                  <option value="Good" class="hover">Good</option>
+                  <option value="issued">Issued</option>
+                  <option value="Bad">Bad</option>
+                </select>
+              </div>
+              <h1 class="text-center">{{ totalItemsCount }}</h1>
+            </div>
+            <div class="icon">
+              <i class="ion ion-bag"></i>
+            </div>
+            <router-link to="/admin/items/list" class="small-box-footer">
+              View Items List
+              <i class="fas fa-arrow-circle-right"></i>
+            </router-link>
+          </div>
+        </div>
+        
     </div>
   </div>
 </template>

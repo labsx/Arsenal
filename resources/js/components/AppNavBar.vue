@@ -13,24 +13,20 @@
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#" @click="clearNewItems">
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">
-            {{ totalAddedItems }}
-          </span>
+          <span class="badge badge-warning navbar-badge">{{ totalCount }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-header">{{ totalAddedItems }} Notifications</span>
+          <span class="dropdown-header">{{ totalCount }} Notifications</span>
           <div class="dropdown-divider"></div>
-          <li v-for="(newItem, index) in newItems" :key="index">
-            <a href="#" class="dropdown-item">
-              {{ newItem.name }}
-            </a>
+          <li v-for="item in itemNames" :key="item.id">
+            <a href="#" class="dropdown-item">{{ item.name }}</a>
           </li>
           <div class="dropdown-divider"></div>
         </div>
-      </li> -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link"  role="button" data-toggle="modal" data-target="#exampleModal">
@@ -156,66 +152,22 @@ const deleteNotes = (id) => {
         }
     });
 };
+//
+const itemNames = ref([]);
+const totalCount = ref(0);
 
-// const newItems = ref([]);
-// const addedItems = ref({});
-// const totalAddedItems = ref(0);
+const fetchItemNamesAndCount = () => {
+  axios.get('/notification')
+    .then((response) => {
+      itemNames.value = response.data.itemNames;
+      totalCount.value = response.data.totalCount;
+    })
+    .catch((error) => {
+      console.error('Error fetching item names and count:', error);
+    });
+};
 
-// let itemCountsMap = new Map();
-
-// const clearNewItems = () => {
-//   totalAddedItems.value = 0;
-//   for (const itemName of itemCountsMap.keys()) {
-//     localStorage.setItem(`itemCount_${itemName}`, 0);
-//   }
-//   newItems.value = [];
-// };
-
-// const notifyNewItem = () => {
-//   totalAddedItems.value = 0;
-//   for (const itemName of itemCountsMap.keys()) {
-//     localStorage.setItem(`itemCount_${itemName}`, 0);
-//   }
-
-//   setInterval(() => {
-//     checkForNewItemInDatabase();
-//   }, 1000);
-
-//   checkForNewItemInDatabase();
-// };
-
-// const checkForNewItemInDatabase = () => {
-//   axios
-//     .get("/notification")
-//     .then((response) => {
-//       const itemNames = response.data.itemNames;
-//       const updatedNewItems = itemNames.map((name) => {
-//         const lastCount = parseInt(localStorage.getItem(`itemCount_${name}`)) || 0;
-//         const count = lastCount + 1;
-//         localStorage.setItem(`itemCount_${name}`, count);
-//         return { name, count };
-//       });
-
-//       totalAddedItems.value = updatedNewItems.length;
-
-//       updatedNewItems.forEach((item) => {
-//         const notification = new Notification('New Item Added', {
-//           body: `New item added: ${item.name}`,
-//         });
-//       });
-
-//       newItems.value = updatedNewItems;
-//     })
-//     .catch((error) => {
-//       console.error('Error fetching item data:', error);
-//     });
-// };
-
-// const handleNotificationClick = () => {
-//   clearNewItems();
-//   notifyNewItem();
-// };
-
+//
 const settingStore = useSettingStore();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -237,10 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 onMounted(() => {
-//   checkForNewItemInDatabase();
 getNotes();
+fetchItemNamesAndCount();
  });
-// notifyNewItem();
+
 </script>
 <style scoped>
 .custom-modal {

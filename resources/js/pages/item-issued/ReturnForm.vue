@@ -4,7 +4,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">
-                      MANAGE DATA
+                      Manage Data
                     </h1>
                 </div>
                 <div class="col-sm-6">
@@ -91,8 +91,8 @@
                                         <div class="form-group">
                                              <label for="client">Status</label>
                                                 <select v-model="form.status"  class="form-control" :class="{ 'is-invalid': errors.status }">
-                                                    <option value="Good">Good</option>
-                                                    <option value="Bad">Bad</option>
+                                                     <option :value="form.serial ? 'Good' : 'issued'">{{ form.serial ? 'Good' : 'issued' }}</option>
+                                                    <option value="Bad" v-if="form.serial">Bad</option>
                                                 </select>
                                                 <span v-if="errors && errors.status" class="text-danger text-sm">{{ errors.status[0]}}</span>
                                         </div>
@@ -111,7 +111,7 @@
 </template>
 <script setup>
 import axios from 'axios';
-import { reactive, onMounted, ref } from 'vue';
+import { reactive, onMounted, ref, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useToastr } from '../../toastr';
 import flatpickr from "flatpickr";
@@ -170,6 +170,12 @@ onMounted(() => {
         dateFormat: "Y-m-d h:i K",
         defaultHour: 10,
     });
+});
+watch(form, (newValue) => {
+  // If there's no serial, change the status to "Issued"
+  if (!newValue.serial) {
+    form.status = 'issued';
+  }
 });
 </script>
 
