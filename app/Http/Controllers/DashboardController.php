@@ -69,4 +69,19 @@ class DashboardController extends Controller
         $count = Note::count();
         return response()->json(['count' => $count]);
     }
+
+    public function countAll()
+    {   
+        $totalItemCount = Item::count();
+
+        $goodItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'Good')->count() / $totalItemCount) * 100 : 0;
+        $badItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'Bad')->count() / $totalItemCount) * 100 : 0;
+        $issuedItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'issued')->count() / $totalItemCount) * 100 : 0;
+    
+        return [
+            'goodItemCountPercent' => $goodItemCountPercent,
+            'badItemCountPercent' => $badItemCountPercent,
+            'issuedItemCountPercent' => $issuedItemCountPercent,
+        ];
+    }
 }
