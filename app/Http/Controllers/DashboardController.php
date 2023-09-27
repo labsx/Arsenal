@@ -84,4 +84,20 @@ class DashboardController extends Controller
             'issuedItemCountPercent' => $issuedItemCountPercent,
         ];
     }
+
+   public function itemWithoutSerialCount(Request $request)
+   {
+    $status = $request->query('status', 'TODAY');
+    $query = Item::query();
+    
+    if ($status !== 'TODAY') {
+        $query->where('status', $status);
+    }
+       
+    $query->whereNull('serial');
+    $count = $query->count();
+    
+    return response()->json(['count' => $count]);
+    }
+
 }

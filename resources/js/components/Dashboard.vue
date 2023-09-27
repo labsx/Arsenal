@@ -135,18 +135,17 @@
 
                     
 
-                    <!-- Items WithOutSerial -->
-
+                    <!-- Items Count WithOutSerial -->
                     <div class="row">
                        <div class="col-md-3 mb-4">
                             <div class="card border-left-primary shadow h-50 py-6">
                                <div class="d-flex justify-content-between mr-1">
                                   <h3></h3>
                                       <select
-                                        v-model="statusFilter"
+                                        v-model="Filter"
                                         style="height: 2rem; outline: 2px solid transparent"
-                                        class="px-1 rounded border-0 hover"
-                                        @change="getItemsCount"
+                                        class="px-1 rounded border-0 hover mt-2 "
+                                        @change="getCountWithoutSerial"
                                       >
                                         <option value="TODAY" class="hover">All</option>
                                         <option value="Good" class="hover">Good</option>
@@ -158,8 +157,8 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Item (Serial)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ totalItemsCount }}</div>
+                                                Item (Without Serial)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ totalItemsCountWihtoutSerial }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-list fa-2x text-gray-300"></i>
@@ -317,8 +316,24 @@ const notes = ref([]);
 const goodItemCountPercent = ref([]);
 const badItemCountPercent = ref([]);
 const issuedItemCountPercent = ref([]);
+const Filter = ref(0);
+const totalItemsCountWihtoutSerial = ref (0);
 
 const uniqueItems = ref([]);
+
+const getCountWithoutSerial = () => {
+  axios.get("/dashboard/without-serial", {
+      params: {
+        status: Filter.value,
+      },
+    })
+    .then((response) => {
+      totalItemsCountWihtoutSerial.value = response.data.count;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 const countAll = () => {
   axios.get('/dashboard/count')
@@ -445,6 +460,7 @@ const getUsersCount = () => {
 
 onMounted(() => {
   getItemsCount();
+  getCountWithoutSerial();
   getUsersCount();
   fetchItems();
   fetchNote();
