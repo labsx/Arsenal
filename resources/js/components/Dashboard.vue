@@ -135,7 +135,7 @@
 
                     
 
-                    <!-- Content Row -->
+                    <!-- Items WithOutSerial -->
 
                     <div class="row">
                        <div class="col-md-3 mb-4">
@@ -215,7 +215,7 @@
                                                 <div class="d-flex flex-row justify-content-start">
                                                     <img :src="note.userAvatar" alt="avatar 1" style="width: 30px; height: 30%;">
                                                     <div>
-                                                        <p class="small p-2 ms-3 mb-3 rounded-3 ml-3" style="background-color:#FAF0E6">{{ note.notes }}</p>
+                                                        <p class="small p-2 ms-3 mb-3 rounded-3 ml-3" style="background-color:#F5F5F5; color: black;">{{ note.notes }}</p>
                                                     </div>
                                                 </div>
                                             </div>

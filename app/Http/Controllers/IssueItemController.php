@@ -45,14 +45,14 @@ class IssueItemController extends Controller
             'issued_date.required' => 'Date is required.',
             'issued_date.date' => 'Invalid date format.',
             'issued_to.required' => 'Name is required.',
-            'count' => 'Item reach the maximum limit to release !..'
+            'count' => 'Item reaches the maximum limit to release!'
         ]);
         
         if ($formFields['count'] > 0) {
             $data = Item::where('name', $formFields['name'])->first();
         
             if ($data && $data->count < $formFields['count']) {
-                return response()->json(['error' => 'Item reach the maximun limit !'], 400);
+                return response()->json(['error' => 'Item reaches the maximum limit!'], 400);
             }
         
             $currentDate = now();
@@ -70,9 +70,12 @@ class IssueItemController extends Controller
                     $data->save();
                 }
         
-                $issue = Issue::create($formFields);
-                Item::where('serial', $issue->serial)->update(['status' => 'issued']);
-        
+                if ($formFields['serial']) {
+                    $issue = Issue::create($formFields);
+                    Item::where('serial', $issue->serial)->update(['status' => 'issued']);
+                } else {
+                    Item::where('name', $formFields['name'])->update(['status' => 'issued']);
+                }
                 return response()->json(['success' => true]);
             } else {
                 return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
