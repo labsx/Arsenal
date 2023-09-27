@@ -68,7 +68,7 @@
           <div class="small-box bg-danger">
             <div class="inner">
               <div class="d-flex justify-content-between">
-                <h3 class="text-white">Items Count</h3>
+                <h3 class="text-white">Items </h3>
                 <select
                   v-model="statusFilters"
                   style="
@@ -109,35 +109,8 @@
           </div>
         </div>
       </div>
-       <h3 class="m-0 mt-3">List of Item with serial</h3>
-       <div class="col-lg-3 col-6">
-          <div class="small-box bg-info">
-            <div class="inner">
-              <div class="d-flex justify-content-between">
-                <h3>Item Status</h3>
-                <select
-                  v-model="statusFilter"
-                  style="height: 2rem; outline: 2px solid transparent"
-                  class="px-1 rounded border-0 hover"
-                  @change="getItemsCount"
-                >
-                  <option value="TODAY" class="hover">All</option>
-                  <option value="Good" class="hover">Good</option>
-                  <option value="issued">Issued</option>
-                  <option value="Bad">Bad</option>
-                </select>
-              </div>
-              <h1 class="text-center">{{ totalItemsCount }}</h1>
-            </div>
-            <div class="icon">
-              <i class="ion ion-bag"></i>
-            </div>
-            <router-link to="/admin/items/list" class="small-box-footer">
-              View Items List
-              <i class="fas fa-arrow-circle-right"></i>
-            </router-link>
-          </div>
-        </div>
+     <div>
+     </div>
         
     </div>
   </div>
@@ -233,7 +206,24 @@ onMounted(() => {
 </script>
 <style scoped>
 .hover:hover {
-  background-color: lightblue;
+  background-color: white;
+}
+
+#chat3 .form-control {
+border-color: transparent;
+}
+
+#chat3 .form-control:focus {
+border-color: transparent;
+box-shadow: inset 0px 0px 0px 1px transparent;
+}
+
+.badge-dot {
+border-radius: 50%;
+height: 10px;
+width: 10px;
+margin-left: 2.9rem;
+margin-top: -.75rem;
 }
 </style>
 

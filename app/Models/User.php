@@ -53,4 +53,9 @@ class User extends Authenticatable
             get: fn ($value) => asset(Storage::url($value) ?? 'noimage.png'),
         );
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
 }

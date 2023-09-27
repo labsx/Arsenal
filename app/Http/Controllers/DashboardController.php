@@ -55,7 +55,11 @@ class DashboardController extends Controller
     }
 
     public function itemsCountAll(Request $request){
-        $count = Item::count();
+        $count = Item::whereNotNull('serial')
+            ->select('name')
+            ->distinct()
+            ->count();
+
         return response()->json(['count' => $count]);
     }
 }

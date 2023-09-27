@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);
     Route::post('/notes', [NavBarController::class, 'notes']);
+    Route::get('/user/{id}', [NavBarController::class, 'getUser']);
     Route::delete('/notes/{note}', [NavBarController::class, 'destroy']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)'); 

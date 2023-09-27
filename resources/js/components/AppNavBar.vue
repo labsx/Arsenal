@@ -41,7 +41,9 @@
      <div class="modal-dialog modal-dialog mr-2 mt-2 custom-modal" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModal"><img src="https://cdn-icons-png.flaticon.com/512/6797/6797273.png" alt="" width="25" height="25" class="mr-1 mb-1"/> Notes</h5>
+          <h5 class="modal-title" id="exampleModal"><img src="https://cdn-icons-png.flaticon.com/512/6797/6797273.png" alt="" width="25" height="25" class="mr-1 mb-1"/>
+              Notes
+           </h5>
           <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -57,12 +59,14 @@
 
               <div v-if="notes.length > 0" class="mt-5">
                  <div v-for="note in notes" :key="note.id" class="container darker">
+                  <img :src="note.userAvatar" alt="User Avatar">
+                   <p>{{ note.userName }}</p>
                     <p>{{ note.notes }} 
                        <router-link to="" @click.prevent="deleteNotes(note.id)">
                             <i class="fa fa-times text-red float-right"></i>
                           </router-link>
                     </p> 
-                    <span class="time-right">{{ timeDate(note.created_at) }}</span>
+                   <span class="time-right">{{ timeDate(note.created_at) }}</span>
                   </div>
                 </div>
               <div v-else>
@@ -83,6 +87,9 @@ import axios from 'axios';
 import { useToastr } from './../toastr';
 import Swal from 'sweetalert2';
 import { timeDate } from './../helper.js';
+import { useAuthUserStore } from '../store/themeStore.js';
+
+const authUserStore = useAuthUserStore();
 
 const form = ref({
   notes: '',
@@ -112,11 +119,28 @@ const createNote = () => {
 const clearForm = () => {
   form.value.notes = '';
 };
-
 const getNotes = () => {
   axios.get('/notes/data')
     .then((response) => {
-      notes.value = response.data;
+      const notesData = response.data;
+      const notePromises = notesData.map(note => {
+        return axios.get(`/user/${note.user_id}`)  
+          .then(userResponse => ({
+            id: note.id,
+            notes: note.notes,
+            userName: userResponse.data.name,
+            userAvatar: userResponse.data.avatar 
+          }))
+          .catch(error => {
+            console.error('Error fetching user:', error);
+            return null;
+          });
+      });
+
+      Promise.all(notePromises)
+        .then(notesWithUser => {
+          notes.value = notesWithUser.filter(note => note !== null);
+        });
     })
     .catch((error) => {
       console.error('Error fetching all items:', error);
@@ -152,7 +176,7 @@ const deleteNotes = (id) => {
         }
     });
 };
-//
+
 const itemNames = ref([]);
 const totalCount = ref(0);
 
@@ -167,7 +191,7 @@ const fetchItemNamesAndCount = () => {
     });
 };
 
-//
+
 const settingStore = useSettingStore();
 
 document.addEventListener('DOMContentLoaded', () => {

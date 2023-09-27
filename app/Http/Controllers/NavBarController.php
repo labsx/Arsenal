@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NavBarController extends Controller
 {
@@ -30,11 +32,25 @@ class NavBarController extends Controller
             'notes' => ['required', 'min:5', 'max:255'],
         ]);
 
-        Note::create([
+        $user = Auth::user();
+        $note = new Note([
+            'user_id' => $user->id,
             'notes' => $formFields['notes'],
         ]);
+        
+        $note->save();
+        
+        return response()->json(['message' => 'Note created successfully']);
+    }
 
-        return response()->json(['message' => true]);
+    public function getUser($id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
     }
 
     public function destroy(Note $note)
