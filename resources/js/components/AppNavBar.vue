@@ -59,16 +59,25 @@
 
               <div v-if="notes.length > 0" class="mt-5">
                  <div v-for="note in notes" :key="note.id" class="container darker">
-                  <img :src="note.userAvatar" alt="User Avatar">
-                   <p>{{ note.userName }}</p>
-                    <p>{{ note.notes }} 
-                       <router-link to="" @click.prevent="deleteNotes(note.id)">
-                            <i class="fa fa-times text-red float-right"></i>
-                          </router-link>
-                    </p> 
-                   <span class="time-right">{{ timeDate(note.created_at) }}</span>
+                   <router-link to="" @click.prevent="deleteNotes(note.id)">
+                      <i class="fa fa-times text-red float-right"></i>
+                    </router-link>
+                    
+                   <img :src="note.userAvatar" alt="User Avatar" style="height: 55px; width: 50px  " >
+
+                   <div class="d-flex justify-content-between">
+                        <p class="small mb-1">{{ note.userName }}</p>
+                        <p class="small mb-1 text-muted mr-2">{{ timeDate(note.created_at) }}</p>
+                   </div>
+
+                   <div class="card">
+                        <div class="card-body">
+                          <p class="card-text">{{ note.notes }} </p>
+                        </div>
+                      </div>
                   </div>
                 </div>
+
               <div v-else>
                 <p>No notes available.</p>
               </div>
@@ -128,6 +137,7 @@ const getNotes = () => {
           .then(userResponse => ({
             id: note.id,
             notes: note.notes,
+            created_at: note.created_at,
             userName: userResponse.data.name,
             userAvatar: userResponse.data.avatar 
           }))
