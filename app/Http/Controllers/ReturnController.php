@@ -29,7 +29,7 @@ class ReturnController extends Controller
                 'min:1',
                 function ($attribute, $value, $fail) {
                     if ($value <= 0) {
-                        $fail('Return item must be 1.');
+                        $fail('Return item count must be 1 or more.');
                     }
                 }
             ],
@@ -39,15 +39,16 @@ class ReturnController extends Controller
         if ($formFields['count'] > 0) {
             $issue = Issue::where('name', $formFields['name'])
                 ->where('issued_date', $formFields['issued_date'])
+                ->where('serial', $formFields['serial'])
                 ->first();
         
             if ($issue && $issue->count < $formFields['count']) {
                 return response()->json(['error' => 'Item count exceeds the available count.'], 400);
             }
         
-            $deletedCount = $formFields['count'];  
+            $deletedCount = $formFields['count'];
             if ($issue) {
-                $deletedCount  -=  $issue->count ;
+                $deletedCount -= $issue->count;
                 $issue->save();
             }
         
@@ -58,11 +59,14 @@ class ReturnController extends Controller
                 'status' => $formFields['status'],
                 'issued_to' => $formFields['issued_to'],
                 'return_date' => $formFields['return_date'],
-                'count' => -$deletedCount,  
+                'count' => -$deletedCount,
                 'serial' => $formFields['serial'],
             ]);
         
-            $data = Item::where('name', $formFields['name'])->first();
+            $data = Item::where('name', $formFields['name'])
+                ->where('serial', $formFields['serial'])
+                ->first();
+        
             $totalIssuedItem = $data->count + $formFields['count'];
             $data->update([
                 'count' => $totalIssuedItem,
@@ -72,11 +76,12 @@ class ReturnController extends Controller
         
             Issue::where('name', $formFields['name'])
                 ->where('issued_date', $formFields['issued_date'])
+                ->where('serial', $formFields['serial'])
                 ->delete();
         
             return response()->json(['success' => true]);
         } else {
             return response()->json(['error' => 'Invalid count'], 400);
         }
-    }                    
+    }
 }
