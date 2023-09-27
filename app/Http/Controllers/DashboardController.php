@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -60,6 +61,12 @@ class DashboardController extends Controller
             ->distinct()
             ->count();
 
+        return response()->json(['count' => $count]);
+    }
+
+    public function countNotes()
+    {
+        $count = Note::count();
         return response()->json(['count' => $count]);
     }
 }

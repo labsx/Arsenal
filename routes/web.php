@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/items', [DashboardController::class, 'itemsList']);
     Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
     Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
+    Route::get('/dashboard/notes', [DashboardController::class, 'countNotes']);
 
     Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);
