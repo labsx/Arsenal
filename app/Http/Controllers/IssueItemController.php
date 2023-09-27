@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Data;
 use App\Models\History;
 use App\Models\Item;
 use App\Models\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Validation\Rule;
 
 class IssueItemController extends Controller
 {
@@ -32,54 +30,53 @@ class IssueItemController extends Controller
             'model' => ['max:30'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
-            'count' => [
-                'max:255',
-                function ($attribute, $value, $fail) {
-                    if ($value !== null && $value <= 0) {
-                        $fail('Count cannot be zero.');
-                    }
-                }
-            ],
+            'count' => ['max:255'],
         ], [
             'serial.unique' => 'Item already issued.',
             'issued_date.required' => 'Date is required.',
             'issued_date.date' => 'Invalid date format.',
             'issued_to.required' => 'Name is required.',
-            'count' => 'Item reaches the maximum limit to release!'
+            'count.max' => 'Item reaches the maximum limit to release!',
         ]);
         
-        if ($formFields['count'] > 0) {
-            $data = Item::where('name', $formFields['name'])->first();
+        $count = $formFields['count'] ?? 0; 
         
-            if ($data && $data->count < $formFields['count']) {
-                return response()->json(['error' => 'Item reaches the maximum limit!'], 400);
+        if ($count <= 0) {
+            return response()->json(['error' => 'Invalid input in item count !'], 400);
+        }
+        
+        $data = Item::where('name', $formFields['name'])
+            ->where('serial', $formFields['serial'])
+            ->first();
+        
+        if ($data && $data->count < $count) {
+            return response()->json(['error' => 'Item reaches the maximum limit!'], 400);
+        }
+        
+        $currentDate = now();
+        $providedDate = Carbon::parse($formFields['issued_date']);
+        
+        if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
+            if ($data) {
+                $totalIssuedItem = (int) $count + (int) $data->issued_item;
+                $data->update([
+                    'issued_item' => $totalIssuedItem,
+                ]);
+        
+                $data->count -= (int) $count;
+                $data->save();
             }
         
-            $currentDate = now();
-            $providedDate = Carbon::parse($formFields['issued_date']);
-        
-            if ($currentDate->isBefore($providedDate) || $currentDate->isSameDay($providedDate)) {
-                $data = Item::where('name', $formFields['name'])->first();
-                if ($data) {
-                    $totalIssuedItem = (int) $formFields['count'] + (int) $data->issued_item;
-                    $data->update([
-                        'issued_item' => $totalIssuedItem,
-                    ]);
-        
-                    $data->count -= (int) $formFields['count'];
-                    $data->save();
-                }
-        
-                if ($formFields['serial']) {
-                    $issue = Issue::create($formFields);
-                    Item::where('serial', $issue->serial)->update(['status' => 'issued']);
-                } else {
-                    Item::where('name', $formFields['name'])->update(['status' => 'issued']);
-                }
-                return response()->json(['success' => true]);
+            if ($formFields['serial']) {
+                $issue = Issue::create($formFields);
+                Item::where('serial', $issue->serial)->update(['status' => 'issued']);
             } else {
-                return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
+                Item::where('name', $formFields['name'])->update(['status' => 'issued']);
+                $issue = Issue::create($formFields);
             }
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
         }
     }
 
