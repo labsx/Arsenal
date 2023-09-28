@@ -103,8 +103,8 @@
           </div>
           <div>
             <Bootstrap4Pagination :data="items" @pagination-change-page="getItems" />
-          </div> 
        </div>
+          </div> 
       </div>
     </div>
   </div>
@@ -350,6 +350,7 @@ const bulkDelete = () => {
                   title: 'Success',
                   text: 'Items deleted successfully'
                 });
+                getItems();
             })
     .catch((error) => {
       console.error('Error deleting items:', error);

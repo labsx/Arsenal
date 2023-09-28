@@ -36,54 +36,57 @@
   </div>
 
   <!-- Item CountwihtoutSerial -->
-  <div class="col-xl-3 col-md-6 mb-4">
-    <div class="card border-left-success shadow h-60 py-2">
-      <div class="d-flex justify-content-between mr-1">
-        <h3 class="text-white"></h3>
-        <select
-          v-model="Filter"
-          style="
-            height: 2rem;
-            outline: 2px solid transparent;
-            max-height: 100px;
-            overflow-y: auto;
-          "
-          class="px-1 rounded border-0 hover mt-2"
-          @change="getCountWithoutSerial"
-        >
-          <option
-            v-for="item in itemsWithoutSerialCount"
-            :key="item.id"
-            :value="item.name"
-            class="hover"
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-60 py-2">
+        <div class="d-flex justify-content-between mr-1">
+          <h3 class="text-white"></h3>
+          <select
+            v-model="Filter"
+            style=" 
+              height: 2rem;
+              outline: 2px solid transparent;
+              max-height: 50px; 
+              overflow-y: auto;
+                 max-height: 100px; 
+                 overflow-y: auto;
+            "
+            class="px-1 rounded border-0 hover mt-2"
+            @change="getCountWithoutSerial"
           >
-            {{ item.name }}
-          </option>
-        </select>
-      </div>
-      <div class="card-body">
-        <div class="row no-gutters align-items-center">
-          <div class="col mr-2">
-            <div
-              class="text-xs font-weight-bold text-success text-uppercase mb-1"
+            <option
+              v-for="item in itemsWithoutSerialCount"
+              :key="item.id"
+              :value="item.name"
+              class="hover"
+            
             >
-              Item available (Without Serial)
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-success text-uppercase mb-1"
+              >
+                Item available (Without Serial)
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{
+                  itemsDisplayCount
+                    ? ` ${itemsDisplayCount}`
+                    : "No data available"
+                }}
+              </div>
             </div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{
-                itemsDisplayCount
-                  ? ` ${itemsDisplayCount}`
-                  : "No data available"
-              }}
+            <div class="col-auto">
+              <i class="fa fa-list-ol fa-2x text-gray-300"></i>
             </div>
-          </div>
-          <div class="col-auto">
-            <i class="fa fa-list-ol fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script setup>
 import axios from "axios";
