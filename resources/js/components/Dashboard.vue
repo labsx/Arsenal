@@ -145,7 +145,7 @@
                                         v-model="Filter"
                                         style="height: 2rem; outline: 2px solid transparent"
                                         class="px-1 rounded border-0 hover mt-2 "
-                                        @change="getCountWithoutSerial"
+                                        @change="getStatusWithoutSerial"
                                       >
                                         <option value="TODAY" class="hover">All</option>
                                         <option value="Good" class="hover">Good</option>
@@ -370,19 +370,19 @@ const updateItemCount = () => {
     }
 };
 //
-// const getCountWithoutSerial = () => {
-//   axios.get("/dashboard/without-serial", {
-//       params: {
-//         status: Filter.value,
-//       },
-//     })
-//     .then((response) => {
-//       totalItemsCountWihtoutSerial.value = response.data.count;
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// };
+const getStatusWithoutSerial = () => {
+  axios.get("/dashboard/without-serial", {
+      params: {
+        status: Filter.value,
+      },
+    })
+    .then((response) => {
+      totalItemsCountWihtoutSerial.value = response.data.count;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 
 const countAll = () => {
   axios.get('/dashboard/count')
@@ -509,7 +509,7 @@ const getUsersCount = () => {
 
 onMounted(() => {
   getItemsCount();
-  getCountWithoutSerial();
+  getStatusWithoutSerial();
   AvailWithoutSerial();
   getUsersCount();
   fetchItems();
