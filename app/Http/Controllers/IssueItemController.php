@@ -28,6 +28,7 @@ class IssueItemController extends Controller
             'serial' => ['max:100'],
             'issued_date' => ['required', 'date'],
             'model' => ['max:30'],
+            'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
             'count' => ['max:255'],
         ], [
@@ -123,25 +124,28 @@ class IssueItemController extends Controller
     public function destroyIssue($id)
     {
         $issue = Issue::find($id);
-        if ($issue) {
-            $issueData = [
-                'name' => $issue->name,
-                'issued_date' => $issue->issued_date,
-                'model' => $issue->model,
-                'status' => $issue->status,
-                'issued_to' => $issue->issued_to,
-                'return_date' => now(),
-                'count' => $issue->count,
-            ];
 
-            $issue->delete();
-            History::create($issueData);
-        
-            return response()->json(['message' => 'Issue deleted and saved to history']);
+        if ($issue) {
+        $returnDate = now(); 
+        $issue->return_date = $returnDate;
+        $issueData = [
+            'name' => $issue->name,
+            'issued_date' => $issue->issued_date,
+            'model' => $issue->model,
+            'status' => $issue->status,
+            'issued_to' => $issue->issued_to,
+            'return_date' => $returnDate,  
+            'count' => $issue->count,
+        ];
+
+        $issue->delete();  
+        History::create($issueData);
+
+        return response()->json(['message' => 'Issue deleted and saved to history']);
         } else {
             return response()->json(['message' => 'Issue not found'], 404);
         }
-     }
+    }
         
 }
 

@@ -107,4 +107,10 @@ class DashboardController extends Controller
             'items' => $itemsWithoutSerialCount
         ]);
     }
+
+    public function usersGet()
+    {
+        $users = User::latest()->get();
+        return $users;
+    }
 }
