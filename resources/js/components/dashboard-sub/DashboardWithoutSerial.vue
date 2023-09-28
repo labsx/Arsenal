@@ -24,7 +24,7 @@
               ITEM STATUS (Without Serial)
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{ totalItemsCountWihtoutSerial }}
+              {{ totalItemsCountWihtoutSerial || 'No data available' }}
             </div>
           </div>
           <div class="col-auto">
@@ -78,7 +78,7 @@
             </div>
           </div>
           <div class="col-auto">
-            <i class="fa fa-info-circle fa-2x text-gray-300"></i>
+            <i class="fa fa-list-ol fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>

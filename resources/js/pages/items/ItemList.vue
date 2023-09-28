@@ -80,7 +80,7 @@
                             <i :class="statusIconClass(item.status, item.count, item.serial)"></i>
                           </router-link>
 
-                          <template v-if="item.status !== 'Bad'">
+                          <template v-if="item.count > 0 && item.status !== 'Bad'">
                             <router-link :to="`/admin/items/${item.id}/issue`">
                               <i class="fa fa-user-plus ml-2 text-secondary"></i>
                             </router-link>

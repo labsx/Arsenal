@@ -25,7 +25,7 @@
               Item (Serial)
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{ totalItemsCount }}
+              {{ totalItemsCount || 'No data available' }}
             </div>
           </div>
           <div class="col-auto">
@@ -72,7 +72,7 @@
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
               {{
-                statusFilters === "All" ? selectedItemCount : selectedItemCount
+                statusFilters === "All" ? selectedItemCount : selectedItemCount || 'No data available'
               }}
             </div>
           </div>

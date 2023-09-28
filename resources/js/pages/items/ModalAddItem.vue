@@ -125,7 +125,7 @@ const createItem = () => {
          errors.value = error.response.data.errors;
          toastr.error(message);
         getItemsFn();
-        
+        errors.value = [];
       }
     });
 };
