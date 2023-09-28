@@ -67,7 +67,7 @@
 
                    <div class="d-flex justify-content-between">
                         <p class="small mb-1">{{ note.userName }}</p>
-                        <p class="small mb-1 text-muted mr-2">{{ timeDate(note.created_at) }}</p>
+                        <p class="small mb-1 text-muted mr-2">{{ timeDate(note.date) }}</p>
                    </div>
 
                    <div class="card">
@@ -79,7 +79,7 @@
                 </div>
 
               <div v-else>
-                <p>No notes available.</p>
+                <p class="text-danger">No notes available !</p>
               </div>
 
             </form>
@@ -137,7 +137,7 @@ const getNotes = () => {
           .then(userResponse => ({
             id: note.id,
             notes: note.notes,
-            created_at: note.created_at,
+            date: note.date,
             userName: userResponse.data.name,
             userAvatar: userResponse.data.avatar 
           }))

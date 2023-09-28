@@ -6,6 +6,7 @@ use App\Models\Item;
 use App\Models\Note;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class NavBarController extends Controller
@@ -36,6 +37,7 @@ class NavBarController extends Controller
         $note = new Note([
             'user_id' => $user->id,
             'notes' => $formFields['notes'],
+            'date' => Carbon::now(),
         ]);
 
         $note->save();

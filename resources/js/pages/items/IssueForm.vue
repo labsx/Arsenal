@@ -67,7 +67,7 @@
                                      <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
-                                             <input v-model="form.count" type="text" class="form-control" :class="{ 'is-invalid': errors.count }"/>
+                                             <input v-model="form.count" type="text" class="form-control" :class="{ 'is-invalid': errors.count }" :disabled="form.serial"/>
                                             <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>                                
                                         </div>
                                     </div>

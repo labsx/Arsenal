@@ -16,25 +16,25 @@ class ReturnController extends Controller
 
     public function return(Request $request, Item $data, Issue $issue)
     {
-        $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:50'],
-            'issued_date' => ['required', 'date'],
-            'model' => ['max:30'],
-            'status' => ['required', 'in:Good,Bad,issued'],
-            'issued_to' => ['required', 'min:3', 'max:50'],
-            'return_date' => ['required', 'date', 'after_or_equal:issued_date'],
-            'count' => [
-                'required',
-                'integer',
-                'min:1',
-                function ($attribute, $value, $fail) {
-                    if ($value <= 0) {
-                        $fail('Return item count must be 1 or more.');
+            $formFields = $request->validate([
+                'name' => ['required', 'min:3', 'max:50'],
+                'issued_date' => ['required', 'date'],
+                'model' => ['max:30'],
+                'status' => ['required', 'in:Good,Bad,issued'],
+                'issued_to' => ['required', 'min:3', 'max:50'],
+                'return_date' => ['required', 'date', 'after_or_equal:issued_date'],
+                'count' => [
+                    'required',
+                    'integer',
+                    'min:1',
+                    function ($attribute, $value, $fail) {
+                        if ($value <= 0) {
+                            $fail('Return item count must be 1 or more.');
+                        }
                     }
-                }
-            ],
-            'serial' => ['max:255'],
-        ]);
+                ],
+                'serial' => ['max:255'],
+            ]);
         
         if ($formFields['count'] > 0) {
             $issue = Issue::where('name', $formFields['name'])
@@ -72,6 +72,7 @@ class ReturnController extends Controller
                 'count' => $totalIssuedItem,
                 'issued_item' => $data->issued_item - $formFields['count'],
                 'status' => $formFields['status'],
+                'date' => $formFields['return_date'],
             ]);
         
             Issue::where('name', $formFields['name'])
