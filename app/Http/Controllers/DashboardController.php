@@ -97,7 +97,6 @@ class DashboardController extends Controller
         $count = $query->count();
         
         return response()->json(['count' => $count]);
-
     }
 
     public function AvailWithoutSerialCount()
@@ -108,5 +107,4 @@ class DashboardController extends Controller
             'items' => $itemsWithoutSerialCount
         ]);
     }
-
 }

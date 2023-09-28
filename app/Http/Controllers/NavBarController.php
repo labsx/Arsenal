@@ -37,7 +37,7 @@ class NavBarController extends Controller
             'user_id' => $user->id,
             'notes' => $formFields['notes'],
         ]);
-        
+
         $note->save();
         
         return response()->json(['message' => 'Note created successfully']);
@@ -49,7 +49,7 @@ class NavBarController extends Controller
             $user = User::findOrFail($id);
             return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'User not found'], 404);
+          return response()->json(['error' => 'User not found'], 404);
         }
     }
 
