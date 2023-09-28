@@ -122,7 +122,8 @@ const createItem = () => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors;
+         errors.value = error.response.data.errors;
+         toastr.error(message);
         getItemsFn();
         
       }

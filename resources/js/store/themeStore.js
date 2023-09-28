@@ -7,6 +7,7 @@ export const useAuthUserStore = defineStore('authuserStore', () => {
         name: '',
         email: '',
         avatar: '',
+        created_at: '',
     });
     const getAuthUser = () => {
         axios.get('/users/profile')

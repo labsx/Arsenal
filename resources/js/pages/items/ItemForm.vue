@@ -71,7 +71,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Model (Optional)</label>
-                                            <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" :class="{ 'is-invalid': errors.model }">
+                                            <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" :class="{ 'is-invalid': errors.model }"  :disabled="form.count > 1">
                                             <span v-if="errors && errors.model" class="text-danger text-sm">{{ errors.model[0]}}</span>
                                         </div>
                                         
@@ -124,19 +124,6 @@ const form = reactive({
     count: '',
 });
 
-const editItem  = (values) => {
-    axios.put(`/items/${route.params.id}/edit`, form)
-    .then((response) => {
-       router.push('/admin/items/list');    
-       toastr.success('Items updated successfully !')  ;
-    })
-      .catch((error) => {
-      if(error.response && error.response.status === 422){
-         errors.value = error.response.data.errors;
-      }
-    });
-};
-
 const getItems = () => {
     axios.get(`/items/${route.params.id}/edit`)
     .then(({data}) => {
@@ -148,6 +135,19 @@ const getItems = () => {
         form.description = data.description;
          form.count = data.count;
     })
+};
+
+const editItem  = (values) => {
+    axios.put(`/items/${route.params.id}/edit`, form)
+    .then((response) => {
+       router.push('/admin/items/list');    
+       toastr.success('Items updated successfully !')  ;
+    })
+      .catch((error) => {
+      if(error.response && error.response.status === 422){
+         errors.value = error.response.data.errors;
+      }
+    });
 };
 
 onMounted (() => {

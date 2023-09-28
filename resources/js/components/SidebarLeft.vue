@@ -35,7 +35,9 @@
                         </li>
 
                         <li class="nav-item">
-                            <router-link to="/admin/items/issue/list" active-class="active" class="nav-link">
+                            <router-link to="/admin/items/issue/list" active-class="active" class="nav-link"
+                            :class="$route.path.startsWith('/admin/items/issue/list') ||
+                                         $route.path.startsWith('/admin/items/return')  ? 'active' : ''">
                                 <i class="nav-icon fas fa-users"></i>
                                 <p>
                                     Issue Items

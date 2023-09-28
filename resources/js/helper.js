@@ -12,3 +12,9 @@ export function timeDate(value){
     }
 }
 
+export function year(value){
+    if(value){
+        return moment(String(value)).format('Y');
+    }
+}
+

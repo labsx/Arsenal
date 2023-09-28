@@ -33,7 +33,7 @@ class ItemController extends Controller
                 },
                 function ($attribute, $value, $fail) {
                     if (empty($value)) {
-                        $fail('Serial is required when count is 1.');
+                        $fail('Please input count 1 !');
                     }
                 }
             ],
@@ -47,6 +47,11 @@ class ItemController extends Controller
             'date.required' => 'Date is required',
             'date.date' => 'Invalid date format',
         ]);
+        $itemExists = Item::where('serial', $formFields['serial']) ->exists();
+
+        if ($itemExists) {
+            return response()->json(['error' => 'Item with serial already exist !'], 400);
+        }
         
         if ($formFields['count'] == 1 && empty($formFields['serial'])) {
             return response()->json(['error' => 'Error. Serial is required when count is 1.'], 400);
