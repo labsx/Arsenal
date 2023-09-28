@@ -18,15 +18,15 @@
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">{{ totalCount }}</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="height: 205px; overflow-y: auto">
           <span class="dropdown-header">{{ totalCount }} Notifications</span>
           <div class="dropdown-divider"></div>
           <li v-for="item in itemNames" :key="item.id">
-            <a href="#" class="dropdown-item">
-              {{ item.name }}
-              <i class="fa fa-times text-red float-right" @click.prevent="deleteNotification(item.id)"></i>
-            </a>
-          </li>
+          <a href="#" class="dropdown-item">
+            {{ item.name }}
+            <i class="fa fa-times text-red float-right" @click.prevent="deleteNotification(item.id)" style="font-size: 10px; margin-top: 3px"></i>
+          </a>
+        </li>
 
           <div class="dropdown-divider"></div>
         </div>
@@ -210,20 +210,13 @@ const deleteNotification = (id) => {
     .then(() => {
       itemNames.value = itemNames.value.filter(item => item.id !== id);
       totalCount.value -= 1;
-      Swal.fire({
-        icon: 'success',
-        title: 'Notification deleted!',
-        showConfirmButton: false,
-        timer: 1500
-      });
+      toastr.success('Notification deleted successfully!');
       fetchItemNamesAndCount();
     })
     .catch((error) => {
       console.error('Error deleting notification:', error);
     });
 };
-
-
 
 const settingStore = useSettingStore();
 
