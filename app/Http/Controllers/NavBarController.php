@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Note;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -18,8 +19,8 @@ class NavBarController extends Controller
     }
 
     public function notification (){
-        $totalCount = Item::count('name');
-        $itemNames = Item::latest()->get();  
+        $totalCount = Notification::count('name');
+        $itemNames = Notification::latest()->get();  
     
         return response()->json([
             'totalCount' => $totalCount,
@@ -71,5 +72,16 @@ class NavBarController extends Controller
         $itemCount->save();
     
         return response()->json(['success' => true]);
+    }
+
+    public function deleteNotification($id)
+    {
+        try {
+            $notification = Notification::findOrFail($id);
+            $notification->delete();
+            return response()->json(['success' => true, 'message' => 'Notification deleted successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Notification not found'], 404);
+        }
     }
 }

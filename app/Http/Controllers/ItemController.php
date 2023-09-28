@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\History;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -65,6 +66,7 @@ class ItemController extends Controller
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
             $formFields['status'] = $formFields['status'] ?? 'Good';
             Item::create($formFields);
+            Notification::create($formFields);
             return response()->json(['success' => true]);
         } else {
             return response()->json(['error' => 'Error! Date selected is incorrect!'], 400);
