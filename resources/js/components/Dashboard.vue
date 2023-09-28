@@ -138,7 +138,7 @@
                     <!-- Items Count WithOutSerial -->
                     <div class="row">
                        <div class="col-md-3 mb-4">
-                            <div class="card border-left-primary shadow h-50 py-6">
+                            <div class="card border-left-primary shadow h-60 py-2">
                                <div class="d-flex justify-content-between mr-1">
                                   <h3></h3>
                                       <select
@@ -170,11 +170,11 @@
 
                         <!-- Item CountwihtoutSerial -->
                         <div class="col-xl-3 col-md-6 mb-4">
-                          <div class="card border-left-success shadow h-50 py-2">
+                          <div class="card border-left-success shadow h-60 py-2">
                             <div class="d-flex justify-content-between mr-1">
                               <h3 class="text-white"></h3>
-                              <select v-model="Filter" style="height: 2rem; outline: 2px solid transparent" class="px-1 rounded border-0 hover mt-2" @change="getCountWithoutSerial">
-                                <option
+                                <select v-model="Filter" style="height: 2rem; outline: 2px solid transparent; max-height: 100px; overflow-y: auto;" class="px-1 rounded border-0 hover mt-2" @change="getCountWithoutSerial">
+                                <option 
                                   v-for="item in itemsWithoutSerialCount"
                                   :key="item.id"
                                   :value="item.name"
@@ -203,33 +203,28 @@
                         </div>
 
                         <!-- Notes -->
-                     <div class="col-xl-6 col-lg-5">
+                    <div class="col-xl-6 col-lg-5">
                         <div class="card shadow mb-4">
-                            <div class="card-body" v-if="notes.length > 0">
-                                <section style="background-color: #eee;">
-                                    <div class="card">
-                                        <div class="card-header d-flex justify-content-between align-items-center p-3"
-                                            style="border-top: 4px solid #ffa900;">
-                                            <h5 class="mb-0">Notes (latest)</h5>
-                                        </div>
-                                        <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 180px; overflow-y: auto;">
-                                            <div v-for="note in notes" :key="note.id">
-                                                <div class="d-flex flex-row justify-content-start">
-                                                    <img :src="note.userAvatar" alt="avatar 1" style="width: 30px; height: 30%;">
-                                                    <div>
-                                                        <p class="small p-2 ms-3 mb-3 rounded-3 ml-3" style="background-color:#F5F5F5; color: black;">{{ note.notes }}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
+                          <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Notes (latest)</h6>
+                          </div>
+                          <div class="card-body" style="height: 180px; overflow-y: auto;">
+                            <div v-if="notes.length > 0">
+                              <div v-for="note in notes" :key="note.id">
+                                <div class="d-flex flex-row justify-content-start">
+                                  <img :src="note.userAvatar" alt="avatar 1" style="width: 30px; height: 30%;">
+                                  <div>
+                                    <p class="small p-2 ms-3 mb-3 rounded-3 ml-3" style="background-color:#F5F5F5; color: black;">{{ note.notes }}</p>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                             <div v-else>
-                                <p>No notes available.</p>
+                              <p class="text-danger mt-2 text-center">No notes available.</p>
                             </div>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                     </div>
 
 
