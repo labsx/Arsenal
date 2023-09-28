@@ -63,10 +63,11 @@ class HistoryController extends Controller
         $searchQuery = request('query');
         $history = History::where(function ($query) use ($searchQuery) {
             $query->where('serial', 'like', "%{$searchQuery}%")
-                ->orWhere('item_name', 'like', "%{$searchQuery}%")
+                ->orWhere('name', 'like', "%{$searchQuery}%")
                 ->orWhere('model', 'like', "%{$searchQuery}%")
                 ->orWhere('status', 'like', "%{$searchQuery}%")
-                ->orWhere('issued_to', 'like', "%{$searchQuery}%");
+                ->orWhere('issued_to', 'like', "%{$searchQuery}%")
+                ->orWhere('return_date', 'like', "%{$searchQuery}%");
         })->paginate(10);
         return response()->json($history);
     }
@@ -78,5 +79,11 @@ class HistoryController extends Controller
         $item->delete(); 
         
         return response()->json(['success' => true]);
+    }
+
+    public function deleteAll()
+    {
+        History::whereIn('id', request('ids'))->delete();
+        return response()->json(['message' => 'Items deleted successfully']);
     }
 }

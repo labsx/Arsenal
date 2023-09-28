@@ -56,15 +56,8 @@
                                         </div>
     
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Status</label>
-                                            <input v-model="form.status" type="text" class="form-control" placeholder="Enter model" readonly="readonly">
-                                           
-                                        </div>
-                                    </div>
-
-                                     <div class="col-md-3">
+                                 
+                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Item Count (Optional)</label>
                                              <input v-model="form.count" type="text" class="form-control" :class="{ 'is-invalid': errors.count }" :disabled="form.serial"/>
@@ -118,7 +111,6 @@ const form = reactive({
   serial: '',
   issued_date: '',
   model: '',
-  status: 'issued',
   issued_to:'',
   count:0,
 });

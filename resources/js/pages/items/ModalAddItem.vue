@@ -43,14 +43,14 @@
 
                                      <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Count (Optional)</label>
+                                            <label>Item Count</label>
                                             <input v-model="form.count" type="text" class="form-control" placeholder="Enter items count" >
                                             <span v-if="errors && errors.count" class="text-danger text-sm">{{ errors.count[0]}}</span>
                                         </div>
                                         
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Model (Optional)</label>
                                             <input v-model="form.model" type="text" class="form-control" placeholder="Enter model" >
@@ -58,12 +58,12 @@
                                         </div>
                                         
                                     </div>
-                                     <div class="col-md-3">
+                                     <!-- <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status</label>
                                            <input v-model="form.status" type="text" id="status" class="form-control" readonly="readonly">
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                
@@ -104,7 +104,6 @@ const form = ref({
   serial: '',
   date: '',
   model: '',
-  status: 'Good',
   count: '',
   description: '',
 });
@@ -135,7 +134,6 @@ const clearForm = () => {
   form.value.serial = '';
   form.value.date = '';
   form.value.model = '';
-  form.value.status = 'Good';
   form.value.description = '';
   form.value.count = '';
 };

@@ -39,7 +39,6 @@ class ItemController extends Controller
             ],
             'date' => ['required', 'date'],
             'model' => ['max:30'],
-            'status' => ['required', 'min:3', 'max:10'],
             'description' => ['required', 'min:3', 'max:255'],
             'count' => ['max:255'],
         ], [
@@ -47,6 +46,7 @@ class ItemController extends Controller
             'date.required' => 'Date is required',
             'date.date' => 'Invalid date format',
         ]);
+
         $itemExists = Item::where('serial', $formFields['serial'])
                   ->where('name', $formFields['name'])
                   ->exists();
@@ -63,6 +63,7 @@ class ItemController extends Controller
         $currentDate = Carbon::now();
         
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
+            $formFields['status'] = $formFields['status'] ?? 'Good';
             Item::create($formFields);
             return response()->json(['success' => true]);
         } else {

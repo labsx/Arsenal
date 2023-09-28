@@ -180,6 +180,7 @@ const printItems = () => {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 10px;
+            font-family:sans-serif;
           }
 
           th, td {
@@ -193,6 +194,7 @@ const printItems = () => {
           }
           h1 {
             text-align: center;
+            font-family:sans-serif;
           }
         </style>
       </head>
@@ -343,9 +345,12 @@ const bulkDelete = () => {
     .then((response) => {
       items.value.data = items.value.data.filter(item => !selectedItems.value.includes(item.id));
       selectedItems.value.splice(0);
-
-      toastr.success('Items deleted successfully');
-    })
+        Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: 'Items deleted successfully'
+                });
+            })
     .catch((error) => {
       console.error('Error deleting items:', error);
     });

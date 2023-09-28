@@ -19,7 +19,13 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div></div>
+            <div>
+                <div class="float-right ml-2">
+                <button v-if="selectedItems.length > 0" @click="bulkDelete" class="btn btn-danger ml-2">
+                    <i class="fa fa-trash"></i> Delete Selected
+                </button>
+            </div>
+            </div>
             <div>
                 <div class="input-group">
                 <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
@@ -34,6 +40,7 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                     <th v-if="items.data.length > 0"> <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" /></th>
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
@@ -47,6 +54,9 @@
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
+                    <td>
+                    <input type="checkbox" @change="toggleSelection(item)" :checked="isSelected(item)"/>
+                    </td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial}}</td>
                     <td>{{item.model}}</td>
@@ -86,7 +96,9 @@ import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
+import { useToastr } from '../../toastr';
 
+const toastr = useToastr();
 const deleteItems = (id) => {
     Swal.fire({
         title: 'Are you sure?',
@@ -158,7 +170,50 @@ const getStatusClass = (status) => {
         return 'badge badge-default';
     }
 };
+//
+const bulkDelete = () => {
+  axios
+    .delete('/history/delete-all', {
+      data: {
+        ids: selectedItems.value
+      }
+    })
+    .then((response) => {
+      items.value.data = items.value.data.filter(item => !selectedItems.value.includes(item.id));
+      selectedItems.value.splice(0);
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'History deleted successfully'
+        });
+    })
+    .catch((error) => {
+      console.error('Error deleting items:', error);
+    });
+};
 
+const isSelected = (item) => {
+  return selectedItems.value.includes(item.id);
+};
+
+const selectedItems = ref([]);
+const selectAll = ref(false);
+
+const toggleSelectAll = () => {
+  if (selectAll.value) {
+    selectedItems.value = items.value.data.map((item) => item.id);
+  } else {
+    selectedItems.value = [];
+  }
+};
+const toggleSelection = (item) => {
+  const index = selectedItems.value.indexOf(item.id);
+  if (index === -1) {
+    selectedItems.value.push(item.id);
+  } else {
+    selectedItems.value.splice(index, 1);
+  }
+};
 onMounted (() => {
     getHistory();
 });
