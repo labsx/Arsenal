@@ -54,11 +54,12 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                    <th scope="col">Avatar</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
                     <th
                       scope="col"
-                      v-if="authuserStore.user.email == 'admin@gmail.com'"
+                     v-if="authuserStore.user.email == 'admin@gmail.com'"
                     >
                       Options
                     </th>
@@ -66,6 +67,7 @@
                 </thead>
                 <tbody v-if="users.data.length > 0">
                   <tr v-for="user in users.data" :key="user.id">
+                    <td><img :src="user.avatar" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50px" /></td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td v-if="authuserStore.user.email == 'admin@gmail.com'">

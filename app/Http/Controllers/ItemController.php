@@ -49,20 +49,20 @@ class ItemController extends Controller
         ]);
 
         $itemExists = Item::where('serial', $formFields['serial'])
-                  ->where('name', $formFields['name'])
-                  ->exists();
+            ->where('name', $formFields['name'])
+            ->exists();
 
         if ($itemExists) {
             return response()->json(['error' => 'Item already register !'], 400);
         }
-        
+
         if ($formFields['count'] == 1 && empty($formFields['serial'])) {
             return response()->json(['error' => 'Error. Serial is required when count is 1.'], 400);
         }
-        
+
         $providedDate = Carbon::parse($formFields['date']);
         $currentDate = Carbon::now();
-        
+
         if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
             $formFields['status'] = $formFields['status'] ?? 'Good';
             Item::create($formFields);
@@ -78,7 +78,7 @@ class ItemController extends Controller
         $serial = $item->serial;
         History::where('serial', $serial)->delete();
         $item->delete();
-    
+
         return response()->json(['success' => true]);
     }
 
@@ -91,15 +91,32 @@ class ItemController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'serial' => ['max:255'],
+            'serial' => [
+                'max:255',
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value && $request->input('count') !== 1) {
+                        $fail('Error. Count input is invalid!');
+                    }
+                },
+                function ($attribute, $value, $fail) use ($request) {
+                    if (empty($value) && $request->input('count') == 1) {
+                        $fail('Serial is required when count is 1.');
+                    }
+                },
+            ],
             'date' => ['required', 'date'],
             'model' => ['max:30'],
-            'status' => ['required', 'min:3', 'max:10'],
+            'status' => ['required', 'min:3', 'max:20'],
             'description' => ['required', 'min:3', 'max:255'],
             'count' => ['max:255'],
         ]);
+
+        if ($formFields['count'] == 1 && empty($formFields['serial'])) {
+            return response()->json(['error' => 'Error. Serial is required when count is 1.'], 400);
+        }
+
         $item->update($formFields);
-        
+
         return response()->json(['success' => true]);
     }
 
@@ -121,7 +138,7 @@ class ItemController extends Controller
 
         Item::whereIn('id', $deletedItemIds)->delete();
         Notification::whereIn('id', $deletedItemIds)->delete();
-    
+
         return response()->json(['message' => 'Items and corresponding notifications deleted successfully']);
     }
 

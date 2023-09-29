@@ -54,7 +54,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Date</label>
-                                            <input v-model="form.date" type="date" class="form-control flatpickr"  :class="{ 'is-invalid': errors.date }">
+                                            <input v-model="form.date" type="date" class="form-control flatpickr"  :class="{ 'is-invalid': errors.date }" style="background-color: white;">
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>
@@ -79,7 +79,12 @@
                                      <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Status</label>
-                                           <input v-model="form.status" type="text" id="status" class="form-control" readonly="readonly">
+                                             <select v-model="form.status"  class="form-control" :class="{ 'is-invalid': errors.status }">
+                                                     <option value="Good">Good</option>
+                                                     <option value="Broken" v-if="form.serial">Broken</option>
+                                                      <option value="Under Repair" v-if="form.serial">Under Repair</option>
+                                                </select>
+                                           <!-- <input v-model="form.status" type="text" id="status" class="form-control" > -->
                                         </div>
                                     </div>
                                 </div>
