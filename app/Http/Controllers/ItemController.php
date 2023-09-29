@@ -118,16 +118,11 @@ class ItemController extends Controller
     public function bulkDelete()
     {
         $deletedItemIds = request('ids');
-    
-        // Delete items with the specified IDs
+
         Item::whereIn('id', $deletedItemIds)->delete();
-    
-        // Delete corresponding notifications
         Notification::whereIn('id', $deletedItemIds)->delete();
     
         return response()->json(['message' => 'Items and corresponding notifications deleted successfully']);
-        // Item::whereIn('id', request('ids'))->delete();
-        // return response()->json(['message' => 'Items deleted successfully']);
     }
 
     public function print()
