@@ -26,9 +26,6 @@ use App\Http\Controllers\ApplicationController;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
 Route::get('/', [LoginController::class, 'index']);
 
 Route::middleware('auth')->group(function(){
@@ -76,7 +73,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/dashboard/count', [DashboardController::class, 'countAll']);
     Route::get('/dashboard/without-serial', [DashboardController::class, 'itemWithoutSerialCount']);
     Route::get('/dashboard/avail-without-serial', [DashboardController::class, 'AvailWithoutSerialCount']);
-    Route::get('/dashboard/users', [DashboardController::class, 'usersGet']);
+    Route::get('/dashboard/users/data', [DashboardController::class, 'usersGet']);
 
     Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);

@@ -42,7 +42,7 @@ import { ref, onMounted } from "vue";
 const users = ref([]);
 const getUsersData = () => {
   axios
-    .get('/dashboard/users') 
+    .get('/dashboard/users/data') 
     .then((response) => {
       users.value = response.data;
     })
