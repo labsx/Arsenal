@@ -21,7 +21,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <div class="float-right ml-2">
-                <button @click="printTable" class="btn btn-primary">
+                <button @click="printItems" class="btn btn-primary">
                   <i class="fa fa-print mr-1"></i> Print
                 </button>
 
@@ -131,85 +131,11 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { useToastr } from "../../toastr";
 import { debounce } from "lodash";
-import { deleteHistory } from "../../store/swal.js";
+import { deleteHistory, bulkDeleteHistory } from "../../store/swal.js";
+import { printHistory } from "../../store/print.js";
 
-const printTable = () => {
-  const tableContent = `
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Item Name</th>
-          <th>Serial</th>
-          <th>Model</th>
-          <th>Issued Item</th>
-          <th>Date Issued</th>
-          <th>Date Return</th>
-          <th>Issued To</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${items.value.data
-          .map(
-            (item) => `
-          <tr>
-            <td>${item.name}</td>
-            <td>${item.serial}</td>
-            <td>${item.model}</td>
-            <td>${item.count}</td>
-            <td>${formatDate(item.issued_date)}</td>
-            <td>${formatDate(item.return_date)}</td>
-            <td>${item.issued_to}</td>
-            <td>${item.status}</td>
-          </tr>
-        `
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
-
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Print History</title>
-        <style>
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            font-family: sans-serif;
-          }
-
-          th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-          }
-
-          th {
-            background-color: #f0f0f0;
-          }
-          h1{
-            font-family: sans-serif;
-            text-align: center;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>List of items issued</h1>
-        ${tableContent}
-      </body>
-    </html>
-  `);
-
-  printWindow.onload = function () {
-    printWindow.print();
-    printWindow.onafterprint = function () {
-      printWindow.close();
-    };
-  };
+const printItems = () => {
+  printHistory(items.value.data, formatDate);
 };
 
 const deleteItems = (id) => {
@@ -291,11 +217,7 @@ const bulkDelete = () => {
         (item) => !selectedItems.value.includes(item.id)
       );
       selectedItems.value.splice(0);
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "History deleted successfully",
-      });
+      bulkDeleteHistory();
     })
     .catch((error) => {
       console.error("Error deleting items:", error);

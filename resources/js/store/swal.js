@@ -12,6 +12,14 @@ export function deleteHistory() {
     });
 }
 
+export function bulkDeleteHistory() {
+    return Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "History deleted successfully",
+    });
+}
+
 export function deleteItemsData() {
     return Swal.fire({
         title: "Are you sure?",
@@ -21,6 +29,14 @@ export function deleteItemsData() {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
+    });
+}
+
+export function bulkDeleteItemsData() {
+    return Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Items deleted successfully",
     });
 }
 

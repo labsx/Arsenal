@@ -167,14 +167,15 @@
 import axios from "axios";
 import { ref, onMounted, watch, reactive } from "vue";
 import Swal from "sweetalert2";
-import { deleteItemsData } from "../../store/swal.js";
+import { deleteItemsData, bulkDeleteItemsData } from "../../store/swal.js";
+import { printItemsData } from "../../store/print.js";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { computed } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import ModalAdd from "../../pages/items/ModalAddItem.vue";
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
 const toastr = useToastr();
 const errors = ref([]);
@@ -192,89 +193,7 @@ const fetchAllItems = () => {
 };
 
 const printItems = () => {
-  const tableContent = `
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Item Name</th>
-          <th>Items Available</th>
-          <th>Items Issued</th>
-          <th>Serial</th>
-          <th>Model</th>
-          <th>Date</th>
-          <th>Status</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${items.value.data
-          .map(
-            (item) => `
-          <tr>
-            <td>${item.name}</td>
-            <td>${item.count}</td>
-            <td>${item.issued_item}</td>
-             <td>${item.serial}</td>
-             <td>${item.model}</td>
-             <td>${formatDate(item.date)}</td>
-            <td>${item.status}</td>
-            <td>${item.description}</td>
-          </tr>
-        `
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
-
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Print Items</title>
-        <style>
-          table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            font-family:sans-serif;
-          }
-
-          th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-          }
-
-          th {
-            background-color: #f0f0f0;
-          }
-          h1 {
-            text-align: center;
-            font-family:sans-serif;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>List of Items</h1>
-        ${tableContent}
-      </body>
-    </html>
-  `);
-
-  printWindow.onload = function () {
-    printWindow.print();
-    printWindow.onafterprint = function () {
-      printWindow.close();
-    };
-  };
-};
-
-const printTable = () => {
-  fetchAllItems();
-  setTimeout(() => {
-    window.print();
-  }, 1000);
+  printItemsData(items.value.data, formatDate);
 };
 
 const icon = computed(() => (status) => {
@@ -293,7 +212,7 @@ const statusIconClass = computed(() => (status) => {
   } else if (status === "Broken") {
     return "fa fa-times-circle text-danger";
   } else if (status === "Under Repair") {
-    return "fa fa-edit"; 
+    return "fa fa-edit";
   } else {
     return "fa fa-user-plus";
   }
@@ -369,9 +288,12 @@ const search = () => {
     });
 };
 
-watch(searchQuery, debounce(() => {
-  search();
-}, 300)); 
+watch(
+  searchQuery,
+  debounce(() => {
+    search();
+  }, 300)
+);
 
 const getStatusClass = (status) => {
   if (status === "Good") {
@@ -399,11 +321,7 @@ const bulkDelete = () => {
         (item) => !selectedItems.value.includes(item.id)
       );
       selectedItems.value.splice(0);
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Items deleted successfully",
-      });
+      bulkDeleteItemsData();
       getItems();
     })
     .catch((error) => {
