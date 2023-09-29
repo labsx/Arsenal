@@ -59,7 +59,7 @@
                     <th scope="col">Email</th>
                     <th
                       scope="col"
-                     v-if="authuserStore.user.email == 'admin@gmail.com'"
+                      v-if="authuserStore.user.email == 'admin@gmail.com'"
                     >
                       Options
                     </th>
@@ -67,7 +67,13 @@
                 </thead>
                 <tbody v-if="users.data.length > 0">
                   <tr v-for="user in users.data" :key="user.id">
-                    <td><img :src="user.avatar" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50px" /></td>
+                    <td>
+                      <img
+                        :src="user.avatar"
+                        alt="Avatar"
+                        style="width: 50px; height: 50px; border-radius: 50px"
+                      />
+                    </td>
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td v-if="authuserStore.user.email == 'admin@gmail.com'">
@@ -109,6 +115,8 @@ import { onMounted, ref, watch } from "vue";
 import Swal from "sweetalert2";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { useAuthUserStore } from "../../store/themeStore";
+import { deleteProfile } from "../../store/swal.js";
+import { debounce } from "lodash";
 
 const authuserStore = useAuthUserStore();
 const users = ref({ data: [] });
@@ -139,34 +147,29 @@ const search = () => {
     });
 };
 
-watch(searchQuery, () => {
-  search();
-});
+watch(
+  searchQuery,
+  debounce(() => {
+    search();
+  }, 300)
+);
 
 const deleteUsers = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios
-        .delete(`/users/${id}`)
-        .then(() => {
-          users.value.data = users.value.data.filter((user) => user.id !== id);
-
-          Swal.fire("Deleted!", "User has been deleted.", "success");
-          getUsers();
-        })
-        .catch((error) => {
-          console.error("Error deleting event:", error);
-        });
-    }
-  });
+  deleteProfile()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/users/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      users.value.data = users.value.data.filter((user) => user.id !== id);
+      Swal.fire("Deleted!", "User has been deleted.", "success");
+      getUsers();
+    })
+    .catch((error) => {
+      console.error("Error deleting event:", error);
+    });
 };
 
 onMounted(() => {

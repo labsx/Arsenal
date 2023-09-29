@@ -131,6 +131,7 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { useToastr } from "../../toastr";
 import { debounce } from "lodash";
+import { deleteHistory } from "../../store/swal.js";
 
 const printTable = () => {
   const tableContent = `
@@ -211,32 +212,22 @@ const printTable = () => {
   };
 };
 
-const toastr = useToastr();
 const deleteItems = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios
-        .delete(`/items/delete/${id}`)
-        .then(() => {
-          items.value.data = items.value.data.filter((item) => item.id !== id);
-
-          Swal.fire("Deleted!", "History item has been deleted.", "success");
-
-          getHistory();
-        })
-        .catch((error) => {
-          console.error("Error deleting event:", error);
-        });
-    }
-  });
+  deleteHistory()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/items/delete/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      items.value.data = items.value.data.filter((item) => item.id !== id);
+      Swal.fire("Deleted!", "History item has been deleted.", "success");
+      getHistory();
+    })
+    .catch((error) => {
+      console.error("Error deleting event:", error);
+    });
 };
 
 const items = ref({ data: [] });

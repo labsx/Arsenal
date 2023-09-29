@@ -20,14 +20,21 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div></div>
-              <div>
-                <div class="input-group">
-                <input v-model="searchQuery" type="text" class="form-control" placeholder="Search...">
-                  <div class="input-group-append">
-                      <span class="input-group-text"><i class="fa fa-search text-primary" aria-hidden="true"></i></span>
-                  </div>
+            <div>
+              <div class="input-group">
+                <input
+                  v-model="searchQuery"
+                  type="text"
+                  class="form-control"
+                  placeholder="Search..."
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fa fa-search text-primary" aria-hidden="true"></i
+                  ></span>
                 </div>
               </div>
+            </div>
           </div>
           <div class="card">
             <div class="card-body">
@@ -35,7 +42,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
-                     <th scope="col">Item Count</th>
+                    <th scope="col">Item Count</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Date Issued</th>
@@ -46,40 +53,50 @@
                 </thead>
                 <tbody v-if="issues.data.length > 0">
                   <tr v-for="issue in issues.data" :key="issue.id">
-                    <td>{{issue.name}}</td>
-                     <td>{{issue.count}}</td>
-                    <td>{{issue.serial}}</td>
-                    <td>{{issue.model}}</td>
+                    <td>{{ issue.name }}</td>
+                    <td>{{ issue.count }}</td>
+                    <td>{{ issue.serial }}</td>
+                    <td>{{ issue.model }}</td>
                     <td>{{ formatDate(issue.issued_date) }}</td>
                     <td>{{ issue.issued_to }}</td>
                     <td>
-                      <span class="badge badge-primary">{{ issue.status }}
+                      <span class="badge badge-primary"
+                        >{{ issue.status }}
                       </span>
                     </td>
                     <td>
-                       <router-link :to="`/admin/items/${issue.id}/lists`">
-                             	<i class=" 	fas fa-user-tie"></i>
-                        </router-link>
-                        
-                       <router-link :to="`/admin/items/${issue.id}/return`">
+                      <router-link :to="`/admin/items/${issue.id}/lists`">
+                        <i class="fas fa-user-tie"></i>
+                      </router-link>
+
+                      <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link>
 
-                         <router-link to="" @click.prevent="deleteIssueItems(issue.id)" v-if="!issue.serial">
-                            <i class="fa fa-trash text-danger ml-2"></i>
-                          </router-link>
+                      <router-link
+                        to=""
+                        @click.prevent="deleteIssueItems(issue.id)"
+                        v-if="!issue.serial"
+                      >
+                        <i class="fa fa-trash text-danger ml-2"></i>
+                      </router-link>
                     </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
-                    <tr>
-                     <td colspan="8" class="text-danger text-center" >No Data found !...</td>
-                    </tr>
+                  <tr>
+                    <td colspan="8" class="text-danger text-center">
+                      No Data found !...
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
-            <Bootstrap4Pagination :data="issues" @pagination-change-page="getItems" />
+          <Bootstrap4Pagination
+            :data="issues"
+            @pagination-change-page="getItems"
+          />
         </div>
       </div>
     </div>
@@ -87,40 +104,43 @@
 </template>
 <script setup>
 import axios from "axios";
-import { ref, onMounted, watch } from 'vue';
-import Swal from 'sweetalert2';
-import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-import { formatDate } from '../../helper.js';
-import { debounce } from 'lodash';
+import { ref, onMounted, watch } from "vue";
+import Swal from "sweetalert2";
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
+import { formatDate } from "../../helper.js";
+import { debounce } from "lodash";
+import { deleteIssued } from "../../store/swal.js";
 
-const issues = ref({'data': []});
+const issues = ref({ data: [] });
 
 const getItems = (page = 1) => {
-    axios.get(`/issue/search?page=${page}`)
+  axios
+    .get(`/issue/search?page=${page}`)
     .then((response) => {
-        issues.value = response.data; 
+      issues.value = response.data;
     })
     .catch((error) => {
-        console.error('Error fetching items:', error);
+      console.error("Error fetching items:", error);
     });
 };
 
-const searchQuery =ref(null);
+const searchQuery = ref(null);
 const search = () => {
-  axios.get('/issue/search', {
-    params: {
-      query: searchQuery.value
-    }
-  })
-  .then(response => {
-    issues.value = response.data;
-  })
-  .catch(error => {
-    console.log(error);
-  });
-}; 
+  axios
+    .get("/issue/search", {
+      params: {
+        query: searchQuery.value,
+      },
+    })
+    .then((response) => {
+      issues.value = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
-const isTable1Active = ref(false); 
+const isTable1Active = ref(false);
 
 const activateTable = (tableNumber) => {
   if (tableNumber === 1) {
@@ -131,39 +151,30 @@ const activateTable = (tableNumber) => {
 };
 
 const deleteIssueItems = (id) => {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            axios.delete(`/issue/${id}`)
-            .then(() => {
-                issues.value.data = issues.value.data.filter(issue => issue.id !== id);
-
-                Swal.fire(
-                    'Deleted!',
-                    'Item has been deleted.',
-                    'success'
-                );
-               
-                getItems();
-            })
-            .catch((error) => {
-                console.error('Error deleting event:', error);
-            });
-        }
+  deleteIssued()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/issue/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      issues.value.data = issues.value.data.filter((issue) => issue.id !== id);
+      Swal.fire("Deleted!", "Issued item has been deleted.", "success");
+      getItems();
+    })
+    .catch((error) => {
+      console.error("Error deleting event:", error);
     });
 };
 
-watch(searchQuery, debounce(() => {
-  search();
-}, 300)); 
-onMounted (() => {
-    getItems();
+watch(
+  searchQuery,
+  debounce(() => {
+    search();
+  }, 300)
+);
+onMounted(() => {
+  getItems();
 });
 </script>

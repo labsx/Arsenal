@@ -167,6 +167,7 @@
 import axios from "axios";
 import { ref, onMounted, watch, reactive } from "vue";
 import Swal from "sweetalert2";
+import { deleteItemsData } from "../../store/swal.js";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { computed } from "vue";
@@ -335,30 +336,21 @@ const getItems = (page = 1, status = null) => {
 };
 
 const deleteItems = (id) => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      axios
-        .delete(`/items/${id}`)
-        .then(() => {
-          items.value.data = items.value.data.filter((item) => item.id !== id);
-
-          Swal.fire("Deleted!", "Item has been deleted.", "success");
-
-          getItems();
-        })
-        .catch((error) => {
-          console.error("Error deleting event:", error);
-        });
-    }
-  });
+  deleteItemsData()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/items/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      items.value.data = items.value.data.filter((item) => item.id !== id);
+      Swal.fire("Deleted!", "Item has been deleted.", "success");
+      getItems();
+    })
+    .catch((error) => {
+      console.error("Error deleting items:", error);
+    });
 };
 
 const searchQuery = ref(null);
