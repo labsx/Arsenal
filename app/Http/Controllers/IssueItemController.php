@@ -114,7 +114,7 @@ class IssueItemController extends Controller
         $searchQuery = request('query');
         $issues = Issue::where(function ($query) use ($searchQuery) {
             $query->where('serial', 'like', "%{$searchQuery}%")
-                ->orWhere('item_name', 'like', "%{$searchQuery}%")
+                ->orWhere('name', 'like', "%{$searchQuery}%")
                 ->orWhere('model', 'like', "%{$searchQuery}%")
                 ->orWhere('status', 'like', "%{$searchQuery}%");
         })->paginate(10);

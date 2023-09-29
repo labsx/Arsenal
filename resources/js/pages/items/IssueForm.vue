@@ -77,7 +77,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="date">Date Issued</label>
-                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" :class="{ 'is-invalid': errors.issued_date }">
+                                            <input v-model="form.issued_date" type="date" class="form-control flatpickr" :class="{ 'is-invalid': errors.issued_date }" style="background-color:white;">
                                             <span v-if="errors && errors.issued_date" class="text-danger text-sm">{{ errors.issued_date[0]}}</span>
                                         </div>
                                     </div>

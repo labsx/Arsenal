@@ -36,7 +36,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="date">Date</label>
-                                            <input v-model="form.date" type="date" class="form-control flatpickr">
+                                            <input v-model="form.date" type="date" class="form-control flatpickr" style="background-color: white;">
                                             <span v-if="errors && errors.date" class="text-danger text-sm">{{ errors.date[0]}}</span>
                                         </div>
                                     </div>

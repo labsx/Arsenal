@@ -91,11 +91,12 @@ import { ref, onMounted, watch } from 'vue';
 import Swal from 'sweetalert2';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import { formatDate } from '../../helper.js';
+import { debounce } from 'lodash';
 
 const issues = ref({'data': []});
 
 const getItems = (page = 1) => {
-    axios.get(`/issue/items?page=${page}`)
+    axios.get(`/issue/search?page=${page}`)
     .then((response) => {
         issues.value = response.data; 
     })
@@ -159,9 +160,9 @@ const deleteIssueItems = (id) => {
     });
 };
 
-watch(searchQuery, () => {
+watch(searchQuery, debounce(() => {
   search();
-})
+}, 300)); 
 onMounted (() => {
     getItems();
 });

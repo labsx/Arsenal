@@ -173,6 +173,7 @@ import { computed } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import ModalAdd from "../../pages/items/ModalAddItem.vue";
+import { debounce } from 'lodash';
 
 const toastr = useToastr();
 const errors = ref([]);
@@ -376,9 +377,10 @@ const search = () => {
     });
 };
 
-watch(searchQuery, () => {
+watch(searchQuery, debounce(() => {
   search();
-});
+}, 300)); 
+
 const getStatusClass = (status) => {
   if (status === "Good") {
     return "badge badge-success good-status";
