@@ -1,23 +1,25 @@
 <template>
   <div class="form-group">
     <label>{{ label }}</label>
+    <textarea
+      v-if="inputType === 'textarea'"
+      v-model="localValue"
+      class="form-control"
+      :placeholder="placeholder"
+      style="height: 100px;"
+      @input="preventTyping"
+    ></textarea>
     <input
-      v-if="inputType !== 'date'"
+      v-else
       v-model="localValue"
       :type="inputType"
+      :class="{ 'flatpickr': inputType === 'date' }"
+      style="background: white;"
       class="form-control"
       :placeholder="placeholder"
       @input="preventTyping"
     />
-    <input
-      v-else
-      v-model="localValue"
-      type="date"
-      class="form-control"
-      :placeholder="placeholder"
-      @input="updateParent"
-    />
-    <span v-if="error" class="text-danger text-sm">{{ error }}</span>
+   <span v-if="errors && errors[errorKey]" class="text-danger text-sm">{{ errors[errorKey][0] }}</span>
   </div>
 </template>
 
@@ -32,10 +34,6 @@ export default {
       type: [String, Date],
       required: true,
     },
-    error: {
-      type: String,
-      default: "",
-    },
     placeholder: {
       type: String,
       default: "",
@@ -43,8 +41,15 @@ export default {
     inputType: {
       type: String,
       default: "text",
-      validator: (value) =>
-        ["text", "date", "integer"].includes(value.toLowerCase()),
+      validator: (value) => ["text", "date", "integer", "textarea"].includes(value.toLowerCase()),
+    },
+    errors: {
+      type: Object,
+      default: () => ({}),
+    },
+    errorKey: {
+      type: String,
+      default: "",
     },
   },
   data() {
@@ -52,15 +57,36 @@ export default {
       localValue: this.value,
     };
   },
-  methods: {
-    updateParent() {
-      this.$emit("update:value", this.localValue);
+  watch: {
+    value(newValue) {
+      this.localValue = newValue;
     },
+    localValue(newVal) {
+      this.$emit("update:value", newVal);
+    },
+    errors: {
+      handler: 'handleErrorsChange',
+      deep: true
+    }
+  },
+  methods: {
     preventTyping(event) {
-      if (this.inputType !== 'text') {
+      if (this.inputType !== "text") {
         event.preventDefault();
       }
     },
+    handleErrorsChange() {
+      if (this.errors && this.errors[this.errorKey]) {
+        this.localError = this.errors[this.errorKey][0];
+      } else {
+        this.localError = null;
+      }
+    }
   },
+  computed: {
+    localError() {
+      return this.errors && this.errors[this.errorKey] ? this.errors[this.errorKey][0] : null;
+    }
+  }
 };
 </script>
