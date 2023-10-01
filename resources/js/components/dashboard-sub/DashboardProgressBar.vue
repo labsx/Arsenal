@@ -7,7 +7,7 @@
 
         <div class="card-body">
           <h4 class="small font-weight-bold">
-            Bad Items <span class="float-right">{{  badItemCountPercent }}%</span>
+            Broken Items <span class="float-right">{{  badItemCountPercent }}%</span>
           </h4>
           <div class="progress mb-4">
             <div
@@ -47,6 +47,22 @@
               aria-valuemax="100"
             ></div>
           </div>
+
+            <h4 class="small font-weight-bold mt-2">
+            Under Repair Items
+            <span class="float-right">{{ underRepairItemCountPercent }}%</span>
+          </h4>
+          <div class="progress">
+            <div
+              class="progress-bar bg-warning"
+              role="progressbar"
+              :style="{ width: underRepairItemCountPercent + '%' }"
+              :aria-valuenow="underRepairItemCountPercent"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -58,6 +74,7 @@
   const goodItemCountPercent = ref([]);
   const badItemCountPercent = ref([]);
   const issuedItemCountPercent = ref([]);
+  const underRepairItemCountPercent = ref([]);
 
   const countAll = () => {
     axios.get('/dashboard/count')
@@ -65,6 +82,7 @@
         goodItemCountPercent.value = response.data.goodItemCountPercent;
         badItemCountPercent.value = response.data.badItemCountPercent;
         issuedItemCountPercent.value = response.data.issuedItemCountPercent;
+        underRepairItemCountPercent.value  = response.data.underRepairItemCountPercent;
       })
       .catch((error) => {
         console.error(error);

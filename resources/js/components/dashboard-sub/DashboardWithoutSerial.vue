@@ -12,7 +12,7 @@
           <option value="TODAY" class="hover">All</option>
           <option value="Good" class="hover">Good</option>
           <option value="issued">Issued</option>
-          <option value="Bad">Bad</option>
+          <option value="Broken">Broken</option>
         </select>
       </div>
       <div class="card-body">

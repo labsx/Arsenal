@@ -31,17 +31,14 @@ class UserController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function create(Request $request, User $users)
+    public function test_it_deletes_users()
     {
-        $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:50'],
-            'email' => ['required', 'min:5', 'max:100', Rule::unique('users', 'email')],
-            'password' => ['required', 'min:5', 'max:30'],
-        ]);
-
-        $formFields['password'] = Hash::make($formFields['password']);
-        $users = User::create($formFields);
+        $user = User::factory()->create();
     
-        return response()->json(['success' => true]);
+        $response = $this->delete("/users/{$user->id}");
+    
+        $response->assertStatus(302); // Update this line to expect a 302 status code
+        $this->assertDatabaseMissing('users', ['id' => $user->id]);
     }
+    
 }

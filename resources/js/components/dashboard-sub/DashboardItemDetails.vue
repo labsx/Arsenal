@@ -13,7 +13,8 @@
           <option value="TODAY" class="hover">All</option>
           <option value="Good" class="hover">Good</option>
           <option value="issued">Issued</option>
-          <option value="Bad">Bad</option>
+          <option value="Broken">Broken</option>
+          <option value="Under Repair">Under Repair</option>
         </select>
       </div>
       <div class="card-body">

@@ -84,7 +84,6 @@
                                                      <option value="Broken" v-if="form.serial">Broken</option>
                                                       <option value="Under Repair" v-if="form.serial">Under Repair</option>
                                                 </select>
-                                           <!-- <input v-model="form.status" type="text" id="status" class="form-control" > -->
                                         </div>
                                     </div>
                                 </div>
