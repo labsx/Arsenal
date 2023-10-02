@@ -9,17 +9,7 @@
   >
     <div class="modal-dialog" role="document" style="max-width: 70%">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">ADD ITEM</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <ModalHeader title="ADD ITEM" />
         <div class="modal-body">
           <div class="content">
             <div class="container-fluid">
@@ -125,6 +115,7 @@ import axios from "axios";
 import { ref, defineProps, onMounted } from "vue";
 import { useToastr } from "../../toastr";
 import FormText from "../../pages/items/item-components/FormTextAddItem.vue";
+import ModalHeader from "../../pages/items/item-components/ModalHeader.vue";
 
 const updateFormName = (newValue) => {
   form.value.name = newValue;

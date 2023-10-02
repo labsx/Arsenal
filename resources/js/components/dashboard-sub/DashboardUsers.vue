@@ -42,7 +42,7 @@ import { ref, onMounted } from "vue";
 const users = ref([]);
 const getUsersData = () => {
   axios
-    .get('/dashboard/users/data') 
+    .get("/dashboard/users/data")
     .then((response) => {
       users.value = response.data;
     })
@@ -52,6 +52,6 @@ const getUsersData = () => {
 };
 
 onMounted(() => {
-  getUsersData(); 
+  getUsersData();
 });
 </script>

@@ -24,7 +24,7 @@
               ITEM STATUS (Without Serial)
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{ totalItemsCountWihtoutSerial || 'No data available' }}
+              {{ totalItemsCountWihtoutSerial || "No data available" }}
             </div>
           </div>
           <div class="col-auto">
@@ -36,65 +36,64 @@
   </div>
 
   <!-- Item CountwihtoutSerial -->
-    <div class="col-xl-3 col-md-6 mb-4">
-      <div class="card border-left-success shadow h-60 py-2">
-        <div class="d-flex justify-content-between mr-1">
-          <h3 class="text-white"></h3>
-          <select
-            v-model="Filter"
-            style=" 
-              height: 2rem;
-              outline: 2px solid transparent;
-              max-height: 50px; 
-              overflow-y: auto;
-                 max-height: 100px; 
-                 overflow-y: auto;
-            "
-            class="px-1 rounded border-0 hover mt-2"
-            @change="getCountWithoutSerial"
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-60 py-2">
+      <div class="d-flex justify-content-between mr-1">
+        <h3 class="text-white"></h3>
+        <select
+          v-model="Filter"
+          style="
+            height: 2rem;
+            outline: 2px solid transparent;
+            max-height: 50px;
+            overflow-y: auto;
+            max-height: 100px;
+            overflow-y: auto;
+          "
+          class="px-1 rounded border-0 hover mt-2"
+          @change="getCountWithoutSerial"
+        >
+          <option
+            v-for="item in itemsWithoutSerialCount"
+            :key="item.id"
+            :value="item.name"
+            class="hover"
           >
-            <option
-              v-for="item in itemsWithoutSerialCount"
-              :key="item.id"
-              :value="item.name"
-              class="hover"
-            
+            {{ item.name }}
+          </option>
+        </select>
+      </div>
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div
+              class="text-xs font-weight-bold text-success text-uppercase mb-1"
             >
-              {{ item.name }}
-            </option>
-          </select>
-        </div>
-        <div class="card-body">
-          <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-              <div
-                class="text-xs font-weight-bold text-success text-uppercase mb-1"
-              >
-                Item available (Without Serial)
-              </div>
-              <div class="h5 mb-0 font-weight-bold text-gray-800">
-                {{
-                  itemsDisplayCount
-                    ? ` ${itemsDisplayCount}`
-                    : "No data available"
-                }}
-              </div>
+              Item available (Without Serial)
             </div>
-            <div class="col-auto">
-              <i class="fa fa-list-ol fa-2x text-gray-300"></i>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              {{
+                itemsDisplayCount
+                  ? ` ${itemsDisplayCount}`
+                  : "No data available"
+              }}
             </div>
+          </div>
+          <div class="col-auto">
+            <i class="fa fa-list-ol fa-2x text-gray-300"></i>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 <script setup>
 import axios from "axios";
-import { onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const Filter = ref(0);
 const Filters = ref(0);
-const totalItemsCountWihtoutSerial = ref (0);
+const totalItemsCountWihtoutSerial = ref(0);
 const itemsWithoutSerialCount = ref([]);
 
 const AvailWithoutSerial = () => {
@@ -119,11 +118,13 @@ const getCountWithoutSerial = () => {
     .then((response) => {
       totalItemsCountWihtoutSerial.value = response.data.count;
       if (Filter.value !== "All") {
-        const selectedItem = itemsWithoutSerialCount.value.find(item => item.name === Filter.value);
+        const selectedItem = itemsWithoutSerialCount.value.find(
+          (item) => item.name === Filter.value
+        );
         if (selectedItem) {
           itemsDisplayCount.value = selectedItem.count;
         } else {
-          itemsDisplayCount.value = null;  
+          itemsDisplayCount.value = null;
         }
       }
     })
@@ -132,16 +133,19 @@ const getCountWithoutSerial = () => {
     });
 };
 const updateItemCount = () => {
-    if (itemsDisplayCount.value) {
-        const selectedName = selectedItem.value;
-        itemsDisplayCount.value = itemsWithoutSerialCount.value.find(item => item.name === selectedName)?.count || 0;
-    } else {
-        itemsDisplayCount.value = 0;
-    }
+  if (itemsDisplayCount.value) {
+    const selectedName = selectedItem.value;
+    itemsDisplayCount.value =
+      itemsWithoutSerialCount.value.find((item) => item.name === selectedName)
+        ?.count || 0;
+  } else {
+    itemsDisplayCount.value = 0;
+  }
 };
 
 const getStatusWithoutSerial = () => {
-  axios.get("/dashboard/without-serial", {
+  axios
+    .get("/dashboard/without-serial", {
       params: {
         status: Filter.value,
       },
@@ -154,12 +158,8 @@ const getStatusWithoutSerial = () => {
     });
 };
 
-
-
 onMounted(() => {
- 
   getStatusWithoutSerial();
   AvailWithoutSerial();
-
 });
 </script>

@@ -26,7 +26,7 @@
               Item (Serial)
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{ totalItemsCount || 'No data available' }}
+              {{ totalItemsCount || "No data available" }}
             </div>
           </div>
           <div class="col-auto">
@@ -73,7 +73,9 @@
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
               {{
-                statusFilters === "All" ? selectedItemCount : selectedItemCount || 'No data available'
+                statusFilters === "All"
+                  ? selectedItemCount
+                  : selectedItemCount || "No data available"
               }}
             </div>
           </div>
@@ -222,7 +224,6 @@ const fetchNote = () => {
       console.error(error);
     });
 };
-
 
 onMounted(() => {
   getItemsCount();
