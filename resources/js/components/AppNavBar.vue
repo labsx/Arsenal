@@ -177,7 +177,7 @@ const createNote = () => {
   axios
     .post("/notes", form.value)
     .then((response) => {
-      toastr.success("Note created successfully!");
+      toastr.success("Note successfully created !");
       clearForm();
       getNotes();
     })

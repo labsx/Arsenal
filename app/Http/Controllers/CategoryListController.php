@@ -2,56 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Throwable;
 use App\Models\Item;
 use App\Models\History;
 use App\Models\Notification;
 use Illuminate\Http\Request;
-use App\Models\ItemAttributes;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Can;
 
 class ItemController extends Controller
 {
-    public function store(Request $request)
-    {
-        try {
-            $formData = $request->validate([
-                'field_groups_id' => 'required|numeric',
-                'item_name' => 'required',
-                'value' => 'required|array',
-                'value.*.label' => 'required|string',
-                'value.*.value' => 'string',
-            ]);
-
-            $items = [];
-            foreach ($formData['value'] as $fieldData) {
-                $item = ItemAttributes::create([
-                    'field_groups_id' => $formData['field_groups_id'],
-                    'item_name' => $formData['item_name'],
-                    'name' => $fieldData['label'],
-                    'value' => $fieldData['value'],
-                ]);
-
-
-                // $item->fields()->create([
-                //     'name' => $fieldData['label'],
-                //     'value' => $fieldData['value'],
-                // ]);
-
-                $items[] = $item;
-            }
-
-            return response()->json($items, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while saving the items.'], 500);
-        }
-    }
-}   
     // public function index()
     // {
-    //     $items = Item::latest()->paginate(10);
+    //     $items = Can::latest()->paginate(10);
     //     return $items;
     // }
 
@@ -185,3 +148,4 @@ class ItemController extends Controller
     //     $items = Item::latest()->get();
     //     return $items;
     // }
+}

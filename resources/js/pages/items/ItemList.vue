@@ -19,26 +19,67 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
-              <div class="float-right ml-2">
+              <!-- <div class="float-right ml-2">
                 <button @click="printItems" class="btn btn-primary">
                   <i class="fa fa-print mr-1"></i> Print
                 </button>
-              </div>
-              <button
+              </div> -->
+              <!-- <button
                 class="btn btn-primary"
                 data-toggle="modal"
                 data-target="#createModal"
               >
                 <i class="fa fa-plus-circle mr-1"></i>New Items
+              </button> -->
+
+                <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createCategory"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>New Category
+              </button>
+   
+                <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createParent"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>Parent
               </button>
 
-              <button
+               <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createCategoryItem"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>Category Item
+              </button>
+
+               <!-- <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createFieldName"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>Add Field Name
+              </button> -->
+
+               <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createFieldsGroup"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>Add Fields Group
+              </button>
+
+
+              <!-- <button
                 v-if="selectedItems.length > 0"
                 @click="bulkDelete"
                 class="btn btn-danger ml-2"
               >
                 <i class="fa fa-trash ml-2"></i> Delete Selected
-              </button>
+              </button> -->
             </div>
 
             <div>
@@ -62,46 +103,37 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th v-if="items.data.length > 0">
+                    <!-- <th v-if="items.data.length > 0">
                       <input
                         type="checkbox"
                         v-model="selectAll"
                         @change="toggleSelectAll"
                       />
-                    </th>
-                    <th scope="col">Items</th>
-                    <th scope="col">Total Items</th>
-                    <th scope="col">Item Issued</th>
-                    <th scope="col">Serial</th>
-                    <th scope="col">Model</th>
-                    <th scope="col">Date Stored</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Options</th>
+                    </th> -->
+                    <th scope="col">Name</th>
+                    <th scope="col">Parent Id</th>
+                    <th scope="col">Field Group</th>
+                  
                   </tr>
                 </thead>
-                <tbody v-if="items.data.length > 0">
-                  <tr v-for="item in items.data" :key="item.id">
-                    <td>
+                <tbody v-if="categories.data.length > 0">
+                  <tr v-for="item in categories.data" :key="item.id">
+                    <!-- <td>
                       <input
                         type="checkbox"
                         @change="toggleSelection(item)"
                         :checked="isSelected(item)"
                       />
-                    </td>
+                    </td> -->
                     <td>{{ item.name }}</td>
-                    <td>{{ item.count }}</td>
-                    <td>{{ item.issued_item }}</td>
-                    <td>{{ item.serial }}</td>
-                    <td>{{ item.model }}</td>
-                    <td>{{ formatDate(item.date) }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>
+                    <td>{{ item.parent_id }}</td>
+                    <td>{{ item.field_group_id}}</td>
+                    <!-- <td>
                       <span :class="getStatusClass(item.status)">{{
                         item.status
                       }}</span>
-                    </td>
-                    <td>
+                    </td> -->
+                    <!-- <td>
                       <div class="text-align-center">
                         <router-link
                           :to="`/admin/items/${item.id}/edit`"
@@ -136,7 +168,7 @@
                           <i class="fa fa-trash text-danger ml-2"></i>
                         </router-link>
                       </div>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -151,8 +183,8 @@
           </div>
           <div>
             <Bootstrap4Pagination
-              :data="items"
-              @pagination-change-page="getItems"
+              :data="categories"
+              @pagination-change-page="getCategory"
             />
           </div>
         </div>
@@ -160,7 +192,12 @@
     </div>
   </div>
 
-  <ModalAdd :getItemsFn="getItems" />
+  <!-- <ModalAdd :getItemsFn="getItems" /> -->
+  <CategoryAdd />
+  <CreateCategoryItem />
+   <Parent/>
+  <CreateFieldGroup />
+ 
 </template>
 
 <script setup>
@@ -174,114 +211,131 @@ import { formatDate } from "../../helper.js";
 import { computed } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
-import ModalAdd from "../../pages/items/ModalAddItem.vue";
+// import ModalAdd from "../../pages/items/ModalAddItem.vue";
+ import CategoryAdd from "../../pages/items/CategoryAdd.vue";
+  import CreateCategoryItem from "../../pages/items/CategoryItem.vue";
+ import Parent from "../../pages/items/Parent.vue";
+import CreateFieldGroup from "../../pages/items/FieldGroup.vue";
+
+
 import { debounce } from "lodash";
 
 const toastr = useToastr();
 const errors = ref([]);
-const items = ref({ data: [] });
+const categories = ref({ data: [] });
 
-const fetchAllItems = () => {
+const getCategory = (page = 1) => {
   axios
-    .get("/items/all")
+    .get(`/category?page=${page}`)
     .then((response) => {
-      items.value.data = response.data;
+      categories.value = response.data;
     })
     .catch((error) => {
-      console.error("Error fetching all items:", error);
+      console.error("Error fetching category:", error);
     });
 };
 
-const printItems = () => {
-  printItemsData(items.value.data, formatDate);
-};
+// const fetchCategory = () => {
+//   axios
+//     .get("/items/all")
+//     .then((response) => {
+//       items.value.data = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching all items:", error);
+//     });
+// };
 
-const icon = computed(() => (status) => {
-  if (status === "Good") {
-    return "fa fa-user-plus";
-  } else {
-    return "fa fa-user-plus";
-  }
-});
+// const printItems = () => {
+//   printItemsData(items.value.data, formatDate);
+// };
 
-const statusIconClass = computed(() => (status) => {
-  if (status === "Good") {
-    return "fa fa-edit";
-  } else if (status === "issued") {
-    return "fa fa-exclamation-circle text-warning";
-  } else if (status === "Broken") {
-    return "fa fa-times-circle text-danger";
-  } else if (status === "Under Repair") {
-    return "fa fa-edit";
-  } else {
-    return "fa fa-user-plus";
-  }
-});
+// const icon = computed(() => (status) => {
+//   if (status === "Good") {
+//     return "fa fa-user-plus";
+//   } else {
+//     return "fa fa-user-plus";
+//   }
+// });
 
-const disabledStatuses = ["Broken", "issued"];
+// const statusIconClass = computed(() => (status) => {
+//   if (status === "Good") {
+//     return "fa fa-edit";
+//   } else if (status === "issued") {
+//     return "fa fa-exclamation-circle text-warning";
+//   } else if (status === "Broken") {
+//     return "fa fa-times-circle text-danger";
+//   } else if (status === "Under Repair") {
+//     return "fa fa-edit";
+//   } else {
+//     return "fa fa-user-plus";
+//   }
+// });
 
-const shouldDisableLink = (status) => {
-  return disabledStatuses.includes(status);
-};
+// const disabledStatuses = ["Broken", "issued"];
 
-const handleLinkClick = (status, event) => {
-  if (isStatusBad(status) || isStatusIssued(status)) {
-    event.preventDefault();
-  }
-};
+// const shouldDisableLink = (status) => {
+//   return disabledStatuses.includes(status);
+// };
 
-const isStatusBad = (status) => {
-  return status === "Broken";
-};
+// const handleLinkClick = (status, event) => {
+//   if (isStatusBad(status) || isStatusIssued(status)) {
+//     event.preventDefault();
+//   }
+// };
 
-const isStatusIssued = (status) => {
-  return status === "issued";
-};
+// const isStatusBad = (status) => {
+//   return status === "Broken";
+// };
 
-const getItems = (page = 1, status = null) => {
-  let url = `/items?page=${page}`;
-  if (status) {
-    url += `&status=${status}`;
-  }
+// const isStatusIssued = (status) => {
+//   return status === "issued";
+// };
 
-  axios
-    .get(url)
-    .then((response) => {
-      items.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching items:", error);
-    });
-};
+// const getItems = (page = 1, status = null) => {
+//   let url = `/items?page=${page}`;
+//   if (status) {
+//     url += `&status=${status}`;
+//   }
 
-const deleteItems = (id) => {
-  deleteItemsData()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/items/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      items.value.data = items.value.data.filter((item) => item.id !== id);
-      Swal.fire("Deleted!", "Item has been deleted.", "success");
-      getItems();
-    })
-    .catch((error) => {
-      console.error("Error deleting items:", error);
-    });
-};
+//   axios
+//     .get(url)
+//     .then((response) => {
+//       items.value = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching items:", error);
+//     });
+// };
+
+// const deleteItems = (id) => {
+//   deleteItemsData()
+//     .then((result) => {
+//       if (result.isConfirmed) {
+//         return axios.delete(`/items/${id}`);
+//       }
+//       throw new Error("Deletion not confirmed.");
+//     })
+//     .then(() => {
+//       items.value.data = items.value.data.filter((item) => item.id !== id);
+//       Swal.fire("Deleted!", "Item has been deleted.", "success");
+//       getItems();
+//     })
+//     .catch((error) => {
+//       console.error("Error deleting items:", error);
+//     });
+// };
 
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/items/list/search", {
+    .get("/category", {
       params: {
         query: searchQuery.value,
       },
     })
     .then((response) => {
-      items.value = response.data;
+      categories.value = response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -295,72 +349,72 @@ watch(
   }, 300)
 );
 
-const getStatusClass = (status) => {
-  if (status === "Good") {
-    return "badge badge-success good-status";
-  } else if (status === "issued") {
-    return "badge badge-primary issued-status";
-  } else if (status === "Broken") {
-    return "badge badge-danger bad-status";
-  } else if (status === "Under Repair") {
-    return "badge badge-warning bad-status";
-  } else {
-    return "badge badge-default";
-  }
-};
+// const getStatusClass = (status) => {
+//   if (status === "Good") {
+//     return "badge badge-success good-status";
+//   } else if (status === "issued") {
+//     return "badge badge-primary issued-status";
+//   } else if (status === "Broken") {
+//     return "badge badge-danger bad-status";
+//   } else if (status === "Under Repair") {
+//     return "badge badge-warning bad-status";
+//   } else {
+//     return "badge badge-default";
+//   }
+// };
 
-const bulkDelete = () => {
-  axios
-    .delete("/items", {
-      data: {
-        ids: selectedItems.value,
-      },
-    })
-    .then((response) => {
-      items.value.data = items.value.data.filter(
-        (item) => !selectedItems.value.includes(item.id)
-      );
-      selectedItems.value.splice(0);
-      bulkDeleteItemsData();
-      getItems();
-    })
-    .catch((error) => {
-      console.error("Error deleting items:", error);
-    });
-};
+// const bulkDelete = () => {
+//   axios
+//     .delete("/items", {
+//       data: {
+//         ids: selectedItems.value,
+//       },
+//     })
+//     .then((response) => {
+//       items.value.data = items.value.data.filter(
+//         (item) => !selectedItems.value.includes(item.id)
+//       );
+//       selectedItems.value.splice(0);
+//       bulkDeleteItemsData();
+//       getItems();
+//     })
+//     .catch((error) => {
+//       console.error("Error deleting items:", error);
+//     });
+// };
 
-const isSelected = (item) => {
-  return selectedItems.value.includes(item.id);
-};
+// const isSelected = (item) => {
+//   return selectedItems.value.includes(item.id);
+// };
 
-const selectedItems = ref([]);
-const selectAll = ref(false);
+// const selectedItems = ref([]);
+// const selectAll = ref(false);
 
-const toggleSelectAll = () => {
-  if (selectAll.value) {
-    selectedItems.value = items.value.data.map((item) => item.id);
-  } else {
-    selectedItems.value = [];
-  }
-};
-const toggleSelection = (item) => {
-  const index = selectedItems.value.indexOf(item.id);
-  if (index === -1) {
-    selectedItems.value.push(item.id);
-  } else {
-    selectedItems.value.splice(index, 1);
-  }
-};
+// const toggleSelectAll = () => {
+//   if (selectAll.value) {
+//     selectedItems.value = items.value.data.map((item) => item.id);
+//   } else {
+//     selectedItems.value = [];
+//   }
+// };
+// const toggleSelection = (item) => {
+//   const index = selectedItems.value.indexOf(item.id);
+//   if (index === -1) {
+//     selectedItems.value.push(item.id);
+//   } else {
+//     selectedItems.value.splice(index, 1);
+//   }
+// };
 
 onMounted(() => {
-  fetchAllItems();
-  getItems();
+  getCategory();
+  // getItems();
 
-  flatpickr(".flatpickr", {
-    enableTime: true,
-    dateFormat: "Y-m-d h:i K",
-    defaultHour: 10,
-  });
+  // flatpickr(".flatpickr", {
+  //   enableTime: true,
+  //   dateFormat: "Y-m-d h:i K",
+  //   defaultHour: 10,
+  // });
 });
 </script>
 

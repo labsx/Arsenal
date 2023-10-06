@@ -10,12 +10,30 @@ import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
+import FieldGroupList from './pages/field/FieldGroupList.vue';
+import AddField from './pages/field/FieldList.vue';
+import AddItem from './pages/items/AddItem.vue';
 
 export default[
     {
         path: '/login',
         name: 'admin.login',
         component: Login,
+    },
+    {
+        path: '/admin/field_groups/list',
+        name: 'admin.field_groups.list',
+        component: FieldGroupList,
+    },
+    {
+        path: '/admin/fields/:id/add',
+        name: 'admin.fields/add.list',
+        component: AddField,
+    },
+    {
+        path: '/admin/add/item',
+        name: 'admin.add.item',
+        component: AddItem,
     },
     {
         path: '/admin/dashboard',

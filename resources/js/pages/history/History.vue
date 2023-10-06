@@ -1,18 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">History</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">History</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ContentHeader title="History" />
 
   <div class="content">
     <div class="container-fluid">
@@ -133,6 +120,7 @@ import { useToastr } from "../../toastr";
 import { debounce } from "lodash";
 import { deleteHistory, bulkDeleteHistory } from "../../store/swal.js";
 import { printHistory } from "../../store/print.js";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const printItems = () => {
   printHistory(items.value.data, formatDate);

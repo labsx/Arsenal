@@ -13,14 +13,8 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
             $table->string('name');
-            $table->string('serial')->nullable();
-            $table->dateTime('date');
-            $table->string('model')->nullable();
-            $table->string('status');
-            $table->integer('count')->nullable();
-            $table->integer('issued_item')->nullable();
-            $table->longText('description');
             $table->timestamps();
         });
     }

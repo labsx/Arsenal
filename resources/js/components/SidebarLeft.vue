@@ -46,6 +46,30 @@
 
           <li class="nav-item">
             <router-link
+              to="/admin/add/item"
+              active-class="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fas fa-plus"></i>
+              <p>Add item</p>
+            </router-link>
+          </li>
+
+
+           <li class="nav-item">
+            <router-link
+              to="/admin/field_groups/list"
+              active-class="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fas fa-list"></i>
+              <p>Field Groups</p>
+            </router-link>
+          </li>
+
+
+          <li class="nav-item">
+            <router-link
               to="/admin/items/issue/list"
               active-class="active"
               class="nav-link"
