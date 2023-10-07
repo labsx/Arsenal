@@ -11,21 +11,15 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request)
+    public function listName()
     {
-        // if ($request->has('children')) {
-        //     $categories = Category::whereNotNull('parent_id')
-        //         ->latest()
-        //         ->get();
-        // } else {
-        //     $categories = Category::latest()->get();
-        // }
+        $categories = Category::latest()->get();
 
-        // return Category::when($request->input('children') === 'true', function($query) {
-        //         $query->whereNotNull('parent_id');
-        //     })
-        //     ->latest()
-        //     ->get();
+        return $categories;
+    }
+
+    public function index()
+    {
         $categories = Category::latest()->paginate(10);
         return $categories;
     }

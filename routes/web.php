@@ -36,6 +36,7 @@ Route::get('/', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     // Route::middleware([])->group(function(){
     Route::get('/category', [CategoryController::class, 'index']);
+    Route::get('/category-data', [CategoryController::class, 'listName']);
     Route::get('/category', [CategoryController::class, 'search']);
     Route::post('/category', [CategoryController::class, 'store']);
 
@@ -49,8 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/fields', [FieldController::class, 'filterFields']);
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
 
-    Route::post('/items', [ItemController::class, 'store']);
-
+    // Route::post('/items', [ItemController::class, 'store']);
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
 
     Route::get('/parent', [ParentController::class, 'index']);

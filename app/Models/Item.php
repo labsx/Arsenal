@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ItemAttributes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Item extends Model
 {
@@ -19,7 +20,7 @@ class Item extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    public function itemss()
+    public function attributes()
     {
         return $this->hasMany(ItemAttributes::class);
     }

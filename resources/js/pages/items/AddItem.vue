@@ -1,61 +1,31 @@
 <template>
-
-    <!-- <form @submit.prevent="handleSubmit">
-      <div class="form-group">
-          <label for="client">Fields</label>
-          <select
-            name="fieldGroup"
-            id="fieldGroup"
-            v-model="form.item_id"
-            @change="getFields"
-          >
-            <option value=""></option>
-            <option
-              :value="group.id"
-              v-for="group in field_groups"
-              :key="group.id"
-            >
-              {{ group.name }}
-            </option>
-          </select>
-        </div>
-
-      <label for="name">Item Name:</label>
-      <input v-model="name" type="text" id="name" required /><br /><br />
-
-        <div v-for="(field, index) in fieldsData" :key="index">
-            <label for="">{{field.label}}</label>
-        </div>
-
-      <div v-for="(attribute, index) in attributes" :key="index" class="attribute">
-        <label>Attribute Name:</label>
-        <input v-model="attribute.name" type="text" placeholder="Attribute Name" required />
-
-        <label>Attribute Value:</label>
-        <input v-model="attribute.value" type="text" placeholder="Attribute Value" required />
-
-        <button type="button" @click="removeAttribute(index)">Remove Attribute</button>
-      </div>
-
-      <button type="button" @click="addAttribute">Add Attribute</button>
-
-      <button type="submit">Create Item</button>
-    </form>
-  </div> -->
-  <form>
-    <label for="">Item Name</label>
-    <input v-model="form.name" type="text">
+  <form @submit.prevent="createItem">
+    <label for="item_name">Item Name</label>
+    <input v-model="form.item_name" type="text" id="item_name" />
 
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
-          <label for="client">Fields</label>
-          <select
-            name="fieldGroup"
-            id="fieldGroup"
-            v-model="form.item_id"
-            @change="getFields"
-          >
+          <label for="fieldGroup">Select Category</label>
+          <select v-model="form.category_id" id="fieldGroup">
+            <option value=""></option>
+            <option
+              :value="category.id"
+              v-for="category in categories"
+              :key="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="fieldGroup">Select Fields</label>
+          <select v-model="form.item_id" id="fieldGroup" @change="getFields">
             <option value=""></option>
             <option
               :value="group.id"
@@ -77,44 +47,45 @@
         class="form-control"
       />
     </div>
+    <button type="submit" class="btn btn-primary">
+      <i class="fa fa-save mr-2"></i>Save Item
+    </button>
   </form>
 </template>
 
 <script setup>
 import axios from "axios";
-import { onMounted, ref, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useToastr } from "../../toastr";
 
 const toastr = useToastr();
 
 const form = ref({
-  item_id: "",
+  category_id: "",
+  item_name: "",
   fields: {},
 });
-//
-// const category_id = ref('');
-// const name = ref('');
-// const attributes = ref([{ name: '', value: '' }]);
 
-// const addAttribute = () => {
-//   attributes.value.push({ name: '', value: '' });
-// };
+const createItem = () => {
+  const dataToSave = {
+    category_id: form.value.category_id,
+    item_name: form.value.item_name,
+    value: Object.keys(form.value.fields).map((label) => ({
+      label,
+      value: form.value.fields[label],
+    })),
+  };
 
-// const removeAttribute = (index) => {
-//   attributes.value.splice(index, 1);
-// };
-
-// const handleSubmit = () => {
-
-//   const formData = {
-//     category_id: category_id.value,
-//     name: name.value,
-//     attributes: attributes.value,
-//   };
-
-//   console.log('Form Data:', formData);
-// };
-//
+  axios
+    .post("/item-attributes", dataToSave)
+    .then((response) => {
+      toastr.success("Item saved successfully!");
+      clearForm();
+    })
+    .catch((error) => {
+      toastr.error("Error saving item: " + error);
+    });
+};
 
 const field_groups = ref([]);
 const fieldsData = ref([]);
@@ -132,6 +103,7 @@ const getFieldGroup = () => {
 
 const getFields = async () => {
   const selectedGroupId = form.value.item_id;
+
   if (selectedGroupId) {
     try {
       const response = await axios.get(
@@ -146,8 +118,27 @@ const getFields = async () => {
   }
 };
 
+const clearForm = () => {
+  form.value.item_id = "";
+  form.value.item_name = "";
+  form.value.fields = {};
+};
+
+const categories = ref();
+const getCategory = () => {
+  axios
+    .get("/category-data")
+    .then((response) => {
+      categories.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching field_group:", error);
+    });
+};
+
 onMounted(() => {
   getFieldGroup();
+  getCategory();
 });
 
 watch(form, getFields);

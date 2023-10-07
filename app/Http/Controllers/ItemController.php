@@ -18,7 +18,7 @@ class ItemController extends Controller
     {
         try {
             $formData = $request->validate([
-                'field_groups_id' => 'required|numeric',
+                'item_id' => 'required|numeric',
                 'item_name' => 'required',
                 'value' => 'required|array',
                 'value.*.label' => 'required|string',
@@ -28,16 +28,16 @@ class ItemController extends Controller
             $items = [];
             foreach ($formData['value'] as $fieldData) {
                 $item = ItemAttributes::create([
-                    'field_groups_id' => $formData['field_groups_id'],
+                    'item_id' => $formData['item_id'],
                     'item_name' => $formData['item_name'],
                     'name' => $fieldData['label'],
                     'value' => $fieldData['value'],
                 ]);
+                
 
-
-                // $item->fields()->create([
-                //     'name' => $fieldData['label'],
-                //     'value' => $fieldData['value'],
+                // $item = Item::create([
+                //     'category_id' => $formData['item_id'],
+                //     'name' => $formData['item_name'],
                 // ]);
 
                 $items[] = $item;

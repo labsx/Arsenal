@@ -51,7 +51,7 @@
                             <select
                               name="fieldGroup"
                               id="fieldGroup"
-                              v-model="form.parent"
+                              v-model="form.parent_id"
                             >
                               <option value=""></option>
                               <option
@@ -110,20 +110,19 @@ import axios from "axios";
 import { ref, defineProps, onMounted } from "vue";
 import { useToastr } from "../../toastr";
 
-// const { getItemsFn } = defineProps(["getItemsFn"]);
 const toastr = useToastr();
 const errors = ref([]);
 const form = ref({
   name: "",
-  parents_id: "",
+  parent_id: "",
   field_groups_id: "",
 });
 
 const createItem = () => {
   const formData = {
     name: form.value.name,
-    parents_id: form.value.parents_id,
-    field_group_id: form.value.field_groups_id, // Ensure this is correct
+    parent_id: form.value.parent_id,
+    field_group_id: form.value.field_groups_id, 
   };
 
   axios
