@@ -44,6 +44,17 @@
             </router-link>
           </li>
 
+             <li class="nav-item">
+            <router-link
+              to="/admin/category/list"
+              active-class="active"
+              class="nav-link"
+            >
+              <i class="nav-icon fas fa-file"></i>
+              <p>Categoy List</p>
+            </router-link>
+          </li>
+
           <li class="nav-item">
             <router-link
               to="/admin/add/item"

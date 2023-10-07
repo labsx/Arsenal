@@ -13,6 +13,8 @@ import Login from './pages/auth/Login.vue';
 import FieldGroupList from './pages/field/FieldGroupList.vue';
 import AddField from './pages/field/FieldList.vue';
 import AddItem from './pages/items/AddItem.vue';
+import CategoryList from './pages/category/CategoryList.vue';
+import EditCategory from './pages/category/EditCategory.vue';
 
 export default[
     {
@@ -34,6 +36,16 @@ export default[
         path: '/admin/add/item',
         name: 'admin.add.item',
         component: AddItem,
+    },
+    {
+        path: '/admin/category/list',
+        name: 'admin.category.list',
+        component: CategoryList,
+    },
+    {
+        path: '/admin/category/:id/edit',
+        name: 'admin.category.edit',
+        component: EditCategory,
     },
     {
         path: '/admin/dashboard',

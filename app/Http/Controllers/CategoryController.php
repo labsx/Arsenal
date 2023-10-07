@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
 use App\Models\Category;
-use App\Models\CategoryList;
-use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -21,6 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::latest()->paginate(10);
+        
         return $categories;
     }
 
@@ -38,10 +36,9 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $formField = $request->validate([
-            'name' => ['required', 'min:3', 'max:50'],
+            'name' => ['required', 'min:3', 'max:50', 'unique:categories'],
             'parent_id' => ['nullable', Rule::exists('parent_models', 'id')],
             'field_group_id' => ['nullable', Rule::exists('field_groups', 'id')],
-            // 'field_group_id' => [Rule::exists(FieldGroup::class)],
         ]);
 
         $category = Category::create($formField);
@@ -53,8 +50,6 @@ class CategoryController extends Controller
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'parents_id' => ['required', 'min:3', 'max:50'],
-            'field_groups_id' => ['required', 'min:3', 'max:50'],
         ]);
 
         $category = Category::findOrfail($id);
@@ -71,18 +66,6 @@ class CategoryController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function create(Request $request)
-    // {
-    //     $formFields = $request->validate([
-    //         'name' => ['required', 'min:3', 'max:50', 'unique:categories'],
-    //         'parent_id' => ['max:255'],
-    //         'field_group_id' => ['required', 'max:30'],
-    //     ]);
-
-    //     Category::create($formFields);
-
-    //     return response()->json(['success' => true]);
-    // }
     public function fetchCategory()
     {
         $categories = Category::latest()->get();
@@ -90,43 +73,8 @@ class CategoryController extends Controller
         return $categories;
     }
 
-    public function createItems(Request $request)
+    public function show(Category $category)
     {
-        //     $formFields = $request->validate([
-        //         'name' => ['required', 'min:3', 'max:50', Rule::unique('category_lists')],
-        //         'parent_id' => ['max:255'],
-        //         'category_id' => ['max:255']
-        //     ]);
-
-        //     CategoryList::create($formFields);
-
-        //     return response()->json(['success' => true]);
-        // }
-
-        // public function fetchCategorySub()
-        // {
-        //     $subnames = CategoryList::latest()->get();
-        //     return $subnames;
+        return $category;
     }
 }
-
-
-    // public function createItems(Request $request)
-    // {
-    //     $formFields = $request->validate([
-    //         'name' => ['required', 'min:3', 'max:50', Rule::unique('categories')],
-    //         'serial' => ['required', 'min:3', 'max:50'],
-    //         'processor' => ['required', 'min:3', 'max:50'],
-    //         'date' => ['required'],
-    //         'model' => ['required', 'min:3', 'max:50'],
-    //         'size' => ['required', 'max:255'],
-    //         'description' => ['required', 'min:5', 'max:30'],
-    //         'ram' => ['required', 'min:1', 'max:255'],
-    //         'category_id' => ['max:255']
-    //     ]);
-
-    //     // Create the item
-    //     Item::create($formFields);
-
-    //     return response()->json(['success' => true]);
-    // }

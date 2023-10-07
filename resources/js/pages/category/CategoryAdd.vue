@@ -7,10 +7,10 @@
     aria-labelledby="createCategory"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document" style="max-width: 70%">
+    <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createCategory">ADD CATEGORY ITEM</h5>
+          <h5 class="modal-title" id="createCategory">ADD NEW CATEGORY</h5>
           <button
             type="button"
             class="close"
@@ -29,7 +29,7 @@
                     <div class="card-body">
                       <form @submit.prevent="createItem()">
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">Category Name</label>
                               <input
@@ -46,7 +46,7 @@
                               >
                             </div>
                           </div>
-                           <div class="col-md-6">
+                          <div class="col-md-6">
                             <label for="fieldGroup">Parents</label>
                             <select
                               name="fieldGroup"
@@ -122,7 +122,7 @@ const createItem = () => {
   const formData = {
     name: form.value.name,
     parent_id: form.value.parent_id,
-    field_group_id: form.value.field_groups_id, 
+    field_group_id: form.value.field_groups_id,
   };
 
   axios
@@ -131,7 +131,6 @@ const createItem = () => {
       toastr.success("Category created successfully!");
       $("#createCategory").modal("hide");
       clearForm();
-      // getItemsFn();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -139,18 +138,13 @@ const createItem = () => {
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
         toastr.error(message);
-        // getItemsFn();
         errors.value = [];
       }
     });
 };
 
-
 const clearForm = () => {
   form.value.name = "";
-
-  form.value.size = "";
-  form.value.description = "";
 };
 
 const field_groups = ref();

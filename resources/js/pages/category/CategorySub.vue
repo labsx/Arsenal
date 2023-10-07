@@ -7,10 +7,10 @@
     aria-labelledby="createParent"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document" style="max-width: 70%">
+    <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createParent">PARENT CATEGORY</h5>
+          <h5 class="modal-title" id="createParent">CATEGORY SUB</h5>
           <button
             type="button"
             class="close"
@@ -29,16 +29,15 @@
                     <div class="card-body">
                       <form>
                         <div class="row">
-                          <div class="col-md-6">
-                         
-                       
+                          <div class="col-md-12">
+             
                             <div class="form-group">
                               <label>Item name</label>
                               <input
                                 v-model="form.name"
                                 type="text"
                                 class="form-control"
-                                placeholder="Enter category name"
+                                placeholder="Enter Categoy Sub (ex. Laptop, Desktop)"
                               />
                               <span
                                 v-if="errors && errors.name"
@@ -105,4 +104,18 @@ const createParent = () => {
     });
 };
 
+const categories = ref([]);
+
+const getCategories = () => {
+  axios.get('/category')
+    .then((response) => {
+      categories.value = response.data;
+    })
+    .catch((error) => {
+      console.error('Error fetching categories:', error);
+    });
+};
+onMounted(() => {
+  getCategories();
+});
 </script>

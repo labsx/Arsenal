@@ -31,7 +31,7 @@
               >
                 <i class="fa fa-plus-circle mr-1"></i>New Items
               </button> -->
-
+<!-- 
                 <button
                 class="btn btn-primary"
                 data-toggle="modal"
@@ -54,7 +54,7 @@
                 data-target="#createCategoryItem"
               >
                 <i class="fa fa-plus-circle mr-1"></i>Category Item
-              </button>
+              </button> -->
 
                <!-- <button
                 class="btn btn-primary"
@@ -193,10 +193,10 @@
   </div>
 
   <!-- <ModalAdd :getItemsFn="getItems" /> -->
-  <CategoryAdd />
+  <!-- <CategoryAdd />
   <CreateCategoryItem />
    <Parent/>
-  <CreateFieldGroup />
+  <CreateFieldGroup /> -->
  
 </template>
 
@@ -212,10 +212,10 @@ import { computed } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 // import ModalAdd from "../../pages/items/ModalAddItem.vue";
- import CategoryAdd from "../../pages/items/CategoryAdd.vue";
-  import CreateCategoryItem from "../../pages/items/CategoryItem.vue";
- import Parent from "../../pages/items/Parent.vue";
-import CreateFieldGroup from "../../pages/items/FieldGroup.vue";
+//  import CategoryAdd from "../category/CategoryAdd.vue";
+//   import CreateCategoryItem from "../../pages/items/CategoryItem.vue";
+//  import Parent from "../category/Parent.vue";
+// import CreateFieldGroup from "../../pages/items/FieldGroup.vue";
 
 
 import { debounce } from "lodash";
