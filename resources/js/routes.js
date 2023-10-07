@@ -11,10 +11,12 @@ import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
 import FieldGroupList from './pages/field/FieldGroupList.vue';
-import AddField from './pages/field/FieldList.vue';
+import AddField from './pages/field/field-data/FieldList.vue';
+import EditFields from './pages/field/field-data/EditFields.vue';
 import AddItem from './pages/items/AddItem.vue';
 import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
+
 
 export default[
     {
@@ -29,8 +31,13 @@ export default[
     },
     {
         path: '/admin/fields/:id/add',
-        name: 'admin.fields/add.list',
+        name: 'admin.fields/add',
         component: AddField,
+    },
+    {
+        path: '/admin/edit/:id/fields',
+        name: 'admin.edit.fields',
+        component: EditFields,
     },
     {
         path: '/admin/add/item',

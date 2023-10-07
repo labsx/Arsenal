@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Field;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-
 
 class FieldController extends Controller
 {
-    public function filterFields( Request $request)
+    public function filterFields(Request $request)
     {
         $fieldGroupId = $request->query('field_groups_id');
         $filteredFields = Field::where('field_groups_id', $fieldGroupId)->get();
@@ -19,9 +17,9 @@ class FieldController extends Controller
 
     public function show($fieldGroupId)
     {
-        $fields = Field::where('field_groups_id', $fieldGroupId)->get();
+        $fields = Field::where('field_groups_id', $fieldGroupId)->paginate(10);
 
-        if ($fields->isEmpty()) {   
+        if ($fields->isEmpty()) {
             return response()->json(['error' => 'No fields found for the specified field group'], 404);
         }
 
@@ -45,6 +43,44 @@ class FieldController extends Controller
         ]);
 
         $category = Field::create($formField);
+
+        return response()->json($category);
+    }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $fields = Field::where(function ($query) use ($searchQuery) {
+            $query->where('label', 'like', "%{$searchQuery}%")
+                ->orWhere('description', 'like', "%{$searchQuery}%");
+        })->paginate(10);
+
+        return response()->json($fields);
+    }
+
+    public function destroy($id)
+    {
+        $fields = Field::findOrFail($id);
+        $fields->delete();
+
+        return response()->json($fields);
+    }
+
+    public function editShow(Field $field)
+    {
+        return $field;
+    }
+
+    public function update(Request $request, $id)
+    {
+        $formField = $request->validate([
+            'label' => ['required', 'min:3', 'max:50'],
+            'is_required' => ['max:50'],
+            'description' => ['max:255'],
+        ]);
+
+        $category = Field::findOrfail($id);
+        $category->update($formField);
 
         return response()->json($category);
     }

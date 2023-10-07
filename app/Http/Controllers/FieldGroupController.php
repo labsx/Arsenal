@@ -44,4 +44,11 @@ class FieldGroupController extends Controller
 
         return response()->json($field_groups);
     }
+
+    public function getName()
+    {
+        $categories = FieldGroup::latest()->select('id', 'name')->get();
+
+        return $categories;
+    }
 }
