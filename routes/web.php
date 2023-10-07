@@ -44,9 +44,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/{category}/show', [CategoryController::class, 'show']);
 
     Route::get('/field-group', [FieldGroupController::class, 'index']);
-    Route::get('/field-group/{id}', [FieldGroupController::class, 'index']);
-     Route::get('/field-group/id', [FieldGroupController::class, 'getId']);
+    //Route::get('/field-group/{id}', [FieldGroupController::class, 'index']);
+    Route::get('/field-group/id', [FieldGroupController::class, 'getId']);
     Route::post('/field-group', [FieldGroupController::class, 'create']);
+    Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
+    Route::get('/field-group', [FieldGroupController::class, 'search']);
 
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);

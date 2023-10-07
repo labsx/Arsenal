@@ -30,6 +30,7 @@ class CategoryController extends Controller
                 ->orWhere('parent_id', 'like', "%{$searchQuery}%")
                 ->orWhere('field_group_id', 'like', "%{$searchQuery}%");
         })->paginate(10);
+        
         return response()->json($categories);
     }
 
