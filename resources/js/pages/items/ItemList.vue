@@ -59,11 +59,9 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>
-                      <span class="badge badge-success">{{item.status}}</span>
+                      <span class="badge badge-success">{{ item.status }}</span>
                     </td>
-                    <td>
-                   add delete
-                    </td>
+                    <td>add delete</td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -88,10 +86,9 @@
   </div>
 </template>
 
-
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
 
@@ -111,6 +108,28 @@ const getItems = (page = 1) => {
     });
 };
 
+const searchQuery = ref(null);
+const search = () => {
+  axios
+    .get("/items", {
+      params: {
+        query: searchQuery.value,
+      },
+    })
+    .then((response) => {
+      items.value = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+watch(
+  searchQuery,
+  debounce(() => {
+    search();
+  }, 300)
+);
 
 onMounted(() => {
   getItems();
