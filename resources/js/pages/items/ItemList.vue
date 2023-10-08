@@ -1,41 +1,118 @@
 <template>
-  <div>
-    <h1>Item Details</h1>
-    <div v-for="item in items" :key="item.id">
-      <p>Name: {{ item.name }}</p>
-      <h2>Attributes</h2>
-      <ul>
-        <li v-for="attribute in item.attributes" :key="attribute.id">
-          {{ attribute.name }} - {{ attribute.value }}
-        </li>
-      </ul>
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Item List</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item active">Item List</li>
+          </ol>
+        </div>
+      </div>
     </div>
-    <div v-if="items.length === 0">
-      No items found.
+  </div>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="d-flex justify-content-between mb-2">
+            <div>
+              <!-- <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#createCategory"
+              >
+                <i class="fa fa-plus-circle mr-1"></i>New Category
+              </button> -->
+            </div>
+            <div>
+              <div class="input-group">
+                <input
+                  v-model="searchQuery"
+                  type="text"
+                  class="form-control"
+                  placeholder="Search..."
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fa fa-search text-primary" aria-hidden="true"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Serial</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Option</th>
+                  </tr>
+                </thead>
+                <tbody v-if="items.data.length > 0">
+                  <tr v-for="item in items.data" :key="item.id">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.serial }}</td>
+                    <td>
+                      <span class="badge badge-success">{{item.status}}</span>
+                    </td>
+                    <td>
+                   add delete
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="7" class="text-danger text-center">
+                      No Data found !...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <Bootstrap4Pagination
+              :data="items"
+              @pagination-change-page="getItems"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
+
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";  
+import { ref, onMounted } from "vue";
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
+import { debounce } from "lodash";
 
-const items = ref([]);
+const items = ref({ data: [] });
 
-const getItemsAndAttributes = () => {
-  axios.get('/items_and_attributes/all')
+const getItems = (page = 1) => {
+  axios
+    .get(`/items?page=${page}`)
     .then((response) => {
-      console.log('Response:', response.data);  // Print the response to the console
+      console.log("Response:", response.data);
       if (response.data) {
-        items.value = response.data || [];  
+        items.value = response.data || [];
       }
     })
     .catch((error) => {
-      console.error('Error fetching items and attributes:', error); 
+      console.error("Error fetching items and attributes:", error);
     });
 };
 
+
 onMounted(() => {
-  getItemsAndAttributes();
+  getItems();
 });
 </script>

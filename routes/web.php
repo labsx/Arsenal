@@ -61,7 +61,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/items', [ItemController::class, 'index']);
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
-    Route::get('/items_and_attributes/all', [ItemController::class, 'getItemAttributes']);
+    Route::get('/items', [ItemController::class, 'search']);
+    // Route::get('/items_and_attributes/all', [ItemController::class, 'getItemAttributes']);
 
 
     Route::get('/parent', [ParentController::class, 'index']);
