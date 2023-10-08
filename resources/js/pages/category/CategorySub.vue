@@ -38,6 +38,7 @@
                                 type="text"
                                 class="form-control"
                                 placeholder="Enter Categoy Sub (ex. Laptop, Desktop)"
+                                :class="{ 'is-invalid': errors.name }"
                               />
                               <span
                                 v-if="errors && errors.name"

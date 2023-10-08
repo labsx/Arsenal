@@ -7,10 +7,10 @@
     aria-labelledby="createFieldData"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document" style="max-width: 70%">
+    <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createFieldData">ADD ITEM</h5>
+          <h5 class="modal-title" id="createFieldData">ADD FIELDS</h5>
           <button
             type="button"
             class="close"
@@ -28,41 +28,62 @@
                   <div class="card">
                     <div class="card-body">
                       <form>
-                        <label for="">select category</label>
-                        <select name="" id="" v-model="form.field_groups_id">
-                          <option value=""></option>
-                          <option
-                            :value="field.id"
-                            v-for="field in field_groups"
-                            :key="field.id"
-                          >
-                            {{ field.name }}
-                          </option>
-                        </select>
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="client">Category</label>
+                              <select
+                                id="client"
+                                class="form-control"
+                                v-model="form.field_groups_id"
+                              >
+                                <option value="" disabled selected hidden>
+                                  Select Category
+                                </option>
+                                <option
+                                  :value="field.id"
+                                  v-for="field in field_groups"
+                                  :key="field.id"
+                                >
+                                  {{ field.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
 
-                        <h3>Field Information</h3>
-                        <div>
-                          <label for="">label</label>
-                          <input
-                            v-model="form.label"
-                            type="text"
-                            name=""
-                            id=""
-                          />
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="date">Label</label>
+                              <span class="text-danger"> *</span>
+                              <input
+                                v-model="form.label"
+                                type="text"
+                                class="form-control"
+                                id="text"
+                                :class="{ 'is-invalid': errors.label}"
+                              />
+                               <span
+                                v-if="errors && errors.label"
+                                class="text-danger text-sm"
+                                >{{ errors.label[0] }}</span
+                              >
+                            </div>
+                          </div>
 
-                          <label for="">description</label>
-                          <input
-                            v-model="form.description"
-                            type="text"
-                            name=""
-                            id=""
-                          />
-
-                          <label for="">select</label>
-                          <select v-model="form.is_required" name="" id="">
-                            <option value="required">required</option>
-                            <option value="not required">not required</option>
-                          </select>
+                          <div class="form-group col-md-12">
+                            <label for="description">Description</label>
+                            <textarea
+                              class="form-control"
+                              id="description"
+                              rows="3"
+                              v-model="form.description"
+                              placeholder="Enter Description"
+                            ></textarea>
+                          </div>
+                          <div class="form-group ml-2">
+                            <input v-model="form.is_required" type="checkbox" />
+                            <label class="ml-2">required</label>
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -91,7 +112,7 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted, ref, } from "vue";
+import { onMounted, ref } from "vue";
 import Swal from "sweetalert2";
 import { useToastr } from "../../../toastr";
 
@@ -107,10 +128,11 @@ const form = ref({
 });
 
 const createField = () => {
+  const isRequired = form.value.is_required ? "required" : "not required";
   const formData = {
     label: form.value.label,
     description: form.value.description,
-    is_required: form.value.is_required,
+    is_required: isRequired,
     field_groups_id: form.value.field_groups_id,
   };
 
@@ -119,14 +141,14 @@ const createField = () => {
     .then((response) => {
       toastr.success("Fields created successfully!");
       clearForm();
-     $("#createFieldData").modal("hide");
+      $("#createFieldData").modal("hide");
+      getFieldsGroups();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-        toastr.error("Validation error. Please check your inputs.");
       }
     });
 };

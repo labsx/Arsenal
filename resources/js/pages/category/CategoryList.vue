@@ -20,7 +20,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <button
-                class="btn btn-primary"
+                class="btn btn-primary btn-sm"
                 data-toggle="modal"
                 data-target="#createCategory"
               >
@@ -28,7 +28,7 @@
               </button>
 
               <button
-                class="btn btn-primary ml-1"
+                class="btn btn-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createParent"
               >

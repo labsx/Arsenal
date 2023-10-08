@@ -20,7 +20,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <button
-                class="btn btn-primary ml-1"
+                class="btn btn-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createFieldData"
               >
@@ -59,9 +59,6 @@
                     <td>{{ field.description }}</td>
                     <td>{{ field.is_required }}</td>
                     <td>
-                      <!-- <router-link :to="`/admin/category/${category.id}/edit`">
-                        <i class="fas fa-edit"></i>
-                      </router-link> -->
 
                       <router-link :to="`/admin/edit/${field.id}/fields`">
                         <i class="fas fa-edit"></i>

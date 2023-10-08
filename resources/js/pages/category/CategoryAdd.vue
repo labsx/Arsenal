@@ -38,6 +38,7 @@
                                 class="form-control"
                                 id="title"
                                 placeholder="Enter category name"
+                                :class="{ 'is-invalid': errors.name }"
                               />
                               <span
                                 v-if="errors && errors.name"
@@ -46,42 +47,52 @@
                               >
                             </div>
                           </div>
-                          <div class="col-md-6">
-                            <label for="fieldGroup">Parents</label>
-                            <select
-                              name="fieldGroup"
-                              id="fieldGroup"
-                              v-model="form.parent_id"
-                            >
-                              <option value=""></option>
-                              <option
-                                :value="parent.id"
-                                v-for="parent in parents"
-                                :key="parent.id"
+
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="client">Parent Name Item</label>
+                              <select
+                                id="client"
+                                class="form-control"
+                                v-model="form.parent_id"
                               >
-                                {{ parent.name }}
-                              </option>
-                            </select>
+                                <option value="" disabled selected hidden>
+                                  Select Parent Item Name
+                                </option>
+                                <option
+                                  :value="parent.id"
+                                  v-for="parent in parents"
+                                  :key="parent.id"
+                                >
+                                  {{ parent.name }}
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         </div>
 
                         <div class="form-group">
-                          <div class="col-md-6">
-                            <label for="fieldGroup">Field Group</label>
-                            <select
-                              name="fieldGroup"
-                              id="fieldGroup"
-                              v-model="form.field_groups_id"
-                            >
-                              <option value=""></option>
-                              <option
-                                :value="fields.id"
-                                v-for="fields in field_groups"
-                                :key="fields.id"
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="client">Fields Group</label>
+                              <select
+                                id="client"
+                                class="form-control"
+                                v-model="form.field_groups_id"
                               >
-                                {{ fields.name }}
-                              </option>
-                            </select>
+                                <option value="" disabled selected hidden>
+                                  Select Field Groups
+                                </option>
+                                <option value=""></option>
+                                <option
+                                  :value="fields.id"
+                                  v-for="fields in field_groups"
+                                  :key="fields.id"
+                                >
+                                  {{ fields.name }}
+                                </option>
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </form>
@@ -132,12 +143,13 @@ const createItem = () => {
       $("#createCategory").modal("hide");
       clearForm();
     })
-    .catch((error) => {
+     .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
         toastr.error(message);
+        // getItemsFn();
         errors.value = [];
       }
     });

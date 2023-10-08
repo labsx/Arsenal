@@ -20,11 +20,11 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <button
-                class="btn btn-primary ml-1"
+                class="btn btn-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createFieldsGroup"
               >
-                <i class="fa fa-plus-circle mr-1"></i>ADD FIELDS
+                <i class="fa fa-plus-circle mr-1"></i>ADD FIELD GROUPS
               </button>
             </div>
             <div>
@@ -59,10 +59,6 @@
                     <td>{{ field.description }}</td>
 
                     <td>
-                      <!-- <router-link :to="`/admin/category/${category.id}/edit`">
-                        <i class="fas fa-edit"></i>
-                      </router-link> -->
-
                       <router-link :to="`/admin/fields/${field.id}/add`">
                         <i class="fas fa-eye"></i>
                       </router-link>

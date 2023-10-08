@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createFieldsGroup">Add Fields</h5>
+          <h5 class="modal-title" id="createFieldsGroup">Field Groups</h5>
           <button
             type="button"
             class="close"
@@ -34,13 +34,15 @@
                         <div class="row">
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="title">Name</label>
+                              <label for="title">Field Name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 type="text"
                                 class="form-control"
                                 id="title"
                                 placeholder="Enter item name"
                                 v-model="form.name"
+                                 :class="{ 'is-invalid': errors.name }"
                               />
                               <span
                                 v-if="errors && errors.name"
