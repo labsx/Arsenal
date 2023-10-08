@@ -12,7 +12,7 @@ class ItemAttribute extends Model
 
     protected $guarded = []; 
 
-    public function item()
+    public function attributes()
     {
         return $this->belongsTo(Item::class);
     }

@@ -22,6 +22,6 @@ class Item extends Model
     }
     public function attributes()
     {
-        return $this->hasMany(ItemAttributes::class);
+        return $this->hasMany(ItemAttribute::class);
     }
 }

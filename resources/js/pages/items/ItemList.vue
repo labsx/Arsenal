@@ -19,14 +19,14 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
-              <!-- <button
-                class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#createCategory"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>New Category
-              </button> -->
+              <router-link to="/admin/add/item">
+                <button type="button" class="btn btn-primary btn-sm">
+                  <i class="nav-icon fas fa-plus"></i>
+                  Add item
+                </button>
+              </router-link>
             </div>
+
             <div>
               <div class="input-group">
                 <input
@@ -62,6 +62,11 @@
                       <span class="badge badge-success">{{ item.status }}</span>
                     </td>
                     <td>
+
+                      <router-link :to="`/admin/items/${item.id}/edit`">
+                        <i class="fas fa-edit"></i>
+                      </router-link>
+
                       <router-link to="" @click.prevent="deleteItems(item.id)">
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>

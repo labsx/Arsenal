@@ -60,6 +60,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/fields', [FieldController::class, 'filterFields']);
 
     Route::get('/items', [ItemController::class, 'index']);
+    Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
+    Route::put('/items/{item}', [ItemController::class, 'update']);
+    Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
     Route::get('/items', [ItemController::class, 'search']);
     Route::delete('/items', [ItemController::class, 'destroy']);
