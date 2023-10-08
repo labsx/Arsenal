@@ -47,4 +47,12 @@ class ItemController extends Controller
 
         return response()->json($fields);
     }
+
+    public function destroy($id)
+    {
+        $items = Item::findOrFail($id);
+        $items->delete();
+
+        return response()->json($items);
+    }
 }

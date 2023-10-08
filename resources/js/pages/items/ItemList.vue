@@ -61,7 +61,11 @@
                     <td>
                       <span class="badge badge-success">{{ item.status }}</span>
                     </td>
-                    <td>add delete</td>
+                    <td>
+                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                        <i class="fa fa-trash text-danger ml-2"></i>
+                      </router-link>
+                    </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -91,6 +95,26 @@ import axios from "axios";
 import { ref, onMounted, watch } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
+import { deleteItemsData } from "../../store/swal.js";
+import Swal from "sweetalert2";
+
+const deleteItems = (id) => {
+  deleteItemsData()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/category/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      items.value.data = items.value.data.filter((item) => item.id !== id);
+      Swal.fire("Deleted!", "Item has been deleted.", "success");
+      getItems();
+    })
+    .catch((error) => {
+      console.error("Error deleting event:", error);
+    });
+};
 
 const items = ref({ data: [] });
 
