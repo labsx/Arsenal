@@ -45,34 +45,35 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/field-group', [FieldGroupController::class, 'index']);
     Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
-    Route::get('/field-group/id', [FieldGroupController::class, 'getId']);
+    // Route::get('/field-group/id', [FieldGroupController::class, 'getId']);
     Route::post('/field-group', [FieldGroupController::class, 'create']);
     Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
 
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);
-    Route::get('/fields', [FieldController::class, 'filterFields']);
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::get('/fields', [FieldController::class, 'search']);
     Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
     Route::put('/fields/{field}', [FieldController::class, 'update']);
+    Route::get('/fields', [FieldController::class, 'filterFields']);
 
-
-
+    Route::get('/items', [ItemController::class, 'index']);
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
+    Route::get('/items_and_attributes/all', [ItemController::class, 'getItemAttributes']);
+
 
     Route::get('/parent', [ParentController::class, 'index']);
     Route::post('/parent', [ParentController::class, 'store']);
 
-    Route::get('/items', [ItemController::class, 'index']);
-    Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
-    Route::put('/items/{item}/edit', [ItemController::class, 'update']);
-    Route::delete('/items/{item}', [ItemController::class, 'destroy']);
-    Route::delete('/items', [ItemController::class, 'bulkDelete']);
-    Route::get('/items/list/search', [ItemController::class, 'search']);
-    Route::get('/items/all', [ItemController::class, 'print']);
+    // Route::get('/items', [ItemController::class, 'index']);
+    // Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
+    // Route::put('/items/{item}/edit', [ItemController::class, 'update']);
+    // Route::delete('/items/{item}', [ItemController::class, 'destroy']);
+    // Route::delete('/items', [ItemController::class, 'bulkDelete']);
+    // Route::get('/items/list/search', [ItemController::class, 'search']);
+    // Route::get('/items/all', [ItemController::class, 'print']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);

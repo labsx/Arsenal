@@ -14,6 +14,8 @@ class ItemAttributesController extends Controller
             $formData = $request->validate([
                 'category_id' => 'required|numeric',
                 'item_name' => 'required|string',
+                'serial' => 'required',
+                'status' => 'required',
                 'value' => 'required|array',
                 'value.*.label' => 'required|string',
                 'value.*.value' => 'string',
@@ -22,6 +24,8 @@ class ItemAttributesController extends Controller
             $item = Item::create([
                 'category_id' => $formData['category_id'],
                 'name' => $formData['item_name'],
+                'serial' => $formData['serial'],
+                'status' => $formData['status'],
             ]);
 
             $itemAttributes = [];

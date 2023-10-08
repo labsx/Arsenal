@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\History;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Models\ItemAttribute;
 use App\Models\ItemAttributes;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
@@ -14,40 +15,69 @@ use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
-    public function store(Request $request)
+    public function index()
+    {
+        $items = Item::latest()->get();
+
+        return $items;
+    }
+
+    public function getItemAttributes()
     {
         try {
-            $formData = $request->validate([
-                'item_id' => 'required|numeric',
-                'item_name' => 'required',
-                'value' => 'required|array',
-                'value.*.label' => 'required|string',
-                'value.*.value' => 'string',
-            ]);
-
-            $items = [];
-            foreach ($formData['value'] as $fieldData) {
-                $item = ItemAttributes::create([
-                    'item_id' => $formData['item_id'],
-                    'item_name' => $formData['item_name'],
-                    'name' => $fieldData['label'],
-                    'value' => $fieldData['value'],
-                ]);
-                
-
-                // $item = Item::create([
-                //     'category_id' => $formData['item_id'],
-                //     'name' => $formData['item_name'],
-                // ]);
-
-                $items[] = $item;
+            $items = Item::all();
+            $itemsWithAttributes = [];
+    
+            foreach ($items as $item) {
+                $attributes = ItemAttribute::where('item_id', $item->id)->get();
+                $itemWithAttributes = [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'attributes' => $attributes,
+                ];
+                array_push($itemsWithAttributes, $itemWithAttributes);
             }
-
-            return response()->json($items, 201);
+    
+            return response()->json($itemsWithAttributes, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while saving the items.'], 500);
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+    
+    // public function store(Request $request)
+    // {
+    //     try {
+    //         $formData = $request->validate([
+    //             'item_id' => 'required|numeric',
+    //             'item_name' => 'required',
+    //             'value' => 'required|array',
+    //             'value.*.label' => 'required|string',
+    //             'value.*.value' => 'string',
+    //         ]);
+
+    //         $items = [];
+    //         foreach ($formData['value'] as $fieldData) {
+    //             $item = ItemAttributes::create([
+    //                 'item_id' => $formData['item_id'],
+    //                 'item_name' => $formData['item_name'],
+    //                 'name' => $fieldData['label'],
+    //                 'value' => $fieldData['value'],
+    //             ]);
+                
+
+    //             // $item = Item::create([
+    //             //     'category_id' => $formData['item_id'],
+    //             //     'name' => $formData['item_name'],
+    //             // ]);
+
+    //             $items[] = $item;
+    //         }
+
+    //         return response()->json($items, 201);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => 'An error occurred while saving the items.'], 500);
+    //     }
+    // }
 }   
     // public function index()
     // {

@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
              $table->foreignId('field_groups_id')->constrained('field_groups')->onDelete('cascade'); 
             $table->string('label')->nullable();
-            $table->string('name')->nullable();
-            $table->string('value')->nullable();
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('is_required');
             $table->timestamps();
         });
