@@ -20,7 +20,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <button
-                class="btn btn-primary ml-1 btn-sm"
+                class="btn btn-outline-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createFieldsGroup"
               >
@@ -45,7 +45,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Field Groups Name</th>

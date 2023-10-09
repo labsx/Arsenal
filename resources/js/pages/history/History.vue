@@ -31,7 +31,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Items name</th>
@@ -53,13 +53,6 @@
                       <span :class="getStatusClass(item.status)">{{
                         item.status
                       }}</span>
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody v-else>
-                  <tr>
-                    <td colspan="9" class="text-danger text-center">
-                      No Data found !...
                     </td>
                   </tr>
                 </tbody>

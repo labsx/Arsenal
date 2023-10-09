@@ -1,3 +1,14 @@
+import JsBarcode from "jsbarcode";
+
+const generateBarcode = (barcodeValue) => {
+  const canvas = document.createElement("canvas");
+  JsBarcode(canvas, barcodeValue, {
+    format: "CODE128",
+    displayValue: true,
+  });
+  return canvas.toDataURL();
+};
+
 export const printHistory = (items, formatDate) => {
     const tableContent = `
       <table border="1">
@@ -5,8 +16,6 @@ export const printHistory = (items, formatDate) => {
           <tr>
             <th>Item Name</th>
             <th>Serial</th>
-            <th>Model</th>
-            <th>Issued Item</th>
             <th>Date Issued</th>
             <th>Date Return</th>
             <th>Issued To</th>
@@ -20,9 +29,7 @@ export const printHistory = (items, formatDate) => {
             <tr>
               <td>${item.name}</td>
               <td>${item.serial}</td>
-              <td>${item.model}</td>
-              <td>${item.count}</td>
-              <td>${formatDate(item.issued_date)}</td>
+              <td>${formatDate(item.date_issued)}</td>
               <td>${formatDate(item.return_date)}</td>
               <td>${item.issued_to}</td>
               <td>${item.status}</td>
@@ -83,13 +90,12 @@ export const printItemsData = (items, formatDate) => {
         <thead>
           <tr>
             <th>Item Name</th>
-            <th>Items Available</th>
-            <th>Items Issued</th>
             <th>Serial</th>
-            <th>Model</th>
-            <th>Date</th>
             <th>Status</th>
-            <th>Description</th>
+            <th>Date Store</th>
+            <th>Barcode</th>
+
+           
           </tr>
         </thead>
         <tbody>
@@ -98,13 +104,13 @@ export const printItemsData = (items, formatDate) => {
                 (item) => `
                 <tr>
                   <td>${item.name}</td>
-                  <td>${item.count}</td>
-                  <td>${item.issued_item}</td>
                   <td>${item.serial}</td>
-                  <td>${item.model}</td>
-                  <td>${formatDate(item.date)}</td>
                   <td>${item.status}</td>
-                  <td>${item.description}</td>
+                  <td>${formatDate(item.created_at)}</td>
+                  <td> 
+                  <div class="barcode">
+                  <img src="${generateBarcode(item.barcode)}" alt="Barcode" style="height: 50px"/>
+                </div></td>
                 </tr>
               `
             )

@@ -26,7 +26,7 @@
               >
                 <router-link
                   to="/admin/users/create"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-outline-primary btn-sm"
                 >
                   <i class="fa fa-user-plus mr-2"></i> New User
                 </router-link>
@@ -51,7 +51,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Avatar</th>

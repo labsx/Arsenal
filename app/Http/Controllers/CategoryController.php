@@ -37,13 +37,13 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $formField = $request->validate([
-            'name' => ['required', 'min:3', 'max:50', 'unique:categories'],
+            'name' => ['required', 'min:3', 'max:50', Rule::unique('categories', 'name')],
             'parent_id' => ['nullable', Rule::exists('parent_models', 'id')],
             'field_group_id' => ['nullable', Rule::exists('field_groups', 'id')],
         ]);
-
+           
         $category = Category::create($formField);
-
+        
         return response()->json($category);
     }
 

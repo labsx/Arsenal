@@ -96,7 +96,7 @@
 
                     <div class="form-group row">
                       <div class="offset-sm-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-outline-success">
                           <i class="fa fa-save mr-1"></i> Create User
                         </button>
                       </div>

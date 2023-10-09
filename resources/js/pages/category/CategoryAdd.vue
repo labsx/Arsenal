@@ -83,13 +83,12 @@
                                 <option value="" disabled selected hidden>
                                   Select Field Groups
                                 </option>
-                                <option value=""></option>
                                 <option
-                                  :value="fields.id"
-                                  v-for="fields in field_groups"
-                                  :key="fields.id"
+                                  :value="field.id"
+                                  v-for="field in field_groups"
+                                  :key="field.id"
                                 >
-                                  {{ fields.name }}
+                                  {{ field.name }}
                                 </option>
                               </select>
                             </div>
@@ -104,10 +103,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
-          <button @click="createItem" type="submit" class="btn btn-primary">
+          <button @click="createItem" type="submit" class="btn btn-outline-primary btn-sm">
             <i class="fa fa-save mr-2"></i>Save Item
           </button>
         </div>
@@ -143,13 +142,12 @@ const createItem = () => {
       $("#createCategory").modal("hide");
       clearForm();
     })
-     .catch((error) => {
+    .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-        toastr.error(message);
-        // getItemsFn();
+       toastr.error("Error inserting data !");
         errors.value = [];
       }
     });
@@ -159,10 +157,10 @@ const clearForm = () => {
   form.value.name = "";
 };
 
-const field_groups = ref();
+const field_groups = ref([]);
 const getFieldGroup = () => {
   axios
-    .get("/field-group")
+    .get("/field-group/data")
     .then((response) => {
       field_groups.value = response.data;
     })
@@ -171,7 +169,7 @@ const getFieldGroup = () => {
     });
 };
 
-const parents = ref();
+const parents = ref([]);
 const getParent = () => {
   axios
     .get("/parent")
@@ -179,12 +177,12 @@ const getParent = () => {
       parents.value = response.data;
     })
     .catch((error) => {
-      console.error("Error fetching field_group:", error);
+      console.error("Error fetching parent item:", error);
     });
 };
+
 onMounted(() => {
   getParent();
   getFieldGroup();
 });
 </script>
-

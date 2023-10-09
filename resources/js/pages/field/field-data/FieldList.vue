@@ -20,7 +20,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <button
-                class="btn btn-primary ml-1 btn-sm"
+                class="btn btn-outline-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createFieldData"
               >
@@ -45,7 +45,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Label</th>
@@ -59,7 +59,6 @@
                     <td>{{ field.description }}</td>
                     <td>{{ field.is_required }}</td>
                     <td>
-
                       <router-link :to="`/admin/edit/${field.id}/fields`">
                         <i class="fas fa-edit"></i>
                       </router-link>
@@ -153,7 +152,7 @@ const search = () => {
       fields.value = response.data;
     })
     .catch((error) => {
-        console.error("Error in search:", error);
+      console.error("Error in search:", error);
     });
 };
 

@@ -51,4 +51,11 @@ class FieldGroupController extends Controller
 
         return $categories;
     }
+
+    public function getFields()
+    {
+        $field_groups = FieldGroup::latest()->select('id', 'name')->get();
+
+        return $field_groups;
+    }
 }

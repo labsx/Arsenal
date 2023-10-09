@@ -174,7 +174,7 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-outline-primary btn-sm"><i class="fa fa-save mr-2"></i>Submit</button>
               </form>
             </div>
           </div>

@@ -69,16 +69,12 @@
                   <label class="ml-2">required</label>
                 </div>
 
-                <router-link to="/admin/field_groups/list">
-                  <button type="submit" class="btn btn-primary mr-2">
-                    Back
-                  </button>
-                </router-link>
                 <button
                   @click.prevent="saveField"
                   type="submit"
-                  class="btn btn-primary"
+                  class="btn btn-outline-primary "
                 >
+                <i class="fa fa-save mr-1"></i>
                   Submit
                 </button>
               </form>

@@ -38,7 +38,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
@@ -68,7 +68,6 @@
                       <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
                       </router-link>
-                     
                     </td>
                   </tr>
                 </tbody>

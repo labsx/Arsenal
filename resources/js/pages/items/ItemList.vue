@@ -20,11 +20,18 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <router-link to="/admin/add/item">
-                <button type="button" class="btn btn-primary btn-sm">
+                <button type="button" class="btn btn-outline-primary btn-sm">
                   <i class="nav-icon fas fa-plus"></i>
                   Add item
                 </button>
               </router-link>
+
+              <button
+                @click="printItems"
+                class="btn btn-outline-primary btn-sm ml-2"
+              >
+                <i class="fa fa-print mr-1"></i> Print
+              </button>
             </div>
 
             <div>
@@ -45,7 +52,7 @@
           </div>
           <div class="card">
             <div class="card-body">
-              <table class="table table-bordered">
+              <table class="table align-middle">
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
@@ -70,7 +77,7 @@
                         <img
                           :src="generateBarcode(item.barcode)"
                           alt="Barcode"
-                          style="height: 80px"
+                          style="height: 50px"
                         />
                       </div>
                     </td>
@@ -128,6 +135,12 @@ import { debounce } from "lodash";
 import { deleteItemsData } from "../../store/swal.js";
 import Swal from "sweetalert2";
 import JsBarcode from "jsbarcode";
+import { printItemsData } from "../../store/print.js";
+import { formatDate } from "../../helper.js";
+
+const printItems = () => {
+  printItemsData(items.value.data, formatDate);
+};
 
 const generateBarcode = (barcodeValue) => {
   const canvas = document.createElement("canvas");

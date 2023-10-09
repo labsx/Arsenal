@@ -57,13 +57,13 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
           <button
             @click="createParent()"
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-outline-primary btn-sm"
           >
             <i class="fa fa-save mr-2"></i>Save Item
           </button>
