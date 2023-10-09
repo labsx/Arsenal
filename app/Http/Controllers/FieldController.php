@@ -52,7 +52,8 @@ class FieldController extends Controller
         $searchQuery = request('query');
         $fields = Field::where(function ($query) use ($searchQuery) {
             $query->where('label', 'like', "%{$searchQuery}%")
-                ->orWhere('description', 'like', "%{$searchQuery}%");
+                ->orWhere('description', 'like', "%{$searchQuery}%")
+                ->orWhere('is_required', 'like', "%{$searchQuery}%");
         })->paginate(10);
 
         return response()->json($fields);

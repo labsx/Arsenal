@@ -63,6 +63,10 @@
                     </td>
                     <td>
 
+                      <router-link :to="`/admin/items/${item.id}/issue`">
+                        <i class="fas fa-user-plus text-secondary mr-2"></i>
+                      </router-link>
+
                       <router-link :to="`/admin/items/${item.id}/edit`">
                         <i class="fas fa-edit"></i>
                       </router-link>
@@ -107,7 +111,7 @@ const deleteItems = (id) => {
   deleteItemsData()
     .then((result) => {
       if (result.isConfirmed) {
-        return axios.delete(`/category/${id}`);
+        return axios.delete(`/items/${id}`);
       }
       throw new Error("Deletion not confirmed.");
     })

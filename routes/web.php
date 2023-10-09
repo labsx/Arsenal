@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
-    Route::get('/fields', [FieldController::class, 'search']);
+    Route::get('/fields/search', [FieldController::class, 'search']);
     Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
     Route::put('/fields/{field}', [FieldController::class, 'update']);
@@ -65,9 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
     Route::get('/items', [ItemController::class, 'search']);
-    Route::delete('/items', [ItemController::class, 'destroy']);
+    Route::delete('/items/{item}', [ItemController::class, 'destroy']);
     // Route::get('/items_and_attributes/all', [ItemController::class, 'getItemAttributes']);
-
 
     Route::get('/parent', [ParentController::class, 'index']);
     Route::post('/parent', [ParentController::class, 'store']);
@@ -80,13 +79,13 @@ Route::middleware('auth')->group(function () {
     // Route::get('/items/list/search', [ItemController::class, 'search']);
     // Route::get('/items/all', [ItemController::class, 'print']);
 
-    Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
-    Route::post('/issue/items', [IssueItemController::class, 'create']);
-    Route::get('/issue/items', [IssueItemController::class, 'index']);
-    Route::delete('/issue/{issue}', [IssueItemController::class, 'destroyIssue']);
-    Route::get('/issue/search', [IssueItemController::class, 'search']);
-    Route::get('/items/{issue}/list', [IssueItemController::class, 'show']);
-    Route::put('/items/{issue}/lists', [IssueItemController::class, 'update']);
+     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
+     Route::post('/issue/items', [IssueItemController::class, 'create']);
+     Route::get('/issue', [IssueItemController::class, 'index']);
+    // Route::delete('/issue/{issue}', [IssueItemController::class, 'destroyIssue']);
+     Route::get('/issue', [IssueItemController::class, 'search']);
+    // Route::get('/items/{issue}/list', [IssueItemController::class, 'show']);
+    //Route::put('/items/{issue}/lists', [IssueItemController::class, 'update']);
 
     Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
     Route::post('/items/return', [ReturnController::class, 'return']);

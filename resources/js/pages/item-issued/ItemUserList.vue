@@ -42,9 +42,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Item Name</th>
-                    <th scope="col">Item Count</th>
                     <th scope="col">Serial</th>
-                    <th scope="col">Model</th>
                     <th scope="col">Date Issued</th>
                     <th scope="col">Issued to</th>
                     <th scope="col">Status</th>
@@ -54,10 +52,8 @@
                 <tbody v-if="issues.data.length > 0">
                   <tr v-for="issue in issues.data" :key="issue.id">
                     <td>{{ issue.name }}</td>
-                    <td>{{ issue.count }}</td>
                     <td>{{ issue.serial }}</td>
-                    <td>{{ issue.model }}</td>
-                    <td>{{ formatDate(issue.issued_date) }}</td>
+                    <td>{{ formatDate(issue.date_issued) }}</td>
                     <td>{{ issue.issued_to }}</td>
                     <td>
                       <span class="badge badge-primary"
@@ -65,7 +61,7 @@
                       </span>
                     </td>
                     <td>
-                      <router-link :to="`/admin/items/${issue.id}/lists`">
+                      <!-- <router-link :to="`/admin/items/${issue.id}/lists`">
                         <i class="fas fa-user-tie"></i>
                       </router-link>
 
@@ -79,7 +75,7 @@
                         v-if="!issue.serial"
                       >
                         <i class="fa fa-trash text-danger ml-2"></i>
-                      </router-link>
+                      </router-link> -->
                     </td>
                   </tr>
                 </tbody>
@@ -115,7 +111,7 @@ const issues = ref({ data: [] });
 
 const getItems = (page = 1) => {
   axios
-    .get(`/issue/search?page=${page}`)
+    .get(`/issue?page=${page}`)
     .then((response) => {
       issues.value = response.data;
     })
@@ -127,7 +123,7 @@ const getItems = (page = 1) => {
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/issue/search", {
+    .get("/issue", {
       params: {
         query: searchQuery.value,
       },
@@ -140,33 +136,33 @@ const search = () => {
     });
 };
 
-const isTable1Active = ref(false);
+// const isTable1Active = ref(false);
 
-const activateTable = (tableNumber) => {
-  if (tableNumber === 1) {
-    isTable1Active.value = false;
-  } else if (tableNumber === 2) {
-    isTable1Active.value = true;
-  }
-};
+// const activateTable = (tableNumber) => {
+//   if (tableNumber === 1) {
+//     isTable1Active.value = false;
+//   } else if (tableNumber === 2) {
+//     isTable1Active.value = true;
+//   }
+// };
 
-const deleteIssueItems = (id) => {
-  deleteIssued()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/issue/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      issues.value.data = issues.value.data.filter((issue) => issue.id !== id);
-      Swal.fire("Deleted!", "Issued item has been deleted.", "success");
-      getItems();
-    })
-    .catch((error) => {
-      console.error("Error deleting event:", error);
-    });
-};
+// const deleteIssueItems = (id) => {
+//   deleteIssued()
+//     .then((result) => {
+//       if (result.isConfirmed) {
+//         return axios.delete(`/issue/${id}`);
+//       }
+//       throw new Error("Deletion not confirmed.");
+//     })
+//     .then(() => {
+//       issues.value.data = issues.value.data.filter((issue) => issue.id !== id);
+//       Swal.fire("Deleted!", "Issued item has been deleted.", "success");
+//       getItems();
+//     })
+//     .catch((error) => {
+//       console.error("Error deleting event:", error);
+//     });
+// };
 
 watch(
   searchQuery,

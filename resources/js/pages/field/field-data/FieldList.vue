@@ -144,7 +144,7 @@ const deleteFields = (id) => {
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/fields", {
+    .get("/fields/search", {
       params: {
         query: searchQuery.value,
       },
@@ -153,7 +153,7 @@ const search = () => {
       fields.value = response.data;
     })
     .catch((error) => {
-      console.log(error);
+        console.error("Error in search:", error);
     });
 };
 

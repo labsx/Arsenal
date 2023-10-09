@@ -142,7 +142,7 @@ const createField = () => {
       toastr.success("Fields created successfully!");
       clearForm();
       $("#createFieldData").modal("hide");
-      getFieldsGroups();
+      
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

@@ -28,30 +28,23 @@
             <div class="card-body">
               <form>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
                       <label for="title">Label</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.label"
                         type="text"
                         class="form-control"
                         id="title"
                         placeholder="Enter label"
+                        :class="{ 'is-invalid': errors.label }"
                       />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="client">Status</label>
-                      <select
-                        id="client"
-                        class="form-control"
-                        v-model="form.is_required"
+                      <span
+                        v-if="errors && errors.label"
+                        class="text-danger text-sm"
+                        >{{ errors.label[0] }}</span
                       >
-                        <option value=""></option>
-                        <option value="required">required</option>
-                        <option value="not required">not required</option>
-                      </select>
                     </div>
                   </div>
                 </div>
@@ -66,6 +59,16 @@
                     placeholder="Enter Description"
                   ></textarea>
                 </div>
+                <div class="form-group">
+                  <input
+                    v-model="form.is_required"
+                    type="checkbox"
+                    style="width: 15px; height: 15px"
+                    :checked="form.is_required === 'required'"
+                  />
+                  <label class="ml-2">required</label>
+                </div>
+
                 <router-link to="/admin/field_groups/list">
                   <button type="submit" class="btn btn-primary mr-2">
                     Back
@@ -119,13 +122,21 @@ const fieldsData = () => {
 };
 
 const saveField = () => {
+  form.is_required = form.is_required ? "required" : "not required";
   axios
     .put(`/fields/${route.params.id}`, form)
     .then(() => {
       toastr.success("fields updated successfully!");
     })
     .catch((error) => {
-      console.error("Error updating fields:", error);
+      if (error.response && error.response.status === 400) {
+        toastr.error(error.response.data.error);
+      } else if (error.response && error.response.status === 422) {
+        errors.value = error.response.data.errors;
+        toastr.error(message);
+        // getItemsFn();
+        errors.value = [];
+      }
     });
 };
 
