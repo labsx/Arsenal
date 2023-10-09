@@ -66,10 +66,13 @@
                     </td>
 
                     <td>
-                      <div class="barcode" :id="'barcode-' + item.id">
-                        <svg :id="'barcode-svg-' + item.id"></svg>
+                      <div class="barcode">
+                        <img
+                          :src="generateBarcode(item.barcode)"
+                          alt="Barcode"
+                          style="height: 80px"
+                        />
                       </div>
-                      <span>{{ item.barcode }}</span>
                     </td>
 
                     <td>
@@ -119,46 +122,20 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, nextTick } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
 import { deleteItemsData } from "../../store/swal.js";
 import Swal from "sweetalert2";
 import JsBarcode from "jsbarcode";
 
-const generateBarcode = (elementId, barcodeValue) => {
-  const svgElement = document.getElementById(
-    `barcode-svg-${elementId.split("-")[1]}`
-  );
-
-  console.log(
-    `Generating Code 128 barcode for ${elementId} with value ${barcodeValue}`
-  );
-
-  if (svgElement) {
-    svgElement.innerHTML = "";
-
-    try {
-      JsBarcode(svgElement, barcodeValue, {
-        format: "CODE128",
-        lineColor: "#000000",
-        width: 2,
-        height: 50,
-        displayValue: true,
-      });
-    } catch (error) {
-      console.error("Error generating barcode:", error);
-    }
-  }
-};
-
-const generateBarcodesForItems = () => {
-  items.value.data.forEach((item) => {
-    console.log(
-      `Generating barcode for item ${item.id} with barcode value: ${item.barcode}`
-    );
-    generateBarcode(`barcode-${item.id}`, item.barcode);
+const generateBarcode = (barcodeValue) => {
+  const canvas = document.createElement("canvas");
+  JsBarcode(canvas, barcodeValue, {
+    format: "CODE128",
+    displayValue: true,
   });
+  return canvas.toDataURL();
 };
 
 //
@@ -190,29 +167,12 @@ const getItems = (page = 1) => {
       console.log("Response:", response.data);
       if (response.data) {
         items.value = response.data || [];
-        items.value.data.forEach((item) => {
-          generateBarcode(`barcode-${item.id}`, item.barcode);
-        });
       }
     })
     .catch((error) => {
       console.error("Error fetching items and attributes:", error);
     });
 };
-
-// const getItems = (page = 1) => {
-//   axios
-//     .get(`/items?page=${page}`)
-//     .then((response) => {
-//       console.log("Response:", response.data);
-//       if (response.data) {
-//         items.value = response.data || [];
-//       }
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching items and attributes:", error);
-//     });
-// };
 
 const searchQuery = ref(null);
 const search = () => {
@@ -252,14 +212,7 @@ const getStatusClass = (status) => {
 };
 
 onMounted(() => {
-  generateBarcodesForItems();
   getItems();
 });
 </script>
-<style scoped>
-.barcode {
-  width: 100px;
-  height: 60px;
-  border: 1px solid black;
-}
-</style>
+ 
