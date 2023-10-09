@@ -1,81 +1,148 @@
 <template>
   <form>
-    <div class="form-group">
-      <label for="item_name">Item Name:</label>
-      <input
-        v-model="form.name"
-        type="text"
-        class="form-control"
-        id="name"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="serial">Serial:</label>
-      <input
-        v-model="form.serial"
-        type="text"
-        class="form-control"
-        id="serial"
-        required
-      />
-    </div>
-    <div class="form-group">
-      <label for="status">Status:</label>
-      <input
-        v-model="form.status"
-        type="text"
-        class="form-control"
-        id="status"
-        required
-      />
-    </div>
-
-    <!-- Display attributes -->
-    <div class="form-group">
-      <label for="attributes">Attributes:</label>
-      <button type="button" class="btn btn-primary" @click="addAttribute">
-        Add Attribute
-      </button>
-      <div id="attributes-container">
-        <div
-          v-for="(attribute, index) in form.value"
-          :key="index"
-          class="attribute"
-        >
-          <input
-            v-model="attribute.name"
-            type="text"
-            class="formm-control"
-            :name="`value[${index}][label]`"
-            placeholder="Attribute Label"
-            required
-          />
-          <input
-            v-model="attribute.value"
-            type="text"
-            class="form-control"
-            :name="`value[${index}][value]`"
-            placeholder="Attribute Value"
-          />
-          <button
-            type="button"
-            class="btn btn-danger"
-            @click="removeAttribute(index)"
-          >
-            Remove
-          </button>
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Edit Item</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item">
+                <router-link to="/admin/dashboard">Home</router-link>
+              </li>
+              <li class="breadcrumb-item">Items</li>
+              <li class="breadcrumb-item active">Edit</li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>
 
-    <button
-      @click.prevent="handleSubmit()"
-      type="submit"
-      class="btn btn-primary"
-    >
-      Submit
-    </button>
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-body">
+                <form>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title">Item Name</label>
+                        <input
+                          v-model="form.name"
+                          type="text"
+                          class="form-control"
+                          id="title"
+                          placeholder="Enter Title"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="client">Status</label>
+                        <select
+                          v-model="form.status"
+                          id="client"
+                          class="form-control"
+                          :class="{ 'is-invalid': errors.status }"
+                        >
+                          <option value="" disabled selected hidden>
+                            Select Status
+                          </option>
+                          <option value="operating">Operating</option>
+                          <option value="decommissioned">Decommissioned</option>
+                          <option value="under repair">Under Repair</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="date">Serial</label>
+                        <input
+                          v-model="form.serial"
+                          type="text"
+                          class="form-control"
+                          id="date"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h4>Attributes:</h4>
+                  <div
+                    v-for="(attribute, index) in form.value"
+                    :key="index"
+                    class="attribute"
+                  >
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="title">Name</label>
+                          <input
+                            v-model="attribute.name"
+                            :name="`value[${index}][label]`"
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            placeholder="Enter Title"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-5">
+                        <div class="form-group">
+                          <label for="date">Value</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="date"
+                            v-model="attribute.value"
+                            :name="`value[${index}][value]`"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <i
+                            class="fa fa-times mt-4 text-danger"
+                            @click="removeAttribute(index)"
+                            style="cursor: pointer"
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button
+                      type="button"
+                      class="btn btn-outline-info"
+                      @click="addAttribute"
+                    >
+                      <i class="fa fa-plus"></i>
+                      Add Attribute
+                    </button>
+                  </div>
+
+                  <button
+                    @click.prevent="handleSubmit()"
+                    type="submit"
+                    class="btn btn-outline-primary"
+                  >
+                    <i class="fa fa-save mr-2"></i>
+                    Submit
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </form>
 </template>
 
@@ -86,6 +153,7 @@ import { ref, onMounted, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 
+const errors = ref([]);
 const toastr = useToastr();
 const router = useRouter();
 const route = useRoute();
@@ -109,7 +177,7 @@ const getItems = () => {
   axios
     .get(`/items/${route.params.id}/show`)
     .then((response) => {
-      console.log("Response data:", response.data); // Check the response data
+      console.log("Response data:", response.data);
 
       if (response.data) {
         form.name = response.data.name;
