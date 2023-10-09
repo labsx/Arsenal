@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('serial')->nullable();
-            $table->dateTime('issued_date');
+            $table->dateTime('date_issued');
             $table->dateTime('return_date')->nullable();
-            $table->string('model')->nullable();
             $table->string('status');
             $table->string('issued_to');    
-            $table->integer('count'); 
             $table->timestamps();
         });
     }

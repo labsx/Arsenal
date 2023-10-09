@@ -31,6 +31,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.name"
                         type="text"
@@ -41,9 +42,10 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-3">
                     <div class="form-group">
-                      <label for="client">Serial #</label>
+                      <label for="client">Serial</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.serial"
                         type="text"
@@ -54,23 +56,11 @@
                       />
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Model</label>
-                      <input
-                        v-model="form.model"
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter model"
-                        disabled
-                      />
-                    </div>
-                  </div>
+
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Issue to</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.issued_to"
                         type="text"
@@ -80,41 +70,26 @@
                       />
                     </div>
                   </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Item Count (Optional)</label>
-                      <input
-                        v-model="form.count"
-                        type="text"
-                        class="form-control"
-                        :class="{ 'is-invalid': errors.count }"
-                        :disabled="form.serial"
-                      />
-                      <span
-                        v-if="errors && errors.count"
-                        class="text-danger text-sm"
-                        >{{ errors.count[0] }}</span
-                      >
-                    </div>
-                  </div>
                 </div>
 
                 <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="date">Date Issued</label>
+                      <span class="text-danger"> *</span>
                       <input
-                        v-model="form.issued_date"
+                        v-model="form.date_issued"
                         type="date"
                         class="form-control flatpickr"
                         disabled
+                        style="background: white"
                       />
                     </div>
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Date return</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.return_date"
                         type="date"
@@ -134,20 +109,20 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="client">Status</label>
+                      <span class="text-danger"> *</span>
                       <select
                         v-model="form.status"
+                        id="client"
                         class="form-control"
                         :class="{ 'is-invalid': errors.status }"
                       >
-                        <option :value="form.serial ? 'Good' : 'issued'">
-                          {{ form.serial ? "Good" : "issued" }}
+                        <option :value="form.serial ? 'operating' : 'issued'">
+                          {{ form.serial ? "operating" : "issued" }}
                         </option>
-                        <option value="Broken" v-if="form.serial">
-                          Broken
-                        </option>
-                        <option value="Under Repair" v-if="form.serial">
-                          Under Repair
-                        </option>
+                        <!-- <option value="operating">Operating</option> -->
+                        <!-- <option value="issued">Issued</option> -->
+                        <option value="decommissioned">decommissioned</option>
+                        <option value="under repair">under repair</option>
                       </select>
                       <span
                         v-if="errors && errors.status"
@@ -184,23 +159,19 @@ const errors = ref([]);
 const form = reactive({
   name: "",
   serial: "",
-  issued_date: "",
-  model: "",
+  date_issued: "",
   status: "",
   issued_to: "",
   return_date: "",
-  count: 0,
 });
 
 const ItemReturn = () => {
   axios.get(`/items/${route.params.id}/return`).then(({ data }) => {
     form.name = data.name;
     form.serial = data.serial;
-    form.model = data.model;
     form.status = data.status;
-    form.issued_date = data.issued_date;
+    form.date_issued = data.date_issued;
     form.issued_to = data.issued_to;
-    form.count = data.count;
   });
 };
 

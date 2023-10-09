@@ -65,9 +65,9 @@
                         <i class="fas fa-user-tie"></i>
                       </router-link>
 
-                      <!-- <router-link :to="`/admin/items/${issue.id}/return`">
+                      <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
-                      </router-link> -->
+                      </router-link>
                      
                     </td>
                   </tr>
