@@ -36,7 +36,13 @@
                           class="form-control"
                           id="title"
                           placeholder="Enter Title"
+                          :class="{ 'is-invalid': errors.name }"
                         />
+                        <span
+                          v-if="errors && errors.name"
+                          class="text-danger text-sm"
+                          >{{ errors.name[0] }}</span
+                        >
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -66,7 +72,13 @@
                           type="text"
                           class="form-control"
                           id="date"
+                          :class="{ 'is-invalid': errors.serial }"
                         />
+                        <span
+                          v-if="errors && errors.serial"
+                          class="text-danger text-sm"
+                          >{{ errors.serial[0] }}</span
+                        >
                       </div>
                     </div>
                   </div>
@@ -88,7 +100,9 @@
                             class="form-control"
                             id="title"
                             placeholder="Enter Title"
+                           :class="{'is-invalid': errors && errors.name}"
                           />
+                        <span v-if="errors && errors.name" class="text-danger text-sm">{{ errors.name[0] }}</span>
                         </div>
                       </div>
 
@@ -101,7 +115,9 @@
                             id="date"
                             v-model="attribute.value"
                             :name="`value[${index}][value]`"
+                           :class="{'is-invalid': errors && errors.value}"
                           />
+                         <span v-if="errors && errors.value" class="text-danger text-sm">{{ errors.value[0] }}</span>
                         </div>
                       </div>
 
@@ -221,7 +237,13 @@ const handleSubmit = () => {
       toastr.success("Item updated successfully!");
     })
     .catch((error) => {
-      toastr.error("Error updating item. Please try again.");
+      if (error.response && error.response.status === 400) {
+        toastr.error(error.response.data.error);
+      } else if (error.response && error.response.status === 422) {
+        errors.value = error.response.data.errors;
+        toastr.error('Empty attributes or duplicate name !');
+        errors.value = [];
+      }
     });
 };
 onMounted(() => {
