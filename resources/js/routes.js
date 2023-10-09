@@ -1,7 +1,7 @@
 import Dashboard from './components/Dashboard.vue';
 import ItemList from './pages/items/ItemList.vue';
 import EditItems from './pages/items/EditItem.vue';
-import ItemForm from './pages/items/ItemForm.vue';
+// import ItemForm from './pages/items/ItemForm.vue';
 import IssueForm from './pages/items/IssueForm.vue';
 import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
@@ -70,11 +70,11 @@ export default[
         name: 'admin.items.list',
         component: ItemList,
     },
-    {
-        path: '/admin/items/create',
-        name: 'admin.items.create',
-        component: ItemForm,
-    },
+    // {
+    //     path: '/admin/items/create',
+    //     name: 'admin.items.create',
+    //     component: ItemForm,
+    // },
     // {
     //     path: '/admin/items/:id/edit',
     //     name: 'admin.items.edit',

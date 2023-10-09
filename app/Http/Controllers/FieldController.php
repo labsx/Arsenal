@@ -37,7 +37,7 @@ class FieldController extends Controller
     {
         $formField = $request->validate([
             'field_groups_id' => ['nullable'],
-            'label' => ['required', 'max:50', 'unique:fields'],
+            'label' => ['required', 'max:50'],
             'description' => ['max:255'],
             'is_required' => ['required'],
         ]);

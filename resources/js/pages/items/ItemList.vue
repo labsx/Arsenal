@@ -51,6 +51,7 @@
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Barcode</th>
                     <th scope="col">Option</th>
                   </tr>
                 </thead>
@@ -59,15 +60,32 @@
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
                     <td>
-                      <span class="badge badge-success">{{ item.status }}</span>
+                      <span :class="getStatusClass(item.status)">{{
+                        item.status
+                      }}</span>
                     </td>
-                    <td>
 
-                      <router-link :to="`/admin/items/${item.id}/issue`">
+                    <td>
+                      <div class="barcode" :id="'barcode-' + item.id">
+                        <svg :id="'barcode-svg-' + item.id"></svg>
+                      </div>
+                      <span>{{ item.barcode }}</span>
+                    </td>
+
+                    <td>
+                      <router-link
+                        v-if="item.status === 'operating'"
+                        :to="`/admin/items/${item.id}/issue`"
+                      >
                         <i class="fas fa-user-plus text-secondary mr-2"></i>
                       </router-link>
 
-                      <router-link :to="`/admin/items/${item.id}/edit`">
+                      <router-link
+                        v-if="
+                          !['issued', 'decommissioned'].includes(item.status)
+                        "
+                        :to="`/admin/items/${item.id}/edit`"
+                      >
                         <i class="fas fa-edit"></i>
                       </router-link>
 
@@ -106,6 +124,44 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
 import { deleteItemsData } from "../../store/swal.js";
 import Swal from "sweetalert2";
+import JsBarcode from "jsbarcode";
+
+const generateBarcode = (elementId, barcodeValue) => {
+  const svgElement = document.getElementById(
+    `barcode-svg-${elementId.split("-")[1]}`
+  );
+
+  console.log(
+    `Generating Code 128 barcode for ${elementId} with value ${barcodeValue}`
+  );
+
+  if (svgElement) {
+    svgElement.innerHTML = "";
+
+    try {
+      JsBarcode(svgElement, barcodeValue, {
+        format: "CODE128",
+        lineColor: "#000000",
+        width: 2,
+        height: 50,
+        displayValue: true,
+      });
+    } catch (error) {
+      console.error("Error generating barcode:", error);
+    }
+  }
+};
+
+const generateBarcodesForItems = () => {
+  items.value.data.forEach((item) => {
+    console.log(
+      `Generating barcode for item ${item.id} with barcode value: ${item.barcode}`
+    );
+    generateBarcode(`barcode-${item.id}`, item.barcode);
+  });
+};
+
+//
 
 const deleteItems = (id) => {
   deleteItemsData()
@@ -134,12 +190,29 @@ const getItems = (page = 1) => {
       console.log("Response:", response.data);
       if (response.data) {
         items.value = response.data || [];
+        items.value.data.forEach((item) => {
+          generateBarcode(`barcode-${item.id}`, item.barcode);
+        });
       }
     })
     .catch((error) => {
       console.error("Error fetching items and attributes:", error);
     });
 };
+
+// const getItems = (page = 1) => {
+//   axios
+//     .get(`/items?page=${page}`)
+//     .then((response) => {
+//       console.log("Response:", response.data);
+//       if (response.data) {
+//         items.value = response.data || [];
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching items and attributes:", error);
+//     });
+// };
 
 const searchQuery = ref(null);
 const search = () => {
@@ -164,7 +237,29 @@ watch(
   }, 300)
 );
 
+const getStatusClass = (status) => {
+  if (status === "operating") {
+    return "badge badge-success good-status";
+  } else if (status === "decommissioned") {
+    return "badge badge-danger bad-status";
+  } else if (status === "under repair") {
+    return "badge badge-warning bad-status";
+  } else if (status === "issued") {
+    return "badge badge-primary bad-status";
+  } else {
+    return "badge badge-default";
+  }
+};
+
 onMounted(() => {
+  generateBarcodesForItems();
   getItems();
 });
 </script>
+<style scoped>
+.barcode {
+  width: 100px;
+  height: 60px;
+  border: 1px solid black;
+}
+</style>
