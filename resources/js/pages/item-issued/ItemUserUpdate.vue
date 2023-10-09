@@ -43,7 +43,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="client">Serial #</label>
+                      <label for="client">Serial</label>
                       <input
                         v-model="form.serial"
                         type="text"
@@ -55,53 +55,16 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Model</label>
-                      <input
-                        v-model="form.model"
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter model"
-                        readonly="readonly"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Status</label>
-                      <input
-                        v-model="form.status"
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter model"
-                        readonly="readonly"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Item Count (Optional)</label>
-                      <input
-                        v-model="form.count"
-                        type="text"
-                        class="form-control"
-                        readonly="readonly"
-                      />
-                    </div>
-                  </div>
-                </div>
 
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="date">Date Issued</label>
                       <input
-                        v-model="form.issued_date"
+                        v-model="form.date_issued"
                         type="date"
                         class="form-control flatpickr"
+                        style="background: white"
                       />
                     </div>
                   </div>
@@ -149,7 +112,7 @@ const errors = ref([]);
 const form = reactive({
   item_name: "",
   serial: "",
-  issued_date: "",
+  date_issued: "",
   model: "",
   status: "",
   issued_to: "",
@@ -157,20 +120,17 @@ const form = reactive({
 });
 
 const ItemDetails = () => {
-  axios.get(`/items/${route.params.id}/list`).then(({ data }) => {
+  axios.get(`/issues/${route.params.id}`).then(({ data }) => {
     form.name = data.name;
     form.serial = data.serial;
-    form.model = data.model;
-    form.status = data.status;
-    form.issued_date = data.issued_date;
+    form.date_issued = data.date_issued;
     form.issued_to = data.issued_to;
-    form.count = data.count;
   });
 };
 
 const UpdateUserItem = (values) => {
   axios
-    .put(`/items/${route.params.id}/lists`, form)
+    .put(`/issues/${route.params.id}`, form)
     .then((response) => {
       router.push("/admin/items/issue/list");
       toastr.success("Items successfully issued!");

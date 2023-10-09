@@ -82,10 +82,9 @@ Route::middleware('auth')->group(function () {
      Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
      Route::post('/issue/items', [IssueItemController::class, 'create']);
      Route::get('/issue', [IssueItemController::class, 'index']);
-    // Route::delete('/issue/{issue}', [IssueItemController::class, 'destroyIssue']);
      Route::get('/issue', [IssueItemController::class, 'search']);
-    // Route::get('/items/{issue}/list', [IssueItemController::class, 'show']);
-    //Route::put('/items/{issue}/lists', [IssueItemController::class, 'update']);
+     Route::get('/issues/{issue}', [IssueItemController::class, 'showUser']);
+     Route::put('/issues/{issue}', [IssueItemController::class, 'update']);
 
     Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
     Route::post('/items/return', [ReturnController::class, 'return']);

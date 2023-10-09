@@ -61,21 +61,14 @@
                       </span>
                     </td>
                     <td>
-                      <!-- <router-link :to="`/admin/items/${issue.id}/lists`">
+                      <router-link :to="`/admin/items/${issue.id}/lists`">
                         <i class="fas fa-user-tie"></i>
                       </router-link>
 
-                      <router-link :to="`/admin/items/${issue.id}/return`">
+                      <!-- <router-link :to="`/admin/items/${issue.id}/return`">
                         <i class="fa fa-undo text-danger ml-3"></i>
-                      </router-link>
-
-                      <router-link
-                        to=""
-                        @click.prevent="deleteIssueItems(issue.id)"
-                        v-if="!issue.serial"
-                      >
-                        <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link> -->
+                     
                     </td>
                   </tr>
                 </tbody>
@@ -135,34 +128,6 @@ const search = () => {
       console.log(error);
     });
 };
-
-// const isTable1Active = ref(false);
-
-// const activateTable = (tableNumber) => {
-//   if (tableNumber === 1) {
-//     isTable1Active.value = false;
-//   } else if (tableNumber === 2) {
-//     isTable1Active.value = true;
-//   }
-// };
-
-// const deleteIssueItems = (id) => {
-//   deleteIssued()
-//     .then((result) => {
-//       if (result.isConfirmed) {
-//         return axios.delete(`/issue/${id}`);
-//       }
-//       throw new Error("Deletion not confirmed.");
-//     })
-//     .then(() => {
-//       issues.value.data = issues.value.data.filter((issue) => issue.id !== id);
-//       Swal.fire("Deleted!", "Issued item has been deleted.", "success");
-//       getItems();
-//     })
-//     .catch((error) => {
-//       console.error("Error deleting event:", error);
-//     });
-// };
 
 watch(
   searchQuery,

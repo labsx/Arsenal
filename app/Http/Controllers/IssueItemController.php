@@ -21,7 +21,7 @@ class IssueItemController extends Controller
         return $item;
     }
 
-    public function create(Request $request, Issue $issue, Item $data)
+    public function create(Request $request, Issue $issue, Item $item)
     {
         $formFields = $request->validate([
             'name' => ['required', 'max:50'],
@@ -31,40 +31,33 @@ class IssueItemController extends Controller
             'issued_to' => ['required', 'min:3', 'max:50'],
         ]);
 
+        $formFields['status'] = 'issued';
         $issue = Issue::create($formFields);
+        $item = Item::where('serial', $formFields['serial'])->first();
+        if ($item) {
+            $item->update(['status' => 'issued']);
+        }
 
         return response()->json($issue);
     }
 
+    public function showUser(Issue $issue)
+    {
+        return $issue;
+    }
 
-    // public function show(Issue $issue)
-    // {
-    //     return $issue;
-    // }
+    public function update(Request $request, Issue $issue)
+    {
+        $formFields = $request->validate([
+            'name' => ['max:50'],
+            'date_issued' => ['required'],
+            'issued_to' => ['required', 'min:3', 'max:50'],
+        ]);
 
-    // public function update(Request $request,Issue $issue)
-    // {
-    //     $formFields = $request->validate([
-    //         'name' => ['max:50'],
-    //         'serial' => ['max:100'],
-    //         'issued_date' => ['required'],
-    //         'model' => ['max:30'],
-    //         'status' => ['required', 'min:3', 'max:10'],
-    //         'issued_to' => ['required', 'min:3', 'max:50'],
-    //         'count' => ['max:255'],
-    //     ]);
+        $issue->update($formFields);
 
-    //     $providedDate = Carbon::parse($formFields['issued_date']);
-    //     $currentDate = Carbon::now();
-
-    //     if ($providedDate->isAfter($currentDate) || $providedDate->isSameDay($currentDate)) {
-    //         $issue->update($formFields);
-    //         return response()->json(['success' => true]);
-    //     } else {
-    //         return response()->json(['error' => 'Error! Date selected is incorrect !    '], 400);
-    //     }
-
-    // }
+        return response()->json(['success' => true]);
+    }
 
     public function search()
     {
@@ -80,31 +73,3 @@ class IssueItemController extends Controller
         return response()->json($issues);
     }
 }
-    
-    // public function destroyIssue($id)
-    // {
-    //     $issue = Issue::find($id);
-
-    //     if ($issue) {
-    //     $returnDate = now(); 
-    //     $issue->return_date = $returnDate;
-    //     $issueData = [
-    //         'name' => $issue->name,
-    //         'issued_date' => $issue->issued_date,
-    //         'model' => $issue->model,
-    //         'status' => $issue->status,
-    //         'issued_to' => $issue->issued_to,
-    //         'return_date' => $returnDate,  
-    //         'count' => $issue->count,
-    //     ];
-
-    //     $issue->delete();  
-    //     History::create($issueData);
-
-    //     return response()->json(['message' => 'Issue deleted and saved to history']);
-    //     } else {
-    //         return response()->json(['message' => 'Issue not found'], 404);
-    //     }
-    // }
-        
-//}
