@@ -1,21 +1,8 @@
 <template>
-  <!-- Item Serial Status -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-primary shadow h-100 py-2">
       <div class="d-flex justify-content-between mr-1">
         <h3></h3>
-        <select
-          v-model="statusFilter"
-          style="height: 2rem; outline: 2px solid transparent"
-          class="px-1 rounded border-0 hover"
-          @change="getItemsCount"
-        >
-          <option value="TODAY" class="hover">All</option>
-          <option value="Good" class="hover">Good</option>
-          <option value="issued">Issued</option>
-          <option value="Broken">Broken</option>
-          <option value="Under Repair">Under Repair</option>
-        </select>
       </div>
       <div class="card-body">
         <div class="row no-gutters align-items-center">
@@ -23,10 +10,10 @@
             <div
               class="text-xs font-weight-bold text-primary text-uppercase mb-1"
             >
-              Item (Serial)
+              Category
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{ totalItemsCount || "No data available" }}
+              {{ totalCategoryCount || "No data available" }}
             </div>
           </div>
           <div class="col-auto">
@@ -36,47 +23,18 @@
       </div>
     </div>
   </div>
-  <!-- Items Name Serial Count -->
   <div class="col-xl-3 col-md-6 mb-4">
     <div class="card border-left-success shadow h-100 py-2">
-      <div class="d-flex justify-content-between mr-1">
-        <h3 class="text-white"></h3>
-        <select
-          v-model="statusFilters"
-          style="
-            height: 2rem;
-            max-height: 50px;
-            overflow-y: auto;
-            outline: 2px solid transparent;
-          "
-          class="px-1 rounded border-0 hover"
-          @change="getItemsCountByName"
-        >
-          <option value="All" class="hover">All</option>
-          <option
-            v-for="item in uniqueItems"
-            :key="item.name"
-            :value="item.name"
-            class="hover"
-          >
-            {{ item.name }}
-          </option>
-        </select>
-      </div>
       <div class="card-body">
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div
-              class="text-xs font-weight-bold text-success text-uppercase mb-1"
+              class="text-xs font-weight-bold text-primary text-uppercase mb-1"
             >
-              Item Serial (Count)
+              GROUP FIELDS
             </div>
             <div class="h5 mb-0 font-weight-bold text-gray-800">
-              {{
-                statusFilters === "All"
-                  ? selectedItemCount
-                  : selectedItemCount || "No data available"
-              }}
+              {{ totalFiedlsCount || "No data available" }}
             </div>
           </div>
           <div class="col-auto">
@@ -137,58 +95,32 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
 
-const statusFilter = ref("TODAY");
-const totalItemsCount = ref(0);
-const statusFilters = ref();
-const selectedItemCount = ref(0);
+const totalCategoryCount = ref(0);
+const totalFiedlsCount = ref(0);
 const uniqueItems = ref([]);
 const totalUsersCount = ref(0);
 const totalNotes = ref(0);
 
-const getItemsCount = () => {
+const getCategoryCount = () => {
   axios
-    .get("/dashboard", {
-      params: {
-        status: statusFilter.value,
-      },
-    })
+    .get("/dashboard/fields")
     .then((response) => {
-      totalItemsCount.value = response.data.count;
+      totalFiedlsCount.value = response.data.fields;
     })
     .catch((error) => {
       console.error(error);
     });
 };
 //
-const getItemsCountByName = () => {
-  if (statusFilters.value === "All") {
-    axios
-      .get(`/dashboard/items/count-name`)
-      .then((response) => {
-        if (response.data && response.data.count) {
-          selectedItemCount.value = response.data.count;
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching items data", error);
-      });
-  } else {
-    axios
-      .get(`/dashboard/items/count?name=${statusFilters.value}`)
-      .then((response) => {
-        if (response.data && response.data.count !== undefined) {
-          selectedItemCount.value = response.data.count;
-        } else {
-          console.error(
-            "Invalid or empty response for item count by name:",
-            response
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching item count by name:", error);
-      });
-  }
+const getFieldsCount = () => {
+  axios
+    .get("/dashboard/category")
+    .then((response) => {
+      totalCategoryCount.value = response.data.categories;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 const fetchItems = () => {
   axios
@@ -226,17 +158,10 @@ const fetchNote = () => {
 };
 
 onMounted(() => {
-  getItemsCount();
+  getCategoryCount();
+  getFieldsCount();
   fetchItems();
   getUsersCount();
   fetchNote();
 });
 </script>
-<style scoped>
-.hover:hover {
-  background-color: white;
-}
-.custom-mt {
-  margin-top: 2rem;
-}
-</style>

@@ -92,15 +92,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/users/profile', [ProfileController::class, 'updatePassword']);
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']);
 
-    Route::get('/dashboard', [DashboardController::class, 'itemsCount']);
+    Route::get('/dashboard/category', [DashboardController::class, 'categoryCount']);
     Route::get('/dashboard/users', [DashboardController::class, 'usersCount']);
-    Route::get('/dashboard/items', [DashboardController::class, 'itemsList']);
-    Route::get('/dashboard/items/count', [DashboardController::class, 'itemsCountByName']);
-    Route::get('/dashboard/items/count-name', [DashboardController::class, 'itemsCountAll']);
+    Route::get('/dashboard/fields', [DashboardController::class, 'fieldsCount']);
+    Route::get('/dashboard/items', [DashboardController::class, 'itemsCount']);
+    Route::get('/dashboard/history', [DashboardController::class, 'historyCount']);
     Route::get('/dashboard/notes', [DashboardController::class, 'countNotes']);
-    Route::get('/dashboard/count', [DashboardController::class, 'countAll']);
-    Route::get('/dashboard/without-serial', [DashboardController::class, 'itemWithoutSerialCount']);
-    Route::get('/dashboard/avail-without-serial', [DashboardController::class, 'AvailWithoutSerialCount']);
+    Route::get('/dashboard/progress', [DashboardController::class, 'progressBar']);
     Route::get('/dashboard/users/data', [DashboardController::class, 'usersGet']);
 
     Route::get('/notes/data', [NavBarController::class, 'index']);

@@ -7,7 +7,7 @@
 
       <div class="card-body">
         <h4 class="small font-weight-bold">
-          Broken Items
+          Decommissioned Items
           <span class="float-right">{{ badItemCountPercent }}%</span>
         </h4>
         <div class="progress mb-4">
@@ -35,7 +35,7 @@
           ></div>
         </div>
         <h4 class="small font-weight-bold">
-          Good Items
+          Operating Items
           <span class="float-right">{{ goodItemCountPercent }}%</span>
         </h4>
         <div class="progress">
@@ -78,7 +78,7 @@ const underRepairItemCountPercent = ref([]);
 
 const countAll = () => {
   axios
-    .get("/dashboard/count")
+    .get("/dashboard/progress")
     .then((response) => {
       goodItemCountPercent.value = response.data.goodItemCountPercent;
       badItemCountPercent.value = response.data.badItemCountPercent;

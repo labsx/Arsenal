@@ -5,109 +5,69 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Note;
 use App\Models\User;
+use App\Models\Category;
+use App\Models\FieldGroup;
+use App\Models\History;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function itemsCount(Request $request)
-    {   
-        $status = $request->query('status', 'TODAY');
-        $serial = $request->query('serial'); 
-        $query = Item::query();
-        
-        if ($status !== 'TODAY') {
-            $query->where('status', $status);
-        }
-        
-        if ($serial) {
-            $query->where('serial', $serial);
-        }
+    public function categoryCount(Request $request)
+    {
+        $categories = Category::count();
 
-        $query->whereNotNull('serial');   
-        $count = $query->count();
-        
-        return response()->json(['count' => $count]);
+        return response()->json(['categories' => $categories]);
     }
 
-    public function usersCount(Request $request )
+    public function usersCount()
     {
         $count = User::count();
+
         return response()->json(['count' => $count]);
     }
 
-    public function itemsList(Request $request )
+    public function fieldsCount()
     {
-        $uniqueItems = Item::whereNotNull('serial')
-            ->select('name')
-            ->distinct()
-            ->get();
+        $fields = FieldGroup::count();
 
-        return response()->json(['items' => $uniqueItems]);
+        return response()->json(['fields' => $fields]);
     }
 
-    public function itemsCountByName(Request $request)
+    public function itemsCount()
     {
-        $itemName = $request->query('name');
-        $count = Item::where('name', $itemName)
-            ->whereNotNull('serial')
-            ->count();
+        $items = Item::count();
 
-        return response()->json(['count' => $count]);
+        return response()->json(['items' => $items]);
     }
 
-    public function itemsCountAll(Request $request){
-        $count = Item::whereNotNull('serial')
-            ->select('name')
-            ->distinct()
-            ->count();
+    public function historyCount()
+    {
+        $histories = History::count();
 
-        return response()->json(['count' => $count]);
+        return response()->json(['histories' => $histories]);
     }
 
     public function countNotes()
     {
         $count = Note::count();
+
         return response()->json(['count' => $count]);
     }
 
-    public function countAll()
-    {   
+    public function progressBar()
+    {
         $totalItemCount = Item::count();
-        $goodItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'Good')->count() / $totalItemCount) * 100 : 0;
-        $badItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'Broken')->count() / $totalItemCount) * 100 : 0;
+        $goodItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'operating')->count() / $totalItemCount) * 100 : 0;
+        $badItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'decommissioned')->count() / $totalItemCount) * 100 : 0;
         $issuedItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'issued')->count() / $totalItemCount) * 100 : 0;
-        $underRepairItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'Under Repair')->count() / $totalItemCount) * 100 : 0;
-    
+        $underRepairItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'under repair')->count() / $totalItemCount) * 100 : 0;
+
         return [
             'goodItemCountPercent' => $goodItemCountPercent,
             'badItemCountPercent' => $badItemCountPercent,
             'issuedItemCountPercent' => $issuedItemCountPercent,
             'underRepairItemCountPercent' => $underRepairItemCountPercent,
         ];
-    }
-
-   public function itemWithoutSerialCount(Request $request)
-   {
-        $status = $request->query('status', 'TODAY');
-        $query = Item::query();
-        
-        if ($status !== 'TODAY') {
-            $query->where('status', $status);
-        }
-        
-        $query->whereNull('serial');
-        $count = $query->count();
-        
-        return response()->json(['count' => $count]);
-    }
-
-    public function AvailWithoutSerialCount()
-    {
-        $itemsWithoutSerialCount = Item::whereNull('serial')->get();
-        
-        return response()->json([
-            'items' => $itemsWithoutSerialCount
-        ]);
     }
 
     public function usersGet()
