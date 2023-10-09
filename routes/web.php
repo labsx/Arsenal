@@ -45,7 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/field-group', [FieldGroupController::class, 'index']);
     Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
-    // Route::get('/field-group/id', [FieldGroupController::class, 'getId']);
     Route::post('/field-group', [FieldGroupController::class, 'create']);
     Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
@@ -66,33 +65,22 @@ Route::middleware('auth')->group(function () {
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
     Route::get('/items', [ItemController::class, 'search']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']);
-    // Route::get('/items_and_attributes/all', [ItemController::class, 'getItemAttributes']);
 
     Route::get('/parent', [ParentController::class, 'index']);
     Route::post('/parent', [ParentController::class, 'store']);
 
-    // Route::get('/items', [ItemController::class, 'index']);
-    // Route::get('/items/{item}/edit', [ItemController::class, 'edit']);
-    // Route::put('/items/{item}/edit', [ItemController::class, 'update']);
-    // Route::delete('/items/{item}', [ItemController::class, 'destroy']);
-    // Route::delete('/items', [ItemController::class, 'bulkDelete']);
-    // Route::get('/items/list/search', [ItemController::class, 'search']);
-    // Route::get('/items/all', [ItemController::class, 'print']);
-
-     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
-     Route::post('/issue/items', [IssueItemController::class, 'create']);
-     Route::get('/issue', [IssueItemController::class, 'index']);
-     Route::get('/issue', [IssueItemController::class, 'search']);
-     Route::get('/issues/{issue}', [IssueItemController::class, 'showUser']);
-     Route::put('/issues/{issue}', [IssueItemController::class, 'update']);
+    Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
+    Route::post('/issue/items', [IssueItemController::class, 'create']);
+    Route::get('/issue', [IssueItemController::class, 'index']);
+    Route::get('/issue', [IssueItemController::class, 'search']);
+    Route::get('/issues/{issue}', [IssueItemController::class, 'showUser']);
+    Route::put('/issues/{issue}', [IssueItemController::class, 'update']);
 
     Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
     Route::post('/items/return', [ReturnController::class, 'return']);
 
-    Route::get('/items/history', [HistoryController::class, 'itemHistory']);
-    Route::get('/items/search', [HistoryController::class, 'search']);
-    Route::delete('/items/delete/{item}', [HistoryController::class, 'deleteHistory']);
-    Route::delete('/history/delete-all', [HistoryController::class, 'deleteAll']);
+    Route::get('/history', [HistoryController::class, 'index']);
+    Route::get('/history', [HistoryController::class, 'search']);
 
     Route::post('/users', [UserController::class, 'create']);
     Route::get('/users/search', [UserController::class, 'searchUser']);
