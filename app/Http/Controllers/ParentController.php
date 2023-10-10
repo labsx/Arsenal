@@ -36,4 +36,23 @@ class ParentController extends Controller
 
         return response()->json($parents);
     }
+
+    public function showData($fieldGroupId)
+    {
+        $parents = ParentModel::where('category_id', $fieldGroupId)->paginate(10);
+
+        if ($parents->isEmpty()) {
+            return response()->json(['error' => 'No parents found for the specified field group'], 404);
+        }
+
+        return response()->json($parents);
+    }
+
+    public function destroy($id)
+    {
+        $parent = ParentModel::findOrFail($id);
+        $parent->delete();
+
+        return response()->json($parent);
+    }
 }

@@ -72,6 +72,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/parent', [ParentController::class, 'index']);
     Route::post('/parent', [ParentController::class, 'store']);
     Route::get('/parent', [ParentController::class, 'search']);
+    Route::get('/parent/{id}/show', [ParentController::class, 'showData']);
+    Route::delete('/parent/{parent}', [ParentController::class, 'destroy']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);

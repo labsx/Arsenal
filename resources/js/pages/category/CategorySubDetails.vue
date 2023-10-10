@@ -19,7 +19,7 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
-              <button
+              <!-- <button
                 class="btn btn-outline-primary btn-sm"
                 data-toggle="modal"
                 data-target="#createCategory"
@@ -33,7 +33,7 @@
                 data-target="#createParent"
               >
                 <i class="fa fa-plus-circle mr-1"></i>Sub Category
-              </button>
+              </button> -->
             </div>
             <div>
               <div class="input-group">
@@ -57,28 +57,26 @@
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
-                    <!-- <th scope="col">Parent Id</th> -->
-                    <th scope="col">Field Group</th>
+                    <th scope="col">Date Created</th>
                     <th scope="col">Option</th>
                   </tr>
                 </thead>
-                <tbody v-if="categories.data.length > 0">
-                  <tr v-for="category in categories.data" :key="category.id">
-                    <td>{{ category.name }}</td>
-                    <!-- <td>{{ category.parent_id }}</td> -->
-                    <td>{{ category.field_group_id }}</td>
+                <tbody v-if="parents.data.length > 0">
+                  <tr v-for="parent in parents.data" :key="parent.id">
+                    <td>{{ parent.name }}</td>
+                    <td>{{ formatDate(parent.created_at) }}</td>
                     <td>
-                      <router-link :to="`/admin/category/${category.id}/sub`">
+                      <!-- <router-link :to="`/admin/category/${category.id}/sub`">
                         <i class="fas fa-eye mr-2"></i>
-                      </router-link>
+                      </router-link>  -->
 
-                      <router-link :to="`/admin/category/${category.id}/edit`">
+                      <!-- <router-link :to="`/admin/category/${parent.id}/edit`">
                         <i class="fas fa-edit"></i>
-                      </router-link>
+                      </router-link> -->
 
                       <router-link
                         to=""
-                        @click.prevent="deleteCategory(category.id)"
+                        @click.prevent="deleteParentData(parent.id)"
                       >
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
@@ -97,59 +95,52 @@
           </div>
           <div>
             <Bootstrap4Pagination
-              :data="categories"
-              @pagination-change-page="getCategory"
+              :data="parents"
+              @pagination-change-page="getFilterParent"
             />
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <CategoryAdd />
-  <CategorySub />
 </template>
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted, watch, reactive } from "vue";
-import Swal from "sweetalert2";
-import { deleteCategoryData, bulkDeleteItemsData } from "../../store/swal.js";
-import { printItemsData } from "../../store/print.js";
+import { onMounted, ref, watch } from "vue";
+import { getCurrentInstance } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
-import { formatDate } from "../../helper.js";
-import { computed } from "vue";
-import { useToastr } from "../../toastr";
-import flatpickr from "flatpickr";
-import CategoryAdd from "./CategoryAdd.vue";
-import CategorySub from "./CategorySub.vue";
 import { debounce } from "lodash";
+import { formatDate } from "../../helper.js";
+import Swal from "sweetalert2";
+import { deleteParent } from "../../store/swal.js";
 
-const toastr = useToastr();
-const errors = ref([]);
-const categories = ref({ data: [] });
+const route = getCurrentInstance().proxy.$route;
+const parents = ref({ data: [] });
 
-const getCategory = (page = 1) => {
+const getFilterParent = (page = 1) => {
+  const fieldId = route.params.id;
+
   axios
-    .get(`/category?page=${page}`)
+    .get(`/parent/${fieldId}/show?page=${page}`)
     .then((response) => {
-      categories.value = response.data;
+      parents.value = response.data;
     })
     .catch((error) => {
-      console.error("Error fetching category:", error);
+      console.error("An error occurred:", error);
     });
 };
 
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/category", {
+    .get("/parent", {
       params: {
         query: searchQuery.value,
       },
     })
     .then((response) => {
-      categories.value = response.data;
+      parents.value = response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -163,28 +154,27 @@ watch(
   }, 300)
 );
 
-const deleteCategory = (id) => {
-  deleteCategoryData()
+const deleteParentData = (id) => {
+  deleteParent()
     .then((result) => {
       if (result.isConfirmed) {
-        return axios.delete(`/category/${id}`);
+        return axios.delete(`/parent/${id}`);
       }
       throw new Error("Deletion not confirmed.");
     })
     .then(() => {
-      categories.value.data = categories.value.data.filter(
-        (category) => category.id !== id
+      parents.value.data = parents.value.data.filter(
+        (parent) => parent.id !== id
       );
-      Swal.fire("Deleted!", "category has been deleted.", "success");
+      Swal.fire("Deleted!", "Parent has been deleted.", "success");
       getItems();
     })
     .catch((error) => {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting parent:", error);
     });
 };
 
 onMounted(() => {
-  getCategory();
+  getFilterParent();
 });
 </script>
-

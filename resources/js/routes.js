@@ -18,6 +18,7 @@ import EditFields from './pages/field/field-data/EditFields.vue';
 import AddItem from './pages/items/AddItem.vue';
 import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
+import FilterSubCategory from './pages/category/CategorySubDetails.vue';
 import SubCategoryList from './pages/categorysub/SubCategoryList.vue';
 
 
@@ -71,6 +72,11 @@ export default[
         path: '/admin/category/:id/edit',
         name: 'admin.category.edit',
         component: EditCategory,
+    },
+    {
+        path: '/admin/category/:id/sub',
+        name: 'admin.category.sub',
+        component: FilterSubCategory,
     },
     {
         path: '/admin/dashboard',
