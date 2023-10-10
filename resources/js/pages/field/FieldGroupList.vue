@@ -63,6 +63,10 @@
                         <i class="fas fa-eye"></i>
                       </router-link>
 
+                        <router-link :to="`/admin/edit/${field.id}/field_groups`">
+                        <i class="fas fa-edit ml-2"></i>
+                      </router-link>
+
                       <router-link
                         to=""
                         @click.prevent="deleteFields(field.id)"

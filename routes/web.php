@@ -3,7 +3,6 @@
 use App\Models\History;
 use App\Models\FieldGroup;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DataController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FieldController;
@@ -49,11 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/field-group', [FieldGroupController::class, 'create']);
     Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
+    Route::get('/field-group/{field}', [FieldGroupController::class, 'show']);
+    Route::put('/field-group/{field}', [FieldGroupController::class, 'update']);
 
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);
-   
+
     Route::get('/fields/search', [FieldController::class, 'search']);
     Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Field;
 use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
@@ -57,5 +58,25 @@ class FieldGroupController extends Controller
         $field_groups = FieldGroup::latest()->select('id', 'name')->get();
 
         return $field_groups;
+    }
+
+    public function show($id)
+    {
+        $field_groups = FieldGroup::findOrFail($id);
+
+        return $field_groups;
+    }
+
+    public function update(Request $request, $id)
+    {
+        $formFields = $request->validate([
+            'name' => ['required', 'min:3', 'max:50'],
+            'description' => ['nullable', 'max:255'],
+        ]);
+
+        $field_groups = FieldGroup::findOrFail($id);
+        $field_groups->update($formFields);
+
+        return response()->json(['message' => 'Field groups updated successfully', 'field_groups' => $field_groups]);
     }
 }

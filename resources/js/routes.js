@@ -12,6 +12,7 @@ import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';
 import FieldGroupList from './pages/field/FieldGroupList.vue';
+import EditFieldGroups from './pages/field/EditFieldGroups.vue';
 import AddField from './pages/field/field-data/FieldList.vue';
 import EditFields from './pages/field/field-data/EditFields.vue';
 import AddItem from './pages/items/AddItem.vue';
@@ -39,6 +40,11 @@ export default[
         path: '/admin/edit/:id/fields',
         name: 'admin.edit.fields',
         component: EditFields,
+    },
+    {
+        path: '/admin/edit/:id/field_groups',
+        name: 'admin.edit.fild.groups',
+        component: EditFieldGroups,
     },
     {
         path: '/admin/add/item',
