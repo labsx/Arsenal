@@ -19,6 +19,7 @@ class ParentController extends Controller
     {
         $formField = $request->validate ([
             'name' => 'required|min:3|max:50|unique:parent_models,name',
+            'category_id' => ['required'],
         ]);
 
         $parent = ParentModel::create($formField);

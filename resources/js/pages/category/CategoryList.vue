@@ -57,7 +57,7 @@
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Parent Id</th>
+                    <!-- <th scope="col">Parent Id</th> -->
                     <th scope="col">Field Group</th>
                     <th scope="col">Option</th>
                   </tr>
@@ -65,7 +65,7 @@
                 <tbody v-if="categories.data.length > 0">
                   <tr v-for="category in categories.data" :key="category.id">
                     <td>{{ category.name }}</td>
-                    <td>{{ category.parent_id }}</td>
+                    <!-- <td>{{ category.parent_id }}</td> -->
                     <td>{{ category.field_group_id }}</td>
                     <td>
                       <router-link :to="`/admin/category/${category.id}/edit`">

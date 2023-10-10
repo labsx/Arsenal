@@ -37,7 +37,7 @@
                     placeholder="Enter app display name"
                   />
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="dateFormat">Item Fields</label>
                   <select class="form-control" v-model="form.parent_id">
                     <option
@@ -48,7 +48,7 @@
                       {{ parent.name }}
                     </option>
                   </select>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                   <label for="dateFormat">Group Fields</label>
@@ -95,7 +95,7 @@ const errors = ref([]);
 
 const form = reactive({
   name: "",
-  parent_id: "",
+  // parent_id: "",
   field_group_id: "",
 });
 
@@ -106,7 +106,7 @@ const ItemDetails = () => {
       console.log("Category data:", data);
       if (data && data.name) {
         form.name = data.name;
-        form.parent_id = data.parent_id;
+        // form.parent_id = data.parent_id;
         form.field_group_id = data.field_group_id;
       } else {
         console.error("Category name not found in the response data.");
@@ -132,17 +132,17 @@ const saveCategory = () => {
     });
 };
 
-const parents = ref([]);
-const getParent = () => {
-  axios
-    .get("/parent")
-    .then((response) => {
-      parents.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching parent item:", error);
-    });
-};
+// const parents = ref([]);
+// const getParent = () => {
+//   axios
+//     .get("/parent")
+//     .then((response) => {
+//       parents.value = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching parent item:", error);
+//     });
+// };
 
 const field_groups = ref([]);
 const getFieldGroup = () => {
@@ -158,7 +158,7 @@ const getFieldGroup = () => {
 
 onMounted(() => {
   getFieldGroup();
-  getParent();
+  // getParent();
   ItemDetails();
 });
 </script>

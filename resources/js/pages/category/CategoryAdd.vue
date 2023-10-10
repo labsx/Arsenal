@@ -48,7 +48,7 @@
                             </div>
                           </div>
 
-                          <div class="col-md-12">
+                          <!-- <div class="col-md-12">
                             <div class="form-group">
                               <label for="client">Parent Name Item</label>
                               <select
@@ -68,7 +68,7 @@
                                 </option>
                               </select>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
 
                         <div class="form-group">
@@ -124,14 +124,14 @@ const toastr = useToastr();
 const errors = ref([]);
 const form = ref({
   name: "",
-  parent_id: "",
+  // parent_id: "",
   field_groups_id: "",
 });
 
 const createItem = () => {
   const formData = {
     name: form.value.name,
-    parent_id: form.value.parent_id,
+    // parent_id: form.value.parent_id,
     field_group_id: form.value.field_groups_id,
   };
 
@@ -169,20 +169,20 @@ const getFieldGroup = () => {
     });
 };
 
-const parents = ref([]);
-const getParent = () => {
-  axios
-    .get("/parent")
-    .then((response) => {
-      parents.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching parent item:", error);
-    });
-};
+// const parents = ref([]);
+// const getParent = () => {
+//   axios
+//     .get("/parent")
+//     .then((response) => {
+//       parents.value = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching parent item:", error);
+//     });
+// };
 
 onMounted(() => {
-  getParent();
+  // getParent();
   getFieldGroup();
 });
 </script>

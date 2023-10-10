@@ -78,7 +78,6 @@
                           Select Status
                         </option>
                         <option value="operating">Operating</option>
-                        <option value="issued">Issued</option>
                         <option value="decommissioned">Decommissioned</option>
                         <option value="under repair">Under Repair</option>
                       </select>

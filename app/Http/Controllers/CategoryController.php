@@ -38,7 +38,7 @@ class CategoryController extends Controller
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50', Rule::unique('categories', 'name')],
-            'parent_id' => ['nullable', Rule::exists('parent_models', 'id')],
+            // 'parent_id' => ['nullable', Rule::exists('parent_models', 'id')],
             'field_group_id' => ['nullable', Rule::exists('field_groups', 'id')],
         ]);
            
@@ -51,7 +51,7 @@ class CategoryController extends Controller
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'parent_id' => ['required'],
+            // 'parent_id' => ['required'],
             'field_group_id' => ['required']
         ]);
 

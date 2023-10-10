@@ -47,6 +47,28 @@
                               >
                             </div>
                           </div>
+
+                           <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="client">Category</label>
+                              <select
+                                id="client"
+                                class="form-control"
+                                v-model="form.category_id"
+                              >
+                                <option value="" disabled selected hidden>
+                                  Select Category
+                                </option>
+                                <option
+                                  :value="category.id"
+                                  v-for="category in categories"
+                                  :key="category.id"
+                                >
+                                  {{ category.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
                       </form>
                     </div>
@@ -80,6 +102,7 @@ import { useToastr } from "../../toastr";
 
 const form = ref({
  name: '',
+ category_id: "",
 });
 const errors = ref([]);
 const toastr = useToastr();
@@ -91,7 +114,6 @@ const createParent = () => {
       toastr.success("Items created successfully!");
       $("#createParent").modal("hide");
       clearForm();
-      // getItemsFn();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -99,7 +121,6 @@ const createParent = () => {
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
         toastr.error(message);
-        // getItemsFn();
         errors.value = [];
       }
     });
@@ -108,7 +129,7 @@ const createParent = () => {
 const categories = ref([]);
 
 const getCategories = () => {
-  axios.get('/category')
+  axios.get('/category-data')
     .then((response) => {
       categories.value = response.data;
     })
