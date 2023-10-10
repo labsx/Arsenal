@@ -12,12 +12,12 @@ class ParentController extends Controller
     {
         $parents = ParentModel::latest()->paginate(10);
 
-        return $parents;
+        return response()->json($parents);
     }
 
     public function store(Request $request)
     {
-        $formField = $request->validate ([
+        $formField = $request->validate([
             'name' => 'required|min:3|max:50|unique:parent_models,name',
             'category_id' => ['required'],
         ]);
@@ -31,7 +31,7 @@ class ParentController extends Controller
     {
         $searchQuery = request('query');
         $parents = ParentModel::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%");   
+            $query->where('name', 'like', "%{$searchQuery}%");
         })->paginate(10);
 
         return response()->json($parents);
@@ -54,5 +54,12 @@ class ParentController extends Controller
         $parent->delete();
 
         return response()->json($parent);
+    }
+
+    public function getData()
+    {
+        $parents = ParentModel::latest()->get(['id', 'name']);
+
+        return response()->json($parents);
     }
 }

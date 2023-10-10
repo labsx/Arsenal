@@ -79,4 +79,14 @@ class FieldGroupController extends Controller
 
         return response()->json(['message' => 'Field groups updated successfully', 'field_groups' => $field_groups]);
     }
+
+    public function getFieldGroupName($id)
+    {
+        try {
+            $fieldGroup = FieldGroup::findOrFail($id);
+            return response()->json(['name' => $fieldGroup->name]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Field group not found'], 404);
+        }
+    }
 }

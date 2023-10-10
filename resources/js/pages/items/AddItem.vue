@@ -120,6 +120,29 @@
                 </div>
 
                 <div class="row">
+                      <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Sub Category</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        id="fieldGroup"
+                        class="form-control"
+                        v-model="form.parent_id"
+                      >
+                         <option value="" disabled selected hidden>
+                          Select Sub Category
+                        </option>
+                        <option
+                          :value="parent.id"
+                          v-for="parent in parents"
+                          :key="parent.id"
+                        >
+                          {{ parent.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="client">Select Fields</label>
@@ -194,6 +217,7 @@ const errors = ref([]);
 const form = ref({
   category_id: "",
   item_name: "",
+  parent_id: "",
   serial: "",
   status: "",
   fields: {},
@@ -202,6 +226,7 @@ const form = ref({
 const createItem = () => {
   const dataToSave = {
     category_id: form.value.category_id,
+    parent_id: form.value.parent_id,
     item_name: form.value.item_name,
     serial: form.value.serial,
     status: form.value.status,
@@ -261,6 +286,9 @@ const getFields = async () => {
 
 const clearForm = () => {
   form.value.item_id = "";
+  form.value.parent_id = "";
+  form.value.serial = "";
+  form.value.status = "";
   form.value.item_name = "";
   form.value.fields = {};
 };
@@ -277,7 +305,20 @@ const getCategory = () => {
     });
 };
 
+const parents = ref([]);
+const getParent = () => {
+  axios
+    .get("/parent-data")
+    .then((response) => {
+      parents.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching field_group:", error);
+    });
+};
+
 onMounted(() => {
+  getParent();
   getFieldGroup();
   getCategory();
 });

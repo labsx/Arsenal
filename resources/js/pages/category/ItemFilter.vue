@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Fields Groups</h1>
+          <h1 class="m-0">Item List</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Fields Group List</li>
+            <li class="breadcrumb-item active">Item List</li>
           </ol>
         </div>
       </div>
@@ -19,13 +19,6 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
-              <button
-                class="btn btn-outline-primary ml-1 btn-sm"
-                data-toggle="modal"
-                data-target="#createFieldsGroup"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>ADD FIELD GROUPS
-              </button>
             </div>
             <div>
               <div class="input-group">
@@ -48,20 +41,32 @@
               <table class="table align-middle">
                 <thead>
                   <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Date </th>
-                    <th scope="col">Option</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Serial</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Barcode</th>
+                   
                   </tr>
                 </thead>
-                <tbody v-if="parents.data.length > 0">
-                  <tr v-for="parent in parents.data" :key="parent.id">
-                    <td>{{ parent.name }}</td>
-                    <td>{{parent.created_at}}</td>
-                   <td>
-                      <router-link :to="`/admin/fields/${parent.id}/add`">
-                        <i class="fas fa-eye"></i>
-                      </router-link>
-                   </td>
+                <tbody v-if="items.data.length > 0">
+                  <tr v-for="item in items.data" :key="item.id">
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.serial }}</td>
+                    <td>
+                      <span :class="getStatusClass(item.status)">{{
+                        item.status
+                      }}</span>
+                    </td>
+
+                    <td>
+                      <div class="barcode">
+                        <img
+                          :src="generateBarcode(item.barcode)"
+                          alt="Barcode"
+                          style="height: 50px"
+                        />
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -76,8 +81,8 @@
           </div>
           <div>
             <Bootstrap4Pagination
-              :data="parents"
-              @pagination-change-page="getParent"
+              :data="items"
+              @pagination-change-page="getFilterItem"
             />
           </div>
         </div>
@@ -85,20 +90,34 @@
     </div>
   </div>
 </template>
-
+ 
 <script setup>
 import axios from "axios";
 import { onMounted, ref, watch } from "vue";
+import { getCurrentInstance } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
+import JsBarcode from "jsbarcode";
 
-const parents = ref({ data: [] });
+const generateBarcode = (barcodeValue) => {
+  const canvas = document.createElement("canvas");
+  JsBarcode(canvas, barcodeValue, {
+    format: "CODE128",
+    displayValue: true,
+  });
+  return canvas.toDataURL();
+};
 
-const getParent = (page = 1) => {
-    axios
-    .get(`/parent?page=${page}`)
+const route = getCurrentInstance().proxy.$route;
+const items = ref({ data: [] });
+
+const getFilterItem = (page = 1) => {
+  const itemFilter = route.params.id;
+
+  axios
+    .get(`/items/${itemFilter}/filter-item?page=${page}`)
     .then((response) => {
-      parents.value = response.data;
+      items.value = response.data;
     })
     .catch((error) => {
       console.error("An error occurred:", error);
@@ -108,13 +127,13 @@ const getParent = (page = 1) => {
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/parent", {
+    .get("/items", {
       params: {
         query: searchQuery.value,
       },
     })
     .then((response) => {
-      parents.value = response.data;
+      items.value = response.data;
     })
     .catch((error) => {
       console.log(error);
@@ -127,7 +146,23 @@ watch(
     search();
   }, 300)
 );
+
+const getStatusClass = (status) => {
+  if (status === "operating") {
+    return "badge badge-success good-status";
+  } else if (status === "decommissioned") {
+    return "badge badge-danger bad-status";
+  } else if (status === "under repair") {
+    return "badge badge-warning bad-status";
+  } else if (status === "issued") {
+    return "badge badge-primary bad-status";
+  } else {
+    return "badge badge-default";
+  }
+};
+
 onMounted(() => {
-    getParent();
+  getFilterItem();
 });
 </script>
+

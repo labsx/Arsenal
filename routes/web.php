@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/field-group', [FieldGroupController::class, 'search']);
     Route::get('/field-group/{field}', [FieldGroupController::class, 'show']);
     Route::put('/field-group/{field}', [FieldGroupController::class, 'update']);
+    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
 
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::post('/fields', [FieldController::class, 'store']);
@@ -68,8 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
     Route::get('/items', [ItemController::class, 'search']);
     Route::delete('/items/{item}', [ItemController::class, 'destroy']);
+    Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
     Route::get('/parent', [ParentController::class, 'index']);
+    Route::get('/parent-data', [ParentController::class, 'getData']);
     Route::post('/parent', [ParentController::class, 'store']);
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']);

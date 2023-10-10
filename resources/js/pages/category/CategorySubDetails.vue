@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Item List</h1>
+          <h1 class="m-0">Sub Category</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Item List</li>
+            <li class="breadcrumb-item active">category sub</li>
           </ol>
         </div>
       </div>
@@ -19,21 +19,13 @@
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
             <div>
-              <!-- <button
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="modal"
-                data-target="#createCategory"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>New Category
-              </button>
-
-              <button
+               <button
                 class="btn btn-outline-primary ml-1 btn-sm"
                 data-toggle="modal"
                 data-target="#createParent"
               >
                 <i class="fa fa-plus-circle mr-1"></i>Sub Category
-              </button> -->
+              </button>
             </div>
             <div>
               <div class="input-group">
@@ -66,9 +58,9 @@
                     <td>{{ parent.name }}</td>
                     <td>{{ formatDate(parent.created_at) }}</td>
                     <td>
-                      <!-- <router-link :to="`/admin/category/${category.id}/sub`">
+                      <router-link :to="`/admin/subcategory/${parent.id}/item-filter`">
                         <i class="fas fa-eye mr-2"></i>
-                      </router-link>  -->
+                      </router-link> 
 
                       <!-- <router-link :to="`/admin/category/${parent.id}/edit`">
                         <i class="fas fa-edit"></i>
@@ -103,6 +95,7 @@
       </div>
     </div>
   </div>
+   <CategorySub />
 </template>
 
 <script setup>
@@ -114,6 +107,7 @@ import { debounce } from "lodash";
 import { formatDate } from "../../helper.js";
 import Swal from "sweetalert2";
 import { deleteParent } from "../../store/swal.js";
+import CategorySub from "./CategorySub.vue";
 
 const route = getCurrentInstance().proxy.$route;
 const parents = ref({ data: [] });

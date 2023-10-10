@@ -86,6 +86,7 @@ class ItemController extends Controller
     {
         $formData = $request->validate([
             'name' => 'required|string',
+            'parent_id' => 'required',
             'serial' => 'required',
             'status' => 'required',
             'value' => 'required|array',
@@ -102,6 +103,7 @@ class ItemController extends Controller
         $item->name = $formData['name'];
         $item->serial = $formData['serial'];
         $item->status = $formData['status'];
+        $item->parent_id = $formData['parent_id'];
 
         $item->save();
 
@@ -122,5 +124,16 @@ class ItemController extends Controller
         $item->attributes()->whereIn('name', $existingAttributeNames)->delete();
 
         return response()->json(['success' => true]);
+    }
+
+    public function show($id)
+    {
+        $items = Item::where('parent_id', $id)->paginate(10);
+
+        if ($items->isEmpty()) {
+            return response()->json(['error' => 'No items found for the specified field group'], 404);
+        }
+
+        return response()->json($items);
     }
 }

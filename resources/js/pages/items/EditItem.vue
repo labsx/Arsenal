@@ -27,7 +27,7 @@
               <div class="card-body">
                 <form>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label for="title">Item Name</label>
                         <input
@@ -45,6 +45,29 @@
                         >
                       </div>
                     </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="client">Sub Category</label>
+                        <select
+                          v-model="form.parent_id"
+                          id="client"
+                          class="form-control"
+                          :class="{ 'is-invalid': errors.form_id }"
+                        >
+                          <option value="" disabled selected hidden>
+                            Select Sub Category
+                          </option>
+                          <option
+                            :value="parent.id"
+                            v-for="parent in parents"
+                            :key="parent.id"
+                          >
+                            {{ parent.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="col-md-3">
                       <div class="form-group">
                         <label for="client">Status</label>
@@ -100,9 +123,13 @@
                             class="form-control"
                             id="title"
                             placeholder="Enter Title"
-                           :class="{'is-invalid': errors && errors.name}"
+                            :class="{ 'is-invalid': errors && errors.name }"
                           />
-                        <span v-if="errors && errors.name" class="text-danger text-sm">{{ errors.name[0] }}</span>
+                          <span
+                            v-if="errors && errors.name"
+                            class="text-danger text-sm"
+                            >{{ errors.name[0] }}</span
+                          >
                         </div>
                       </div>
 
@@ -115,9 +142,13 @@
                             id="date"
                             v-model="attribute.value"
                             :name="`value[${index}][value]`"
-                           :class="{'is-invalid': errors && errors.value}"
+                            :class="{ 'is-invalid': errors && errors.value }"
                           />
-                         <span v-if="errors && errors.value" class="text-danger text-sm">{{ errors.value[0] }}</span>
+                          <span
+                            v-if="errors && errors.value"
+                            class="text-danger text-sm"
+                            >{{ errors.value[0] }}</span
+                          >
                         </div>
                       </div>
 
@@ -177,6 +208,7 @@ const form = reactive({
   name: "",
   serial: "",
   status: "",
+  parent_id: "",
   value: [{ name: "", value: "" }],
 });
 
@@ -199,6 +231,7 @@ const getItems = () => {
         form.name = response.data.name;
         form.serial = response.data.serial;
         form.status = response.data.status;
+        form.parent_id = response.data.parent_id;
       } else {
         console.error("Item data not found in the response.");
       }
@@ -241,12 +274,26 @@ const handleSubmit = () => {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-        toastr.error('Empty attributes or duplicate name !');
+        toastr.error("Empty attributes or duplicate name !");
         errors.value = [];
       }
     });
 };
+
+const parents = ref([]);
+const getParent = () => {
+  axios
+    .get("/parent-data")
+    .then((response) => {
+      parents.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching field_group:", error);
+    });
+};
+
 onMounted(() => {
+  getParent();
   getItems();
   getAttributes();
 });

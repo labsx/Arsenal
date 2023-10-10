@@ -63,7 +63,7 @@
                 </router-link>
               </li>
 
-               <li class="nav-item">
+               <!-- <li class="nav-item">
                 <router-link
                   to="/admin/subcategory/list"
                   class="nav-link"
@@ -72,7 +72,7 @@
                   <i class="fa fa-circle nav-icon"></i>
                   <p>Sub Category</p>
                 </router-link>
-              </li>
+              </li> -->
             </ul>
           </li>
 

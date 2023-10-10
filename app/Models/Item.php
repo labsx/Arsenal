@@ -24,4 +24,8 @@ class Item extends Model
     {
         return $this->hasMany(ItemAttribute::class);
     }
+    public function parent()
+    {
+        return $this->belongsTo(ParentModel::class);
+    }
 }

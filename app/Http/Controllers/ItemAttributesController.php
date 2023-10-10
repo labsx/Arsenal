@@ -12,6 +12,7 @@ class ItemAttributesController extends Controller
     {
         $formData = $request->validate([
             'category_id' => 'required|numeric',
+            'parent_id' => 'required|numeric',
             'item_name' => 'required|string',
             'serial' => 'required',
             'status' => 'required',
@@ -29,6 +30,7 @@ class ItemAttributesController extends Controller
         $item = Item::create([
             'category_id' => $formData['category_id'],
             'name' => $formData['item_name'],
+            'parent_id' => $formData['parent_id'],
             'serial' => $formData['serial'],
             'status' => $formData['status'],
             'barcode' => $number,
@@ -47,41 +49,5 @@ class ItemAttributesController extends Controller
         }
 
         return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
-
-
-        // try {
-        //     $formData = $request->validate([
-        //         'category_id' => 'required|numeric',
-        //         'item_name' => 'required|string',
-        //         'serial' => 'required',
-        //         'status' => 'required',
-        //         'value' => 'required|array',
-        //         'value.*.label' => 'required|string',
-        //         'value.*.value' => 'string',
-        //     ]);
-
-        //     $item = Item::create([
-        //         'category_id' => $formData['category_id'],
-        //         'name' => $formData['item_name'],
-        //         'serial' => $formData['serial'],
-        //         'status' => $formData['status'],
-        //     ]);
-
-        //     $itemAttributes = [];
-
-        //     foreach ($formData['value'] as $fieldData) {
-        //         $itemAttribute = ItemAttribute::create([
-        //             'item_id' => $item->id,
-        //             'name' => $fieldData['label'],
-        //             'value' => $fieldData['value'],
-        //         ]);
-
-        //         $itemAttributes[] = $itemAttribute;
-        //     }
-
-        //     return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => 'An error occurred while saving the item.'], 500);
-        // }
     }
 }

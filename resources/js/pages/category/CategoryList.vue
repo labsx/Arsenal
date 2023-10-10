@@ -26,14 +26,6 @@
               >
                 <i class="fa fa-plus-circle mr-1"></i>New Category
               </button>
-
-              <button
-                class="btn btn-outline-primary ml-1 btn-sm"
-                data-toggle="modal"
-                data-target="#createParent"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>Sub Category
-              </button>
             </div>
             <div>
               <div class="input-group">
@@ -57,7 +49,6 @@
                 <thead>
                   <tr>
                     <th scope="col">Name</th>
-                    <!-- <th scope="col">Parent Id</th> -->
                     <th scope="col">Field Group</th>
                     <th scope="col">Option</th>
                   </tr>
@@ -65,8 +56,7 @@
                 <tbody v-if="categories.data.length > 0">
                   <tr v-for="category in categories.data" :key="category.id">
                     <td>{{ category.name }}</td>
-                    <!-- <td>{{ category.parent_id }}</td> -->
-                    <td>{{ category.field_group_id }}</td>
+                    <td>{{ category.field_group_name }}</td>
                     <td>
                       <router-link :to="`/admin/category/${category.id}/sub`">
                         <i class="fas fa-eye mr-2"></i>
@@ -105,9 +95,7 @@
       </div>
     </div>
   </div>
-
   <CategoryAdd />
-  <CategorySub />
 </template>
 
 <script setup>
@@ -122,22 +110,47 @@ import { computed } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import CategoryAdd from "./CategoryAdd.vue";
-import CategorySub from "./CategorySub.vue";
 import { debounce } from "lodash";
 
 const toastr = useToastr();
 const errors = ref([]);
 const categories = ref({ data: [] });
 
-const getCategory = (page = 1) => {
-  axios
-    .get(`/category?page=${page}`)
-    .then((response) => {
-      categories.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching category:", error);
-    });
+const getFieldGroupName = async (fieldGroupId) => {
+  try {
+    const response = await axios.get(`/field-groups/${fieldGroupId}`);
+    return response.data.name;
+  } catch (error) {
+    console.error("Error fetching field group name:", error);
+    return "";
+  }
+};
+
+const getCategory = async (page = 1) => {
+  try {
+    const response = await axios.get(`/category?page=${page}`);
+    let responseData;
+
+    if (Array.isArray(response.data)) {
+      responseData = response.data;
+    } else if (response.data && Array.isArray(response.data.data)) {
+      responseData = response.data.data;
+    } else {
+      console.error("Unexpected response structure:", response.data);
+      return;
+    }
+
+    categories.value.data = await Promise.all(
+      responseData.map(async (category) => {
+        return {
+          ...category,
+          field_group_name: await getFieldGroupName(category.field_group_id),
+        };
+      })
+    );
+  } catch (error) {
+    console.error("Error fetching category:", error);
+  }
 };
 
 const searchQuery = ref(null);
