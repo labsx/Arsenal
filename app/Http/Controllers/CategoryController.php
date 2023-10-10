@@ -49,16 +49,16 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
-        $formFields = $request->validate([
+        $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'parent_id' => ['required'],
             'field_group_id' => ['required']
         ]);
-    
-        $category = Category::findOrFail($id);
-        $category->update($formFields);
-    
-        return response()->json(['message' => 'Category updated successfully', 'category' => $category]);
+
+        $category = Category::findOrfail($id);
+        $category->update($formField);
+
+        return response()->json($category);
     }
 
     public function destroy($id)

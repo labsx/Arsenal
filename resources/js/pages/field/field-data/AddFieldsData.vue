@@ -31,14 +31,14 @@
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label for="client">Category</label>
+                              <label for="client">Select Fields</label>
                               <select
                                 id="client"
                                 class="form-control"
                                 v-model="form.field_groups_id"
                               >
                                 <option value="" disabled selected hidden>
-                                  Select Category
+                                  Select Fields Groups
                                 </option>
                                 <option
                                   :value="field.id"

@@ -18,6 +18,7 @@ import EditFields from './pages/field/field-data/EditFields.vue';
 import AddItem from './pages/items/AddItem.vue';
 import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
+import SubCategoryList from './pages/categorysub/SubCategoryList.vue';
 
 
 export default[
@@ -25,6 +26,11 @@ export default[
         path: '/login',
         name: 'admin.login',
         component: Login,
+    },
+    {
+        path: '/admin/subcategory/list',
+        name: 'admin.subcategory.list',
+        component: SubCategoryList,
     },
     {
         path: '/admin/field_groups/list',

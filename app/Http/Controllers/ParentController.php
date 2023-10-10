@@ -10,7 +10,7 @@ class ParentController extends Controller
 {
     public function index()
     {
-        $parents = ParentModel::latest()->get();
+        $parents = ParentModel::latest()->paginate(10);
 
         return $parents;
     }
@@ -18,11 +18,21 @@ class ParentController extends Controller
     public function store(Request $request)
     {
         $formField = $request->validate ([
-            'name' => ['required'],
+            'name' => 'required|min:3|max:50|unique:parent_models,name',
         ]);
 
         $parent = ParentModel::create($formField);
 
         return response()->json($parent);
+    }
+
+    public function search()
+    {
+        $searchQuery = request('query');
+        $parents = ParentModel::where(function ($query) use ($searchQuery) {
+            $query->where('name', 'like', "%{$searchQuery}%");   
+        })->paginate(10);
+
+        return response()->json($parents);
     }
 }

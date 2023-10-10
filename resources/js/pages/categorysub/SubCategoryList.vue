@@ -3,11 +3,11 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Fields </h1>
+          <h1 class="m-0">Fields Groups</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Fields List</li>
+            <li class="breadcrumb-item active">Fields Group List</li>
           </ol>
         </div>
       </div>
@@ -22,9 +22,9 @@
               <button
                 class="btn btn-outline-primary ml-1 btn-sm"
                 data-toggle="modal"
-                data-target="#createFieldData"
+                data-target="#createFieldsGroup"
               >
-                <i class="fa fa-plus-circle mr-1"></i>ADD FIELDS
+                <i class="fa fa-plus-circle mr-1"></i>ADD FIELD GROUPS
               </button>
             </div>
             <div>
@@ -48,28 +48,20 @@
               <table class="table align-middle">
                 <thead>
                   <tr>
-                    <th scope="col">Label</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date </th>
+                    <th scope="col">Option</th>
                   </tr>
                 </thead>
-                <tbody v-if="fields.data.length > 0">
-                  <tr v-for="field in fields.data" :key="field.id">
-                    <td>{{ field.label }}</td>
-                    <td>{{ field.description }}</td>
-                    <td>{{ field.is_required }}</td>
-                    <td>
-                      <router-link :to="`/admin/edit/${field.id}/fields`">
-                        <i class="fas fa-edit"></i>
+                <tbody v-if="parents.data.length > 0">
+                  <tr v-for="parent in parents.data" :key="parent.id">
+                    <td>{{ parent.name }}</td>
+                    <td>{{parent.created_at}}</td>
+                   <td>
+                      <router-link :to="`/admin/fields/${parent.id}/add`">
+                        <i class="fas fa-eye"></i>
                       </router-link>
-
-                      <router-link
-                        to=""
-                        @click.prevent="deleteFields(field.id)"
-                      >
-                        <i class="fa fa-trash text-danger ml-2"></i>
-                      </router-link>
-                    </td>
+                   </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -84,75 +76,48 @@
           </div>
           <div>
             <Bootstrap4Pagination
-              :data="fields"
-              @pagination-change-page="getFieldsById"
+              :data="parents"
+              @pagination-change-page="getParent"
             />
           </div>
         </div>
       </div>
     </div>
   </div>
-  <AddFieldsData />
 </template>
+
 <script setup>
 import axios from "axios";
-import { onMounted, ref, watch, getCurrentInstance } from "vue";
-import Swal from "sweetalert2";
+import { onMounted, ref, watch } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
-import { useToastr } from "../../../toastr";
-import AddFieldsData from "./AddFieldsData.vue";
-import { deleteFieldGroups } from "../../../store/swal.js";
 
-const toastr = useToastr();
+const parents = ref({ data: [] });
 
-const route = getCurrentInstance().proxy.$route;
-const fields = ref({ data: [] });
-//display fields by id
-const getFieldsById = (page = 1) => {
-  const fieldId = route.params.id;
-
-  axios
-    .get(`/fields/${fieldId}/show?page=${page}`)
+const getParent = (page = 1) => {
+    axios
+    .get(`/parent?page=${page}`)
     .then((response) => {
-      fields.value = response.data;
+      parents.value = response.data;
     })
     .catch((error) => {
       console.error("An error occurred:", error);
     });
 };
 
-const deleteFields = (id) => {
-  deleteFieldGroups()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/fields/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      fields.value.data = fields.value.data.filter((field) => field.id !== id);
-      Swal.fire("Deleted!", "Fields has been deleted.", "success");
-      getFieldsById();
-    })
-    .catch((error) => {
-      console.error("Error deleting Fields:", error);
-    });
-};
-
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/fields/search", {
+    .get("/parent", {
       params: {
         query: searchQuery.value,
       },
     })
     .then((response) => {
-      fields.value = response.data;
+      parents.value = response.data;
     })
     .catch((error) => {
-      console.error("Error in search:", error);
+      console.log(error);
     });
 };
 
@@ -162,8 +127,7 @@ watch(
     search();
   }, 300)
 );
-
 onMounted(() => {
-  getFieldsById();
+    getParent();
 });
 </script>

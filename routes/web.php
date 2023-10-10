@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/parent', [ParentController::class, 'index']);
     Route::post('/parent', [ParentController::class, 'store']);
+    Route::get('/parent', [ParentController::class, 'search']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);

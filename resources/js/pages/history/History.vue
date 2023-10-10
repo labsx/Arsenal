@@ -8,7 +8,7 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <div class="float-right ml-2">
-                <button @click="printItems" class="btn btn-primary btn-sm">
+                <button @click="printItems" class="btn btn-outline-primary btn-sm">
                   <i class="fa fa-print mr-1"></i> Print
                 </button>
               </div>
