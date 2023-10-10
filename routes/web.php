@@ -50,9 +50,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
 
+    Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);
-    Route::get('/fields/{id}/show', [FieldController::class, 'show']);
+   
     Route::get('/fields/search', [FieldController::class, 'search']);
     Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);

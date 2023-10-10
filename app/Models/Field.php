@@ -16,8 +16,8 @@ class Field extends Model
         return $this->hasMany(Items::class);
     }
 
-    public function fields_group()
+    public function fieldGroup()
     {
-        return $this->belongsTo(FieldGroup::class);
+        return $this->belongsTo(FieldGroup::class, 'field_groups_id');
     }
 }

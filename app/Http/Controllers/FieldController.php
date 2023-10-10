@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Field;
+use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
 class FieldController extends Controller
@@ -86,3 +87,4 @@ class FieldController extends Controller
         return response()->json($category);
     }
 }
+

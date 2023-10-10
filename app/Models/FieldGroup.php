@@ -18,7 +18,7 @@ class FieldGroup extends Model
 
     public function fields_groups()
     {
-        return $this->belongsTo(CategoryList::class);
+        return $this->belongsTo(Category::class);
     }
 
 }
