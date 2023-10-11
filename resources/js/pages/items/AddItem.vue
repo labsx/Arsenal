@@ -89,6 +89,86 @@
                     </div>
                   </div>
 
+            <div class="col-md-3">
+                <!-- <div class="form-group">
+                      <label for="client">ChooseFields</label>
+                      <span class="text-danger"> *</span>
+                       <select name="cars"  id="fieldGroup"
+                        class="form-control">
+                        <label for="">Choose Fields</label>
+                          <optgroup label="Swedish Cars">
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                          </optgroup>
+                          
+                        </select>
+                       <span
+                        v-if="errors && errors.parent_id"
+                        class="text-danger text-sm"
+                        >{{ errors.parent_id[0] }}</span
+                      >
+                    </div> -->
+                    <div class="form-group">
+                      <label for="client">Sub Category</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        id="fieldGroup"
+                        class="form-control"
+                        v-model="form.parent_id"
+                         :class="{ 'is-invalid': errors.parent_id }"
+                      >
+                        <option value="" disabled selected hidden>
+                          Select Sub Category
+                        </option>
+                        <option
+                          :value="parent.id"
+                          v-for="parent in parents"
+                          :key="parent.id"
+                        >
+                          {{ parent.name }}
+                        </option>
+                      </select>
+                       <span
+                        v-if="errors && errors.parent_id"
+                        class="text-danger text-sm"
+                        >{{ errors.parent_id[0] }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                 <div class="row">
+                 <div
+                    class="col-md-3"
+                    v-for="(field, index) in fieldsData"
+                    :key="index"
+                  >
+                    <div class="form-group">
+                      <label class="d-flex align-items-center" for="time">
+                        {{ field.label }}
+                        <span
+                          class="text-danger ml-1"
+                          v-if="field.is_required === 'required'"
+                          >*</span
+                        >
+                        <small
+                          v-if="field.description"
+                          class="form-text text-muted ml-2"
+                          >( {{ field.description }} )</small
+                        >
+                      </label>
+
+                      <input
+                        v-model="form.fields[field.label]"
+                        type="text"
+                        class="form-control"
+                        id="time"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="client">Select Category</label>
@@ -119,62 +199,8 @@
                     </div>
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Sub Category</label>
-                      <span class="text-danger"> *</span>
-                      <select
-                        id="fieldGroup"
-                        class="form-control"
-                        v-model="form.parent_id"
-                      >
-                        <option value="" disabled selected hidden>
-                          Select Sub Category
-                        </option>
-                        <option
-                          :value="parent.id"
-                          v-for="parent in parents"
-                          :key="parent.id"
-                        >
-                          {{ parent.name }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div
-                    class="col-md-3"
-                    v-for="(field, index) in fieldsData"
-                    :key="index"
-                  >
-                    <div class="form-group">
-                      <label class="d-flex align-items-center" for="time">
-                        {{ field.label }}
-                        <span
-                          class="text-danger ml-1"
-                          v-if="field.is_required === 'required'"
-                          >*</span
-                        >
-                        <small
-                          v-if="field.description"
-                          class="form-text text-muted ml-2"
-                          >( {{ field.description }} )</small
-                        >
-                      </label>
-
-                      <input
-                        v-model="form.fields[field.label]"
-                        type="text"
-                        class="form-control"
-                        id="time"
-                      />
-                    </div>
-                  </div>
-                </div>
-
                 <button type="submit" class="btn btn-outline-primary btn-sm">
-                  <i class="fa fa-save mr-2"></i>Submit
+                  <i class="fa fa-save mr-2"></i>Save
                 </button>
               </form>
             </div>
@@ -232,19 +258,19 @@ const createItem = () => {
     });
 };
 
-const field_groups = ref([]);
+// const field_groups = ref([]);
 const fieldsData = ref([]);
 
-const getFieldGroup = () => {
-  axios
-    .get("/field-group/name")
-    .then((response) => {
-      field_groups.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching field_group:", error);
-    });
-};
+// const getFieldGroup = () => {
+//   axios
+//     .get("/field-group/name")
+//     .then((response) => {
+//       field_groups.value = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching field_group:", error);
+//     });
+// };
 
 const getFields = async () => {
   const selectedCategoryId = form.value.category_id;
@@ -273,6 +299,7 @@ const clearForm = () => {
   form.value.status = "";
   form.value.item_name = "";
   form.value.fields = {};
+  form.value.category_id = "";
 };
 
 const categories = ref();
@@ -301,7 +328,7 @@ const getParent = () => {
 
 onMounted(() => {
   getParent();
-  getFieldGroup();
+  // getFieldGroup();
   getCategory();
 });
 watch(form.category_id, () => {

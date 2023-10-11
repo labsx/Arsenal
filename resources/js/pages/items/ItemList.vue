@@ -58,7 +58,7 @@
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Barcode</th>
+                    <!-- <th scope="col">Barcode</th> -->
                     <th scope="col">Option</th>
                   </tr>
                 </thead>
@@ -71,7 +71,7 @@
                         item.status
                       }}</span>
                     </td>
-
+<!-- 
                     <td>
                       <div class="barcode">
                         <img
@@ -80,9 +80,13 @@
                           style="height: 50px"
                         />
                       </div>
-                    </td>
+                    </td> -->
 
                     <td>
+                      <router-link :to="`/admin/items/${item.id}/details`">
+                        <i class="fas fa-eye text-primary mr-2"></i>
+                      </router-link>
+
                       <router-link
                         v-if="item.status === 'operating'"
                         :to="`/admin/items/${item.id}/issue`"
@@ -96,7 +100,7 @@
                         "
                         :to="`/admin/items/${item.id}/edit`"
                       >
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-edit text-info"></i>
                       </router-link>
 
                       <router-link to="" @click.prevent="deleteItems(item.id)">
@@ -142,14 +146,14 @@ const printItems = () => {
   printItemsData(items.value.data, formatDate);
 };
 
-const generateBarcode = (barcodeValue) => {
-  const canvas = document.createElement("canvas");
-  JsBarcode(canvas, barcodeValue, {
-    format: "CODE128",
-    displayValue: true,
-  });
-  return canvas.toDataURL();
-};
+// const generateBarcode = (barcodeValue) => {
+//   const canvas = document.createElement("canvas");
+//   JsBarcode(canvas, barcodeValue, {
+//     format: "CODE128",
+//     displayValue: true,
+//   });
+//   return canvas.toDataURL();
+// };
 
 //
 

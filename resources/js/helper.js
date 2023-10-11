@@ -8,7 +8,7 @@ export function formatDate(value) {
 
 export function timeDate(value) {
     if (value) {
-        return moment(String(value)).format('dddd / h:mm A');
+        return moment(String(value)).format('dddd / h:mm A ');
     }
 }
 

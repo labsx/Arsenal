@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createFieldData">ADD FIELDS</h5>
+          <h5 class="modal-title" id="createFieldData">{{ form.name }}</h5>
           <button
             type="button"
             class="close"
@@ -30,27 +30,14 @@
                       <form>
                         <div class="row">
                           <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="client">Select Fields</label>
-                              <select
-                                id="client"
-                                class="form-control"
-                                v-model="form.field_groups_id"
-                              >
-                                <option value="" disabled selected hidden>
-                                  Select Fields Groups
-                                </option>
-                                <option
-                                  :value="field.id"
-                                  v-for="field in field_groups"
-                                  :key="field.id"
-                                >
-                                  {{ field.name }}
-                                </option>
-                              </select>
-                            </div>
+                            <input
+                              v-model="form.field_groups_id"
+                              type="text"
+                              name=""
+                              id=""
+                              style="display: none"
+                            />
                           </div>
-
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="date">Label</label>
@@ -60,9 +47,9 @@
                                 type="text"
                                 class="form-control"
                                 id="text"
-                                :class="{ 'is-invalid': errors.label}"
+                                :class="{ 'is-invalid': errors.label }"
                               />
-                               <span
+                              <span
                                 v-if="errors && errors.label"
                                 class="text-danger text-sm"
                                 >{{ errors.label[0] }}</span
@@ -94,7 +81,11 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            data-dismiss="modal"
+          >
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
           <button
@@ -112,14 +103,17 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import Swal from "sweetalert2";
 import { useToastr } from "../../../toastr";
+import { useRouter, useRoute } from "vue-router";
 
+const router = useRouter();
+const route = useRoute();
 const toastr = useToastr();
 const errors = ref([]);
 //save the fields
-const form = ref({
+const form = reactive({
   name: "",
   description: "",
   is_required: "",
@@ -128,12 +122,12 @@ const form = ref({
 });
 
 const createField = () => {
-  const isRequired = form.value.is_required ? "required" : "not required";
+  const isRequired = form.is_required ? "required" : "not required";
   const formData = {
-    label: form.value.label,
-    description: form.value.description,
+    label: form.label,
+    description: form.description,
     is_required: isRequired,
-    field_groups_id: form.value.field_groups_id,
+    field_groups_id: form.field_groups_id,
   };
 
   axios
@@ -142,7 +136,6 @@ const createField = () => {
       toastr.success("Fields created successfully!");
       clearForm();
       $("#createFieldData").modal("hide");
-      
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -154,25 +147,25 @@ const createField = () => {
 };
 
 const clearForm = () => {
-  form.value.label = "";
-  form.value.description = "";
-  form.value.is_required = "";
+  form.label = "";
+  form.description = "";
+  form.is_required = "";
 };
 
-//show category
-const field_groups = ref();
-const getFieldsGroups = () => {
+const getFieldsGroupsId = () => {
   axios
-    .get("/field-group/name")
-    .then((response) => {
-      field_groups.value = response.data;
+    .get(`/fields-data/${route.params.id}`)
+    .then(({ data }) => {
+      console.log("Fields data:", data);
+      form.field_groups_id = data.id;
+      form.name = data.name;
     })
     .catch((error) => {
-      console.error("An error occurred:", error);
+      console.error("Error fetching category details:", error);
     });
 };
 
 onMounted(() => {
-  getFieldsGroups();
+  getFieldsGroupsId();
 });
 </script>

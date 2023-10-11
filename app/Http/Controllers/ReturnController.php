@@ -21,8 +21,10 @@ class ReturnController extends Controller
             'date_issued' => ['required', 'date'],
             'status' => ['required', 'in:operating,decommissioned,under repair'],
             'issued_to' => ['required', 'min:3', 'max:50'],
-            'return_date' => ['required', 'date', 'after_or_equal:issued_date'],
+            'return_date' => ['required', 'date', 'after_or_equal:date_issued'],
             'serial' => ['max:255'],
+        ], [
+            'return_date' => 'Error date selection !',
         ]);
 
         History::create($formFields);

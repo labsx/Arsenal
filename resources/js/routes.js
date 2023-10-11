@@ -1,7 +1,7 @@
 import Dashboard from './components/Dashboard.vue';
 import ItemList from './pages/items/ItemList.vue';
 import EditItems from './pages/items/EditItem.vue';
-// import ItemForm from './pages/items/ItemForm.vue';
+import ItemDetails from './pages/items/ItemDetails.vue';
 import IssueForm from './pages/items/IssueForm.vue';
 import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
@@ -21,7 +21,6 @@ import EditCategory from './pages/category/EditCategory.vue';
 import FilterSubCategory from './pages/category/CategorySubDetails.vue';
 import SubCategoryItemFilter from './pages/category/ItemFilter.vue';
 import EditCategorySub from './pages/category/EditCategorySub.vue';
-
 
 export default[
     {
@@ -58,6 +57,11 @@ export default[
         path: '/admin/items/:id/edit',
         name: 'admin.items.edit',
         component: EditItems,
+    },
+    {
+        path: '/admin/items/:id/details',
+        name: 'admin.items.details',
+        component: ItemDetails,
     },
     {
         path: '/admin/category/list',

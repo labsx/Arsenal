@@ -86,5 +86,18 @@ class FieldController extends Controller
 
         return response()->json($category);
     }
+
+    public function getFieldsDetails()
+    {
+        $fields_groups = FieldGroup::latest()->select('id', 'name')->get();
+
+        return $fields_groups;
+    }
+    public function getFieldsId($id)
+    {
+        $ids = FieldGroup::findOrFail($id);
+
+        return response()->json($ids);
+    }
 }
 

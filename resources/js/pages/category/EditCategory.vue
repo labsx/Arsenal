@@ -37,18 +37,6 @@
                     placeholder="Enter app display name"
                   />
                 </div>
-                <!-- <div class="form-group">
-                  <label for="dateFormat">Item Fields</label>
-                  <select class="form-control" v-model="form.parent_id">
-                    <option
-                      :value="parent.id"
-                      v-for="parent in parents"
-                      :key="parent.id"
-                    >
-                      {{ parent.name }}
-                    </option>
-                  </select>
-                </div> -->
 
                 <div class="form-group">
                   <label for="dateFormat">Group Fields</label>
@@ -95,7 +83,6 @@ const errors = ref([]);
 
 const form = reactive({
   name: "",
-  // parent_id: "",
   field_group_id: "",
 });
 
@@ -106,7 +93,6 @@ const ItemDetails = () => {
       console.log("Category data:", data);
       if (data && data.name) {
         form.name = data.name;
-        // form.parent_id = data.parent_id;
         form.field_group_id = data.field_group_id;
       } else {
         console.error("Category name not found in the response data.");
@@ -121,7 +107,7 @@ const saveCategory = () => {
   axios
     .put(`/category/${route.params.id}`, {
       name: form.name,
-      parent_id: form.parent_id,
+      // parent_id: form.parent_id,
       field_group_id: form.field_group_id,
     })
     .then(() => {
@@ -144,10 +130,10 @@ const saveCategory = () => {
 //     });
 // };
 
-const field_groups = ref([]);
+const field_groups = ref([]);field_groups
 const getFieldGroup = () => {
   axios
-    .get("/field-group/data")
+    .get("/field")
     .then((response) => {
       field_groups.value = response.data;
     })
@@ -158,7 +144,6 @@ const getFieldGroup = () => {
 
 onMounted(() => {
   getFieldGroup();
-  // getParent();
   ItemDetails();
 });
 </script>

@@ -160,7 +160,7 @@ const clearForm = () => {
 const field_groups = ref([]);
 const getFieldGroup = () => {
   axios
-    .get("/field-group/data")
+    .get("/field")
     .then((response) => {
       field_groups.value = response.data;
     })

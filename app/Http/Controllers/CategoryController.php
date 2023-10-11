@@ -35,7 +35,7 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50', Rule::unique('categories', 'name')],

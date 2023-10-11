@@ -95,4 +95,12 @@ class FieldGroupController extends Controller
         $fieldsData = Field::where('field_groups_id', $id)->get();
         return response()->json($fieldsData);
     }
+
+    public function fieldShow()
+    {
+        $field_groups = FieldGroup::latest()->select('id', 'name')->get();
+
+        return $field_groups;
+    }
+
 }

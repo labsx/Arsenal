@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Models\ItemAttribute;
+use Illuminate\Validation\Rule;
 
 class ItemAttributesController extends Controller
 {
@@ -14,13 +15,14 @@ class ItemAttributesController extends Controller
             'category_id' => 'required|numeric',
             'parent_id' => 'required|numeric',
             'item_name' => 'required|string',
-            'serial' => 'required',
+            'serial' => 'required|unique:items,serial',
             'status' => 'required',
             'value' => 'required|array',
             'value.*.label' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
-            'category_id.required' => 'Select category name !',
+            'category_id.required' => 'Select category name is required !',
+            'parent_id.required' => 'Select sub category name is required !',
         ]);
 
         $number = mt_rand(1000000000, 9999999999);

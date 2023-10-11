@@ -92,7 +92,7 @@
       </div>
     </div>
   </div>
-  <AddFieldsData />
+   <AddFieldsData />
 </template>
 <script setup>
 import axios from "axios";

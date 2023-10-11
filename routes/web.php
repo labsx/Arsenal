@@ -33,9 +33,12 @@ use App\Http\Controllers\ItemAttributesController;
 Route::get('/', [LoginController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
+    // Route::resource('category', CategoryController::class)
+    //     ->only(['index', 'destroy', 'update', 'store']);
+
     Route::get('/category', [CategoryController::class, 'index']);
     Route::get('/category', [CategoryController::class, 'search']);
-    Route::post('/category', [CategoryController::class, 'create']);
+    Route::post('/category', [CategoryController::class, 'store']);
     Route::put('/category/{category}', [CategoryController::class, 'update']);
     Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
     Route::get('/category/{category}/show', [CategoryController::class, 'show']);
@@ -48,9 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/field-group', [FieldGroupController::class, 'search']);
     Route::get('/field-group/{field}', [FieldGroupController::class, 'show']);
     Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
-    Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
+
+    // Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
     Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
+    // Route::get('/field/fields-data', [FieldGroupController::class, 'fieldShow']);
 
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::post('/fields', [FieldController::class, 'store']);
@@ -60,6 +65,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
     Route::put('/fields/{field}', [FieldController::class, 'update']);
     Route::get('/fields', [FieldController::class, 'filterFields']);
+
+    Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
+
+
+    Route::get('/field', [FieldController::class, 'getFieldsDetails']);
 
     Route::get('/items', [ItemController::class, 'index']);
     Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
