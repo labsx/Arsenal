@@ -30,4 +30,9 @@ class Category extends Model
     {
         return $this->hasMany(FieldGroup::class);
     }
+    public function parent_models()
+    {
+        return $this->hasMany(ParentModel::class);
+    }
 }
+

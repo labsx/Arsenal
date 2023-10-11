@@ -89,46 +89,35 @@
                     </div>
                   </div>
 
-            <div class="col-md-3">
-                <!-- <div class="form-group">
-                      <label for="client">ChooseFields</label>
-                      <span class="text-danger"> *</span>
-                       <select name="cars"  id="fieldGroup"
-                        class="form-control">
-                        <label for="">Choose Fields</label>
-                          <optgroup label="Swedish Cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                          </optgroup>
-                          
-                        </select>
-                       <span
-                        v-if="errors && errors.parent_id"
-                        class="text-danger text-sm"
-                        >{{ errors.parent_id[0] }}</span
-                      >
-                    </div> -->
+                  <div class="col-md-3">
                     <div class="form-group">
-                      <label for="client">Sub Category</label>
+                      <label for="client">Choose</label>
                       <span class="text-danger"> *</span>
                       <select
                         id="fieldGroup"
                         class="form-control"
-                        v-model="form.parent_id"
-                         :class="{ 'is-invalid': errors.parent_id }"
+                        v-model="form.parent_id"  
+                        :class="{'is-invalid': errors.parent_id}"
                       >
-                        <option value="" disabled selected hidden>
-                          Select Sub Category
-                        </option>
-                        <option
-                          :value="parent.id"
-                          v-for="parent in parents"
-                          :key="parent.id"
+                        <optgroup
+                          v-for="subcategory in subcategories"
+                          :key="subcategory.id"
+                          :label="subcategory.name" 
                         >
-                          {{ parent.name }}
-                        </option>
+                          <option value="" disabled selected hidden>
+                            Select Sub Category
+                          </option>
+                          <option
+                            v-for="parentModel in subcategory.parent_models"
+                            :key="parentModel.id"
+                            :value="parentModel.id"
+                          >
+                            {{ parentModel.name }}
+                          </option>
+                        </optgroup>
                       </select>
-                       <span
+
+                      <span
                         v-if="errors && errors.parent_id"
                         class="text-danger text-sm"
                         >{{ errors.parent_id[0] }}</span
@@ -137,8 +126,8 @@
                   </div>
                 </div>
 
-                 <div class="row">
-                 <div
+                <div class="row">
+                  <div
                     class="col-md-3"
                     v-for="(field, index) in fieldsData"
                     :key="index"
@@ -258,19 +247,7 @@ const createItem = () => {
     });
 };
 
-// const field_groups = ref([]);
 const fieldsData = ref([]);
-
-// const getFieldGroup = () => {
-//   axios
-//     .get("/field-group/name")
-//     .then((response) => {
-//       field_groups.value = response.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching field_group:", error);
-//     });
-// };
 
 const getFields = async () => {
   const selectedCategoryId = form.value.category_id;
@@ -314,21 +291,34 @@ const getCategory = () => {
     });
 };
 
-const parents = ref([]);
-const getParent = () => {
+// const parents = ref([]);
+// const getParent = () => {
+//   axios
+//     .get("/parent-data")
+//     .then((response) => {
+//       parents.value = response.data;
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching field_group:", error);
+//     });
+// };
+
+const subcategories = ref([]);
+const getSubCategory = () => {
   axios
-    .get("/parent-data")
+    .get("/parent/sub")
     .then((response) => {
-      parents.value = response.data;
+      subcategories.value = response.data;
     })
     .catch((error) => {
-      console.error("Error fetching field_group:", error);
+      console.error("Error fetching sub-category", error);
     });
 };
 
+
 onMounted(() => {
-  getParent();
-  // getFieldGroup();
+  // getParent();
+  getSubCategory();
   getCategory();
 });
 watch(form.category_id, () => {

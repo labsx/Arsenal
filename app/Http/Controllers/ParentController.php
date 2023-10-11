@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Category;
 use App\Models\ParentModel;
 use Illuminate\Http\Request;
 
@@ -80,6 +81,13 @@ class ParentController extends Controller
         $parents->update($formField);
 
         return response()->json($parents);
+    }
+
+    public function getSubCategroy()
+    {
+        $subcategories = Category::with('parent_models')->get();
+
+        return response()->json($subcategories);
     }
     
 }

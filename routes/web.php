@@ -18,6 +18,7 @@ use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\FieldGroupController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ItemAttributesController;
+use App\Models\ParentModel;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,10 +66,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
     Route::put('/fields/{field}', [FieldController::class, 'update']);
     Route::get('/fields', [FieldController::class, 'filterFields']);
-
     Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
-
-
     Route::get('/field', [FieldController::class, 'getFieldsDetails']);
 
     Route::get('/items', [ItemController::class, 'index']);
@@ -80,8 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/items/{item}', [ItemController::class, 'destroy']);
     Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
+    Route::get('/parent/sub', [ParentController::class, 'getSubCategroy']);
     Route::get('/parent', [ParentController::class, 'index']);
-    Route::get('/parent-data', [ParentController::class, 'getData']);
+    //Route::get('/parent-data', [ParentController::class, 'getData']);
     Route::post('/parent', [ParentController::class, 'store']);
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']);
