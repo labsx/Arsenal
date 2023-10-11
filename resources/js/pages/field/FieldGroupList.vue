@@ -63,7 +63,7 @@
                         <i class="fas fa-eye"></i>
                       </router-link>
 
-                        <router-link :to="`/admin/edit/${field.id}/field_groups`">
+                      <router-link :to="`/admin/edit/${field.id}/field_groups`">
                         <i class="fas fa-edit ml-2"></i>
                       </router-link>
 
@@ -96,7 +96,7 @@
       </div>
     </div>
   </div>
-  <AddFieldGroups />
+  <AddFieldGroups :getFieldsGroupsFn="getFieldsGroups" />
 </template>
 <script setup>
 import axios from "axios";
@@ -133,7 +133,6 @@ const deleteFields = (id) => {
         (field) => field.id !== id
       );
       Swal.fire("Deleted!", "Fields has been deleted.", "success");
-      getFieldsGroups();
     })
     .catch((error) => {
       console.error("Error deleting Fields:", error);

@@ -120,6 +120,8 @@ import axios from "axios";
 import { ref, defineProps, onMounted } from "vue";
 import { useToastr } from "../../toastr";
 
+const { getCategoryFn } = defineProps(['getCategoryFn']);
+
 const toastr = useToastr();
 const errors = ref([]);
 const form = ref({
@@ -141,6 +143,7 @@ const createItem = () => {
       toastr.success("Category created successfully!");
       $("#createCategory").modal("hide");
       clearForm();
+      getCategoryFn();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

@@ -103,10 +103,13 @@
 
 <script setup>
 import axios from "axios";
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive, defineProps } from "vue";
 import Swal from "sweetalert2";
 import { useToastr } from "../../../toastr";
 import { useRouter, useRoute } from "vue-router";
+
+const { getFieldByIdFn } = defineProps(["getFieldByIdFn"]);
+console.log("getFieldByIdFn:", getFieldByIdFn);
 
 const router = useRouter();
 const route = useRoute();
@@ -136,6 +139,7 @@ const createField = () => {
       toastr.success("Fields created successfully!");
       clearForm();
       $("#createFieldData").modal("hide");
+      getFieldByIdFn();
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

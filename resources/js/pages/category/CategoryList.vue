@@ -95,7 +95,7 @@
       </div>
     </div>
   </div>
-  <CategoryAdd />
+  <CategoryAdd :getCategoryFn="getCategory" />
 </template>
 
 <script setup>
