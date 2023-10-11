@@ -33,29 +33,28 @@ use App\Http\Controllers\ItemAttributesController;
 Route::get('/', [LoginController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
-    // Route::middleware([])->group(function(){
     Route::get('/category', [CategoryController::class, 'index']);
-    Route::get('/category-data', [CategoryController::class, 'listName']);
     Route::get('/category', [CategoryController::class, 'search']);
-    Route::post('/category', [CategoryController::class, 'store']);
-    Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
+    Route::post('/category', [CategoryController::class, 'create']);
     Route::put('/category/{category}', [CategoryController::class, 'update']);
+    Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
     Route::get('/category/{category}/show', [CategoryController::class, 'show']);
+    Route::get('/category-data', [CategoryController::class, 'listName']);
 
     Route::get('/field-group', [FieldGroupController::class, 'index']);
-    Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
-    Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
     Route::post('/field-group', [FieldGroupController::class, 'create']);
+    Route::put('/field-group/{field}', [FieldGroupController::class, 'update']);
     Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
     Route::get('/field-group/{field}', [FieldGroupController::class, 'show']);
-    Route::put('/field-group/{field}', [FieldGroupController::class, 'update']);
+    Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
+    Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
+    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
 
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::post('/fields', [FieldController::class, 'store']);
     Route::get('/fields', [FieldController::class, 'index']);
-
     Route::get('/fields/search', [FieldController::class, 'search']);
     Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
@@ -77,6 +76,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']);
     Route::delete('/parent/{parent}', [ParentController::class, 'destroy']);
+    Route::get('/parent/{parent}', [ParentController::class, 'show']);
+    Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);
@@ -95,20 +96,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/search', [UserController::class, 'searchUser']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
     Route::get('/users', [UserController::class, 'index']);
-
     Route::get('/users/profile', [ProfileController::class, 'profile']);
     Route::put('/users/profile', [ProfileController::class, 'update']);
     Route::post('/users/profile', [ProfileController::class, 'updatePassword']);
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']);
 
-    Route::get('/dashboard/category', [DashboardController::class, 'categoryCount']);
-    Route::get('/dashboard/users', [DashboardController::class, 'usersCount']);
-    Route::get('/dashboard/fields', [DashboardController::class, 'fieldsCount']);
-    Route::get('/dashboard/items', [DashboardController::class, 'itemsCount']);
-    Route::get('/dashboard/history', [DashboardController::class, 'historyCount']);
-    Route::get('/dashboard/notes', [DashboardController::class, 'countNotes']);
-    Route::get('/dashboard/progress', [DashboardController::class, 'progressBar']);
-    Route::get('/dashboard/users/data', [DashboardController::class, 'usersGet']);
+    Route::prefix('dashboard')->group(function () {
+        Route::get('category', [DashboardController::class, 'categoryCount']);
+        Route::get('users', [DashboardController::class, 'usersCount']);
+        Route::get('fields', [DashboardController::class, 'fieldsCount']);
+        Route::get('items', [DashboardController::class, 'itemsCount']);
+        Route::get('history', [DashboardController::class, 'historyCount']);
+        Route::get('notes', [DashboardController::class, 'countNotes']);
+        Route::get('progress', [DashboardController::class, 'progressBar']);
+        Route::get('users/data', [DashboardController::class, 'usersGet']);
+    });
 
     Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);

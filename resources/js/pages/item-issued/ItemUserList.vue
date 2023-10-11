@@ -39,7 +39,7 @@
           <div class="card">
             <div class="card-body">
               <table class="table align-middle">
-                <thead>
+                <thead  v-if="issues.data.length > 0">
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
@@ -73,9 +73,10 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="8" class="text-danger text-center">
-                      No Data found !...
-                    </td>
+                    <td>No Data Found</td>
+                    <!-- <td colspan="8" style="text-align: center;">
+                    <img :src="imagePath" alt="No Data Found" style="max-width: 100%; height:200%;"   />
+                  </td> -->
                   </tr>
                 </tbody>
               </table>
@@ -98,6 +99,7 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { debounce } from "lodash";
 import { deleteIssued } from "../../store/swal.js";
+import imagePath from "/resources/image/images.jpeg";
 
 const issues = ref({ data: [] });
 

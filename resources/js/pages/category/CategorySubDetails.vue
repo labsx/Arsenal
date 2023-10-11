@@ -62,6 +62,10 @@
                         <i class="fas fa-eye mr-2"></i>
                       </router-link> 
 
+                      <router-link :to="`/admin/subcategory/${parent.id}/edit`">
+                        <i class="fas fa-edit mr-2"></i>
+                      </router-link> 
+
                       <!-- <router-link :to="`/admin/category/${parent.id}/edit`">
                         <i class="fas fa-edit"></i>
                       </router-link> -->

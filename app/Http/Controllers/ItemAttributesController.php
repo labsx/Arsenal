@@ -18,13 +18,12 @@ class ItemAttributesController extends Controller
             'status' => 'required',
             'value' => 'required|array',
             'value.*.label' => 'required|string',
-            'value.*.value' => 'string',
+            'value.*.value' => 'required|string',
         ], [
             'category_id.required' => 'Select category name !',
         ]);
 
         $number = mt_rand(1000000000, 9999999999);
-
         $request['barcode'] = $number;
 
         $item = Item::create([

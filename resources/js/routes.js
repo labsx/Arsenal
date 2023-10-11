@@ -20,6 +20,7 @@ import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
 import FilterSubCategory from './pages/category/CategorySubDetails.vue';
 import SubCategoryItemFilter from './pages/category/ItemFilter.vue';
+import EditCategorySub from './pages/category/EditCategorySub.vue';
 
 
 export default[
@@ -75,8 +76,13 @@ export default[
     },
     {
         path: '/admin/subcategory/:id/item-filter',
-        name: 'admin.category.item.filter',
+        name: 'admin.subcategory.item.filter',
         component: SubCategoryItemFilter,
+    },
+    {
+        path: '/admin/subcategory/:id/edit',
+        name: 'admin.subcategory.edit',
+        component: EditCategorySub,
     },
     {
         path: '/admin/dashboard',

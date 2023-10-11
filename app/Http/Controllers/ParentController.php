@@ -62,4 +62,24 @@ class ParentController extends Controller
 
         return response()->json($parents);
     }
+
+    public function show($id)
+    {
+        $parents = ParentModel::findOrFail($id);
+        
+        return $parents; 
+    }
+
+    public function update(Request $request,$id)
+    {
+        $formField = $request->validate([
+            'name' => ['required', 'min:3', 'max:50'],
+        ]);
+
+        $parents = ParentModel::findOrfail($id);
+        $parents->update($formField);
+
+        return response()->json($parents);
+    }
+    
 }
