@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Manage Data</h1>
+          <h1 class="m-0">Return item</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -11,9 +11,9 @@
               <router-link to="/admin/dashboard">Home</router-link>
             </li>
             <li class="breadcrumb-item">
-              <router-link to="/admin/items/list">user</router-link>
+              <router-link to="/admin/items/list">item</router-link>
             </li>
-            <li class="breadcrumb-item active">items</li>
+            <li class="breadcrumb-item active">return</li>
           </ol>
         </div>
       </div>
@@ -78,7 +78,7 @@
                       <input
                         v-model="form.mfg_date"
                         type="date"
-                        class="form-control"
+                        class="form-control flatpickr"
                         placeholder=""
                         readonly="readonly"
                       />

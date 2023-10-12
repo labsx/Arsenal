@@ -79,14 +79,13 @@
                     </div>
                   </div>
 
-                     <div class="col-md-3">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="client">Mfg. Date</label>
                       <input
                         v-model="form.mfg_date"
                         type="date"
-                        class="form-control"
-                        id="mfg_date"
+                        class="form-control flatpickr"
                         placeholder=""
                         readonly="readonly"
                       />
@@ -98,7 +97,7 @@
                     </div>
                   </div>
 
-                    <div class="col-md-3">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="client">Unit Price</label>
                       <input
@@ -117,26 +116,7 @@
                     </div>
                   </div>
 
-                     <!-- <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Serial</label>
-                      <input
-                        v-model="form.serial"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter item serial number"
-                        readonly="readonly"
-                      />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
-                  </div> -->
-
-                    <div class="col-md-3">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label>Status</label>
                       <input
@@ -149,7 +129,7 @@
                     </div>
                   </div>
                 </div>
-            
+
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -189,7 +169,7 @@
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-outline-primary">
                   <i class="fa fa-save mr-1"></i>Issue item
                 </button>
               </form>
@@ -208,6 +188,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
+import { formatDate } from "../../helper.js";
 
 const router = useRouter();
 const route = useRoute();

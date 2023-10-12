@@ -36,6 +36,9 @@
                   <tr>
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Mfg. Date</th>
+                    <th scope="col">Unit Price</th>
                     <th scope="col">Date issued</th>
                     <th scope="col">Date return</th>
                     <th scope="col">Issued to</th>
@@ -46,6 +49,9 @@
                   <tr v-for="item in histories.data" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ formatDate(item.mfg_date) }}</td>
+                    <td>₱ {{ item.price }}</td>
                     <td>{{ formatDate(item.date_issued) }}</td>
                     <td>{{ formatDate(item.return_date) }}</td>
                     <td>{{ item.issued_to }}</td>
