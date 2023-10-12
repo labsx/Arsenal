@@ -43,6 +43,7 @@
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
+                    <th scope="col">Model</th>
                     <th scope="col">Date Issued</th>
                     <th scope="col">Issued to</th>
                     <th scope="col">Status</th>

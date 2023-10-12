@@ -27,7 +27,7 @@
               <div class="card-body">
                 <form>
                   <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                       <div class="form-group">
                         <label for="title">Item Name</label>
                         <input
@@ -42,6 +42,78 @@
                           v-if="errors && errors.name"
                           class="text-danger text-sm"
                           >{{ errors.name[0] }}</span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="date">Serial</label>
+                        <input
+                          v-model="form.serial"
+                          type="text"
+                          class="form-control"
+                          id="date"
+                          :class="{ 'is-invalid': errors.serial }"
+                        />
+                        <span
+                          v-if="errors && errors.serial"
+                          class="text-danger text-sm"
+                          >{{ errors.serial[0] }}</span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="date">Model</label>
+                        <input
+                          v-model="form.model"
+                          type="text"
+                          class="form-control"
+                          id="date"
+                          :class="{ 'is-invalid': errors.model }"
+                        />
+                        <span
+                          v-if="errors && errors.model"
+                          class="text-danger text-sm"
+                          >{{ errors.model[0] }}</span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="date">Mfg. Date</label>
+                        <input
+                          v-model="form.mfg_date"
+                          type="date"
+                          class="form-control"
+                          id="date"
+                          :class="{ 'is-invalid': errors.mfg_date }"
+                        />
+                        <span
+                          v-if="errors && errors.mfg_date"
+                          class="text-danger text-sm"
+                          >{{ errors.mfg_date[0] }}</span
+                        >
+                      </div>
+                    </div>
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label for="date">Unit Price</label>
+                        <input
+                          v-model="form.price"
+                          type="integer"
+                          class="form-control"
+                          id="date"
+                          :class="{ 'is-invalid': errors.price }"
+                        />
+                        <span
+                          v-if="errors && errors.price"
+                          class="text-danger text-sm"
+                          >{{ errors.price[0] }}</span
                         >
                       </div>
                     </div>
@@ -97,24 +169,6 @@
                           <option value="decommissioned">Decommissioned</option>
                           <option value="under repair">Under Repair</option>
                         </select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="date">Serial</label>
-                        <input
-                          v-model="form.serial"
-                          type="text"
-                          class="form-control"
-                          id="date"
-                          :class="{ 'is-invalid': errors.serial }"
-                        />
-                        <span
-                          v-if="errors && errors.serial"
-                          class="text-danger text-sm"
-                          >{{ errors.serial[0] }}</span
-                        >
                       </div>
                     </div>
                   </div>
@@ -220,6 +274,9 @@ const route = useRoute();
 const form = reactive({
   name: "",
   serial: "",
+  model: "",
+  price: "",
+  mfg_date: "",
   status: "",
   parent_id: "",
   value: [{ name: "", value: "" }],
@@ -245,6 +302,9 @@ const getItems = () => {
         form.serial = response.data.serial;
         form.status = response.data.status;
         form.parent_id = response.data.parent_id;
+        form.model = response.data.model;
+        form.mfg_date = response.data.mfg_date;
+        form.price = response.data.price;
       } else {
         console.error("Item data not found in the response.");
       }

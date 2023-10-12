@@ -57,6 +57,9 @@
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Mfg. Date</th>
+                    <th scope="col">Unit price</th>
                     <th scope="col">Status</th>
                     <!-- <th scope="col">Barcode</th> -->
                     <th scope="col">Option</th>
@@ -66,6 +69,9 @@
                   <tr v-for="item in items.data" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ formatDate(item.mfg_date) }}</td>
+                    <td>₱ {{ item.price }}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{
                         item.status

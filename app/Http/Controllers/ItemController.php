@@ -87,6 +87,9 @@ class ItemController extends Controller
         $formData = $request->validate([
             'name' => 'required|string',
             'parent_id' => 'required',
+            'model' => 'required',
+            'price' => 'required',
+            'mfg_date' => 'required',
             'serial' => 'required',
             'status' => 'required',
             'value' => 'required|array',
@@ -103,6 +106,9 @@ class ItemController extends Controller
         $item->name = $formData['name'];
         $item->serial = $formData['serial'];
         $item->status = $formData['status'];
+        $item->model = $formData['model'];
+        $item->price = $formData['price'];
+        $item->mfg_date = $formData['mfg_date'];
         $item->parent_id = $formData['parent_id'];
 
         $item->save();
