@@ -42,7 +42,7 @@
                                 id="title"
                                 placeholder="Enter item name"
                                 v-model="form.name"
-                                :class="{ 'is-invalid': errors.name }"
+                                 :class="{ 'is-invalid': errors.name }"
                               />
                               <span
                                 v-if="errors && errors.name"
@@ -76,18 +76,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            data-dismiss="modal"
-          >
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
-          <button
-            @click="createFields()"
-            type="submit"
-            class="btn btn-outline-primary btn-sm"
-          >
+          <button @click="createFields()" type="submit" class="btn btn-outline-primary btn-sm">
             <i class="fa fa-save mr-2"></i>Save Item
           </button>
         </div>
@@ -101,7 +93,7 @@ import axios from "axios";
 import { onMounted, ref, watch, defineProps } from "vue";
 import { useToastr } from "../../toastr";
 
-const { getFieldsGroupsFn } = defineProps(["getFieldsGroupsFn"]);
+const { getFieldsGroupsFn } = defineProps(['getFieldsGroupsFn']);
 
 const form = ref({
   name: "",

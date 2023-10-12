@@ -9,11 +9,14 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function listName()
+    public function listName($id)
     {
-        $categories = Category::latest()->get();
+        $ids = Category::findOrFail($id);
 
-        return $categories;
+        return response()->json($ids);
+        // $categories = Category::latest()->get();
+
+        // return $categories;
     }
 
     public function index()

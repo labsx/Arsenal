@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Field;
+use App\Models\Category;
 use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
@@ -101,6 +102,13 @@ class FieldGroupController extends Controller
         $field_groups = FieldGroup::latest()->select('id', 'name')->get();
 
         return $field_groups;
+    }
+
+    public function getList()
+    {
+        $categories = Category::latest()->get();
+
+        return $categories;
     }
 
 }

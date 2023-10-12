@@ -109,7 +109,6 @@ import { useToastr } from "../../../toastr";
 import { useRouter, useRoute } from "vue-router";
 
 const { getFieldByIdFn } = defineProps(["getFieldByIdFn"]);
-console.log("getFieldByIdFn:", getFieldByIdFn);
 
 const router = useRouter();
 const route = useRoute();

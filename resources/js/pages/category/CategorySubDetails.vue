@@ -99,7 +99,7 @@
       </div>
     </div>
   </div>
-   <CategorySub />
+ <CategorySub :getFilterParentFn="getFilterParent" />
 </template>
 
 <script setup>

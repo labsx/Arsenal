@@ -96,13 +96,13 @@
                       <select
                         id="fieldGroup"
                         class="form-control"
-                        v-model="form.parent_id"  
-                        :class="{'is-invalid': errors.parent_id}"
+                        v-model="form.parent_id"
+                        :class="{ 'is-invalid': errors.parent_id }"
                       >
                         <optgroup
                           v-for="subcategory in subcategories"
                           :key="subcategory.id"
-                          :label="subcategory.name" 
+                          :label="subcategory.name"
                         >
                           <option value="" disabled selected hidden>
                             Select Sub Category
@@ -314,7 +314,6 @@ const getSubCategory = () => {
       console.error("Error fetching sub-category", error);
     });
 };
-
 
 onMounted(() => {
   // getParent();
