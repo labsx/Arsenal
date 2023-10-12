@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade'); 
             $table->foreignId('parent_id')->constrained('parent_models')->onDelete('cascade'); 
             $table->string('name');
+            $table->string('model');
+            $table->integer('price');
+            $table->string('mfg_date');
             $table->string('serial');
             $table->string('status');
             $table->string('barcode');

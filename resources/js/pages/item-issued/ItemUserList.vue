@@ -39,7 +39,7 @@
           <div class="card">
             <div class="card-body">
               <table class="table align-middle">
-                <thead v-if="issues.data.length > 0">
+                <thead>
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
@@ -75,7 +75,7 @@
                   <tr>
                     <!-- <td>No Data Found</td> -->
                     <td colspan="8" style="text-align: center;">
-                    <img :src="imagePath" alt="No Data Found" style="max-width: 100%; height:200%;"   />
+                        <img v-if="!issues.data.length" :src="imagePath" alt="No Data Found" style="max-width: 100%; height: 100%;" />
                   </td>
                   </tr>
                 </tbody>

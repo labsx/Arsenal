@@ -24,7 +24,7 @@
             <div class="card-body">
               <form form @submit.prevent="createItem">
                 <div class="row">
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>
                       <span class="text-danger"> *</span>
@@ -60,6 +60,65 @@
                         v-if="errors && errors.serial"
                         class="text-danger text-sm"
                         >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="title">Model</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.model"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item model number"
+                        :class="{ 'is-invalid': errors.model }"
+                      />
+                      <span
+                        v-if="errors && errors.model"
+                        class="text-danger text-sm"
+                        >{{ errors.model[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="title">Mfg Date</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.mfg_date"
+                        type="date"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item mfg_date number"
+                        :class="{ 'is-invalid': errors.mfg_date }"
+                      />
+                      <span
+                        v-if="errors && errors.mfg_date"
+                        class="text-danger text-sm"
+                        >{{ errors.mfg_date[0] }}</span
+                      >
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="price">Unit price</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.price"
+                        type="text"
+                        class="form-control"
+                        id="price"
+                        placeholder="Enter item price number"
+                        :class="{ 'is-invalid': errors.price }"
+                      />
+                      <span
+                        v-if="errors && errors.price"
+                        class="text-danger text-sm"
+                        >{{ errors.price[0] }}</span
                       >
                     </div>
                   </div>
@@ -105,7 +164,7 @@
                           :label="subcategory.name"
                         >
                           <option value="" disabled selected hidden>
-                            Select Sub Category
+                            Choose item list
                           </option>
                           <option
                             v-for="parentModel in subcategory.parent_models"
@@ -212,6 +271,9 @@ const form = ref({
   category_id: "",
   item_name: "",
   parent_id: "",
+  price: "",
+  mfg_date: "",
+  model: "",
   serial: "",
   status: "",
   fields: {},
@@ -222,6 +284,9 @@ const createItem = () => {
     category_id: form.value.category_id,
     parent_id: form.value.parent_id,
     item_name: form.value.item_name,
+    price: form.value.price,
+    mfg_date: form.value.mfg_date,
+    model: form.value.model,
     serial: form.value.serial,
     status: form.value.status,
     value: Object.keys(form.value.fields).map((label) => ({
@@ -273,6 +338,9 @@ const clearForm = () => {
   form.value.item_id = "";
   form.value.parent_id = "";
   form.value.serial = "";
+  form.value.price = "";
+  form.value.model = "";
+  form.value.mfg_date = "";
   form.value.status = "";
   form.value.item_name = "";
   form.value.fields = {};
