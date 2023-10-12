@@ -23,6 +23,9 @@ class ReturnController extends Controller
             'issued_to' => ['required', 'min:3', 'max:50'],
             'return_date' => ['required', 'date', 'after_or_equal:date_issued'],
             'serial' => ['max:255'],
+            'model' => ['required'],
+            'mfg_date' => ['required'],
+            'price' => ['required']
         ], [
             'return_date' => 'Error date selection !',
         ]);

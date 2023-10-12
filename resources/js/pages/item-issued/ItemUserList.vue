@@ -44,6 +44,8 @@
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
+                    <th scope="col">Mfg. Date</th>
+                     <th scope="col">Unit Price</th>
                     <th scope="col">Date Issued</th>
                     <th scope="col">Issued to</th>
                     <th scope="col">Status</th>
@@ -54,6 +56,9 @@
                   <tr v-for="issue in issues.data" :key="issue.id">
                     <td>{{ issue.name }}</td>
                     <td>{{ issue.serial }}</td>
+                     <td>{{ issue.model }}</td>
+                      <td>{{ formatDate(issue.mfg_date) }}</td>
+                       <td>₱ {{ issue.price }}</td>
                     <td>{{ formatDate(issue.date_issued) }}</td>
                     <td>{{ issue.issued_to }}</td>
                     <td>

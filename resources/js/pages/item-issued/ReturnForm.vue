@@ -42,7 +42,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <label for="client">Serial</label>
                       <span class="text-danger"> *</span>
@@ -53,6 +53,48 @@
                         id="title"
                         placeholder="Enter item serial number"
                         disabled
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Model</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.model"
+                        type="text"
+                        class="form-control"
+                        placeholder=""
+                        readonly="readonly"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Mfg. Date</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.mfg_date"
+                        type="date"
+                        class="form-control"
+                        placeholder=""
+                        readonly="readonly"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Unit price</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.price"
+                        type="integer"
+                        class="form-control"
+                        placeholder=""
+                        readonly="readonly"
                       />
                     </div>
                   </div>
@@ -82,7 +124,6 @@
                         type="date"
                         class="form-control flatpickr"
                         disabled
-                        style="background: white"
                       />
                     </div>
                   </div>
@@ -163,6 +204,9 @@ const form = reactive({
   status: "",
   issued_to: "",
   return_date: "",
+  model: "",
+  price: "",
+  mfg_date: "",
 });
 
 const ItemReturn = () => {
@@ -172,6 +216,9 @@ const ItemReturn = () => {
     form.status = data.status;
     form.date_issued = data.date_issued;
     form.issued_to = data.issued_to;
+    form.model = data.model;
+    form.price = data.price;
+    form.mfg_date = data.mfg_date;
   });
 };
 

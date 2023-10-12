@@ -54,6 +54,50 @@
                       />
                     </div>
                   </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="client">Model</label>
+                      <input
+                        v-model="form.model"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item serial number"
+                        readonly="readonly"
+                      />
+                    </div>
+                  </div>
+
+                   
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Mfg. Date</label>
+                      <input
+                        v-model="form.mfg_date"
+                        type="date"
+                        class="form-control"
+                        id="title"
+                        placeholder=""
+                        readonly="readonly"
+                      />
+                    </div>
+                  </div>
+                
+
+                 <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Unit price</label>
+                      <input
+                        v-model="form.price"
+                        type="integer"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item serial number"
+                        readonly="readonly"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div class="row">
@@ -116,7 +160,8 @@ const form = reactive({
   model: "",
   status: "",
   issued_to: "",
-  count: "",
+  mfg_date: "",
+  price: "",
 });
 
 const ItemDetails = () => {
@@ -125,6 +170,9 @@ const ItemDetails = () => {
     form.serial = data.serial;
     form.date_issued = data.date_issued;
     form.issued_to = data.issued_to;
+    form.model = data.model;
+    form.mfg_date = data.mfg_date;
+    form.price = data.price;
   });
 };
 

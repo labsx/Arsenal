@@ -86,7 +86,7 @@
                         v-model="form.mfg_date"
                         type="date"
                         class="form-control"
-                        id="title"
+                        id="mfg_date"
                         placeholder=""
                         readonly="readonly"
                       />
