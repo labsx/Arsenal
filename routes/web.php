@@ -44,8 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
     Route::get('/category/{category}/show', [CategoryController::class, 'show']);
     Route::get('/category-data/{category}', [CategoryController::class, 'listName']);
-    
-    //Route::get('/category-data', [CategoryController::class, 'listName']);
+    Route::get('/category-data', [CategoryController::class, 'categoryData']);
 
     Route::get('/field-group', [FieldGroupController::class, 'index']);
     Route::post('/field-group', [FieldGroupController::class, 'create']);

@@ -14,15 +14,12 @@ class CategoryController extends Controller
         $ids = Category::findOrFail($id);
 
         return response()->json($ids);
-        // $categories = Category::latest()->get();
-
-        // return $categories;
     }
 
     public function index()
     {
         $categories = Category::latest()->paginate(10);
-        
+
         return $categories;
     }
 
@@ -34,7 +31,7 @@ class CategoryController extends Controller
                 ->orWhere('parent_id', 'like', "%{$searchQuery}%")
                 ->orWhere('field_group_id', 'like', "%{$searchQuery}%");
         })->paginate(10);
-        
+
         return response()->json($categories);
     }
 
@@ -44,9 +41,9 @@ class CategoryController extends Controller
             'name' => ['required', 'min:3', 'max:50', Rule::unique('categories', 'name')],
             'field_group_id' => ['nullable', Rule::exists('field_groups', 'id')],
         ]);
-           
+
         $category = Category::create($formField);
-        
+
         return response()->json($category);
     }
 
@@ -81,5 +78,12 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return $category;
+    }
+
+    public function categoryData()
+    {
+        $categories = Category::latest()->get();
+
+        return $categories;
     }
 }

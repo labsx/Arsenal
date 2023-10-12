@@ -291,18 +291,6 @@ const getCategory = () => {
     });
 };
 
-// const parents = ref([]);
-// const getParent = () => {
-//   axios
-//     .get("/parent-data")
-//     .then((response) => {
-//       parents.value = response.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching field_group:", error);
-//     });
-// };
-
 const subcategories = ref([]);
 const getSubCategory = () => {
   axios

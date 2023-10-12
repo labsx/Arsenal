@@ -47,24 +47,37 @@
                     </div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <label for="client">Sub Category</label>
+                        <label for="client">Choose</label>
+                        <span class="text-danger"> *</span>
                         <select
-                          v-model="form.parent_id"
-                          id="client"
+                          id="fieldGroup"
                           class="form-control"
-                          :class="{ 'is-invalid': errors.form_id }"
+                          v-model="form.parent_id"
+                          :class="{ 'is-invalid': errors.parent_id }"
                         >
-                          <option value="" disabled selected hidden>
-                            Select Sub Category
-                          </option>
-                          <option
-                            :value="parent.id"
-                            v-for="parent in parents"
-                            :key="parent.id"
+                          <optgroup
+                            v-for="subcategory in subcategories"
+                            :key="subcategory.id"
+                            :label="subcategory.name"
                           >
-                            {{ parent.name }}
-                          </option>
+                            <option value="" disabled selected hidden>
+                              Select Sub Category
+                            </option>
+                            <option
+                              v-for="parentModel in subcategory.parent_models"
+                              :key="parentModel.id"
+                              :value="parentModel.id"
+                            >
+                              {{ parentModel.name }}
+                            </option>
+                          </optgroup>
                         </select>
+
+                        <span
+                          v-if="errors && errors.parent_id"
+                          class="text-danger text-sm"
+                          >{{ errors.parent_id[0] }}</span
+                        >
                       </div>
                     </div>
 
@@ -292,7 +305,20 @@ const getParent = () => {
     });
 };
 
+const subcategories = ref([]);
+const getSubCategory = () => {
+  axios
+    .get("/parent/sub")
+    .then((response) => {
+      subcategories.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching sub-category", error);
+    });
+};
+
 onMounted(() => {
+  getSubCategory();
   getParent();
   getItems();
   getAttributes();
