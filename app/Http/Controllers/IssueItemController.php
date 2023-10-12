@@ -29,6 +29,9 @@ class IssueItemController extends Controller
             'date_issued' => ['required', 'date'],
             'status' => ['required', 'min:3', 'max:10'],
             'issued_to' => ['required', 'min:3', 'max:50'],
+            'model' => ['required'],
+            'mfg_date' => ['required'],
+            'price' => ['required'],
         ]);
 
         $formFields['status'] = 'issued';

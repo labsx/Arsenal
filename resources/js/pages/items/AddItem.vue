@@ -91,10 +91,11 @@
                       <input
                         v-model="form.mfg_date"
                         type="date"
-                        class="form-control"
+                        class="form-control flatpickr"
                         id="title"
-                        placeholder="Enter item mfg_date number"
+                        placeholder="Select manufacturing date"
                         :class="{ 'is-invalid': errors.mfg_date }"
+                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.mfg_date"
@@ -263,6 +264,8 @@
 import axios from "axios";
 import { ref, onMounted, watch } from "vue";
 import { useToastr } from "../../toastr";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/themes/light.css";
 
 const toastr = useToastr();
 const errors = ref([]);
@@ -375,9 +378,15 @@ onMounted(() => {
   // getParent();
   getSubCategory();
   getCategory();
+  
+   flatpickr(".flatpickr", {
+    enableTime: true,
+    dateFormat: "Y-m-d h:i K",
+    defaultHour: 10,
+  });
 });
 watch(form.category_id, () => {
   getFields();
+
 });
-// watch(form, getFields);
 </script>

@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('issues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('model');
+            $table->dateTime('mfg_date');
+            $table->integer('price');
             $table->string('serial');
             $table->dateTime('date_issued');
             $table->string('status');

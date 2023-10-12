@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('model');
             $table->integer('price');
-            $table->string('mfg_date');
+            $table->dateTime('mfg_date');
             $table->string('serial');
             $table->string('status');
             $table->string('barcode');

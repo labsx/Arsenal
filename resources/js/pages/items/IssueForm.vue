@@ -41,7 +41,7 @@
                       />
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-6">
                     <div class="form-group">
                       <label for="client">Serial</label>
                       <input
@@ -59,6 +59,82 @@
                       >
                     </div>
                   </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Model</label>
+                      <input
+                        v-model="form.model"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item serial number"
+                        readonly="readonly"
+                      />
+                      <span
+                        v-if="errors && errors.serial"
+                        class="text-danger text-sm"
+                        >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                     <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Mfg. Date</label>
+                      <input
+                        v-model="form.mfg_date"
+                        type="date"
+                        class="form-control"
+                        id="title"
+                        placeholder=""
+                        readonly="readonly"
+                      />
+                      <span
+                        v-if="errors && errors.serial"
+                        class="text-danger text-sm"
+                        >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                    <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Unit Price</label>
+                      <input
+                        v-model="form.price"
+                        type="integer"
+                        class="form-control"
+                        id="title"
+                        placeholder=""
+                        readonly="readonly"
+                      />
+                      <span
+                        v-if="errors && errors.serial"
+                        class="text-danger text-sm"
+                        >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                     <!-- <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Serial</label>
+                      <input
+                        v-model="form.serial"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter item serial number"
+                        readonly="readonly"
+                      />
+                      <span
+                        v-if="errors && errors.serial"
+                        class="text-danger text-sm"
+                        >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div> -->
 
                     <div class="col-md-3">
                     <div class="form-group">
@@ -78,6 +154,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="date">Date Issued</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.date_issued"
                         type="date"
@@ -95,6 +172,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label>Issued to</label>
+                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.issued_to"
                         type="text"
@@ -141,7 +219,9 @@ const form = reactive({
   date_issued: "",
   status: "issued",
   issued_to: "",
-
+  model: "",
+  mfg_date: "",
+  price: "",
 });
 
 const getItemsData = () => {
@@ -149,6 +229,9 @@ const getItemsData = () => {
     form.name = data.name;
     form.serial = data.serial;
     form.status = data.status;
+    form.model = data.model;
+    form.mfg_date = data.mfg_date;
+    form.price = data.price;
   });
 };
 
