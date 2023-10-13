@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader title="History" />
+  <ContentHeader title="History" data="item" datas ="history"/>
   <div class="content">
     <div class="container-fluid">
       <div class="row">

@@ -1,21 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Create Item</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item">Item</li>
-            <li class="breadcrumb-item active">Create</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
+ <ContentHeader title="Add Item" data="item" datas="add"/>
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -266,6 +250,7 @@ import { ref, onMounted, watch } from "vue";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const toastr = useToastr();
 const errors = ref([]);

@@ -62,23 +62,20 @@ const printItem = () => {
       <html>
         <head>
         </head>
-        <body>
+        <body style="font-family: sans-serif; margin: auto">
           <div>
             <img src="${generateBarcode(
               form.barcode
-            )}" alt="Barcode" style="height: 200px" />
+            )}" alt="Barcode" style="height: 100px" />
           </div>
           <p>Name: ${form.name}</p>
           <p>Serial: ${form.serial}</p>
           <p>Model: ${form.model}</p>
-          <p>Attributes:</p>
-          <ul>
             ${form.value
               .map(
-                (attribute) => `<li>${attribute.name}: ${attribute.value}</li>`
+                (attribute) => `<p>${attribute.name}: ${attribute.value}</p>`
               )
               .join("")}
-          </ul>
         </body>
       </html>
     `;
