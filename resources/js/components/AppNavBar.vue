@@ -18,7 +18,7 @@
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item dropdown">
+      <!-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">{{ totalCount }}</span>
@@ -42,7 +42,7 @@
 
           <div class="dropdown-divider"></div>
         </div>
-      </li>
+      </li> -->
 
       <li class="nav-item">
         <a
@@ -226,20 +226,16 @@ const getNotes = () => {
 };
 
 const deleteNotes = (id) => {
-  deleteNotesData()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/notes/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
+  axios
+    .delete(`/notes/${id}`)
     .then(() => {
       notes.value = notes.value.filter((note) => note.id !== id);
-      Swal.fire("Deleted!", "Note has been deleted.", "success");
+      toastr.success("Note has been removed.");
       getNotes();
     })
     .catch((error) => {
-      console.error("Error deleting event:", error);
+      console.error("Error deleting note:", error);
+      toastr.error("An error occurred while deleting the note.");
     });
 };
 
@@ -298,5 +294,5 @@ onMounted(() => {
 });
 </script>
 <style scoped>
-@import url('./resources/css/AppNavBar.css');
+@import url("./resources/css/AppNavBar.css");
 </style>

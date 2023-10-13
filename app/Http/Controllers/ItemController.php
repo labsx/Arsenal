@@ -92,7 +92,7 @@ class ItemController extends Controller
             'mfg_date' => 'required',
             'serial' => 'required',
             'status' => 'required',
-            'value' => 'required|array',
+            'value' => 'nullable|array',
             'value.*.name' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
@@ -103,6 +103,17 @@ class ItemController extends Controller
 
         if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
+        }
+
+        $duplicateNames = collect($formData['value'])
+            ->groupBy('name')
+            ->filter(function ($group) {
+                return $group->count() > 1;
+            })
+            ->keys();
+
+        if (!$duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];

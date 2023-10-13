@@ -13,23 +13,25 @@
           style="height: 130px; width: 300px"
           class="mt-1"
         />
-        <div class="row text-align-center ml-5">
-          <div class="justify-content mt-3 text-align-left" style="">
+
+        <div class="row ml-5">
+          <div class="col-6 justify-content mt-3 text-align-left">
             <p class="mt-1 no-margin">Model: {{ form.model }}</p>
             <p class="no-margin">Serial: {{ form.serial }}</p>
             <p class="no-margin">Price: ₱ {{ form.price }}</p>
             <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-            <div class="justify-content mt-3 text-align-left">
-              <p
-                class="no-margin"
-                v-for="(attribute, index) in form.value"
-                :key="index"
-              >
-                {{ attribute.name }} : {{ attribute.value }}
-              </p>
-            </div>
+          </div>
+          <div class="col-6 justify-content mt-4 text-align-left">
+            <p
+              class="no-margin"
+              v-for="(attribute, index) in form.value"
+              :key="index"
+            >
+              {{ attribute.name }} : {{ attribute.value }}
+            </p>
           </div>
         </div>
+
         <div class="button float-right">
           <button
             @click="printItem"

@@ -191,7 +191,8 @@
                             type="text"
                             class="form-control"
                             id="title"
-                            placeholder="Enter Title"
+                            placeholder=""
+                            :class="{ 'is-invalid': attribute.name === '' }"
                           />
                         </div>
                       </div>
@@ -205,7 +206,7 @@
                             id="date"
                             v-model="attribute.value"
                             :name="`value[${index}][value]`"
-                            :class="{ 'is-invalid': errors && errors.value }"
+                            :class="{ 'is-invalid': attribute.value === '' }"
                           />
                         </div>
                       </div>

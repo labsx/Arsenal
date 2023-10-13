@@ -32,7 +32,7 @@
                           <div class="col-md-6"></div>
                         </div>
                         <div class="row">
-                          <div class="col-md-6">
+                          <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">Field Name</label>
                               <span class="text-danger"> *</span>
@@ -103,8 +103,8 @@ const errors = ref([]);
 const toastr = useToastr();
 
 const clearForm = () => {
-  form.name = "";
-  form.description = "";
+  form.value.name = "";
+  form.value.description = "";
 };
 
 const createFields = () => {
