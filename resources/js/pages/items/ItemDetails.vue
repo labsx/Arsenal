@@ -10,7 +10,7 @@
         <img
           :src="generateBarcode(form.barcode)"
           alt="Barcode"
-          style="height: 150px; width: 300px"
+          style="height: 130px; width: 300px"
           class="mt-1"
         />
         <div class="row text-align-center ml-5">

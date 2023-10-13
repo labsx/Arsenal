@@ -87,7 +87,7 @@
                         type="date"
                         class="form-control flatpickr"
                         placeholder=""
-                        readonly="readonly"
+                        disabled
                       />
                       <span
                         v-if="errors && errors.serial"

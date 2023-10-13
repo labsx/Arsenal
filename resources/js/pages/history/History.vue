@@ -1,6 +1,5 @@
 <template>
   <ContentHeader title="History" />
-
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -8,7 +7,10 @@
           <div class="d-flex justify-content-between mb-2">
             <div>
               <div class="float-right ml-2">
-                <button @click="printItems" class="btn btn-outline-primary btn-sm">
+                <button
+                  @click="printItems"
+                  class="btn btn-outline-primary btn-sm"
+                >
                   <i class="fa fa-print mr-1"></i> Print
                 </button>
               </div>
@@ -32,7 +34,7 @@
           <div class="card">
             <div class="card-body">
               <table class="table align-middle">
-                <thead>
+                <thead v-if="histories.data.length > 0">
                   <tr>
                     <th scope="col">Items name</th>
                     <th scope="col">Serial</th>
@@ -62,6 +64,21 @@
                     </td>
                   </tr>
                 </tbody>
+                <tbody v-else>
+                  <tr>
+                    <td colspan="8" style="text-align: center">
+                      <img
+                        v-if="showImage && histories.data.length === 0"
+                        :src="imagePath"
+                        alt="No Data Found"
+                        style="max-width: 750px; height: auto"
+                      />
+                      <p style="font-weight: bold; color: red">
+                        No data found !
+                      </p>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -87,6 +104,9 @@ import { useToastr } from "../../toastr";
 import { debounce } from "lodash";
 import { printHistory } from "../../store/print.js";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+import imagePath from "/resources/image/no data.gif";
+
+const showImage = ref(false);
 
 const printItems = () => {
   printHistory(histories.value.data, formatDate);
@@ -141,6 +161,12 @@ const getStatusClass = (status) => {
 
 onMounted(() => {
   getHistory();
+
+  setTimeout(() => {
+    if (histories.value.data.length === 0) {
+      showImage.value = true;
+    }
+  }, 100);
 });
 </script>
 

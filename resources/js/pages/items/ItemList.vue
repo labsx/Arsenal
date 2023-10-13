@@ -53,7 +53,7 @@
           <div class="card">
             <div class="card-body">
               <table class="table align-middle">
-                <thead>
+                <thead v-if="items.data.length > 0">
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
@@ -77,16 +77,6 @@
                         item.status
                       }}</span>
                     </td>
-<!-- 
-                    <td>
-                      <div class="barcode">
-                        <img
-                          :src="generateBarcode(item.barcode)"
-                          alt="Barcode"
-                          style="height: 50px"
-                        />
-                      </div>
-                    </td> -->
 
                     <td>
                       <router-link :to="`/admin/items/${item.id}/details`">
@@ -117,8 +107,16 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="7" class="text-danger text-center">
-                      No Data found !...
+                    <td colspan="8" style="text-align: center">
+                      <img
+                        v-if="showImage && items.data.length === 0"
+                        :src="imagePath"
+                        alt="No Data Found"
+                        style="max-width: 750px; height: auto"
+                      />
+                      <p style="font-weight: bold; color: red">
+                        No data found !
+                      </p>
                     </td>
                   </tr>
                 </tbody>
@@ -147,21 +145,12 @@ import Swal from "sweetalert2";
 import JsBarcode from "jsbarcode";
 import { printItemsData } from "../../store/print.js";
 import { formatDate } from "../../helper.js";
+import imagePath from "/resources/image/no data.gif";
 
+const showImage = ref(false);
 const printItems = () => {
   printItemsData(items.value.data, formatDate);
 };
-
-// const generateBarcode = (barcodeValue) => {
-//   const canvas = document.createElement("canvas");
-//   JsBarcode(canvas, barcodeValue, {
-//     format: "CODE128",
-//     displayValue: true,
-//   });
-//   return canvas.toDataURL();
-// };
-
-//
 
 const deleteItems = (id) => {
   deleteItemsData()
@@ -236,6 +225,12 @@ const getStatusClass = (status) => {
 
 onMounted(() => {
   getItems();
+
+  setTimeout(() => {
+    if (items.value.data.length === 0) {
+      showImage.value = true;
+    }
+  }, 100);
 });
 </script>
  

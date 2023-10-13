@@ -47,7 +47,7 @@
             <div class="card-body">
               <table class="table align-middle">
                 <thead>
-                  <tr>
+                  <tr v-if="fields.data.length > 0">
                     <th scope="col">Label</th>
                     <th scope="col">Description</th>
                     <th scope="col">Status</th>
@@ -74,8 +74,16 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="7" class="text-danger text-center">
-                      No Data found !...
+                    <td colspan="8" style="text-align: center">
+                      <img
+                        v-if="showImage && fields.data.length === 0"
+                        :src="imagePath"
+                        alt="No Data Found"
+                        style="max-width: 750px; height: auto"
+                      />
+                      <p style="font-weight: bold; color: red">
+                        No data found !
+                      </p>
                     </td>
                   </tr>
                 </tbody>
@@ -103,9 +111,10 @@ import { debounce } from "lodash";
 import { useToastr } from "../../../toastr";
 import AddFieldsData from "./AddFieldsData.vue";
 import { deleteFieldGroups } from "../../../store/swal.js";
+import imagePath from "/resources/image/no data.gif";
 
+const showImage = ref(false);
 const toastr = useToastr();
-
 const route = getCurrentInstance().proxy.$route;
 const fields = ref({ data: [] });
 //display fields by id
@@ -165,5 +174,11 @@ watch(
 
 onMounted(() => {
   getFieldsById();
+
+  setTimeout(() => {
+    if (fields.value.data.length === 0) {
+      showImage.value = true;
+    }
+  }, 100);
 });
 </script>

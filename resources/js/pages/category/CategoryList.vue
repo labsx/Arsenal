@@ -46,7 +46,7 @@
           <div class="card">
             <div class="card-body">
               <table class="table align-middle">
-                <thead>
+                <thead v-if="categories.data.length > 0">
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Field Group</th>
@@ -77,8 +77,16 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <td colspan="7" class="text-danger text-center">
-                      No Data found !...
+                     <td colspan="8" style="text-align: center">
+                      <img
+                        v-if="showImage && categories.data.length === 0"
+                        :src="imagePath"
+                        alt="No Data Found"
+                        style="max-width: 750px; height: auto"
+                      />
+                      <p style="font-weight: bold; color: red">
+                        No data found !
+                      </p>
                     </td>
                   </tr>
                 </tbody>
@@ -111,7 +119,9 @@ import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import CategoryAdd from "./CategoryAdd.vue";
 import { debounce } from "lodash";
+import imagePath from "/resources/image/no data.gif";
 
+const showImage = ref(false);
 const toastr = useToastr();
 const errors = ref([]);
 const categories = ref({ data: [] });
@@ -198,6 +208,12 @@ const deleteCategory = (id) => {
 
 onMounted(() => {
   getCategory();
+
+   setTimeout(() => {
+    if (categories.value.data.length === 0) {
+      showImage.value = true;
+    }
+  }, 100);
 });
 </script>
 

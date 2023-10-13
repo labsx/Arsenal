@@ -36,16 +36,16 @@
               </div>
             </div>
           </div>
-          <div class="card">
+          <div class="card" style="height: 100%">
             <div class="card-body">
               <table class="table align-middle">
-                <thead>
+                <thead v-if="issues.data.length > 0">
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Mfg. Date</th>
-                     <th scope="col">Unit Price</th>
+                    <th scope="col">Unit Price</th>
                     <th scope="col">Date Issued</th>
                     <th scope="col">Issued to</th>
                     <th scope="col">Status</th>
@@ -56,9 +56,9 @@
                   <tr v-for="issue in issues.data" :key="issue.id">
                     <td>{{ issue.name }}</td>
                     <td>{{ issue.serial }}</td>
-                     <td>{{ issue.model }}</td>
-                      <td>{{ formatDate(issue.mfg_date) }}</td>
-                       <td>₱ {{ issue.price }}</td>
+                    <td>{{ issue.model }}</td>
+                    <td>{{ formatDate(issue.mfg_date) }}</td>
+                    <td>₱ {{ issue.price }}</td>
                     <td>{{ formatDate(issue.date_issued) }}</td>
                     <td>{{ issue.issued_to }}</td>
                     <td>
@@ -79,10 +79,17 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                    <!-- <td>No Data Found</td> -->
-                    <td colspan="8" style="text-align: center;">
-                        <img v-if="!issues.data.length" :src="imagePath" alt="No Data Found" style="max-width: 100%; height: 100%;" />
-                  </td>
+                    <td colspan="8" style="text-align: center">
+                      <img
+                        v-if="showImage && issues.data.length === 0"
+                        :src="imagePath"
+                        alt="No Data Found"
+                        style="max-width: 750px; height: auto"
+                      />
+                      <p style="font-weight: bold; color: red">
+                        No data found !
+                      </p>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -105,9 +112,10 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { formatDate } from "../../helper.js";
 import { debounce } from "lodash";
 import { deleteIssued } from "../../store/swal.js";
-import imagePath from "/resources/image/images.jpeg";
+import imagePath from "/resources/image/no data.gif";
 
 const issues = ref({ data: [] });
+const showImage = ref(false);
 
 const getItems = (page = 1) => {
   axios
@@ -144,5 +152,11 @@ watch(
 );
 onMounted(() => {
   getItems();
+
+  setTimeout(() => {
+    if (issues.value.data.length === 0) {
+      showImage.value = true;
+    }
+  }, 100);
 });
 </script>
