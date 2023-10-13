@@ -30,6 +30,15 @@
             </div>
           </div>
         </div>
+        <div class="button float-right">
+          <button
+            @click="printItem"
+            type="submit"
+            class="btn btn-primary btn-sm"
+          >
+            Print item
+          </button>
+        </div>
       </div>
       <div class="cross"></div>
     </div>
@@ -43,6 +52,42 @@ import { ref, onMounted, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 import JsBarcode from "jsbarcode";
+
+const printItem = () => {
+  const printWindow = window.open("", "_blank");
+  if (printWindow) {
+    const itemDetailsHtml = `
+      <html>
+        <head>
+        </head>
+        <body>
+          <div>
+            <img src="${generateBarcode(
+              form.barcode
+            )}" alt="Barcode" style="height: 200px" />
+          </div>
+          <p>Name: ${form.name}</p>
+          <p>Serial: ${form.serial}</p>
+          <p>Model: ${form.model}</p>
+          <p>Attributes:</p>
+          <ul>
+            ${form.value
+              .map(
+                (attribute) => `<li>${attribute.name}: ${attribute.value}</li>`
+              )
+              .join("")}
+          </ul>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.write(itemDetailsHtml);
+    printWindow.document.close();
+    printWindow.print();
+  } else {
+    console.error("Failed to open the print window.");
+  }
+};
 
 const generateBarcode = (barcodeValue) => {
   const canvas = document.createElement("canvas");
