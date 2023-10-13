@@ -18,8 +18,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
-            </div>
+            <div></div>
             <div>
               <div class="input-group">
                 <input
@@ -43,29 +42,23 @@
                   <tr>
                     <th scope="col">Item Name</th>
                     <th scope="col">Serial</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Mfg. Date</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Barcode</th>
-                   
                   </tr>
                 </thead>
                 <tbody v-if="items.data.length > 0">
                   <tr v-for="item in items.data" :key="item.id">
                     <td>{{ item.name }}</td>
                     <td>{{ item.serial }}</td>
+                    <td>{{ item.model }}</td>
+                    <td>{{ item.mfg_date }}</td>
+                    <td>₱ {{ item.price }}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{
                         item.status
                       }}</span>
-                    </td>
-
-                    <td>
-                      <div class="barcode">
-                        <img
-                          :src="generateBarcode(item.barcode)"
-                          alt="Barcode"
-                          style="height: 50px"
-                        />
-                      </div>
                     </td>
                   </tr>
                 </tbody>

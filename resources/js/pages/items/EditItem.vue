@@ -175,6 +175,7 @@
                   </div>
 
                   <h4>Attributes:</h4>
+
                   <div
                     v-for="(attribute, index) in form.value"
                     :key="index"
@@ -191,13 +192,7 @@
                             class="form-control"
                             id="title"
                             placeholder="Enter Title"
-                            :class="{ 'is-invalid': errors && errors.name }"
                           />
-                          <span
-                            v-if="errors && errors.name"
-                            class="text-danger text-sm"
-                            >{{ errors.name[0] }}</span
-                          >
                         </div>
                       </div>
 
@@ -212,11 +207,6 @@
                             :name="`value[${index}][value]`"
                             :class="{ 'is-invalid': errors && errors.value }"
                           />
-                          <span
-                            v-if="errors && errors.value"
-                            class="text-danger text-sm"
-                            >{{ errors.value[0] }}</span
-                          >
                         </div>
                       </div>
 
@@ -270,7 +260,7 @@ import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
 
-const errors = ref([]);
+const errors = ref({});
 const toastr = useToastr();
 const router = useRouter();
 const route = useRoute();
@@ -336,7 +326,7 @@ const getAttributes = () => {
       console.error("Error fetching item attributes:", error);
     });
 };
-//edit the item
+
 const handleSubmit = () => {
   console.log("Form submitted with data:", form.value);
 
@@ -350,8 +340,11 @@ const handleSubmit = () => {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-        toastr.error("Empty attributes or duplicate name !");
-        errors.value = [];
+        if (error.response.data.errors && error.response.data.errors[0]) {
+          toastr.error(error.response.data.errors[0]);
+        } else {
+          toastr.error("An error occurred while updating the item.");
+        }
       }
     });
 };

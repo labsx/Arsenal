@@ -26,6 +26,7 @@ class ItemAttributesController extends Controller
         ], [
             'category_id.required' => 'Select category name is required !',
             'parent_id.required' => 'Select sub category name is required !',
+            'price.numeric' => 'Input only number w/ out comma, space, letter !'
         ]);
 
         $number = mt_rand(1000000000, 9999999999);

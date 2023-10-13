@@ -88,13 +88,15 @@ class ItemController extends Controller
             'name' => 'required|string',
             'parent_id' => 'required',
             'model' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'mfg_date' => 'required',
             'serial' => 'required',
             'status' => 'required',
             'value' => 'required|array',
             'value.*.name' => 'required|string',
             'value.*.value' => 'required|string',
+        ], [
+            'price.numeric' => 'Input only number w/ out comma, space, letter !'
         ]);
 
         $item = Item::find($id);
