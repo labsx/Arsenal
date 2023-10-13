@@ -16,16 +16,16 @@ class FieldGroupController extends Controller
         return $field_groups;
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50', 'unique:field_groups'],
             'description' => ['max:255']
         ]);
 
-        FieldGroup::create($formFields);
+       $fieldGroups = FieldGroup::create($formFields);
 
-        return response()->json(['success' => true]);
+        return response()->json($fieldGroups);
     }
 
     public function destroy($id)

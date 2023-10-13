@@ -107,7 +107,6 @@ const saveCategory = () => {
   axios
     .put(`/category/${route.params.id}`, {
       name: form.name,
-      // parent_id: form.parent_id,
       field_group_id: form.field_group_id,
     })
     .then(() => {
@@ -118,22 +117,11 @@ const saveCategory = () => {
     });
 };
 
-// const parents = ref([]);
-// const getParent = () => {
-//   axios
-//     .get("/parent")
-//     .then((response) => {
-//       parents.value = response.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching parent item:", error);
-//     });
-// };
-
-const field_groups = ref([]);field_groups
+const field_groups = ref([]);
+field_groups;
 const getFieldGroup = () => {
   axios
-    .get("/field")
+    .get("/fields")
     .then((response) => {
       field_groups.value = response.data;
     })

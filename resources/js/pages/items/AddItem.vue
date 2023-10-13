@@ -113,7 +113,7 @@
                         type="text"
                         class="form-control"
                         id="price"
-                        placeholder="Enter item price number"
+                        placeholder="₱"
                         :class="{ 'is-invalid': errors.price }"
                       />
                       <span
@@ -299,7 +299,7 @@ const createItem = () => {
   };
 
   axios
-    .post("/item-attributes", dataToSave)
+    .post("/items", dataToSave)
     .then((response) => {
       toastr.success("Item saved successfully!");
       clearForm();

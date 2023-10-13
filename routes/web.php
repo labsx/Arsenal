@@ -17,75 +17,48 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\FieldGroupController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\ItemAttributesController;
-use App\Models\ParentModel;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', [LoginController::class, 'index']);
-
 Route::middleware('auth')->group(function () {
-    // Route::resource('category', CategoryController::class)
-    //     ->only(['index', 'destroy', 'update', 'store']);
-
-    Route::get('/category', [CategoryController::class, 'index']);
+    Route::resource('category', CategoryController::class)
+        ->only(['index', 'store', 'destroy', 'update']);
     Route::get('/category', [CategoryController::class, 'search']);
-    Route::post('/category', [CategoryController::class, 'store']);
-    Route::put('/category/{category}', [CategoryController::class, 'update']);
-    Route::delete('/category/{category}', [CategoryController::class, 'destroy']);
     Route::get('/category/{category}/show', [CategoryController::class, 'show']);
     Route::get('/category-data/{category}', [CategoryController::class, 'listName']);
     Route::get('/category-data', [CategoryController::class, 'categoryData']);
 
-    Route::get('/field-group', [FieldGroupController::class, 'index']);
-    Route::post('/field-group', [FieldGroupController::class, 'create']);
-    Route::put('/field-group/{field}', [FieldGroupController::class, 'update']);
-    Route::delete('/field-group/{field}', [FieldGroupController::class, 'destroy']);
+    Route::resource('field-group', FieldGroupController::class)->only([
+        'index', 'store', 'destroy', 'update', 'show'
+    ]);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
-    Route::get('/field-group/{field}', [FieldGroupController::class, 'show']);
     Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
-
-    // Route::get('/field-group/name', [FieldGroupController::class, 'getName']);
     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
     Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
-    // Route::get('/field/fields-data', [FieldGroupController::class, 'fieldShow']);
 
+    Route::resource('fields', FieldController::class)->only([
+        'index', 'store', 'destroy', 'update'
+    ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
-    Route::post('/fields', [FieldController::class, 'store']);
-    Route::get('/fields', [FieldController::class, 'index']);
     Route::get('/fields/search', [FieldController::class, 'search']);
-    Route::delete('/fields/{field}', [FieldController::class, 'destroy']);
     Route::get('/fields/{field}', [FieldController::class, 'editShow']);
-    Route::put('/fields/{field}', [FieldController::class, 'update']);
     Route::get('/fields', [FieldController::class, 'filterFields']);
     Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
-    Route::get('/field', [FieldController::class, 'getFieldsDetails']);
+    Route::get('/fields', [FieldController::class, 'getFieldsDetails']);
 
-    Route::get('/items', [ItemController::class, 'index']);
+    Route::resource('items', ItemController::class)->only([
+        'index', 'store', 'destroy', 'update'
+    ]);
     Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
-    Route::put('/items/{item}', [ItemController::class, 'update']);
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
-    Route::post('/item-attributes', [ItemAttributesController::class, 'store']);
     Route::get('/items', [ItemController::class, 'search']);
-    Route::delete('/items/{item}', [ItemController::class, 'destroy']);
     Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
+    Route::resource('parent', ParentController::class)->only([
+        'index', 'store', 'destroy', 'update'
+    ]);
     Route::get('/parent/sub', [ParentController::class, 'getSubCategroy']);
-    Route::get('/parent', [ParentController::class, 'index']);
-    //Route::get('/parent-data', [ParentController::class, 'getData']);
-    Route::post('/parent', [ParentController::class, 'store']);
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']);
-    Route::delete('/parent/{parent}', [ParentController::class, 'destroy']);
     Route::get('/parent/{parent}', [ParentController::class, 'show']);
     Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
@@ -102,11 +75,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/history', [HistoryController::class, 'index']);
     Route::get('/history', [HistoryController::class, 'search']);
 
-    Route::post('/users', [UserController::class, 'create']);
+    Route::resource('users', UserController::class)->only([
+        'index', 'store', 'destroy'
+    ]);
     Route::get('/users/search', [UserController::class, 'searchUser']);
-    Route::delete('/users/{user}', [UserController::class, 'destroy']);
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users/profile', [ProfileController::class, 'profile']);
+
+    Route::get('/users/profile', [ProfileController::class, 'index']);
     Route::put('/users/profile', [ProfileController::class, 'update']);
     Route::post('/users/profile', [ProfileController::class, 'updatePassword']);
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']);

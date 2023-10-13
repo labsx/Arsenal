@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-    public function profile(Request $request)
+    public function index(Request $request)
     {
         return $request->user()->only(['name', 'email', 'avatar', 'created_at']);
     }

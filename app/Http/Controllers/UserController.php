@@ -32,7 +32,7 @@ class UserController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function create(Request $request, User $users)
+    public function store(Request $request, User $users)
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
