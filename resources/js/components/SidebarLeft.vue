@@ -42,17 +42,7 @@
               </p>
             </router-link>
             <ul class="nav nav-treeview" v-if="isDropdownOpen">
-              <li class="nav-item">
-                <router-link
-                  to="/admin/category/list"
-                  class="nav-link"
-                  active-class="active "
-                >
-                  <i class="fa fa-folder nav-icon"></i>
-                  <p>Category List</p>
-                </router-link>
-              </li>
-              <li class="nav-item">
+                <li class="nav-item">
                 <router-link
                   to="/admin/field_groups/list"
                   class="nav-link"
@@ -63,16 +53,17 @@
                 </router-link>
               </li>
 
-               <!-- <li class="nav-item">
+              <li class="nav-item">
                 <router-link
-                  to="/admin/subcategory/list"
+                  to="/admin/category/list"
                   class="nav-link"
-                  active-class="active"
+                  active-class="active "
                 >
-                  <i class="fa fa-circle nav-icon"></i>
-                  <p>Sub Category</p>
+                  <i class="fa fa-folder nav-icon"></i>
+                  <p>Category List</p>
                 </router-link>
-              </li> -->
+              </li>
+
             </ul>
           </li>
 

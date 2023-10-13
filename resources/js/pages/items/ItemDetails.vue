@@ -1,24 +1,37 @@
 <template>
-  <div
-    class="card ml-3 mt-3"
-    style="width: 100%; max-width: 98rem; height: 55rem"
-  >
-    <div class="card-body text-center">
-      <h5 class="">Item Details</h5>
+  <div id="pop-up">
+    <img
+      src="https://github.com/iamshaunjp/css-animations-playlist/blob/master/web-examples/img/ninja.png?raw=true"
+      alt=""
+    />
+    <div class="container">
       <div class="">
+        <h3>{{ form.name }}</h3>
         <img
           :src="generateBarcode(form.barcode)"
           alt="Barcode"
-          style="height: 200px"
+          style="height: 150px; width: 300px"
+          class="mt-1"
         />
+        <div class="row text-align-center ml-5">
+          <div class="justify-content mt-3 text-align-left" style="">
+            <p class="mt-1 no-margin">Model: {{ form.model }}</p>
+            <p class="no-margin">Serial: {{ form.serial }}</p>
+            <p class="no-margin">Price: ₱ {{ form.price }}</p>
+            <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
+            <div class="justify-content mt-3 text-align-left">
+              <p
+                class="no-margin"
+                v-for="(attribute, index) in form.value"
+                :key="index"
+              >
+                {{ attribute.name }} : {{ attribute.value }}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      <p>Name: {{ form.name }}</p>
-      <p>Serial: {{ form.serial }}</p>
-      <p>Status: {{ form.status }}</p>
-      Attributes:
-      <div v-for="(attribute, index) in form.value" :key="index">
-        <p>{{ attribute.name }}: {{ attribute.value }}</p>
-      </div>
+      <div class="cross"></div>
     </div>
   </div>
 </template>
@@ -73,6 +86,9 @@ const getItems = () => {
         form.status = response.data.status;
         form.parent_id = response.data.parent_id;
         form.barcode = response.data.barcode;
+        form.model = response.data.model;
+        form.mfg_date = response.data.mfg_date;
+        form.price = response.data.price;
       } else {
         console.error("Item data not found in the response.");
       }
@@ -107,4 +123,8 @@ onMounted(() => {
   getAttributes();
 });
 </script>
+
+<style scoped>
+@import url("./resources/css/itemdetails.css");
+</style>
 
