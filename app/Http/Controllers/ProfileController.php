@@ -31,7 +31,7 @@ class ProfileController extends Controller
             $previousPath = $request->user()->getRawOriginal('avatar');
             $link = Storage::put('/photos', $request->file('profile_picture'));
             $request->user()->update(['avatar' => $link]);
-            
+
             Storage::delete($previousPath);
 
             return response()->json(['message' => 'Profile picture uploaded successfully!']);
@@ -40,7 +40,7 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request, UpdateUserPassword $updater)
     {
-        $updater->update(auth()->user(),[
+        $updater->update(auth()->user(), [
             'current_password' => $request->currentPassword,
             'password' => $request->password,
             'password_confirmation' => $request->passwordConfirmation,

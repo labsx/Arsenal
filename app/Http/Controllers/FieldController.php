@@ -43,6 +43,14 @@ class FieldController extends Controller
             'is_required' => ['required'],
         ]);
 
+        $existingField = Field::where('field_groups_id', $formField['field_groups_id'])
+            ->where('label', $formField['label'])
+            ->first();
+
+        if ($existingField) {
+            return response()->json(['error' => 'Field data already exist !'], 422);
+        }
+
         $category = Field::create($formField);
 
         return response()->json($category);
@@ -100,4 +108,3 @@ class FieldController extends Controller
         return response()->json($ids);
     }
 }
-

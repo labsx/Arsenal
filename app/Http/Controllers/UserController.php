@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $users = User::latest()->paginate(10);
         return $users;
     }
@@ -41,7 +42,7 @@ class UserController extends Controller
 
         $formFields['password'] = Hash::make($formFields['password']);
         $users = User::create($formFields);
-    
+
         return response()->json(['success' => true]);
     }
 }

@@ -67,11 +67,11 @@ class ParentController extends Controller
     public function show($id)
     {
         $parents = ParentModel::findOrFail($id);
-        
-        return $parents; 
+
+        return $parents;
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
@@ -89,5 +89,4 @@ class ParentController extends Controller
 
         return response()->json($subcategories);
     }
-    
 }

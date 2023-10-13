@@ -10,7 +10,7 @@ class HistoryController extends Controller
     public function index()
     {
         $histories = History::latest()->paginate(10);
-        
+
         return $histories;
     }
 

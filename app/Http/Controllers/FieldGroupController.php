@@ -110,5 +110,4 @@ class FieldGroupController extends Controller
 
         return $categories;
     }
-
 }

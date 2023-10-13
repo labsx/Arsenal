@@ -18,16 +18,17 @@ class NavBarController extends Controller
         return $notes;
     }
 
-    public function notification (){
+    public function notification()
+    {
         $totalCount = Notification::count('name');
-        $itemNames = Notification::latest()->get();  
-    
+        $itemNames = Notification::latest()->get();
+
         return response()->json([
             'totalCount' => $totalCount,
-            'itemNames' => $itemNames,  
+            'itemNames' => $itemNames,
         ]);
     }
-    
+
     public function notes(Request $request)
     {
         $formFields = $request->validate([
@@ -42,7 +43,7 @@ class NavBarController extends Controller
         ]);
 
         $note->save();
-        
+
         return response()->json(['message' => 'Note created successfully']);
     }
 
@@ -52,16 +53,16 @@ class NavBarController extends Controller
             $user = User::findOrFail($id);
             return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
         } catch (\Exception $e) {
-          return response()->json(['error' => 'User not found'], 404);
+            return response()->json(['error' => 'User not found'], 404);
         }
     }
 
     public function destroy(Note $note)
     {
-        $noteId = $note->id; 
-        Note::where('id', $noteId)->delete(); 
-        $note->delete(); 
-        
+        $noteId = $note->id;
+        Note::where('id', $noteId)->delete();
+        $note->delete();
+
         return response()->json(['success' => true]);
     }
 
@@ -70,7 +71,7 @@ class NavBarController extends Controller
         $itemCount = Item::firstOrNew(['id' => 1]);
         $itemCount->count = 0;
         $itemCount->save();
-    
+
         return response()->json(['success' => true]);
     }
 
