@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
     Route::resource('employee', EmployeeController::class)->only([
-        'index', 'store'
+        'index', 'store', 'destroy'
     ]);
     Route::get('/employee', [EmployeeController::class, 'search']);
 

@@ -38,6 +38,7 @@
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Position</th>
+                    <th scope="col">Option</th>
                   </tr>
                 </thead>
                 <tbody v-if="employees.data.length > 0">
@@ -45,6 +46,14 @@
                     <td>{{ employee.first_name }}</td>
                     <td>{{ employee.last_name }}</td>
                     <td>{{ employee.position }}</td>
+                    <td>
+                      <router-link
+                        to=""
+                        @click.prevent="deleteEmployee(employee.id)"
+                      >
+                        <i class="fa fa-trash text-danger ml-2"></i>
+                      </router-link>
+                    </td>
                   </tr>
                 </tbody>
                 <tbody v-else>
@@ -82,6 +91,7 @@
 import axios from "axios";
 import { ref, onMounted, watch } from "vue";
 import Swal from "sweetalert2";
+import { deleteEmployees } from "../../store/swal.js";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { useToastr } from "../../toastr";
 import AddEmployee from "./AddEmployee.vue";
@@ -127,6 +137,25 @@ watch(
     search();
   }, 300)
 );
+
+const deleteEmployee = (id) => {
+  deleteEmployees()
+    .then((result) => {
+      if (result.isConfirmed) {
+        return axios.delete(`/employee/${id}`);
+      }
+      throw new Error("Deletion not confirmed.");
+    })
+    .then(() => {
+      employees.value.data = employees.value.data.filter(
+        (employee) => employee.id !== id
+      );
+      Swal.fire("Deleted!", "Employee has been deleted.", "success");
+    })
+    .catch((error) => {
+      console.error("Error deleting Employee:", error);
+    });
+};
 
 onMounted(() => {
   getEmployee();

@@ -27,6 +27,13 @@ class EmployeeController extends Controller
         return response()->json($employees);
     }
 
+    public function destroy(Employee $employee)
+    {
+        $employee->delete();
+
+        return response()->noContent();
+    }
+
     public function search(Request $request)
     {
         $searchQuery = $request->input('query');
