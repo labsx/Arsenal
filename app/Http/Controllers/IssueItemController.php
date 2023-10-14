@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\History;
-use App\Models\Item;
 use App\Models\Issue;
+use App\Models\Item;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class IssueItemController extends Controller
 {
     public function index()
     {
         $issues = Issue::latest()->paginate(10);
+
         return $issues;
     }
 

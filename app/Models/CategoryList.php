@@ -9,16 +9,15 @@ class CategoryList extends Model
 {
     use HasFactory;
 
-
     protected $guarded = [];
 
     public function category_list()
     {
         return $this->belongsTo(Category::class);
     }
+
     public function category_lists()
     {
         return $this->hasMany(FieldGroup::class);
     }
-    
 }

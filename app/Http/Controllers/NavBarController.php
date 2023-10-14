@@ -15,6 +15,7 @@ class NavBarController extends Controller
     public function index()
     {
         $notes = Note::latest()->get();
+
         return $notes;
     }
 
@@ -51,6 +52,7 @@ class NavBarController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
             return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'User not found'], 404);
@@ -80,6 +82,7 @@ class NavBarController extends Controller
         try {
             $notification = Notification::findOrFail($id);
             $notification->delete();
+
             return response()->json(['success' => true, 'message' => 'Notification deleted successfully']);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Notification not found'], 404);

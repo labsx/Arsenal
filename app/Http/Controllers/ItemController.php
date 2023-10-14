@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\ItemAttribute;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redis;
 
 class ItemController extends Controller
 {
@@ -67,7 +66,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -96,12 +95,12 @@ class ItemController extends Controller
             'value.*.name' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
-            'price.numeric' => 'Input only number w/ out comma, space, letter !'
+            'price.numeric' => 'Input only number w/ out comma, space, letter !',
         ]);
 
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -112,8 +111,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (!$duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
+        if (! $duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -173,7 +172,7 @@ class ItemController extends Controller
         ], [
             // 'category_id.required' => 'Select category name is required !',
             'parent_id.required' => 'Select sub category name is required !',
-            'price.numeric' => 'Input only number w/ out comma, space, letter !'
+            'price.numeric' => 'Input only number w/ out comma, space, letter !',
         ]);
 
         $number = mt_rand(1000000000, 9999999999);

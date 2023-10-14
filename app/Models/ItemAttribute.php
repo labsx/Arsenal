@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Item;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ItemAttribute extends Model
 {
     use HasFactory;
 
-    protected $guarded = []; 
+    protected $guarded = [];
 
     public function attributes()
     {

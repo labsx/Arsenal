@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Actions\Fortify\UpdateUserPassword;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -18,7 +18,7 @@ class ProfileController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required'],
-            'email' =>  ['required', 'email', Rule::unique('users')->ignore($request->user()->id)],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($request->user()->id)],
         ]);
         $request->user()->update($validated);
 

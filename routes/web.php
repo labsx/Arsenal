@@ -1,22 +1,20 @@
 <?php
 
-use App\Models\History;
-use App\Models\FieldGroup;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\FieldGroupController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\IssueItemController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\ParentController;
-use App\Http\Controllers\ReturnController;
-use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IssueItemController;
-use App\Http\Controllers\FieldGroupController;
-use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\ReturnController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
@@ -28,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/category-data', [CategoryController::class, 'categoryData']);
 
     Route::resource('field-group', FieldGroupController::class)->only([
-        'index', 'store', 'destroy', 'update', 'show'
+        'index', 'store', 'destroy', 'update', 'show',
     ]);
     Route::get('/field-group', [FieldGroupController::class, 'search']);
     Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
@@ -36,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
 
     Route::resource('fields', FieldController::class)->only([
-        'index', 'store', 'destroy', 'update'
+        'index', 'store', 'destroy', 'update',
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'show']);
     Route::get('/fields/search', [FieldController::class, 'search']);
@@ -46,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/fields', [FieldController::class, 'getFieldsDetails']);
 
     Route::resource('items', ItemController::class)->only([
-        'index', 'store', 'destroy', 'update'
+        'index', 'store', 'destroy', 'update',
     ]);
     Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
@@ -54,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
     Route::resource('parent', ParentController::class)->only([
-        'index', 'store', 'destroy', 'update'
+        'index', 'store', 'destroy', 'update',
     ]);
     Route::get('/parent/sub', [ParentController::class, 'getSubCategroy']);
     Route::get('/parent', [ParentController::class, 'search']);
@@ -76,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/history', [HistoryController::class, 'search']);
 
     Route::resource('users', UserController::class)->only([
-        'index', 'store', 'destroy'
+        'index', 'store', 'destroy',
     ]);
     Route::get('/users/search', [UserController::class, 'searchUser']);
 

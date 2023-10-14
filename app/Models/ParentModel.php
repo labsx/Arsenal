@@ -15,6 +15,7 @@ class ParentModel extends Model
     {
         return $this->hasMany(Item::class);
     }
+
     public function parent()
     {
         return $this->belongsTo(Category::class);

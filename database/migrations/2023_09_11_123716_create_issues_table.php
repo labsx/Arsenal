@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('serial');
             $table->dateTime('date_issued');
             $table->string('status');
-            $table->string('issued_to');    
+            $table->string('issued_to');
             $table->timestamps();
         });
     }

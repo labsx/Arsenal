@@ -101,6 +101,7 @@ class FieldController extends Controller
 
         return $fields_groups;
     }
+
     public function getFieldsId($id)
     {
         $ids = FieldGroup::findOrFail($id);

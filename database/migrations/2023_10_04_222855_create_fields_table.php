@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-             $table->foreignId('field_groups_id')->constrained('field_groups')->onDelete('cascade'); 
+            $table->foreignId('field_groups_id')->constrained('field_groups')->onDelete('cascade');
             $table->string('label')->nullable();
             $table->longText('description')->nullable();
             $table->string('is_required');

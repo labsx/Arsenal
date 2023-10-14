@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\Note;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\FieldGroup;
 use App\Models\History;
+use App\Models\Item;
+use App\Models\Note;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -73,6 +73,7 @@ class DashboardController extends Controller
     public function usersGet()
     {
         $users = User::latest()->get();
+
         return $users;
     }
 }

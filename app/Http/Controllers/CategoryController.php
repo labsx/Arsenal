@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\ParentModel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -51,7 +50,7 @@ class CategoryController extends Controller
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'field_group_id' => ['required']
+            'field_group_id' => ['required'],
         ]);
 
         $category = Category::findOrfail($id);

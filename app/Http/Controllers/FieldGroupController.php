@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Field;
 use App\Models\Category;
+use App\Models\Field;
 use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
@@ -20,10 +20,10 @@ class FieldGroupController extends Controller
     {
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'max:50', 'unique:field_groups'],
-            'description' => ['max:255']
+            'description' => ['max:255'],
         ]);
 
-       $fieldGroups = FieldGroup::create($formFields);
+        $fieldGroups = FieldGroup::create($formFields);
 
         return response()->json($fieldGroups);
     }
@@ -85,6 +85,7 @@ class FieldGroupController extends Controller
     {
         try {
             $fieldGroup = FieldGroup::findOrFail($id);
+
             return response()->json(['name' => $fieldGroup->name]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Field group not found'], 404);
@@ -94,7 +95,7 @@ class FieldGroupController extends Controller
     public function getFieldsByFieldGroupId($id)
     {
         $fieldsData = Field::where('field_groups_id', $id)->get();
-        
+
         return response()->json($fieldsData);
     }
 

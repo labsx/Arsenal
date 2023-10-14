@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\Issue;
 use App\Models\History;
+use App\Models\Issue;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class ReturnController extends Controller
@@ -25,7 +25,7 @@ class ReturnController extends Controller
             'serial' => ['max:255'],
             'model' => ['required'],
             'mfg_date' => ['required'],
-            'price' => ['required']
+            'price' => ['required'],
         ], [
             'return_date' => 'Error date selection !',
         ]);
