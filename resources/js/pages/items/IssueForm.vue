@@ -1,24 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Issue Item</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <router-link to="/admin/dashboard">Home</router-link>
-            </li>
-            <li class="breadcrumb-item">
-              <router-link to="/admin/items/list">Issue</router-link>
-            </li>
-            <li class="breadcrumb-item active">Item</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+ <ContentHeader title="Issue Item" data="item" datas="issue"/>
 
   <div class="content">
     <div class="container-fluid">
@@ -189,6 +170,7 @@ import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
 import { formatDate } from "../../helper.js";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const router = useRouter();
 const route = useRoute();

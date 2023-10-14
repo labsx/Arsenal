@@ -94,6 +94,7 @@ class FieldGroupController extends Controller
     public function getFieldsByFieldGroupId($id)
     {
         $fieldsData = Field::where('field_groups_id', $id)->get();
+        
         return response()->json($fieldsData);
     }
 

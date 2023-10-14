@@ -1,18 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Item List</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Item List</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ContentHeader title="Item List" data="item" datas="list"/>
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -146,6 +133,7 @@ import JsBarcode from "jsbarcode";
 import { printItemsData } from "../../store/print.js";
 import { formatDate } from "../../helper.js";
 import imagePath from "/resources/image/no data.gif";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const showImage = ref(false);
 const printItems = () => {

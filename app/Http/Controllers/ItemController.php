@@ -159,7 +159,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $formData = $request->validate([
-            'category_id' => 'required|numeric',
+            // 'category_id' => 'required|numeric',
             'parent_id' => 'required|numeric',
             'item_name' => 'required|string',
             'model' => 'required',
@@ -171,7 +171,7 @@ class ItemController extends Controller
             'value.*.label' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
-            'category_id.required' => 'Select category name is required !',
+            // 'category_id.required' => 'Select category name is required !',
             'parent_id.required' => 'Select sub category name is required !',
             'price.numeric' => 'Input only number w/ out comma, space, letter !'
         ]);
@@ -180,7 +180,7 @@ class ItemController extends Controller
         $request['barcode'] = $number;
 
         $item = Item::create([
-            'category_id' => $formData['category_id'],
+            // 'category_id' => $formData['category_id'],
             'name' => $formData['item_name'],
             'parent_id' => $formData['parent_id'],
             'model' => $formData['model'],

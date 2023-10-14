@@ -1,5 +1,5 @@
 <template>
- <ContentHeader title="Add Item" data="item" datas="add"/>
+  <ContentHeader title="Add Item" data="item" datas="add" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -135,12 +135,13 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="client">Choose</label>
+                      <label for="client">Select category</label>
                       <span class="text-danger"> *</span>
                       <select
                         id="fieldGroup"
                         class="form-control"
                         v-model="form.parent_id"
+                        @change="getFields"
                         :class="{ 'is-invalid': errors.parent_id }"
                       >
                         <optgroup
@@ -201,37 +202,7 @@
                   </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Select Category</label>
-                      <span class="text-danger"> *</span>
-                      <select
-                        v-model="form.category_id"
-                        id="client"
-                        class="form-control"
-                        :class="{ 'is-invalid': errors.category_id }"
-                        @change="getFields"
-                      >
-                        <option value="" disabled selected hidden>
-                          Select Category
-                        </option>
-                        <option
-                          :value="category.id"
-                          v-for="category in categories"
-                          :key="category.id"
-                        >
-                          {{ category.name }}
-                        </option>
-                      </select>
-                      <span
-                        v-if="errors && errors.category_id"
-                        class="text-danger text-sm"
-                        >{{ errors.category_id[0] }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
+                <div class="row"></div>
                 <button type="submit" class="btn btn-outline-primary btn-sm">
                   <i class="fa fa-save mr-2"></i>Save
                 </button>
@@ -254,6 +225,7 @@ import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const toastr = useToastr();
 const errors = ref([]);
+const fieldsData = ref([]);
 
 const form = ref({
   category_id: "",
@@ -297,21 +269,23 @@ const createItem = () => {
         toastr.error(message);
         errors.value = [];
       }
+      s;
     });
 };
 
-const fieldsData = ref([]);
-
 const getFields = async () => {
-  const selectedCategoryId = form.value.category_id;
+  const selectedSubcategoryId = form.value.parent_id;
 
-  if (selectedCategoryId) {
+  if (selectedSubcategoryId) {
     try {
-      const selectedCategory = categories.value.find(
-        (category) => category.id === selectedCategoryId
+      const selectedSubcategory = subcategories.value.find((subcategory) =>
+        subcategory.parent_models.some(
+          (model) => model.id === selectedSubcategoryId
+        )
       );
-      const fieldGroupId = selectedCategory.field_group_id;
+      const fieldGroupId = selectedSubcategory.field_group_id;
 
+      // Fetch fields based on field group id
       const response = await axios.get(`/field-groups/${fieldGroupId}/fields`);
       fieldsData.value = response.data;
     } catch (error) {
@@ -360,11 +334,10 @@ const getSubCategory = () => {
 };
 
 onMounted(() => {
-  // getParent();
   getSubCategory();
   getCategory();
-  
-   flatpickr(".flatpickr", {
+
+  flatpickr(".flatpickr", {
     enableTime: true,
     dateFormat: "Y-m-d h:i K",
     defaultHour: 10,
@@ -372,6 +345,5 @@ onMounted(() => {
 });
 watch(form.category_id, () => {
   getFields();
-
 });
 </script>

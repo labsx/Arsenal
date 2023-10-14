@@ -1,18 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Fields</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Fields List</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+<ContentHeader title="Fields" data="field groups" datas="data"/>
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -112,6 +99,7 @@ import { useToastr } from "../../../toastr";
 import AddFieldsData from "./AddFieldsData.vue";
 import { deleteFieldGroups } from "../../../store/swal.js";
 import imagePath from "/resources/image/no data.gif";
+import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 
 const showImage = ref(false);
 const toastr = useToastr();
