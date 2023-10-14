@@ -7,7 +7,49 @@
           <div class="card">
             <div class="card-body">
               <form form @submit.prevent="createItem">
-                <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="client">Select category</label>
+                    <span class="text-danger"> *</span>
+                    <select
+                      id="fieldGroup"
+                      class="form-control"
+                      v-model="form.parent_id"
+                      @change="getFields"
+                      :class="{ 'is-invalid': errors.parent_id }"
+                    >
+                      <optgroup
+                        v-for="subcategory in subcategories"
+                        :key="subcategory.id"
+                        :label="subcategory.name"
+                      >
+                        <option
+                          value=""
+                          disabled
+                          selected
+                          hidden
+                          class="text-center"
+                        >
+                          Choose Category
+                        </option>
+                        <option
+                          v-for="parentModel in subcategory.parent_models"
+                          :key="parentModel.id"
+                          :value="parentModel.id"
+                        >
+                          {{ parentModel.name }}
+                        </option>
+                      </optgroup>
+                    </select>
+
+                    <span
+                      v-if="errors && errors.parent_id"
+                      class="text-danger text-sm"
+                      >{{ errors.parent_id[0] }}</span
+                    >
+                  </div>
+                </div>
+                <div class="row" >
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>
@@ -132,43 +174,6 @@
                       >
                     </div>
                   </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Select category</label>
-                      <span class="text-danger"> *</span>
-                      <select
-                        id="fieldGroup"
-                        class="form-control"
-                        v-model="form.parent_id"
-                        @change="getFields"
-                        :class="{ 'is-invalid': errors.parent_id }"
-                      >
-                        <optgroup
-                          v-for="subcategory in subcategories"
-                          :key="subcategory.id"
-                          :label="subcategory.name"
-                        >
-                          <option value="" disabled selected hidden>
-                            Choose item list
-                          </option>
-                          <option
-                            v-for="parentModel in subcategory.parent_models"
-                            :key="parentModel.id"
-                            :value="parentModel.id"
-                          >
-                            {{ parentModel.name }}
-                          </option>
-                        </optgroup>
-                      </select>
-
-                      <span
-                        v-if="errors && errors.parent_id"
-                        class="text-danger text-sm"
-                        >{{ errors.parent_id[0] }}</span
-                      >
-                    </div>
-                  </div>
                 </div>
 
                 <div class="row">
@@ -284,8 +289,6 @@ const getFields = async () => {
         )
       );
       const fieldGroupId = selectedSubcategory.field_group_id;
-
-      // Fetch fields based on field group id
       const response = await axios.get(`/field-groups/${fieldGroupId}/fields`);
       fieldsData.value = response.data;
     } catch (error) {

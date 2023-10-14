@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->constrained('parent_models')->onDelete('cascade');
             $table->string('name');
             $table->string('model');
-            $table->integer('price');
+            $table->decimal('price', 10, 2)->default(0);
             $table->dateTime('mfg_date');
             $table->string('serial');
             $table->string('status');

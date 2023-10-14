@@ -19,5 +19,51 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => 'admin',
         ]);
+
+        \App\Models\Category::factory()->create([
+            'field_group_id' => '1',
+            'name' => 'Computer',
+        ]);
+
+        \App\Models\Category::factory()->create([
+            'field_group_id' => '2',
+            'name' => 'Vehicle',
+        ]);
+
+        \App\Models\FieldGroup::factory()->create([
+            'name' => 'fields for computer',
+        ]);
+        \App\Models\FieldGroup::factory()->create([
+            'name' => 'fields for vehicle',
+        ]);
+
+        \App\Models\Field::factory()->create([
+            'field_groups_id' => '1',
+            'label' => 'Ram',
+            'is_required' => 'required'
+        ]);
+        \App\Models\Field::factory()->create([
+            'field_groups_id' => '2',
+            'label' => 'plate number',
+            'is_required' => 'required'
+        ]);
+        \App\Models\ParentModel::factory()->create([
+            'category_id' => '1',
+            'name' => 'Laptop',
+        ]);
+        \App\Models\ParentModel::factory()->create([
+            'category_id' => '1',
+            'name' => 'Desktop',
+        ]);
+        \App\Models\ParentModel::factory()->create([
+            'category_id' => '2',
+            'name' => 'Sedan',
+        ]);
+        \App\Models\ParentModel::factory()->create([
+            'category_id' => '2',
+            'name' => 'Suv',
+        ]);
+        
     }
+
 }
