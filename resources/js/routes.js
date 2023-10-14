@@ -22,6 +22,7 @@ import FilterSubCategory from './pages/category/CategorySubDetails.vue';
 import SubCategoryItemFilter from './pages/category/ItemFilter.vue';
 import EditCategorySub from './pages/category/EditCategorySub.vue';
 import EmployeeDetails from './pages/employee/EmployeeDetails.vue';
+import EditEmployee from './pages/employee/EditEmployee.vue';
 
 export default[
     {
@@ -33,6 +34,11 @@ export default[
         path: '/admin/employee',
         name: 'admin.employee',
         component: EmployeeDetails,
+    },
+    {
+        path: '/admin/employee/:id/edit',
+        name: 'admin.employee.edit',
+        component: EditEmployee,
     },
     {
         path: '/admin/field_groups/list',

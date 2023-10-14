@@ -45,4 +45,24 @@ class EmployeeController extends Controller
 
         return response()->json($employees);
     }
+
+    public function show($id)
+    {
+        $employee = Employee::findOrFail($id);
+
+        return response()->json($employee);
+    }
+
+    public function update(Request $request, Employee $employee)
+    {
+        $formFields = $request->validate([
+            'first_name' => ['required', 'max:50'],
+            'last_name' => ['required', 'max:50'],
+            'position' => ['required', 'max:50'],
+        ]);
+
+        $employee->update($formFields);
+
+        return response()->json($employee);
+    }
 }

@@ -47,6 +47,10 @@
                     <td>{{ employee.last_name }}</td>
                     <td>{{ employee.position }}</td>
                     <td>
+                      <router-link :to="`/admin/employee/${employee.id}/edit`">
+                        <i class="fas fa-edit"></i>
+                      </router-link>
+                      
                       <router-link
                         to=""
                         @click.prevent="deleteEmployee(employee.id)"
