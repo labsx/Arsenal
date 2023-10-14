@@ -21,12 +21,18 @@ import EditCategory from './pages/category/EditCategory.vue';
 import FilterSubCategory from './pages/category/CategorySubDetails.vue';
 import SubCategoryItemFilter from './pages/category/ItemFilter.vue';
 import EditCategorySub from './pages/category/EditCategorySub.vue';
+import EmployeeDetails from './pages/employee/EmployeeDetails.vue';
 
 export default[
     {
         path: '/login',
         name: 'admin.login',
         component: Login,
+    },
+    {
+        path: '/admin/employee',
+        name: 'admin.employee',
+        component: EmployeeDetails,
     },
     {
         path: '/admin/field_groups/list',

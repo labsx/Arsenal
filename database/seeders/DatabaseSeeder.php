@@ -63,7 +63,16 @@ class DatabaseSeeder extends Seeder
             'category_id' => '2',
             'name' => 'Suv',
         ]);
-        
-    }
+        \App\Models\Employee::factory()->create([
+            'first_name' => 'Juan',
+            'last_name' => 'De La Cruz',
+            'position' => 'position 1',
+        ]);
 
+        \App\Models\Employee::factory()->create([
+            'first_name' => 'Jimmy',
+            'last_name' => 'Neutron',
+            'position' => 'position 2',
+        ]);
+    }
 }

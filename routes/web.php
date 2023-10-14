@@ -1,20 +1,22 @@
 <?php
 
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FieldController;
-use App\Http\Controllers\FieldGroupController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\IssueItemController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\ParentController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IssueItemController;
+use App\Http\Controllers\FieldGroupController;
+use App\Http\Controllers\ApplicationController;
+use App\Models\Employee;
 
 Route::get('/', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
@@ -59,6 +61,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']);
     Route::get('/parent/{parent}', [ParentController::class, 'show']);
     Route::put('/parent/{parent}', [ParentController::class, 'update']);
+
+    Route::resource('employee', EmployeeController::class)->only([
+        'index', 'store'
+    ]);
+    Route::get('/employee', [EmployeeController::class, 'search']);
 
     Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
     Route::post('/issue/items', [IssueItemController::class, 'create']);
