@@ -1,22 +1,21 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\FieldGroupController;
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\IssueItemController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\ParentController;
-use App\Http\Controllers\ReturnController;
-use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\IssueItemController;
-use App\Http\Controllers\FieldGroupController;
-use App\Http\Controllers\ApplicationController;
-use App\Models\Employee;
+use App\Http\Controllers\ReturnController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
@@ -63,13 +62,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
     Route::resource('employee', EmployeeController::class)->only([
-        'index', 'store', 'destroy', 'show', 'update'
+        'index', 'store', 'destroy', 'show', 'update',
     ]);
 
     Route::get('/employee', [EmployeeController::class, 'search']);
 
     Route::resource('issue', IssueItemController::class)->only([
-        'show', 'store', 'update'
+        'show', 'store', 'update',
     ]);
     Route::get('/issue', [IssueItemController::class, 'employee']);
     Route::get('/return/{issue}', [ReturnController::class, 'show']);

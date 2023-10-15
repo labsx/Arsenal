@@ -17,7 +17,6 @@
   <h2>History Data</h2>
   <ul>
     <li v-for="history in histories" :key="history.id">
-      <p>History ID: {{ history.id }}</p>
       <p>
         Employee: {{ history.employee.first_name }}
         {{ history.employee.last_name }}
@@ -25,16 +24,16 @@
       <p>Remarks: {{ history.remarks }}</p>
       <p>Issued Date: {{ history.issued_date }}</p>
       <p>Return Date: {{ history.return_date }}</p>
-      <p>Return Date: {{ history.status }}</p>
+      <p>Status {{ history.status }}</p>
     </li>
   </ul>
 
   <router-link
-    v-if="status !== 'under repair'"
+    v-if="status !== 'under repair' && status !== 'decommissioned'"
     :to="
       status === 'operating'
         ? `/admin/items/${form.id}/issue`
-        : `/admin/items/${form.id}/return`
+        : `/admin/items/${historyId}/return`
     "
     class="btn btn-info"
   >
@@ -50,7 +49,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 
 const status = ref("");
-
+const historyId = ref("");
 const errors = ref([]);
 const toastr = useToastr();
 const router = useRouter();
@@ -128,6 +127,9 @@ const fetchHistories = () => {
       .get(`/histories?item_id=${form.id}`)
       .then(async ({ data }) => {
         console.log("Histories data:", data);
+        if (data.length > 0) {
+          historyId.value = data[0].id;
+        }
 
         const fetchEmployeeDataPromises = data.map(async (history) => {
           const employeeData = await fetchEmployeeData(history.employee_id);

@@ -19,10 +19,9 @@
                     class="form-control"
                     id="appName"
                     placeholder="Enter app display name"
-                      disabled
+                    style="display: none"
                   />
                 </div>
-               
 
                 <div class="form-group">
                   <label for="appName">Remarks</label>
@@ -32,30 +31,32 @@
                     class="form-control"
                     id="appName"
                     placeholder="Enter remarks"
-                     :class="{ 'is-invalid': errors.remarks }"
+                    :class="{ 'is-invalid': errors.remarks }"
                   />
-                   <span
-                        v-if="errors && errors.remarks"
-                        class="text-danger text-sm"
-                        >{{ errors.remarks[0] }}</span
-                    >
+                  <span
+                    v-if="errors && errors.remarks"
+                    class="text-danger text-sm"
+                    >{{ errors.remarks[0] }}</span
+                  >
                 </div>
 
                 <div class="form-group">
                   <label>Status</label>
-                  <select class="form-control" v-model="form.status"
-                   :class="{ 'is-invalid': errors.status }"
-                   >
+                  <select
+                    class="form-control"
+                    v-model="form.status"
+                    :class="{ 'is-invalid': errors.status }"
+                  >
                     <option value="" disabled>Select status</option>
-                    <option value="operating"> operating </option>
-                    <option value="under repair"> under repair </option>
-                    <option value="decommissioned"> decommissioned </option>
+                    <option value="operating">operating</option>
+                    <option value="under repair">under repair</option>
+                    <option value="decommissioned">decommissioned</option>
                   </select>
-                   <span
-                        v-if="errors && errors.status"
-                        class="text-danger text-sm"
-                        >{{ errors.status[0] }}</span
-                    >
+                  <span
+                    v-if="errors && errors.status"
+                    class="text-danger text-sm"
+                    >{{ errors.status[0] }}</span
+                  >
                 </div>
 
                 <div class="form-group">
@@ -67,14 +68,14 @@
                     id="appName"
                     placeholder="Select return date"
                     style="background-color: white"
-                     :class="{ 'is-invalid': errors.return_date }"
+                    :class="{ 'is-invalid': errors.return_date }"
                   />
-                  
-                   <span
-                        v-if="errors && errors.return_date"
-                        class="text-danger text-sm"
-                        >{{ errors.return_date[0] }}</span
-                    >
+
+                  <span
+                    v-if="errors && errors.return_date"
+                    class="text-danger text-sm"
+                    >{{ errors.return_date[0] }}</span
+                  >
                 </div>
               </div>
 
@@ -107,10 +108,10 @@ const route = useRoute();
 const toastr = useToastr();
 const errors = ref([]);
 const form = reactive({
-item_id: "",
-remarks: "",
-status: "",
-return_date: "",
+  item_id: "",
+  remarks: "",
+  status: "",
+  return_date: "",
 });
 
 const returnItem = () => {
@@ -122,9 +123,9 @@ const returnItem = () => {
 };
 
 const UpdateHistory = () => {
-    console.log('Form Data:', form);
+  console.log("Form Data:", form);
   axios
-    .put(`/issue/${route.params.id}`, form) 
+    .put(`/issue/${route.params.id}`, form)
     .then((response) => {
       toastr.success("Return item successfully!");
       errors.value = "";
@@ -148,7 +149,6 @@ onMounted(() => {
     dateFormat: "Y-m-d h:i K",
     defaultHour: 10,
   });
-
 });
 </script>
 

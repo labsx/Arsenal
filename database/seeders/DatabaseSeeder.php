@@ -40,12 +40,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\Field::factory()->create([
             'field_groups_id' => '1',
             'label' => 'Ram',
-            'is_required' => 'required'
+            'is_required' => 'required',
         ]);
         \App\Models\Field::factory()->create([
             'field_groups_id' => '2',
             'label' => 'plate number',
-            'is_required' => 'required'
+            'is_required' => 'required',
         ]);
         \App\Models\ParentModel::factory()->create([
             'category_id' => '1',
