@@ -13,15 +13,12 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('serial')->nullable();
-            $table->dateTime('date_issued');
+            $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
+            $table->foreignId('employee_id')->nullable();
+            $table->string('remarks');
+            $table->dateTime('issued_date');
             $table->dateTime('return_date')->nullable();
             $table->string('status');
-            $table->string('issued_to');
-            $table->string('model');
-            $table->integer('price');
-            $table->dateTime('mfg_date');
             $table->timestamps();
         });
     }

@@ -2,76 +2,71 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Issue;
 use App\Models\Item;
+use App\Models\Issue;
+use App\Models\History;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class IssueItemController extends Controller
 {
-    public function index()
+    public function show($id)
     {
-        $issues = Issue::latest()->paginate(10);
+        $item =Item::findOrFail($id);
 
-        return $issues;
+        return response()->json($item);
     }
 
-    public function edit(Item $item)
+    public function employee()
     {
-        return $item;
+        $employees = Employee::latest()->get();
+
+        return response()->json($employees);    
     }
 
-    public function create(Request $request, Issue $issue, Item $item)
+    public function store(Request $request, Issue $issue, Item $item)
     {
         $formFields = $request->validate([
-            'name' => ['required', 'max:50'],
-            'serial' => ['required', 'max:100'],
-            'date_issued' => ['required', 'date'],
-            'status' => ['required', 'min:3', 'max:10'],
-            'issued_to' => ['required', 'min:3', 'max:50'],
-            'model' => ['required'],
-            'mfg_date' => ['required'],
-            'price' => ['required'],
+            'item_id' => ['required', 'max:50'],
+            'employee_id' => ['required', 'max:100'],
+            'issued_date' => ['required', 'date'],
+            'remarks' => ['required', 'min:3', 'max:50'],
         ]);
-
+    
         $formFields['status'] = 'issued';
-        $issue = Issue::create($formFields);
-        $item = Item::where('serial', $formFields['serial'])->first();
+    
+        // Update the status to 'issued' for all history records
+        History::query()->where('item_id', $formFields['item_id'])->update(['status' => 'issued']);
+    
+        // Create a new history record
+        $issue = History::create($formFields);
+    
+        // Update the status of the associated item to 'issued'
+        $item = Item::where('id', $formFields['item_id'])->first();
         if ($item) {
             $item->update(['status' => 'issued']);
         }
-
+    
         return response()->json($issue);
-    }
+    }    
 
-    public function showUser(Issue $issue)
-    {
-        return $issue;
-    }
-
-    public function update(Request $request, Issue $issue)
+    public function update(Request $request, History $history, Item $item)
     {
         $formFields = $request->validate([
-            'name' => ['max:50'],
-            'date_issued' => ['required'],
-            'issued_to' => ['required', 'min:3', 'max:50'],
+            'item_id' => ['required'],
+            'remarks' => ['required', 'max:50'],
+            'return_date' => ['required'],
+            'status' => ['required'],
+            'issued_date' => ['required'],
         ]);
-
-        $issue->update($formFields);
-
-        return response()->json(['success' => true]);
-    }
-
-    public function search()
-    {
-        $searchQuery = request('query');
-        $issues = Issue::where(function ($query) use ($searchQuery) {
-            $query->where('serial', 'like', "%{$searchQuery}%")
-                ->orWhere('name', 'like', "%{$searchQuery}%")
-                ->orWhere('date_issued', 'like', "%{$searchQuery}%")
-                ->orWhere('issued_to', 'like', "%{$searchQuery}%")
-                ->orWhere('status', 'like', "%{$searchQuery}%");
-        })->paginate(10);
-
-        return response()->json($issues);
+    
+        $history = History::where('item_id', $formFields['item_id'])
+                          ->where('issued_date', $formFields['issued_date'])
+                          ->update($formFields);
+    
+        Item::where('id', $formFields['item_id'])
+             ->update(['status' => $formFields['status']]);
+    
+        return response()->json($history);
     }
 }

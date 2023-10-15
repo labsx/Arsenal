@@ -1,160 +1,76 @@
 <template>
- <ContentHeader title="Issue Item" data="item" datas="issue"/>
+  <ContentHeader title="Issue Item" data="item" datas="issue" />
 
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-body">
-              <form @submit.prevent="createIssueItem()">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="title">Item Name</label>
-                      <input
-                        v-model="form.name"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter item name"
-                        readonly="readonly"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="client">Serial</label>
-                      <input
-                        v-model="form.serial"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter item serial number"
-                        readonly="readonly"
-                      />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Model</label>
-                      <input
-                        v-model="form.model"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter item serial number"
-                        readonly="readonly"
-                      />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Mfg. Date</label>
-                      <input
-                        v-model="form.mfg_date"
-                        type="date"
-                        class="form-control flatpickr"
-                        placeholder=""
-                        disabled
-                      />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Unit Price</label>
-                      <input
-                        v-model="form.price"
-                        type="integer"
-                        class="form-control"
-                        id="title"
-                        placeholder=""
-                        readonly="readonly"
-                      />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>Status</label>
-                      <input
-                        v-model="form.status"
-                        type="text"
-                        class="form-control"
-                        placeholder="Enter model"
-                        readonly="readonly"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="date">Date Issued</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.date_issued"
-                        type="date"
-                        class="form-control flatpickr"
-                        :class="{ 'is-invalid': errors.date_issued }"
-                        style="background: white"
-                      />
-                      <span
-                        v-if="errors && errors.date_issued"
-                        class="text-danger text-sm"
-                        >{{ errors.date_issued[0] }}</span
-                      >
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Issued to</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.issued_to"
-                        type="text"
-                        class="form-control"
-                        placeholder=""
-                        :class="{ 'is-invalid': errors.issued_to }"
-                      />
-                      <span
-                        v-if="errors && errors.issued_to"
-                        class="text-danger text-sm"
-                        >{{ errors.issued_to[0] }}</span
-                      >
-                    </div>
-                  </div>
-                </div>
-
-                <button type="submit" class="btn btn-outline-primary">
-                  <i class="fa fa-save mr-1"></i>Issue item
-                </button>
-              </form>
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Issue item</h3>
             </div>
+
+            <form>
+              <div class="card-body">
+                <div class="form-group">
+                  <input
+                    v-model="form.item_id"
+                    type="text"
+                    class="form-control"
+                    item_="appName"
+                    placeholder="Enter app display name"
+                    style="display: none"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label>Employee List</label>
+                  <select class="form-control" v-model="form.employee_id">
+                    <option value="" disabled>Select an employee</option>
+                    <option
+                      v-for="employee in employees"
+                      :key="employee.id"
+                      :value="employee.id"
+                    >
+                      {{ employee.first_name }} {{ employee.last_name }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="appName">Remarks</label>
+                  <input
+                    v-model="form.remarks"
+                    type="text"
+                    class="form-control"
+                    id="appName"
+                    placeholder="Enter app display name"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="appName">Date Issued</label>
+                  <input
+                    v-model="form.issued_date"
+                    type="date"
+                    class="form-control flatpickr"
+                    id="appName"
+                    placeholder="Enter app display name"
+                    style="background-color: white"
+                  />
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button
+                  @click.prevent="saveIssue"
+                  type="submit"
+                  class="btn btn-primary"
+                >
+                  <i class="fa fa-save mr-1"></i>Save Changes
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -177,33 +93,36 @@ const route = useRoute();
 const toastr = useToastr();
 const errors = ref([]);
 const form = reactive({
-  name: "",
-  serial: "",
-  date_issued: "",
-  status: "issued",
-  issued_to: "",
-  model: "",
-  mfg_date: "",
-  price: "",
+  item_id: "",
+  employee_id: "",
+  issued_date: "",
+  remarks: "",
 });
 
 const getItemsData = () => {
-  axios.get(`/items/${route.params.id}/issue`).then(({ data }) => {
-    form.name = data.name;
-    form.serial = data.serial;
-    form.status = data.status;
-    form.model = data.model;
-    form.mfg_date = data.mfg_date;
-    form.price = data.price;
+  axios.get(`/issue/${route.params.id}`).then(({ data }) => {
+    form.item_id = data.id;
   });
 };
 
-const createIssueItem = () => {
+const employees = ref([]);
+const getEmployee = () => {
   axios
-    .post("/issue/items", form)
+    .get("/issue")
+    .then((response) => {
+      employees.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching employees:", error);
+    });
+};
+
+const saveIssue = () => {
+  axios
+    .post("/issue", form)
     .then((response) => {
       toastr.success("Successfully issued item!");
-      router.push("/admin/items/issue/list");
+      // router.push("/admin/items/issue/list");
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -218,6 +137,7 @@ const createIssueItem = () => {
 
 onMounted(() => {
   getItemsData();
+  getEmployee();
 
   flatpickr(".flatpickr", {
     enableTime: true,

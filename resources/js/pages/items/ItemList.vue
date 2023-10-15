@@ -70,12 +70,12 @@
                         <i class="fas fa-eye text-primary mr-2"></i>
                       </router-link>
 
-                      <router-link
+                      <!-- <router-link
                         v-if="item.status === 'operating'"
                         :to="`/admin/items/${item.id}/issue`"
                       >
                         <i class="fas fa-user-plus text-secondary mr-2"></i>
-                      </router-link>
+                      </router-link> -->
 
                       <router-link
                         v-if="

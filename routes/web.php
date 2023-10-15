@@ -65,20 +65,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update'
     ]);
+   
     Route::get('/employee', [EmployeeController::class, 'search']);
 
-    Route::get('/items/{item}/issue', [IssueItemController::class, 'edit']);
-    Route::post('/issue/items', [IssueItemController::class, 'create']);
-    Route::get('/issue', [IssueItemController::class, 'index']);
-    Route::get('/issue', [IssueItemController::class, 'search']);
-    Route::get('/issues/{issue}', [IssueItemController::class, 'showUser']);
-    Route::put('/issues/{issue}', [IssueItemController::class, 'update']);
+    Route::resource('issue', IssueItemController::class)->only([
+        'show', 'store', 'update'
+    ]);
+    Route::get('/issue', [IssueItemController::class, 'employee']);
+    Route::get('/return/{issue}', [ReturnController::class, 'show']);
 
-    Route::get('/items/{issue}/return', [ReturnController::class, 'showReturn']);
-    Route::post('/items/return', [ReturnController::class, 'return']);
-
-    Route::get('/history', [HistoryController::class, 'index']);
-    Route::get('/history', [HistoryController::class, 'search']);
+    // Route::get('/history', [HistoryController::class, 'index']);
+    // Route::get('/history', [HistoryController::class, 'search']);
 
     Route::resource('users', UserController::class)->only([
         'index', 'store', 'destroy',

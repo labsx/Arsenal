@@ -1,101 +1,40 @@
 <template>
-  <div id="pop-up">
-    <img
-      src="https://github.com/iamshaunjp/css-animations-playlist/blob/master/web-examples/img/ninja.png?raw=true"
-      alt=""
-    />
-    <div class="container">
-      <div class="">
-        <h3>{{ form.name }}</h3>
-        <img
-          :src="generateBarcode(form.barcode)"
-          alt="Barcode"
-          style="height: 130px; width: 300px"
-          class="mt-1"
-        />
-
-        <div class="row ml-5">
-          <div class="col-6 justify-content mt-3 text-align-left">
-            <p class="mt-1 no-margin">Model: {{ form.model }}</p>
-            <p class="no-margin">Serial: {{ form.serial }}</p>
-            <p class="no-margin">Price: ₱ {{ form.price }}</p>
-            <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-          </div>
-          <div class="col-6 justify-content mt-4 text-align-left">
-            <p
-              class="no-margin"
-              v-for="(attribute, index) in form.value"
-              :key="index"
-            >
-              {{ attribute.name }} : {{ attribute.value }}
-            </p>
-          </div>
-        </div>
-
-        <div class="button float-right">
-          <button
-            @click="printItem"
-            type="submit"
-            class="btn btn-primary btn-sm"
-          >
-            Print item
-          </button>
-        </div>
-      </div>
-      <div class="cross"></div>
-    </div>
+  <div class="col-6 justify-content mt-3 text-align-left">
+    <p>Item id: {{ form.id }}</p>
+    <p>Item Name : {{ form.name }}</p>
+    <p class="mt-1 no-margin">Model: {{ form.model }}</p>
+    <p class="no-margin">Serial: {{ form.serial }}</p>
+    <p class="no-margin">Price: ₱ {{ form.price }}</p>
+    <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
+    <p class="no-margin">Status: {{ form.status }}</p>
   </div>
-</template>
+  <div class="col-6 justify-content mt-4 text-align-left">
+    <p class="no-margin" v-for="(attribute, index) in form.value" :key="index">
+      {{ attribute.name }} : {{ attribute.value }}
+    </p>
+  </div>
 
+  <router-link
+    v-if="status !== 'under repair'"
+    :to="
+      status === 'operating'
+        ? `/admin/items/${form.id}/issue`
+        : `/admin/items/${form.id}/return`
+    "
+    class="btn btn-info"
+  >
+    <i class="fas fa-edit"></i>
+    {{ status === "operating" ? "Issue" : "Return" }}
+  </router-link>
+</template>
 
 <script setup>
 import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
-import JsBarcode from "jsbarcode";
 
-const printItem = () => {
-  const printWindow = window.open("", "_blank");
-  if (printWindow) {
-    const itemDetailsHtml = `
-      <html>
-        <head>
-        </head>
-        <body style="font-family: sans-serif; margin: auto">
-          <div>
-            <img src="${generateBarcode(
-              form.barcode
-            )}" alt="Barcode" style="height: 100px" />
-          </div>
-          <p>Name: ${form.name}</p>
-          <p>Serial: ${form.serial}</p>
-          <p>Model: ${form.model}</p>
-            ${form.value
-              .map(
-                (attribute) => `<p>${attribute.name}: ${attribute.value}</p>`
-              )
-              .join("")}
-        </body>
-      </html>
-    `;
-
-    printWindow.document.write(itemDetailsHtml);
-    printWindow.document.close();
-    printWindow.print();
-  } else {
-    console.error("Failed to open the print window.");
-  }
-};
-
-const generateBarcode = (barcodeValue) => {
-  const canvas = document.createElement("canvas");
-  JsBarcode(canvas, barcodeValue, {
-    format: "CODE128",
-    displayValue: true,
-  });
-  return canvas.toDataURL();
-};
+const status = ref("");
 
 const errors = ref([]);
 const toastr = useToastr();
@@ -106,6 +45,7 @@ const form = reactive({
   serial: "",
   status: "",
   parent_id: "",
+  id: "",
   value: [{ name: "", value: "" }],
 });
 
@@ -125,6 +65,7 @@ const getItems = () => {
       console.log("Response data:", response.data);
 
       if (response.data) {
+        form.id = response.data.id;
         form.name = response.data.name;
         form.serial = response.data.serial;
         form.status = response.data.status;
@@ -133,6 +74,8 @@ const getItems = () => {
         form.model = response.data.model;
         form.mfg_date = response.data.mfg_date;
         form.price = response.data.price;
+
+        status.value = form.status;
       } else {
         console.error("Item data not found in the response.");
       }
@@ -162,6 +105,7 @@ const getAttributes = () => {
     });
 };
 
+
 onMounted(() => {
   getItems();
   getAttributes();
@@ -169,6 +113,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import url("./resources/css/itemdetails.css");
+/* @import url("./resources/css/itemdetails.css"); */
 </style>
 

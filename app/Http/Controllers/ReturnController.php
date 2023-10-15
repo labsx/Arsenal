@@ -9,33 +9,35 @@ use Illuminate\Http\Request;
 
 class ReturnController extends Controller
 {
-    public function showReturn(Issue $issue)
+    public function show($id)
     {
-        return $issue;
+        $issue = History::findOrFail($id);
+
+        return response()->json($issue);
     }
 
-    public function return(Request $request, Item $item)
-    {
-        $formFields = $request->validate([
-            'name' => ['required', 'min:3', 'max:50'],
-            'date_issued' => ['required', 'date'],
-            'status' => ['required', 'in:operating,decommissioned,under repair'],
-            'issued_to' => ['required', 'min:3', 'max:50'],
-            'return_date' => ['required', 'date', 'after_or_equal:date_issued'],
-            'serial' => ['max:255'],
-            'model' => ['required'],
-            'mfg_date' => ['required'],
-            'price' => ['required'],
-        ], [
-            'return_date' => 'Error date selection !',
-        ]);
+    // public function return(Request $request, Item $item)
+    // {
+    //     $formFields = $request->validate([
+    //         'name' => ['required', 'min:3', 'max:50'],
+    //         'date_issued' => ['required', 'date'],
+    //         'status' => ['required', 'in:operating,decommissioned,under repair'],
+    //         'issued_to' => ['required', 'min:3', 'max:50'],
+    //         'return_date' => ['required', 'date', 'after_or_equal:date_issued'],
+    //         'serial' => ['max:255'],
+    //         'model' => ['required'],
+    //         'mfg_date' => ['required'],
+    //         'price' => ['required'],
+    //     ], [
+    //         'return_date' => 'Error date selection !',
+    //     ]);
 
-        History::create($formFields);
-        Issue::where('serial', $formFields['serial'])->delete();
+    //     History::create($formFields);
+    //     Issue::where('serial', $formFields['serial'])->delete();
 
-        $item = Item::where('serial', $formFields['serial'])->first();
-        if ($item) {
-            $item->update(['status' => $formFields['status']]);
-        }
-    }
+    //     $item = Item::where('serial', $formFields['serial'])->first();
+    //     if ($item) {
+    //         $item->update(['status' => $formFields['status']]);
+    //     }
+    // }
 }
