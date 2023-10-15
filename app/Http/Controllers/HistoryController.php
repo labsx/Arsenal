@@ -3,16 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\History;
+use App\Models\Employee;
+use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $histories = History::latest()->paginate(10);
+        $itemId = $request->query('item_id');
 
-        return $histories;
+        // Fetch histories based on the item ID
+        $histories = History::where('item_id', $itemId)->get();
+
+        return response()->json($histories);
     }
 
+    public function show($employeeId)
+    {
+        $employee = Employee::findOrFail($employeeId);
+
+        return response()->json($employee);
+    }
     // public function show($id)
     // {
     //     // Assuming History is your model

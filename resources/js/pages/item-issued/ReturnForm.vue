@@ -13,13 +13,13 @@
             <form>
               <div class="card-body">
                 <div class="form-group">
-                  <label for="appName">Id</label>
                   <input
                     v-model="form.item_id"
                     type="text"
                     class="form-control"
                     id="appName"
                     placeholder="Enter app display name"
+                      disabled
                   />
                 </div>
                
@@ -31,19 +31,31 @@
                     type="text"
                     class="form-control"
                     id="appName"
-                    placeholder="Enter app display name"
+                    placeholder="Enter remarks"
+                     :class="{ 'is-invalid': errors.remarks }"
                   />
+                   <span
+                        v-if="errors && errors.remarks"
+                        class="text-danger text-sm"
+                        >{{ errors.remarks[0] }}</span
+                    >
                 </div>
-
 
                 <div class="form-group">
                   <label>Status</label>
-                  <select class="form-control" v-model="form.status">
+                  <select class="form-control" v-model="form.status"
+                   :class="{ 'is-invalid': errors.status }"
+                   >
                     <option value="" disabled>Select status</option>
                     <option value="operating"> operating </option>
                     <option value="under repair"> under repair </option>
-                    <option value="decommission"> decommission </option>
+                    <option value="decommissioned"> decommissioned </option>
                   </select>
+                   <span
+                        v-if="errors && errors.status"
+                        class="text-danger text-sm"
+                        >{{ errors.status[0] }}</span
+                    >
                 </div>
 
                 <div class="form-group">
@@ -53,9 +65,16 @@
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
-                    placeholder="Enter app display name"
+                    placeholder="Select return date"
                     style="background-color: white"
+                     :class="{ 'is-invalid': errors.return_date }"
                   />
+                  
+                   <span
+                        v-if="errors && errors.return_date"
+                        class="text-danger text-sm"
+                        >{{ errors.return_date[0] }}</span
+                    >
                 </div>
               </div>
 
@@ -98,6 +117,7 @@ const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
     form.item_id = data.id;
     form.issued_date = data.issued_date;
+    form.employee_id = data.employee_id;
   });
 };
 
@@ -107,6 +127,7 @@ const UpdateHistory = () => {
     .put(`/issue/${route.params.id}`, form) 
     .then((response) => {
       toastr.success("Return item successfully!");
+      errors.value = "";
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

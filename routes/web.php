@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update'
     ]);
-   
+
     Route::get('/employee', [EmployeeController::class, 'search']);
 
     Route::resource('issue', IssueItemController::class)->only([
@@ -73,6 +73,9 @@ Route::middleware('auth')->group(function () {
     ]);
     Route::get('/issue', [IssueItemController::class, 'employee']);
     Route::get('/return/{issue}', [ReturnController::class, 'show']);
+
+    Route::get('/histories', [HistoryController::class, 'index']);
+    Route::get('/histories/{employeeId}', [HistoryController::class, 'show']);
 
     // Route::get('/history', [HistoryController::class, 'index']);
     // Route::get('/history', [HistoryController::class, 'search']);

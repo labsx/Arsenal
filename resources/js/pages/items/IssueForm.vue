@@ -25,7 +25,11 @@
 
                 <div class="form-group">
                   <label>Employee List</label>
-                  <select class="form-control" v-model="form.employee_id">
+                  <select
+                    class="form-control"
+                    v-model="form.employee_id"
+                    :class="{ 'is-invalid': errors.employee_id }"
+                  >
                     <option value="" disabled>Select an employee</option>
                     <option
                       v-for="employee in employees"
@@ -35,6 +39,11 @@
                       {{ employee.first_name }} {{ employee.last_name }}
                     </option>
                   </select>
+                  <span
+                    v-if="errors && errors.employee_id"
+                    class="text-danger text-sm"
+                    >{{ errors.employee_id[0] }}</span
+                  >
                 </div>
 
                 <div class="form-group">
@@ -45,7 +54,13 @@
                     class="form-control"
                     id="appName"
                     placeholder="Enter app display name"
+                    :class="{ 'is-invalid': errors.remarks }"
                   />
+                  <span
+                    v-if="errors && errors.remarks"
+                    class="text-danger text-sm"
+                    >{{ errors.remarks[0] }}</span
+                  >
                 </div>
 
                 <div class="form-group">
@@ -57,7 +72,13 @@
                     id="appName"
                     placeholder="Enter app display name"
                     style="background-color: white"
+                    :class="{ 'is-invalid': errors.issued_date }"
                   />
+                  <span
+                    v-if="errors && errors.issued_date"
+                    class="text-danger text-sm"
+                    >{{ errors.issued_date[0] }}</span
+                  >
                 </div>
               </div>
 
