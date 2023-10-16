@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createParent">CATEGORY SUB</h5>
+          <h5 class="modal-title" id="createParent">Category List</h5>
           <button
             type="button"
             class="close"
@@ -31,7 +31,8 @@
                         <div class="row">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label>Item name</label>
+                              <label>Category list name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 v-model="form.name"
                                 type="text"

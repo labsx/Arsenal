@@ -1,25 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Edit fields data</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <router-link to="/admin/dashboard">Home</router-link>
-            </li>
-            <li class="breadcrumb-item">
-              <router-link to="/admin/appointments">Fields groups</router-link>
-            </li>
-            <li class="breadcrumb-item active">Fields</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <ContentHeader title="Edit Fields" data="fields" datas="edit" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -72,9 +52,9 @@
                 <button
                   @click.prevent="saveField"
                   type="submit"
-                  class="btn btn-outline-primary "
+                  class="btn btn-outline-primary"
                 >
-                <i class="fa fa-save mr-1"></i>
+                  <i class="fa fa-save mr-1"></i>
                   Submit
                 </button>
               </form>
@@ -91,6 +71,7 @@ import axios from "axios";
 import { reactive, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../../toastr";
+import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -130,7 +111,6 @@ const saveField = () => {
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
         toastr.error(message);
-        // getItemsFn();
         errors.value = [];
       }
     });

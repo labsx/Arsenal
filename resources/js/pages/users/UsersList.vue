@@ -1,19 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Users Data</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active"></li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <ContentHeader title="" data="users" datas="list" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -117,6 +103,7 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { useAuthUserStore } from "../../store/themeStore";
 import { deleteProfile } from "../../store/swal.js";
 import { debounce } from "lodash";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const authuserStore = useAuthUserStore();
 const users = ref({ data: [] });

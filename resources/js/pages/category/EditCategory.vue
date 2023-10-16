@@ -1,21 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0"></h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item">category</li>
-            <li class="breadcrumb-item active">Edit</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <ContentHeader title="" data="category" datas="edit" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -69,12 +53,12 @@
   </div>
 </template>
 
-
 <script setup>
 import axios from "axios";
 import { reactive, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const router = useRouter();
 const route = useRoute();

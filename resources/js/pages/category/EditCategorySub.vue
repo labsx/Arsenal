@@ -1,5 +1,6 @@
 <template>
-  <div class="content-header">
+ <ContentHeader title="" data="category" datas="edit item list" />
+  <!-- <div class="content-header">
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
@@ -14,7 +15,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div class="content">
     <div class="container-fluid">
@@ -22,30 +23,29 @@
         <div class="col-md-6">
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Update Sub Category</h3>
+              <h3 class="card-title">Update category item list</h3>
             </div>
 
             <form>
-                <div class="card-body">
-                    <div class="form-group">
-                    <label for="appName">Cateogory Sub Name</label>
-                    <span class="text-danger"> *</span>
-                    <input
-                        v-model="form.name"
-                        type="text"
-                        class="form-control"
-                        id="appName"
-                        placeholder=""
-                        :class="{'is-invalid': errors.name}"
-                    />
-                    <span
-                        v-if="errors && errors.name"
-                        class="text-danger text-sm"
-                        >{{ errors.name[0] }}</span
-                    >
-                    </div>
-                 
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="appName">Category Sub Name</label>
+                  <span class="text-danger"> *</span>
+                  <input
+                    v-model="form.name"
+                    type="text"
+                    class="form-control"
+                    id="appName"
+                    placeholder=""
+                    :class="{ 'is-invalid': errors.name }"
+                  />
+                  <span
+                    v-if="errors && errors.name"
+                    class="text-danger text-sm"
+                    >{{ errors.name[0] }}</span
+                  >
                 </div>
+              </div>
 
               <div class="card-footer">
                 <button
@@ -69,6 +69,7 @@ import axios from "axios";
 import { reactive, onMounted, ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -97,9 +98,9 @@ const saveParent = () => {
       name: form.name,
     })
     .then(() => {
-      toastr.success("Sub category updated successfully!");
+      toastr.success("category item list updated successfully!");
     })
-   .catch((error) => {
+    .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {

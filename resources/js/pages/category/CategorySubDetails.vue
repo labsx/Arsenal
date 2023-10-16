@@ -1,18 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Sub Category</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">category sub</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ContentHeader title="Category list name" data="category" datas="list name" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -24,7 +11,7 @@
                 data-toggle="modal"
                 data-target="#createParent"
               >
-                <i class="fa fa-plus-circle mr-1"></i>Sub Category
+                <i class="fa fa-plus-circle mr-1"></i> Category list name
               </button>
             </div>
             <div>
@@ -47,7 +34,7 @@
             <div class="card-body">
               <table class="table align-middle">
                 <thead v-if="parents.data.length > 0">
-                  <tr >
+                  <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Date Created</th>
                     <th scope="col">Option</th>
@@ -67,10 +54,6 @@
                       <router-link :to="`/admin/subcategory/${parent.id}/edit`">
                         <i class="fas fa-edit mr-2"></i>
                       </router-link>
-
-                      <!-- <router-link :to="`/admin/category/${parent.id}/edit`">
-                        <i class="fas fa-edit"></i>
-                      </router-link> -->
 
                       <router-link
                         to=""
@@ -123,6 +106,7 @@ import Swal from "sweetalert2";
 import { deleteParent } from "../../store/swal.js";
 import CategorySub from "./CategorySub.vue";
 import imagePath from "/resources/image/no data.gif";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const showImage = ref(false);
 const route = getCurrentInstance().proxy.$route;
@@ -187,11 +171,10 @@ const deleteParentData = (id) => {
 onMounted(() => {
   getFilterParent();
 
-   setTimeout(() => {
+  setTimeout(() => {
     if (parents.value.data.length === 0) {
       showImage.value = true;
     }
   }, 100);
-
 });
 </script>

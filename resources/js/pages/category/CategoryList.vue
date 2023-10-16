@@ -1,18 +1,5 @@
 <template>
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">Category List</h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item active">Category List</li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ContentHeader title="Category List" data="category" datas="list" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -77,7 +64,7 @@
                 </tbody>
                 <tbody v-else>
                   <tr>
-                     <td colspan="8" style="text-align: center">
+                    <td colspan="8" style="text-align: center">
                       <img
                         v-if="showImage && categories.data.length === 0"
                         :src="imagePath"
@@ -120,6 +107,7 @@ import flatpickr from "flatpickr";
 import CategoryAdd from "./CategoryAdd.vue";
 import { debounce } from "lodash";
 import imagePath from "/resources/image/no data.gif";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const showImage = ref(false);
 const toastr = useToastr();
@@ -209,7 +197,7 @@ const deleteCategory = (id) => {
 onMounted(() => {
   getCategory();
 
-   setTimeout(() => {
+  setTimeout(() => {
     if (categories.value.data.length === 0) {
       showImage.value = true;
     }

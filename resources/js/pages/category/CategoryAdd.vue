@@ -47,28 +47,6 @@
                               >
                             </div>
                           </div>
-
-                          <!-- <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="client">Parent Name Item</label>
-                              <select
-                                id="client"
-                                class="form-control"
-                                v-model="form.parent_id"
-                              >
-                                <option value="" disabled selected hidden>
-                                  Select Parent Item Name
-                                </option>
-                                <option
-                                  :value="parent.id"
-                                  v-for="parent in parents"
-                                  :key="parent.id"
-                                >
-                                  {{ parent.name }}
-                                </option>
-                              </select>
-                            </div>
-                          </div> -->
                         </div>
 
                         <div class="form-group">
@@ -103,10 +81,18 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            data-dismiss="modal"
+          >
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
-          <button @click="createItem" type="submit" class="btn btn-outline-primary btn-sm">
+          <button
+            @click="createItem"
+            type="submit"
+            class="btn btn-outline-primary btn-sm"
+          >
             <i class="fa fa-save mr-2"></i>Save Item
           </button>
         </div>
@@ -120,7 +106,7 @@ import axios from "axios";
 import { ref, defineProps, onMounted } from "vue";
 import { useToastr } from "../../toastr";
 
-const { getCategoryFn } = defineProps(['getCategoryFn']);
+const { getCategoryFn } = defineProps(["getCategoryFn"]);
 
 const toastr = useToastr();
 const errors = ref([]);
@@ -148,7 +134,7 @@ const createItem = () => {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-       toastr.error("Error inserting data !");
+        toastr.error("Error inserting data !");
         errors.value = [];
       }
     });
