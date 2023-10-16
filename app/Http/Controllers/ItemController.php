@@ -66,7 +66,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -100,7 +100,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -111,8 +111,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (! $duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
+        if (!$duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -166,20 +166,24 @@ class ItemController extends Controller
             'price' => 'required|numeric',
             'serial' => 'required|unique:items,serial',
             'status' => 'required',
+            'manufacturer' => 'required',
+            'location' => 'required',
+            'warranty' => 'max:30',
+            'insurance' => 'max:30',
+            'net_weight' => 'numeric',
             'value' => 'required|array',
             'value.*.label' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
-            // 'category_id.required' => 'Select category name is required !',
             'parent_id.required' => 'Select sub category name is required !',
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
+            'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
 
         $number = mt_rand(1000000000, 9999999999);
         $request['barcode'] = $number;
 
         $item = Item::create([
-            // 'category_id' => $formData['category_id'],
             'name' => $formData['item_name'],
             'parent_id' => $formData['parent_id'],
             'model' => $formData['model'],
@@ -187,6 +191,11 @@ class ItemController extends Controller
             'mfg_date' => $formData['mfg_date'],
             'serial' => $formData['serial'],
             'status' => $formData['status'],
+            'manufacturer' => $formData['manufacturer'],
+            'location' => $formData['location'],
+            'warranty' => $formData['warranty'],
+            'insurance' => $formData['insurance'],
+            'net_weight' => $formData['net_weight'],
             'barcode' => $number,
         ]);
 

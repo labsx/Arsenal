@@ -58,14 +58,12 @@ class IssueItemController extends Controller
             'remarks' => ['required', 'max:50'],
             'return_date' => ['required'],
             'status' => ['required'],
-            'issued_date' => ['required'],
-            'employee_id' => ['required'],
         ]);
 
         $issuedDate = Carbon::parse($formFields['return_date']);
         $currentDate = Carbon::now();
         if ($issuedDate->gt($currentDate)) {
-            return response()->json(['error' => 'Issued date cannot be in the future'], 400);
+            return response()->json(['error' => 'Return date cannot be in the future'], 400);
         }
 
         $history = History::where('id', $item_id)->first();

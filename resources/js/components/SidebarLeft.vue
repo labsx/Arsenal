@@ -42,6 +42,19 @@
               </p>
             </router-link>
             <ul class="nav nav-treeview" v-if="isDropdownOpen">
+
+                <li class="nav-item">
+                <router-link
+                  to="/admin/category/list"
+                  class="nav-link"
+                  active-class="active "
+                >
+                  <i class="fa fa-folder nav-icon"></i>
+                  <p>Category List</p>
+                </router-link>
+              </li>
+
+
                 <li class="nav-item">
                 <router-link
                   to="/admin/field_groups/list"
@@ -50,17 +63,6 @@
                 >
                   <i class="fa fa-archive nav-icon"></i>
                   <p>Fields Group</p>
-                </router-link>
-              </li>
-
-              <li class="nav-item">
-                <router-link
-                  to="/admin/category/list"
-                  class="nav-link"
-                  active-class="active "
-                >
-                  <i class="fa fa-folder nav-icon"></i>
-                  <p>Category List</p>
                 </router-link>
               </li>
 

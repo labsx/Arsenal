@@ -49,7 +49,7 @@
                     >
                   </div>
                 </div>
-                <div class="row" >
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>
@@ -66,6 +66,31 @@
                         v-if="errors && errors.item_name"
                         class="text-danger text-sm"
                         >{{ errors.item_name[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Status</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        v-model="form.status"
+                        id="client"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors.status }"
+                      >
+                        <option value="" disabled selected hidden>
+                          Select Status
+                        </option>
+                        <option value="operating">Operating</option>
+                        <option value="decommissioned">Decommissioned</option>
+                        <option value="under repair">Under Repair</option>
+                      </select>
+                      <span
+                        v-if="errors && errors.status"
+                        class="text-danger text-sm"
+                        >{{ errors.status[0] }}</span
                       >
                     </div>
                   </div>
@@ -130,6 +155,47 @@
                       >
                     </div>
                   </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="price">Manufacturer</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.manufacturer"
+                        type="text"
+                        class="form-control"
+                        id="Manufacturer"
+                        placeholder="Enter item Manufacturer"
+                        :class="{ 'is-invalid': errors.anufacturer }"
+                      />
+                      <span
+                        v-if="errors && errors.manufacturer"
+                        class="text-danger text-sm"
+                        >{{ errors.manufacturer[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="price">Location</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.location"
+                        type="text"
+                        class="form-control"
+                        id="location"
+                        placeholder="Enter item location"
+                        :class="{ 'is-invalid': errors.location }"
+                      />
+                      <span
+                        v-if="errors && errors.location"
+                        class="text-danger text-sm"
+                        >{{ errors.location[0] }}</span
+                      >
+                    </div>
+                  </div>
+
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="price">Unit price</label>
@@ -152,25 +218,62 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="client">Status</label>
-                      <span class="text-danger"> *</span>
-                      <select
-                        v-model="form.status"
-                        id="client"
+                      <label for="price">Warranty</label>
+                      <input
+                        v-model="form.warranty"
+                        type="text"
                         class="form-control"
-                        :class="{ 'is-invalid': errors.status }"
-                      >
-                        <option value="" disabled selected hidden>
-                          Select Status
-                        </option>
-                        <option value="operating">Operating</option>
-                        <option value="decommissioned">Decommissioned</option>
-                        <option value="under repair">Under Repair</option>
-                      </select>
+                        id="price"
+                        placeholder="Enter item warranty"
+                        :class="{ 'is-invalid': errors.warranty }"
+                      />
                       <span
-                        v-if="errors && errors.status"
+                        v-if="errors && errors.warranty"
                         class="text-danger text-sm"
-                        >{{ errors.status[0] }}</span
+                        >{{ errors.warranty[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="d-flex align-items-center"
+                        >Net. Weight
+                        <small class="form-text text-muted ml-2"
+                          >( enter only number in kg )</small
+                        >
+                      </label>
+                      <input
+                        v-model="form.net_weight"
+                        type="text"
+                        class="form-control"
+                        id="price"
+                        placeholder="Enter item net weight in kg"
+                        :class="{ 'is-invalid': errors.net_weight }"
+                      />
+                      <span
+                        v-if="errors && errors.net_weight"
+                        class="text-danger text-sm"
+                        >{{ errors.net_weight[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="price">Insurance</label>
+                      <input
+                        v-model="form.insurance"
+                        type="text"
+                        class="form-control"
+                        id="insurance"
+                        placeholder="Enter item insurance"
+                        :class="{ 'is-invalid': errors.insurance }"
+                      />
+                      <span
+                        v-if="errors && errors.insurance"
+                        class="text-danger text-sm"
+                        >{{ errors.insurance[0] }}</span
                       >
                     </div>
                   </div>
@@ -241,6 +344,11 @@ const form = ref({
   model: "",
   serial: "",
   status: "",
+  manufacturer: "",
+  location: "",
+  warranty: "",
+  insurance: "",
+  net_weight: "",
   fields: {},
 });
 
@@ -254,6 +362,11 @@ const createItem = () => {
     model: form.value.model,
     serial: form.value.serial,
     status: form.value.status,
+    manufacturer: form.value.manufacturer,
+    location: form.value.location,
+    warranty: form.value.warranty,
+    insurance: form.value.insurance,
+    net_weight: form.value.net_weight,
     value: Object.keys(form.value.fields).map((label) => ({
       label,
       value: form.value.fields[label],
@@ -263,7 +376,7 @@ const createItem = () => {
   axios
     .post("/items", dataToSave)
     .then((response) => {
-      toastr.success("Item saved successfully!");
+      toastr.success("Item created successfully!");
       clearForm();
     })
     .catch((error) => {
@@ -310,6 +423,10 @@ const clearForm = () => {
   form.value.item_name = "";
   form.value.fields = {};
   form.value.category_id = "";
+  form.value.manufacturer = "";
+  form.value.location = "";
+  form.value.warranty = "";
+  form.value.net_weight = "";
 };
 
 const categories = ref();

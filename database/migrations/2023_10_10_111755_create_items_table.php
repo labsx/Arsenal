@@ -21,6 +21,11 @@ return new class extends Migration
             $table->dateTime('mfg_date');
             $table->string('serial');
             $table->string('status');
+            $table->string('manufacturer');
+            $table->string('location');
+            $table->string('warranty')->nullable();
+            $table->string('insurance')->nullable();
+            $table->decimal('net_weight', 10, 2)->default(0)->nullable();
             $table->string('barcode');
             $table->timestamps();
         });
