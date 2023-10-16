@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemAttribute;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -67,7 +68,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -107,7 +108,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -118,8 +119,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (! $duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
+        if (!$duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -190,6 +191,12 @@ class ItemController extends Controller
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
             'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
+
+        $issuedDate = Carbon::parse($formData['mfg_date']);
+        $currentDate = Carbon::now();
+        if ($issuedDate->gt($currentDate)) {
+            return response()->json(['error' => 'Manufacture date cannot be in the future'], 400);
+        }
 
         $number = mt_rand(1000000000, 9999999999);
         $request['barcode'] = $number;

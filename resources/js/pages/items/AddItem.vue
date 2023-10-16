@@ -378,6 +378,7 @@ const createItem = () => {
     .then((response) => {
       toastr.success("Item created successfully!");
       clearForm();
+      errors.value ="";
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
