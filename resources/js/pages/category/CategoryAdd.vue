@@ -126,14 +126,12 @@ const toastr = useToastr();
 const errors = ref([]);
 const form = ref({
   name: "",
-  // parent_id: "",
   field_groups_id: "",
 });
 
 const createItem = () => {
   const formData = {
     name: form.value.name,
-    // parent_id: form.value.parent_id,
     field_group_id: form.value.field_groups_id,
   };
 
@@ -171,18 +169,6 @@ const getFieldGroup = () => {
       console.error("Error fetching field_group:", error);
     });
 };
-
-// const parents = ref([]);
-// const getParent = () => {
-//   axios
-//     .get("/parent")
-//     .then((response) => {
-//       parents.value = response.data;
-//     })
-//     .catch((error) => {
-//       console.error("Error fetching parent item:", error);
-//     });
-// };
 
 onMounted(() => {
   // getParent();

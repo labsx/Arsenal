@@ -129,6 +129,7 @@ const UpdateHistory = () => {
     .then((response) => {
       toastr.success("Return item successfully!");
       errors.value = "";
+      router.push('/admin/items/list');
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

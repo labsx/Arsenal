@@ -143,7 +143,7 @@ const saveIssue = () => {
     .post("/issue", form)
     .then((response) => {
       toastr.success("Successfully issued item!");
-      // router.push("/admin/items/issue/list");
+      router.push('/admin/items/list');
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

@@ -16,7 +16,7 @@ class NavBarController extends Controller
     {
         $notes = Note::latest()->get();
 
-        return $notes;
+        return response()->json($notes);
     }
 
     public function notification()
@@ -45,18 +45,14 @@ class NavBarController extends Controller
 
         $note->save();
 
-        return response()->json(['message' => 'Note created successfully']);
+        return response()->json($note);
     }
 
     public function getUser($id)
     {
-        try {
-            $user = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-            return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
+        return response()->json(['name' => $user->name, 'avatar' => $user->avatar]);
     }
 
     public function destroy(Note $note)
@@ -74,18 +70,13 @@ class NavBarController extends Controller
         $itemCount->count = 0;
         $itemCount->save();
 
-        return response()->json(['success' => true]);
+        return response()->json($itemCount);
     }
 
-    public function deleteNotification($id)
+    public function deleteNotification(Notification $notification)
     {
-        try {
-            $notification = Notification::findOrFail($id);
-            $notification->delete();
+        $notification->delete();
 
-            return response()->json(['success' => true, 'message' => 'Notification deleted successfully']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Notification not found'], 404);
-        }
+        return response()->noContent();
     }
 }

@@ -37,9 +37,9 @@ class ItemController extends Controller
         }
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        $searchQuery = request('query');
+        $searchQuery = $request->input('query');
         $fields = Item::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('serial', 'like', "%{$searchQuery}%")
@@ -49,24 +49,25 @@ class ItemController extends Controller
         return response()->json($fields);
     }
 
-    public function destroy($id)
+    public function destroy(Item $item)
     {
-        $items = Item::findOrFail($id);
-        $items->delete();
+        $item->delete();
 
-        return response()->json($items);
+        return response()->noContent();
     }
 
-    public function getItems(Item $item)
+    public function getItems($id)
     {
-        return $item;
+        $items = Item::findOrFail($id);
+
+        return response($items);
     }
 
     public function getAttributes($id)
     {
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -106,7 +107,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -117,8 +118,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (!$duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
+        if (! $duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -169,7 +170,6 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $formData = $request->validate([
-            // 'category_id' => 'required|numeric',
             'parent_id' => 'required|numeric',
             'item_name' => 'required|string',
             'model' => 'required',

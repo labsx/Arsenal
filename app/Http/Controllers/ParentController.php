@@ -27,9 +27,9 @@ class ParentController extends Controller
         return response()->json($parent);
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        $searchQuery = request('query');
+        $searchQuery = $request->input('query');
         $parents = ParentModel::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%");
         })->paginate(10);
@@ -48,12 +48,11 @@ class ParentController extends Controller
         return response()->json($parents);
     }
 
-    public function destroy($id)
+    public function destroy(ParentModel $parent)
     {
-        $parent = ParentModel::findOrFail($id);
         $parent->delete();
 
-        return response()->json($parent);
+        return response()->noContent();
     }
 
     public function getData()

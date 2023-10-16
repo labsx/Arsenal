@@ -59,19 +59,18 @@ class CategoryController extends Controller
         return response()->json($category);
     }
 
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        $delete = Category::findOrfail($id);
-        $delete->delete();
+        $category->delete();
 
-        return response()->json(['success' => true]);
+        return response()->noContent();
     }
 
     public function fetchCategory()
     {
         $categories = Category::latest()->get();
 
-        return $categories;
+        return response()->json($categories);
     }
 
     public function show(Category $category)

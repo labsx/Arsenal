@@ -46,6 +46,8 @@
                     <th scope="col">Serial</th>
                     <th scope="col">Model</th>
                     <th scope="col">Mfg. Date</th>
+                    <th scope="col">Manufacturer</th>
+                    <th scope="col">Location</th>
                     <th scope="col">Unit price</th>
                     <th scope="col">Status</th>
                     <!-- <th scope="col">Barcode</th> -->
@@ -58,6 +60,8 @@
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
                     <td>{{ formatDate(item.mfg_date) }}</td>
+                    <td>{{ item.manufacturer }}</td>
+                    <td>{{ item.location }}</td>
                     <td>₱ {{ item.price }}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{

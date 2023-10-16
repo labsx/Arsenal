@@ -28,44 +28,43 @@ class FieldGroupController extends Controller
         return response()->json($fieldGroups);
     }
 
-    public function destroy($id)
+    public function destroy(FieldGroup $fieldGroup)
     {
-        $delete = FieldGroup::findOrfail($id);
-        $delete->delete();
+        $fieldGroup->delete();
 
-        return response()->json($delete);
+        return response()->noContent();
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        $searchQuery = request('query');
-        $field_groups = FieldGroup::where(function ($query) use ($searchQuery) {
+        $searchQuery = $request->input('query');
+        $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('description', 'like', "%{$searchQuery}%");
         })->paginate(10);
 
-        return response()->json($field_groups);
+        return response()->json($fieldGroups);
     }
 
     public function getName()
     {
         $categories = FieldGroup::latest()->select('id', 'name')->get();
 
-        return $categories;
+        return response()->json($categories);
     }
 
     public function getFields()
     {
         $field_groups = FieldGroup::latest()->select('id', 'name')->get();
 
-        return $field_groups;
+        return response()->json($field_groups);
     }
 
     public function show($id)
     {
         $field_groups = FieldGroup::findOrFail($id);
 
-        return $field_groups;
+        return response()->json($field_groups);
     }
 
     public function update(Request $request, $id)
@@ -103,13 +102,13 @@ class FieldGroupController extends Controller
     {
         $field_groups = FieldGroup::latest()->select('id', 'name')->get();
 
-        return $field_groups;
+        return response()->json($field_groups);
     }
 
     public function getList()
     {
         $categories = Category::latest()->get();
 
-        return $categories;
+        return response()->json($categories);
     }
 }
