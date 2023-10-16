@@ -40,10 +40,13 @@ class IssueItemController extends Controller
             return response()->json(['error' => 'Issued date cannot be in the future'], 400);
         }
 
-        $formFields['status'] = 'issued';
-        $issue = History::create($formFields);
-
-        History::query()->where('item_id', $formFields['item_id'])->update(['status' => 'issued']);
+        $issue = History::create([
+            'item_id' => $formFields['item_id'],
+            'employee_id' => $formFields['employee_id'],
+            'created_at' => $formFields['created_at'],
+            'remarks' => $formFields['remarks'],
+            'status' => 'issued',
+        ]);
         $item = Item::where('id', $formFields['item_id'])->first();
         if ($item) {
             $item->update(['status' => 'issued']);
@@ -58,6 +61,7 @@ class IssueItemController extends Controller
             'remarks' => ['required', 'max:50'],
             'updated_at' => ['required'],
             'status' => ['required'],
+            'history_id' => ['required'],
         ]);
 
         $issuedDate = Carbon::parse($formFields['updated_at']);
@@ -66,12 +70,11 @@ class IssueItemController extends Controller
             return response()->json(['error' => 'Return date cannot be in the future'], 400);
         }
 
-        $history = History::where('id', $item_id)->first();
-        if (! $history) {
-            return response()->json(['error' => 'History not found'], 404);
-        }
+        $history = History::findOrFail($formFields['history_id']);
 
-        $history->update($formFields);
+        $history->update(['status' => $formFields['status']]);    
+
+        $item = Item::find($history->item_id);
 
         $item = Item::where('id', $history->item_id)->first();
         if ($item) {

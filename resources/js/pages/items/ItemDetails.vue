@@ -1,6 +1,5 @@
 <template>
   <div class="col-6 justify-content mt-3 text-align-left">
-    
     <p>Item Name : {{ form.name }}</p>
     <p class="no-margin">Serial: {{ form.serial }}</p>
   </div>
@@ -23,32 +22,33 @@
           </p>
         </div>
       </div>
-      <div class="col" v-for="history in histories" :key="history.id">
+      <div class="col">
         <h2>History Data</h2>
         <div v-for="history in histories" :key="history.id">
+          <p>History: {{ history.id }}</p>
           <p>
             Employee: {{ history.employee.first_name }}
             {{ history.employee.last_name }}
           </p>
           <p>Remarks: {{ history.remarks }}</p>
-          <p>Issued Date: {{ history.issued_date }}</p>
-          <p>Return Date: {{ history.return_date }}</p>
-          <p>Status {{ history.status }}</p>
+          <p>Issued Date: {{ formatDate(history.created_at) }}</p>
+          <p>Return Date: {{ formatDate(history.updated_at) }}</p>
+          <p>Status: {{ history.status }}</p>
         </div>
       </div>
     </div>
-     <router-link
-          v-if="status !== 'under repair' && status !== 'decommissioned'"
-          :to="
-            status === 'operating'
-              ? `/admin/items/${form.id}/issue`
-              : `/admin/items/${historyId}/return`
-          "
-          class="btn btn-info"
-        >
-          <i class="fas fa-edit"></i>
-          {{ status === "operating" ? "Issue" : "Return" }}
-        </router-link>
+    <router-link
+      v-if="status !== 'under repair' && status !== 'decommissioned'"
+      :to="
+        status === 'operating'
+          ? `/admin/items/${form.id}/issue`
+          : `/admin/items/${historyId}/return`
+      "
+      class="btn btn-info"
+    >
+      <i class="fas fa-edit"></i>
+      {{ status === "operating" ? "Issue" : "Return" }}
+    </router-link>
   </div>
 </template>
 
@@ -140,6 +140,12 @@ const fetchHistories = () => {
         console.log("Histories data:", data);
         if (data.length > 0) {
           historyId.value = data[0].id;
+
+          for (let i = 1; i < data.length; i++) {
+            if (data[i].id > historyId.value) {
+              historyId.value = data[i].id;
+            }
+          }
         }
 
         const fetchEmployeeDataPromises = data.map(async (history) => {

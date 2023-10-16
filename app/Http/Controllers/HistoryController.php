@@ -11,7 +11,7 @@ class HistoryController extends Controller
     public function index(Request $request)
     {
         $itemId = $request->query('item_id');
-        $histories = History::where('item_id', $itemId)->get();
+        $histories = History::where('item_id', $itemId)->latest()->get();
 
         return response()->json($histories);
     }

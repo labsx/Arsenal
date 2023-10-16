@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader  data="item" datas="return" />
+  <ContentHeader data="item" datas="return" />
 
   <div class="content">
     <div class="container-fluid">
@@ -14,7 +14,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <input
-                    v-model="form.item_id"
+                    v-model="form.history_id"
                     type="text"
                     class="form-control"
                     id="appName"
@@ -68,13 +68,13 @@
                     id="appName"
                     placeholder="Select return date"
                     style="background-color: white"
-                    :class="{ 'is-invalid': errors.return_date }"
+                    :class="{ 'is-invalid': errors.updated_at }"
                   />
 
                   <span
-                    v-if="errors && errors.return_date"
+                    v-if="errors && errors.updated_at"
                     class="text-danger text-sm"
-                    >{{ errors.return_date[0] }}</span
+                    >{{ errors.updated_at[0] }}</span
                   >
                 </div>
               </div>
@@ -109,7 +109,7 @@ const route = useRoute();
 const toastr = useToastr();
 const errors = ref([]);
 const form = reactive({
-  item_id: "",
+  history_id: "",
   remarks: "",
   status: "",
   updated_at: "",
@@ -117,7 +117,7 @@ const form = reactive({
 
 const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
-    form.item_id = data.id;
+    form.history_id = data.id;
     form.created_at = data.created_at;
     form.employee_id = data.employee_id;
   });
@@ -130,7 +130,7 @@ const UpdateHistory = () => {
     .then((response) => {
       toastr.success("Return item successfully!");
       errors.value = "";
-      router.push('/admin/items/list');
+      router.push("/admin/items/list");
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
