@@ -91,11 +91,17 @@ class ItemController extends Controller
             'mfg_date' => 'required',
             'serial' => 'required',
             'status' => 'required',
+            'manufacturer' => 'required',
+            'location' => 'required',
+            'warranty' => 'max:30',
+            'insurance' => 'max:30',
+            'net_weight' => 'nullable|numeric',
             'value' => 'nullable|array',
             'value.*.name' => 'required|string',
             'value.*.value' => 'required|string',
         ], [
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
+            'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
 
         $item = Item::find($id);
@@ -122,6 +128,11 @@ class ItemController extends Controller
         $item->price = $formData['price'];
         $item->mfg_date = $formData['mfg_date'];
         $item->parent_id = $formData['parent_id'];
+        $item->manufacturer = $formData['manufacturer'];
+        $item->location = $formData['location'];
+        $item->warranty = $formData['warranty'];
+        $item->net_weight = $formData['net_weight'];
+        $item->insurance = $formData['insurance'];
 
         $item->save();
 
@@ -170,7 +181,7 @@ class ItemController extends Controller
             'location' => 'required',
             'warranty' => 'max:30',
             'insurance' => 'max:30',
-            'net_weight' => 'numeric',
+            'net_weight' => 'nullable|numeric',
             'value' => 'required|array',
             'value.*.label' => 'required|string',
             'value.*.value' => 'required|string',

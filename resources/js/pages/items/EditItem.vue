@@ -1,237 +1,347 @@
 <template>
-   <ContentHeader title="Edit Item" data="item" datas="edit"/>
-    <div class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="card">
-              <div class="card-body">
-                <form>
+  <ContentHeader title="Edit Item" data="item" datas="edit" />
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Select Category</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        id="fieldGroup"
+                        class="form-control"
+                        v-model="form.parent_id"
+                        :class="{ 'is-invalid': errors.parent_id }"
+                      >
+                        <optgroup
+                          v-for="subcategory in subcategories"
+                          :key="subcategory.id"
+                          :label="subcategory.name"
+                        >
+                          <option value="" disabled selected hidden>
+                            Select Sub Category
+                          </option>
+                          <option
+                            v-for="parentModel in subcategory.parent_models"
+                            :key="parentModel.id"
+                            :value="parentModel.id"
+                          >
+                            {{ parentModel.name }}
+                          </option>
+                        </optgroup>
+                      </select>
+
+                      <span
+                        v-if="errors && errors.parent_id"
+                        class="text-danger text-sm"
+                        >{{ errors.parent_id[0] }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="title">Item Name</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.name"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        placeholder="Enter Title"
+                        :class="{ 'is-invalid': errors.name }"
+                      />
+                      <span
+                        v-if="errors && errors.name"
+                        class="text-danger text-sm"
+                        >{{ errors.name[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="client">Status</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        v-model="form.status"
+                        id="client"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors.status }"
+                      >
+                        <option value="" disabled selected hidden>
+                          Select Status
+                        </option>
+                        <option value="operating">Operating</option>
+                        <option value="decommissioned">Decommissioned</option>
+                        <option value="under repair">Under Repair</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Serial</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.serial"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.serial }"
+                      />
+                      <span
+                        v-if="errors && errors.serial"
+                        class="text-danger text-sm"
+                        >{{ errors.serial[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Model</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.model"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.model }"
+                      />
+                      <span
+                        v-if="errors && errors.model"
+                        class="text-danger text-sm"
+                        >{{ errors.model[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Mfg. Date</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.mfg_date"
+                        type="date"
+                        class="form-control flatpickr"
+                        id="date"
+                        :class="{ 'is-invalid': errors.mfg_date }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.mfg_date"
+                        class="text-danger text-sm"
+                        >{{ errors.mfg_date[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Manufacturer</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.manufacturer"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.manufacturer }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.manufacturer"
+                        class="text-danger text-sm"
+                        >{{ errors.manufacturer[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Location</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.location"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.location }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.location"
+                        class="text-danger text-sm"
+                        >{{ errors.location[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Unit Price</label>
+                      <span class="text-danger"> *</span>
+                      <input
+                        v-model="form.price"
+                        type="integer"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.price }"
+                      />
+                      <span
+                        v-if="errors && errors.price"
+                        class="text-danger text-sm"
+                        >{{ errors.price[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Warranty</label>
+                      <input
+                        v-model="form.warranty"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.warranty }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.warranty"
+                        class="text-danger text-sm"
+                        >{{ errors.warranty[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="d-flex align-items-center"
+                        >Net. Weight
+                        <small class="form-text text-muted ml-2"
+                          >( enter only number in kg )</small
+                        >
+                      </label>
+                      <input
+                        v-model="form.net_weight"
+                        type="text"
+                        class="form-control"
+                        id="text"
+                        :class="{ 'is-invalid': errors.net_weight }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.net_weight"
+                        class="text-danger text-sm"
+                        >{{ errors.net_weight[0] }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="date">Insurance</label>
+                      <input
+                        v-model="form.insurance"
+                        type="text"
+                        class="form-control"
+                        id="date"
+                        :class="{ 'is-invalid': errors.insurance }"
+                        style="background: white"
+                      />
+                      <span
+                        v-if="errors && errors.insurance"
+                        class="text-danger text-sm"
+                        >{{ errors.insurance[0] }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <h4>Attributes:</h4>
+
+                <div
+                  v-for="(attribute, index) in form.value"
+                  :key="index"
+                  class="attribute"
+                >
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="title">Item Name</label>
+                        <label for="title">Name</label>
                         <input
-                          v-model="form.name"
+                          v-model="attribute.name"
+                          :name="`value[${index}][label]`"
                           type="text"
                           class="form-control"
                           id="title"
-                          placeholder="Enter Title"
-                          :class="{ 'is-invalid': errors.name }"
+                          placeholder=""
+                          :class="{ 'is-invalid': attribute.name === '' }"
                         />
-                        <span
-                          v-if="errors && errors.name"
-                          class="text-danger text-sm"
-                          >{{ errors.name[0] }}</span
-                        >
                       </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                       <div class="form-group">
-                        <label for="date">Serial</label>
+                        <label for="date">Value</label>
                         <input
-                          v-model="form.serial"
                           type="text"
                           class="form-control"
                           id="date"
-                          :class="{ 'is-invalid': errors.serial }"
+                          v-model="attribute.value"
+                          :name="`value[${index}][value]`"
+                          :class="{ 'is-invalid': attribute.value === '' }"
                         />
-                        <span
-                          v-if="errors && errors.serial"
-                          class="text-danger text-sm"
-                          >{{ errors.serial[0] }}</span
-                        >
                       </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-1">
                       <div class="form-group">
-                        <label for="date">Model</label>
-                        <input
-                          v-model="form.model"
-                          type="text"
-                          class="form-control"
-                          id="date"
-                          :class="{ 'is-invalid': errors.model }"
-                        />
-                        <span
-                          v-if="errors && errors.model"
-                          class="text-danger text-sm"
-                          >{{ errors.model[0] }}</span
-                        >
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="date">Mfg. Date</label>
-                        <input
-                          v-model="form.mfg_date"
-                          type="date"
-                          class="form-control flatpickr"
-                          id="date"
-                          :class="{ 'is-invalid': errors.mfg_date }"
-                          style="background: white"
-                        />
-                        <span
-                          v-if="errors && errors.mfg_date"
-                          class="text-danger text-sm"
-                          >{{ errors.mfg_date[0] }}</span
-                        >
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="date">Unit Price</label>
-                        <input
-                          v-model="form.price"
-                          type="integer"
-                          class="form-control"
-                          id="date"
-                          :class="{ 'is-invalid': errors.price }"
-                        />
-                        <span
-                          v-if="errors && errors.price"
-                          class="text-danger text-sm"
-                          >{{ errors.price[0] }}</span
-                        >
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="client">Choose</label>
-                        <span class="text-danger"> *</span>
-                        <select
-                          id="fieldGroup"
-                          class="form-control"
-                          v-model="form.parent_id"
-                          :class="{ 'is-invalid': errors.parent_id }"
-                        >
-                          <optgroup
-                            v-for="subcategory in subcategories"
-                            :key="subcategory.id"
-                            :label="subcategory.name"
-                          >
-                            <option value="" disabled selected hidden>
-                              Select Sub Category
-                            </option>
-                            <option
-                              v-for="parentModel in subcategory.parent_models"
-                              :key="parentModel.id"
-                              :value="parentModel.id"
-                            >
-                              {{ parentModel.name }}
-                            </option>
-                          </optgroup>
-                        </select>
-
-                        <span
-                          v-if="errors && errors.parent_id"
-                          class="text-danger text-sm"
-                          >{{ errors.parent_id[0] }}</span
-                        >
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="client">Status</label>
-                        <select
-                          v-model="form.status"
-                          id="client"
-                          class="form-control"
-                          :class="{ 'is-invalid': errors.status }"
-                        >
-                          <option value="" disabled selected hidden>
-                            Select Status
-                          </option>
-                          <option value="operating">Operating</option>
-                          <option value="decommissioned">Decommissioned</option>
-                          <option value="under repair">Under Repair</option>
-                        </select>
+                        <i
+                          class="fa fa-times mt-4 text-danger"
+                          @click="removeAttribute(index)"
+                          style="cursor: pointer"
+                        ></i>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <h4>Attributes:</h4>
-
-                  <div
-                    v-for="(attribute, index) in form.value"
-                    :key="index"
-                    class="attribute"
-                  >
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="title">Name</label>
-                          <input
-                            v-model="attribute.name"
-                            :name="`value[${index}][label]`"
-                            type="text"
-                            class="form-control"
-                            id="title"
-                            placeholder=""
-                            :class="{ 'is-invalid': attribute.name === '' }"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-md-5">
-                        <div class="form-group">
-                          <label for="date">Value</label>
-                          <input
-                            type="text"
-                            class="form-control"
-                            id="date"
-                            v-model="attribute.value"
-                            :name="`value[${index}][value]`"
-                            :class="{ 'is-invalid': attribute.value === '' }"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="col-md-1">
-                        <div class="form-group">
-                          <i
-                            class="fa fa-times mt-4 text-danger"
-                            @click="removeAttribute(index)"
-                            style="cursor: pointer"
-                          ></i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="text-center">
-                    <button
-                      type="button"
-                      class="btn btn-outline-info"
-                      @click="addAttribute"
-                    >
-                      <i class="fa fa-plus"></i>
-                      Add Attribute
-                    </button>
-                  </div>
-
+                <div class="text-center">
                   <button
-                    @click.prevent="handleSubmit()"
-                    type="submit"
-                    class="btn btn-outline-primary"
+                    type="button"
+                    class="btn btn-outline-info"
+                    @click="addAttribute"
                   >
-                    <i class="fa fa-save mr-2"></i>
-                    Submit
+                    <i class="fa fa-plus"></i>
+                    Add Attribute
                   </button>
-                </form>
-              </div>
+                </div>
+
+                <button
+                  @click.prevent="handleSubmit()"
+                  type="submit"
+                  class="btn btn-outline-primary"
+                >
+                  <i class="fa fa-save mr-2"></i>
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
-
 
 <script setup>
 import axios from "axios";
@@ -280,6 +390,11 @@ const getItems = () => {
         form.model = response.data.model;
         form.mfg_date = response.data.mfg_date;
         form.price = response.data.price;
+        form.manufacturer = response.data.manufacturer;
+        form.location = response.data.location;
+        form.insurance = response.data.insurance;
+        form.net_weight = response.data.net_weight;
+        form.warranty = response.data.warranty;
       } else {
         console.error("Item data not found in the response.");
       }
