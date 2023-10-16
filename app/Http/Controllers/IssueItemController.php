@@ -30,11 +30,11 @@ class IssueItemController extends Controller
         $formFields = $request->validate([
             'item_id' => ['required', 'max:50'],
             'employee_id' => ['required', 'max:100'],
-            'created_at' => ['required', 'date'],
+            'issued_at' => ['required', 'date'],
             'remarks' => ['required', 'min:3', 'max:50'],
         ]);
 
-        $issuedDate = Carbon::parse($formFields['created_at']);
+        $issuedDate = Carbon::parse($formFields['issued_at']);
         $currentDate = Carbon::now();
         if ($issuedDate->gt($currentDate)) {
             return response()->json(['error' => 'Issued date cannot be in the future'], 400);
@@ -43,7 +43,7 @@ class IssueItemController extends Controller
         $issue = History::create([
             'item_id' => $formFields['item_id'],
             'employee_id' => $formFields['employee_id'],
-            'created_at' => $formFields['created_at'],
+            'issued_at' => $formFields['issued_at'],
             'remarks' => $formFields['remarks'],
             'status' => 'issued',
         ]);
@@ -59,12 +59,12 @@ class IssueItemController extends Controller
     {
         $formFields = $request->validate([
             'remarks' => ['required', 'max:50'],
-            'updated_at' => ['required'],
+            'return_at' => ['required', 'date'],
             'status' => ['required'],
             'history_id' => ['required'],
         ]);
 
-        $issuedDate = Carbon::parse($formFields['updated_at']);
+        $issuedDate = Carbon::parse($formFields['return_at']);
         $currentDate = Carbon::now();
         if ($issuedDate->gt($currentDate)) {
             return response()->json(['error' => 'Return date cannot be in the future'], 400);
@@ -72,7 +72,10 @@ class IssueItemController extends Controller
 
         $history = History::findOrFail($formFields['history_id']);
 
-        $history->update(['status' => $formFields['status']]);    
+        $history->remarks = $formFields['remarks'];
+        $history->return_at = $formFields['return_at'];
+        $history->status = $formFields['status'];
+        $history->save();
 
         $item = Item::find($history->item_id);
 

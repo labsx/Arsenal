@@ -27,46 +27,37 @@
             </router-link>
           </li>
 
-          <li class="nav-item" :class="{ 'menu-open': isDropdownOpen }">
+          <li class="nav-item">
             <router-link
               to="/admin/items/list"
-              class="nav-link"
               active-class="active"
-              @click="toggleDropdown"
+              class="nav-link"
             >
-              <i class="nav-icon fas fa-list"></i>
-
-              <p>
-                Items List
-                <i class="right fas fa-angle-left"></i>
-              </p>
+               <i class="nav-icon fas fa-list"></i>
+              <p>Item List</p>
             </router-link>
-            <ul class="nav nav-treeview" v-if="isDropdownOpen">
+          </li>
 
-                <li class="nav-item">
-                <router-link
-                  to="/admin/category/list"
-                  class="nav-link"
-                  active-class="active "
-                >
-                  <i class="fa fa-folder nav-icon"></i>
-                  <p>Category List</p>
-                </router-link>
-              </li>
+            <li class="nav-item">
+            <router-link
+              to="/admin/category/list"
+              active-class="active"
+              class="nav-link"
+            >
+                <i class="fa fa-folder nav-icon"></i>
+              <p>Category List</p>
+            </router-link>
+          </li>
 
-
-                <li class="nav-item">
-                <router-link
-                  to="/admin/field_groups/list"
-                  class="nav-link"
-                  active-class="active"
-                >
+             <li class="nav-item">
+            <router-link
+              to="/admin/field_groups/list"
+              active-class="active"
+              class="nav-link"
+            >
                   <i class="fa fa-archive nav-icon"></i>
-                  <p>Fields Group</p>
-                </router-link>
-              </li>
-
-            </ul>
+              <p>Field Groups List</p>
+            </router-link>
           </li>
 
             <li class="nav-item">
@@ -77,34 +68,6 @@
             >
               <i class="nav-icon fas fa-users"></i>
               <p>Employess List</p>
-            </router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link
-              to="/admin/items/issue/list"
-              active-class="active"
-              class="nav-link"
-              :class="
-                $route.path.startsWith('/admin/items/issue/list') ||
-                $route.path.startsWith('/admin/items/return')
-                  ? 'active'
-                  : ''
-              "
-            >
-              <i class="nav-icon fas fa-users"></i>
-              <p>Issue Items</p>
-            </router-link>
-          </li>
-
-          <li class="nav-item">
-            <router-link
-              to="/admin/items/history"
-              active-class="active"
-              class="nav-link"
-            >
-              <i class="nav-icon fas fa-history"></i>
-              <p>History</p>
             </router-link>
           </li>
 
@@ -166,9 +129,4 @@ const logout = () => {
   });
 };
 
-const isDropdownOpen = ref(false);
-
-const toggleDropdown = () => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
 </script>

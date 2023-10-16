@@ -65,18 +65,18 @@
                 <div class="form-group">
                   <label for="appName">Date Issued</label>
                   <input
-                    v-model="form.created_at"
+                    v-model="form.issued_at"
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
                     placeholder="Enter app display name"
                     style="background-color: white"
-                    :class="{ 'is-invalid': errors.issued_date }"
+                    :class="{ 'is-invalid': errors.issued_at }"
                   />
                   <span
-                    v-if="errors && errors.issued_date"
+                    v-if="errors && errors.issued_at"
                     class="text-danger text-sm"
-                    >{{ errors.issued_date[0] }}</span
+                    >{{ errors.issued_at[0] }}</span
                   >
                 </div>
               </div>
@@ -115,7 +115,7 @@ const errors = ref([]);
 const form = reactive({
   item_id: "",
   employee_id: "",
-  created_at: "",
+  issued_at: "",
   remarks: "",
 });
 

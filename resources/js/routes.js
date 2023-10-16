@@ -3,10 +3,10 @@ import ItemList from './pages/items/ItemList.vue';
 import EditItems from './pages/items/EditItem.vue';
 import ItemDetails from './pages/items/ItemDetails.vue';
 import IssueForm from './pages/items/IssueForm.vue';
-import ItemUserList from './pages/item-issued/ItemUserList.vue';
+//import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
 import ReturnForm from './pages/item-issued/ReturnForm.vue';
-import History from './pages/history/History.vue';
+//import History from './pages/history/History.vue';
 import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
@@ -125,11 +125,11 @@ export default[
         name: 'admin.items.issue',
         component: IssueForm,
     },
-    {
-        path: '/admin/items/issue/list',
-        name: 'admin.items.issue.list',
-        component: ItemUserList,
-    },
+    // {
+    //     path: '/admin/items/issue/list',
+    //     name: 'admin.items.issue.list',
+    //     component: ItemUserList,
+    // },
     {
         path: '/admin/items/:id/lists',
         name: 'admin.items.issue.lists',
@@ -140,11 +140,11 @@ export default[
         name: 'admin.items.return',
         component: ReturnForm,
     },
-    {
-        path: '/admin/items/history',
-        name: 'admin.items.history',
-        component: History,
-    },
+    // {
+    //     path: '/admin/items/history',
+    //     name: 'admin.items.history',
+    //     component: History,
+    // },
     {
         path: '/admin/users',
         name: 'admin.users',

@@ -62,19 +62,19 @@
                 <div class="form-group">
                   <label for="appName">Date Return</label>
                   <input
-                    v-model="form.updated_at"
+                    v-model="form.return_at"
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
                     placeholder="Select return date"
                     style="background-color: white"
-                    :class="{ 'is-invalid': errors.updated_at }"
+                    :class="{ 'is-invalid': errors.return_at }"
                   />
 
                   <span
-                    v-if="errors && errors.updated_at"
+                    v-if="errors && errors.return_at"
                     class="text-danger text-sm"
-                    >{{ errors.updated_at[0] }}</span
+                    >{{ errors.return_at[0] }}</span
                   >
                 </div>
               </div>
@@ -112,13 +112,13 @@ const form = reactive({
   history_id: "",
   remarks: "",
   status: "",
-  updated_at: "",
+  return_at: "",
 });
 
 const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
     form.history_id = data.id;
-    form.created_at = data.created_at;
+    form.return_at = data.return_at;
     form.employee_id = data.employee_id;
   });
 };

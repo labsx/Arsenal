@@ -1,54 +1,63 @@
 <template>
-  <div class="col-6 justify-content mt-3 text-align-left">
-    <p>Item Name : {{ form.name }}</p>
-    <p class="no-margin">Serial: {{ form.serial }}</p>
-  </div>
-
+  <header>
+    <h1>{{ form.name }} ( {{ form.serial }})</h1>
+    <div class="mr-5 mt-5">
+      <router-link
+        v-if="status !== 'under repair' && status !== 'decommissioned'"
+        :to="
+          status === 'operating'
+            ? `/admin/items/${form.id}/issue`
+            : `/admin/items/${historyId}/return`
+        "
+        class="btn btn-info btn-sm"
+      >
+        <i class="fas fa-edit"></i>
+        {{ status === "operating" ? "Issue" : "Return" }}
+      </router-link>
+    </div>
+  </header>
   <div class="container">
-    <div class="row">
-      <div class="col">
-        <h2>Item Details</h2>
-        <p class="no-margin">Model: {{ form.model }}</p>
-        <p class="no-margin">Price: ₱ {{ form.price }}</p>
-        <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-        <p class="no-margin">Status: {{ form.status }}</p>
-        <div class="col-6 justify-content mt-4 text-align-left">
-          <p
-            class="no-margin"
-            v-for="(attribute, index) in form.value"
-            :key="index"
-          >
-            {{ attribute.name }} : {{ attribute.value }}
-          </p>
-        </div>
-      </div>
-      <div class="col">
-        <h2>History Data</h2>
-        <div v-for="history in histories" :key="history.id">
-          <p>History: {{ history.id }}</p>
-          <p>
-            Employee: {{ history.employee.first_name }}
-            {{ history.employee.last_name }}
-          </p>
-          <p>Remarks: {{ history.remarks }}</p>
-          <p>Issued Date: {{ formatDate(history.created_at) }}</p>
-          <p>Return Date: {{ formatDate(history.updated_at) }}</p>
-          <p>Status: {{ history.status }}</p>
-        </div>
+    <div class="main">
+      <h2>Item Details</h2>
+      <p class="no-margin">Model: {{ form.model }}</p>
+      <p class="no-margin">Price: ₱ {{ form.price }}</p>
+      <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
+      <p class="no-margin">Status: {{ form.status }}</p>
+      <p class="no-margin">Manufacturer: {{ form.manufacturer }}</p>
+      <p class="no-margin" v-if="form.location !== ''">
+        Location: {{ form.location }}
+      </p>
+      <p class="no-margin" v-if="form.warranty !== ''">
+        Warranty: {{ form.warranty }}
+      </p>
+      <p class="no-margin" v-if="form.insurance !== ''">
+        Insurance: {{ form.insurance }}
+      </p>
+      <div class="col-6 justify-content mt-4 text-align-left">
+        <h2>Attributes</h2>
+        <p
+          class="no-margin"
+          v-for="(attribute, index) in form.value"
+          :key="index"
+        >
+          {{ attribute.name }} : {{ attribute.value }}
+        </p>
       </div>
     </div>
-    <router-link
-      v-if="status !== 'under repair' && status !== 'decommissioned'"
-      :to="
-        status === 'operating'
-          ? `/admin/items/${form.id}/issue`
-          : `/admin/items/${historyId}/return`
-      "
-      class="btn btn-info"
-    >
-      <i class="fas fa-edit"></i>
-      {{ status === "operating" ? "Issue" : "Return" }}
-    </router-link>
+    <aside class="sidebar" style="max-height: 300px; overflow-y: auto">
+      <h2>Item History</h2>
+      <div v-for="history in histories" :key="history.id">
+        <p class="no-margin">
+          Employee: {{ history.employee.first_name }}
+          {{ history.employee.last_name }}
+        </p>
+        <p class="no-margin">Remarks: {{ history.remarks }}</p>
+        <p class="no-margin">Issued Date: {{ formatDate(history.issued_at) }}</p>
+        <p class="no-margin">Return Date: {{ formatDate(history.return_at) }}</p>
+        <p class="no-margin">Status: {{ history.status }}</p>
+        <p></p>
+      </div>
+    </aside>
   </div>
 </template>
 
@@ -97,7 +106,11 @@ const getItems = () => {
         form.model = response.data.model;
         form.mfg_date = response.data.mfg_date;
         form.price = response.data.price;
-
+        form.location = response.data.location;
+        form.manufacturer = response.data.manufacturer;
+        form.warranty = response.data.warranty;
+        form.net_weight = response.data.net_weight;
+        form.insurance = response.data.insurance;
         status.value = form.status;
         fetchHistories();
       } else {
@@ -196,6 +209,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* @import url("./resources/css/itemdetails.css"); */
+@import url("./resources/css/itemdetails.css");
 </style>
 
