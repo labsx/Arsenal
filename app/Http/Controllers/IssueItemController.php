@@ -30,11 +30,11 @@ class IssueItemController extends Controller
         $formFields = $request->validate([
             'item_id' => ['required', 'max:50'],
             'employee_id' => ['required', 'max:100'],
-            'issued_date' => ['required', 'date'],
+            'created_at' => ['required', 'date'],
             'remarks' => ['required', 'min:3', 'max:50'],
         ]);
 
-        $issuedDate = Carbon::parse($formFields['issued_date']);
+        $issuedDate = Carbon::parse($formFields['created_at']);
         $currentDate = Carbon::now();
         if ($issuedDate->gt($currentDate)) {
             return response()->json(['error' => 'Issued date cannot be in the future'], 400);
@@ -56,11 +56,11 @@ class IssueItemController extends Controller
     {
         $formFields = $request->validate([
             'remarks' => ['required', 'max:50'],
-            'return_date' => ['required'],
+            'updated_at' => ['required'],
             'status' => ['required'],
         ]);
 
-        $issuedDate = Carbon::parse($formFields['return_date']);
+        $issuedDate = Carbon::parse($formFields['updated_at']);
         $currentDate = Carbon::now();
         if ($issuedDate->gt($currentDate)) {
             return response()->json(['error' => 'Return date cannot be in the future'], 400);

@@ -1,6 +1,5 @@
 <template>
   <ContentHeader title="Issue Item" data="item" datas="issue" />
-
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -66,7 +65,7 @@
                 <div class="form-group">
                   <label for="appName">Date Issued</label>
                   <input
-                    v-model="form.issued_date"
+                    v-model="form.created_at"
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
@@ -116,7 +115,7 @@ const errors = ref([]);
 const form = reactive({
   item_id: "",
   employee_id: "",
-  issued_date: "",
+  created_at: "",
   remarks: "",
 });
 

@@ -1,45 +1,55 @@
 <template>
   <div class="col-6 justify-content mt-3 text-align-left">
-    <p>Item id: {{ form.id }}</p>
+    
     <p>Item Name : {{ form.name }}</p>
-    <p class="mt-1 no-margin">Model: {{ form.model }}</p>
     <p class="no-margin">Serial: {{ form.serial }}</p>
-    <p class="no-margin">Price: ₱ {{ form.price }}</p>
-    <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-    <p class="no-margin">Status: {{ form.status }}</p>
-  </div>
-  <div class="col-6 justify-content mt-4 text-align-left">
-    <p class="no-margin" v-for="(attribute, index) in form.value" :key="index">
-      {{ attribute.name }} : {{ attribute.value }}
-    </p>
   </div>
 
-  <h2>History Data</h2>
-  <ul>
-    <li v-for="history in histories" :key="history.id">
-      <p>
-        Employee: {{ history.employee.first_name }}
-        {{ history.employee.last_name }}
-      </p>
-      <p>Remarks: {{ history.remarks }}</p>
-      <p>Issued Date: {{ history.issued_date }}</p>
-      <p>Return Date: {{ history.return_date }}</p>
-      <p>Status {{ history.status }}</p>
-    </li>
-  </ul>
-
-  <router-link
-    v-if="status !== 'under repair' && status !== 'decommissioned'"
-    :to="
-      status === 'operating'
-        ? `/admin/items/${form.id}/issue`
-        : `/admin/items/${historyId}/return`
-    "
-    class="btn btn-info"
-  >
-    <i class="fas fa-edit"></i>
-    {{ status === "operating" ? "Issue" : "Return" }}
-  </router-link>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h2>Item Details</h2>
+        <p class="no-margin">Model: {{ form.model }}</p>
+        <p class="no-margin">Price: ₱ {{ form.price }}</p>
+        <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
+        <p class="no-margin">Status: {{ form.status }}</p>
+        <div class="col-6 justify-content mt-4 text-align-left">
+          <p
+            class="no-margin"
+            v-for="(attribute, index) in form.value"
+            :key="index"
+          >
+            {{ attribute.name }} : {{ attribute.value }}
+          </p>
+        </div>
+      </div>
+      <div class="col" v-for="history in histories" :key="history.id">
+        <h2>History Data</h2>
+        <div v-for="history in histories" :key="history.id">
+          <p>
+            Employee: {{ history.employee.first_name }}
+            {{ history.employee.last_name }}
+          </p>
+          <p>Remarks: {{ history.remarks }}</p>
+          <p>Issued Date: {{ history.issued_date }}</p>
+          <p>Return Date: {{ history.return_date }}</p>
+          <p>Status {{ history.status }}</p>
+        </div>
+      </div>
+    </div>
+     <router-link
+          v-if="status !== 'under repair' && status !== 'decommissioned'"
+          :to="
+            status === 'operating'
+              ? `/admin/items/${form.id}/issue`
+              : `/admin/items/${historyId}/return`
+          "
+          class="btn btn-info"
+        >
+          <i class="fas fa-edit"></i>
+          {{ status === "operating" ? "Issue" : "Return" }}
+        </router-link>
+  </div>
 </template>
 
 <script setup>
@@ -47,6 +57,7 @@ import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
+import { formatDate } from "../../helper.js";
 
 const status = ref("");
 const historyId = ref("");

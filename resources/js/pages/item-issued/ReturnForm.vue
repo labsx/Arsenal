@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader title="Issue Item" data="item" datas="issue" />
+  <ContentHeader  data="item" datas="return" />
 
   <div class="content">
     <div class="container-fluid">
@@ -62,7 +62,7 @@
                 <div class="form-group">
                   <label for="appName">Date Return</label>
                   <input
-                    v-model="form.return_date"
+                    v-model="form.updated_at"
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
@@ -102,6 +102,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
+import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -111,13 +112,13 @@ const form = reactive({
   item_id: "",
   remarks: "",
   status: "",
-  return_date: "",
+  updated_at: "",
 });
 
 const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
     form.item_id = data.id;
-    form.issued_date = data.issued_date;
+    form.created_at = data.created_at;
     form.employee_id = data.employee_id;
   });
 };

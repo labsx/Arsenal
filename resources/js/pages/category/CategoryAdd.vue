@@ -171,7 +171,6 @@ const getFieldGroup = () => {
 };
 
 onMounted(() => {
-  // getParent();
   getFieldGroup();
 });
 </script>
