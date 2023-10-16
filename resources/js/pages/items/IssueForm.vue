@@ -142,7 +142,7 @@ const saveIssue = () => {
     .post("/issue", form)
     .then((response) => {
       toastr.success("Successfully issued item!");
-      router.push('/admin/items/list');
+      router.push("/admin/items/list");
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
@@ -155,13 +155,29 @@ const saveIssue = () => {
     });
 };
 
+const setCurrentDate = () => {
+  const currentDateTime = new Date();
+  const year = currentDateTime.getFullYear();
+  const month = String(currentDateTime.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDateTime.getDate()).padStart(2, "0");
+  let hours = currentDateTime.getHours();
+  const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  form.issued_at = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+};
+
 onMounted(() => {
   getItemsData();
   getEmployee();
+  setCurrentDate();
 
   flatpickr(".flatpickr", {
     enableTime: true,
-    dateFormat: "Y-m-d h:i K",
+    dateFormat: "Y-m-dTH:i:00",
     defaultHour: 10,
   });
 });

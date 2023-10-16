@@ -106,6 +106,12 @@ class ItemController extends Controller
             'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
 
+        $issuedDate = Carbon::parse($formData['mfg_date']);
+        $currentDate = Carbon::now();
+        if ($issuedDate->gt($currentDate)) {
+            return response()->json(['error' => 'Manufacture date cannot be in the future'], 400);
+        }
+
         $item = Item::find($id);
 
         if (!$item) {
