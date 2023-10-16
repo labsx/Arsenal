@@ -68,7 +68,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -114,7 +114,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -125,8 +125,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (!$duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
+        if (! $duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];

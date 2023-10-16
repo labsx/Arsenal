@@ -52,7 +52,7 @@
                     type="text"
                     class="form-control"
                     id="appName"
-                    placeholder="Enter app display name"
+                    placeholder="Enter remarks"
                     :class="{ 'is-invalid': errors.remarks }"
                   />
                   <span
@@ -69,7 +69,7 @@
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
-                    placeholder="Enter app display name"
+                    placeholder="Enter issued date"
                     style="background-color: white"
                     :class="{ 'is-invalid': errors.issued_at }"
                   />

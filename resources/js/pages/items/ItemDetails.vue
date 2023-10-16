@@ -27,11 +27,14 @@
       <p class="no-margin" v-if="form.location !== ''">
         Location: {{ form.location }}
       </p>
-      <p class="no-margin" v-if="form.warranty !== ''">
-        Warranty: {{ form.warranty }}
+      <p class="no-margin">
+        Warranty: {{ form.warranty ? form.warranty : "none" }}
       </p>
-      <p class="no-margin" v-if="form.insurance !== ''">
-        Insurance: {{ form.insurance }}
+      <p class="no-margin">
+        Insurance: {{ form.insurance ? form.insurance : "none" }}
+      </p>
+      <p class="no-margin">
+        Net Weight: {{ form.net_weight ? form.net_weight : "none" }} kg
       </p>
       <div class="col-6 justify-content mt-4 text-align-left">
         <h2>Attributes</h2>
@@ -47,14 +50,24 @@
     <aside class="sidebar" style="max-height: 300px; overflow-y: auto">
       <h2>Item History</h2>
       <div v-for="history in histories" :key="history.id">
+        <p class="no-margin">Status: {{ history.status }}</p>
         <p class="no-margin">
           Employee: {{ history.employee.first_name }}
           {{ history.employee.last_name }}
         </p>
         <p class="no-margin">Remarks: {{ history.remarks }}</p>
-        <p class="no-margin">Issued Date: {{ formatDate(history.issued_at) }}</p>
-        <p class="no-margin">Return Date: {{ formatDate(history.return_at) }}</p>
-        <p class="no-margin">Status: {{ history.status }}</p>
+        <p class="no-margin">
+          Issued Date: {{ formatDate(history.issued_at) }}
+        </p>
+        <p class="no-margin">
+          Return Date:
+          {{
+            history.return_at
+              ? formatDate(history.return_at)
+              : "not yet returned"
+          }}
+        </p>
+
         <p></p>
       </div>
     </aside>

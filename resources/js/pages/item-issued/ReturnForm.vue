@@ -1,6 +1,5 @@
 <template>
-  <ContentHeader data="item" datas="return" />
-
+  <ContentHeader title="" data="item" datas="return" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -59,24 +58,24 @@
                   >
                 </div>
 
-                <div class="form-group">
-                  <label for="appName">Date Return</label>
+                  <div class="form-group">
+                  <label for="appName">Return Date</label>
                   <input
                     v-model="form.return_at"
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
-                    placeholder="Select return date"
+                    placeholder="Enter issued date"
                     style="background-color: white"
                     :class="{ 'is-invalid': errors.return_at }"
                   />
-
                   <span
                     v-if="errors && errors.return_at"
                     class="text-danger text-sm"
                     >{{ errors.return_at[0] }}</span
                   >
                 </div>
+
               </div>
 
               <div class="card-footer">
@@ -143,12 +142,28 @@ const UpdateHistory = () => {
     });
 };
 
+const setCurrentDate = () => {
+  const currentDateTime = new Date();
+  const year = currentDateTime.getFullYear();
+  const month = String(currentDateTime.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDateTime.getDate()).padStart(2, "0");
+  let hours = String(currentDateTime.getHours()).padStart(2, "0");
+  const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  form.return_at = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+};
+
 onMounted(() => {
   returnItem();
+  setCurrentDate();
 
   flatpickr(".flatpickr", {
     enableTime: true,
-    dateFormat: "Y-m-d h:i K",
+    dateFormat: "Y-m-dTH:i:00",
     defaultHour: 10,
   });
 });
