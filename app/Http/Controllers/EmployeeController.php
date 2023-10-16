@@ -22,6 +22,14 @@ class EmployeeController extends Controller
             'position' => ['required', 'max:50'],
         ]);
 
+        $existEmployee = Employee::where('first_name', $formFields['first_name'])
+            ->where('last_name', $formFields['last_name'])
+            ->first();
+
+        if ($existEmployee) {
+            return response()->json(['error' => 'Employee already registered !'], 400);
+        }
+
         $employees = Employee::create($formFields);
 
         return response()->json($employees);
