@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>{{ form.name }} ( {{ form.serial }})</h1>
+    <h1>{{ form.name }} ( {{ form.status }})</h1>
     <div class="mr-5 mt-5">
       <router-link
         v-if="status !== 'under repair' && status !== 'decommissioned'"
@@ -19,10 +19,10 @@
   <div class="container">
     <div class="main">
       <h2>Item Details</h2>
+      <p class="no-margin">Model: {{ form.serial }}</p>
       <p class="no-margin">Model: {{ form.model }}</p>
       <p class="no-margin">Price: ₱ {{ form.price }}</p>
       <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-      <p class="no-margin">Status: {{ form.status }}</p>
       <p class="no-margin">Manufacturer: {{ form.manufacturer }}</p>
       <p class="no-margin" v-if="form.location !== ''">
         Location: {{ form.location }}

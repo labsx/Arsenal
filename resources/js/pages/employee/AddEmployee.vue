@@ -38,6 +38,7 @@
                                 class="form-control"
                                 id="title"
                                 placeholder="Enter first name"
+                                :class="{ 'is-invalid': errors.first_name }"
                               />
                               <span
                                 v-if="errors && errors.first_name"
@@ -56,6 +57,7 @@
                                 class="form-control"
                                 id="title"
                                 placeholder="Enter last name"
+                                :class="{ 'is-invalid': errors.last_name }"
                               />
                               <span
                                 v-if="errors && errors.last_name"
@@ -73,6 +75,7 @@
                                   class="form-control"
                                   id="title"
                                   placeholder="Enter position "
+                                  :class="{ 'is-invalid': errors.position }"
                                 />
                                 <span
                                   v-if="errors && errors.position"
@@ -137,16 +140,16 @@ const createEmployee = () => {
     .post("/employee", form.value)
     .then((response) => {
       toastr.success("Employee created successfully");
+      clearForm();
       $("#addEmployee").modal("hide");
       getEmployeeFn();
-      clearForm();
+      errors.value = "";
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors;
-        errors.value = [];
+        errors.value = error.response.data.errors || {};
       }
     });
 };

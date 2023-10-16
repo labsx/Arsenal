@@ -64,7 +64,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update',
     ]);
-
     Route::get('/employee', [EmployeeController::class, 'search']);
 
     Route::resource('issue', IssueItemController::class)->only([
