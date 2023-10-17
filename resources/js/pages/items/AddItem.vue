@@ -438,7 +438,7 @@ const clearForm = () => {
 const categories = ref();
 const getCategory = () => {
   axios
-    .get("/category-data")
+    .get("/category")
     .then((response) => {
       categories.value = response.data;
     })

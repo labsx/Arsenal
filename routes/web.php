@@ -20,11 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dashboard', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
-        ->only(['index', 'store', 'destroy', 'update']);
-    Route::get('/category', [CategoryController::class, 'search']);
-    Route::get('/category-data/{category}', [CategoryController::class, 'listName']);
-    Route::get('/category-data', [CategoryController::class, 'categoryData']);
-    Route::get('/category/{category}/show', [CategoryController::class, 'show']);
+        ->only(['index', 'store', 'destroy', 'update', 'show']);
 
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',

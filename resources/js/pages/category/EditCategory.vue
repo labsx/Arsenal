@@ -79,7 +79,7 @@ const form = reactive({
 
 const ItemDetails = () => {
   axios
-    .get(`/category/${route.params.id}/show`)
+    .get(`/category/${route.params.id}`)
     .then(({ data }) => {
       console.log("Category data:", data);
       if (data && data.name) {

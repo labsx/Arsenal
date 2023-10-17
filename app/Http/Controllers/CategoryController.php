@@ -8,23 +8,9 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function listName($id)
+    public function index(Request $request)
     {
-        $ids = Category::findOrFail($id);
-
-        return response()->json($ids);
-    }
-
-    public function index()
-    {
-        $categories = Category::latest()->paginate(10);
-
-        return $categories;
-    }
-
-    public function search()
-    {
-        $searchQuery = request('query');
+        $searchQuery = $request->input('query');
         $categories = Category::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('parent_id', 'like', "%{$searchQuery}%")
@@ -77,13 +63,6 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return $category;
-    }
-
-    public function categoryData()
-    {
-        $categories = Category::latest()->get();
-
-        return response()->json($categories);
+        return response()->json($category);
     }
 }

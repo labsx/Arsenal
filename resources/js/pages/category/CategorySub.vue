@@ -129,7 +129,7 @@ const categories = ref([]);
 
 const getCategories = () => {
   axios
-    .get(`/category-data/${route.params.id}`)
+    .get(`/category/${route.params.id}`)
     .then(({ data }) => {
       console.log("Fields data:", data);
       form.category_id = data.id;
