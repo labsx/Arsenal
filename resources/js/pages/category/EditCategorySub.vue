@@ -12,7 +12,7 @@
             <form>
               <div class="card-body">
                 <div class="form-group">
-                  <label for="appName">Category Sub Name</label>
+                  <label for="appName">Category list name</label>
                   <span class="text-danger"> *</span>
                   <input
                     v-model="form.name"
@@ -88,7 +88,6 @@ const saveParent = () => {
         toastr.error(error.response.data.error);
       } else if (error.response && error.response.status === 422) {
         errors.value = error.response.data.errors;
-        errors.value = [];
       }
     });
 };

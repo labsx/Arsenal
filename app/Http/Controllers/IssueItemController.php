@@ -32,6 +32,8 @@ class IssueItemController extends Controller
             'employee_id' => ['required', 'max:100'],
             'issued_at' => ['required', 'date'],
             'remarks' => ['required', 'min:3', 'max:50'],
+        ], [
+            'employee_id.required' => 'The employee name is required.',
         ]);
 
         $issuedDate = Carbon::parse($formFields['issued_at']);

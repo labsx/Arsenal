@@ -17,7 +17,7 @@ use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [LoginController::class, 'index']);
+Route::get('/dashboard', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
         ->only(['index', 'store', 'destroy', 'update']);

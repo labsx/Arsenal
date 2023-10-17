@@ -13,7 +13,7 @@
                     <span class="text-danger"> *</span>
                     <select
                       id="fieldGroup"
-                      class="form-control"
+                     class="form-control"
                       v-model="form.parent_id"
                       @change="getFields"
                       :class="{ 'is-invalid': errors.parent_id }"
@@ -165,8 +165,8 @@
                         type="text"
                         class="form-control"
                         id="Manufacturer"
-                        placeholder="Enter item Manufacturer"
-                        :class="{ 'is-invalid': errors.anufacturer }"
+                        placeholder="Enter item manufacturer"
+                        :class="{ 'is-invalid': errors.manufacturer }"
                       />
                       <span
                         v-if="errors && errors.manufacturer"

@@ -65,7 +65,7 @@
                     type="date"
                     class="form-control flatpickr"
                     id="appName"
-                    placeholder="Enter issued date"
+                    placeholder="Enter return date"
                     style="background-color: white"
                     :class="{ 'is-invalid': errors.return_at }"
                   />
@@ -117,7 +117,7 @@ const form = reactive({
 const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
     form.history_id = data.id;
-    form.return_at = data.return_at;
+    // form.return_at = data.return_at;
     form.employee_id = data.employee_id;
   });
 };
@@ -149,7 +149,7 @@ const setCurrentDate = () => {
   const day = String(currentDateTime.getDate()).padStart(2, "0");
   let hours = String(currentDateTime.getHours()).padStart(2, "0");
   const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
+  const ampm = hours >= 12 ? "AM" : "PM";
 
   hours = hours % 12;
   hours = hours ? hours : 12;

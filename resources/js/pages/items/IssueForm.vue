@@ -162,7 +162,7 @@ const setCurrentDate = () => {
   const day = String(currentDateTime.getDate()).padStart(2, "0");
   let hours = currentDateTime.getHours();
   const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
-  const ampm = hours >= 12 ? "PM" : "AM";
+  const ampm = hours >= 12 ? "AM" : "PM";
 
   hours = hours % 12;
   hours = hours ? hours : 12;
@@ -174,8 +174,9 @@ onMounted(() => {
   getItemsData();
   getEmployee();
   setCurrentDate();
+  
 
-  flatpickr(".flatpickr", {
+    flatpickr(".flatpickr", {
     enableTime: true,
     dateFormat: "Y-m-dTH:i:00",
     defaultHour: 10,
