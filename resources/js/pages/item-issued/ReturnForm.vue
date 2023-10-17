@@ -18,7 +18,7 @@
                     class="form-control"
                     id="appName"
                     placeholder="Enter app display name"
-                    style="display: none"
+                    
                   />
                 </div>
 
@@ -125,7 +125,7 @@ const returnItem = () => {
 const UpdateHistory = () => {
   console.log("Form Data:", form);
   axios
-    .put(`/issue/${route.params.id}`, form)
+    .put(`/return/${route.params.id}`, form)
     .then((response) => {
       toastr.success("Return item successfully!");
       errors.value = "";

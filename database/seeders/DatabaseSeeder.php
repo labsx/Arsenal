@@ -47,22 +47,22 @@ class DatabaseSeeder extends Seeder
             'label' => 'plate number',
             'is_required' => 'required',
         ]);
-        \App\Models\ParentModel::factory()->create([
-            'category_id' => '1',
-            'name' => 'Laptop',
-        ]);
-        \App\Models\ParentModel::factory()->create([
-            'category_id' => '1',
-            'name' => 'Desktop',
-        ]);
-        \App\Models\ParentModel::factory()->create([
-            'category_id' => '2',
-            'name' => 'Sedan',
-        ]);
-        \App\Models\ParentModel::factory()->create([
-            'category_id' => '2',
-            'name' => 'Suv',
-        ]);
+        // \App\Models\ParentModel::factory()->create([
+        //     'category_id' => '1',
+        //     'name' => 'Laptop',
+        // ]);
+        // \App\Models\ParentModel::factory()->create([
+        //     'category_id' => '1',
+        //     'name' => 'Desktop',
+        // ]);
+        // \App\Models\ParentModel::factory()->create([
+        //     'category_id' => '2',
+        //     'name' => 'Sedan',
+        // ]);
+        // \App\Models\ParentModel::factory()->create([
+        //     'category_id' => '2',
+        //     'name' => 'Suv',
+        // ]);
         \App\Models\Employee::factory()->create([
             'first_name' => 'Juan',
             'last_name' => 'De La Cruz',

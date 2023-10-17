@@ -25,27 +25,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    // Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
-     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
-     Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
+    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
 
     Route::resource('fields', FieldController::class)->only([
         'index', 'store', 'destroy', 'update', 'show'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']);
-   // Route::get('/fields/search', [FieldController::class, 'search']);
-   // Route::get('/fields/{field}', [FieldController::class, 'editShow']);
-   // Route::get('/fields', [FieldController::class, 'filterFields']);
-  //  Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
-    Route::get('/fields', [FieldController::class, 'getFieldsDetails']);
+    Route::get('/fields', [FieldController::class, 'getFieldsDetails']); //fields for edit category
 
     Route::resource('items', ItemController::class)->only([
-        'index', 'store', 'destroy', 'update',
+        'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
-   // Route::get('/items', [ItemController::class, 'search']);
-   // Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
     Route::resource('parent', ParentController::class)->only([
         'index', 'store', 'destroy', 'update',
@@ -61,22 +52,25 @@ Route::middleware('auth')->group(function () {
     ]);
 
     Route::resource('issue', IssueItemController::class)->only([
-        'show', 'store', 'update',
+        'index', 'show', 'store',
     ]);
-    Route::get('/issue', [IssueItemController::class, 'employee']);
-    Route::get('/return/{issue}', [ReturnController::class, 'show']);
 
-    Route::get('/histories', [HistoryController::class, 'index']);
-    Route::get('/histories/{employeeId}', [HistoryController::class, 'show']);
+    Route::resource('return', ReturnController::class)->only([
+        'show', 'update',
+    ]);
+
+    Route::resource('histories', HistoryController::class)->only([
+        'index', 'show'
+    ]);
 
     Route::resource('users', UserController::class)->only([
         'index', 'store', 'destroy',
     ]);
-    Route::get('/users/search', [UserController::class, 'searchUser']);
 
-    Route::get('/users/profile', [ProfileController::class, 'index']);
+    Route::resource('users/profile', ProfileController::class)->only([
+        'index', 'store',
+    ]);
     Route::put('/users/profile', [ProfileController::class, 'update']);
-    Route::post('/users/profile', [ProfileController::class, 'updatePassword']);
     Route::post('/users/profile/picture', [ProfileController::class, 'upload']);
 
     Route::prefix('dashboard')->group(function () {

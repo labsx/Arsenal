@@ -116,7 +116,7 @@ const categories = ref({ data: [] });
 
 const getFieldGroupName = async (fieldGroupId) => {
   try {
-    const response = await axios.get(`/field-groups/${fieldGroupId}`);
+    const response = await axios.get(`/field-group/${fieldGroupId}`);
     return response.data.name;
   } catch (error) {
     console.error("Error fetching field group name:", error);

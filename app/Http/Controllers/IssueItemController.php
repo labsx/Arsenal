@@ -18,7 +18,7 @@ class IssueItemController extends Controller
         return response()->json($item);
     }
 
-    public function employee()
+    public function index()
     {
         $employees = Employee::latest()->get();
 
@@ -31,7 +31,7 @@ class IssueItemController extends Controller
             'item_id' => ['required', 'max:50'],
             'employee_id' => ['required', 'max:100'],
             'issued_at' => ['required', 'date'],
-            'remarks' => ['required', 'min:3', 'max:50'],
+            'remarks' => ['nullable', 'min:3', 'max:50'],
         ], [
             'employee_id.required' => 'The employee name is required.',
         ]);
@@ -56,37 +56,5 @@ class IssueItemController extends Controller
         }
 
         return response()->json($issue);
-    }
-
-    public function update(Request $request, $item_id)
-    {
-        $formFields = $request->validate([
-            'remarks' => ['required', 'max:50'],
-            'return_at' => ['required', 'date'],
-            'status' => ['required'],
-            'history_id' => ['required'],
-        ]);
-
-        $issuedDate = Carbon::parse($formFields['return_at']);
-        $currentDate = Carbon::now();
-        if ($issuedDate->gt($currentDate)) {
-            return response()->json(['error' => 'Return date cannot be in the future'], 400);
-        }
-
-        $history = History::findOrFail($formFields['history_id']);
-
-        $history->remarks = $formFields['remarks'];
-        $history->return_at = $formFields['return_at'];
-        $history->status = $formFields['status'];
-        $history->save();
-
-        $item = Item::find($history->item_id);
-
-        $item = Item::where('id', $history->item_id)->first();
-        if ($item) {
-            $item->update(['status' => $formFields['status']]);
-        }
-
-        return response()->json(['success' => true, 'history' => $history]);
     }
 }

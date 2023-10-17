@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->foreignId('employee_id')->nullable();
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->dateTime('issued_at');
             $table->dateTime('return_at')->nullable();
             $table->string('status');

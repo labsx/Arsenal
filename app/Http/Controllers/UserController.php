@@ -9,16 +9,9 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(10);
-
-        return $users;
-    }
-
-    public function searchUser()
-    {
-        $searchQuery = request('query');
+        $searchQuery = $request->input('query');
         $users = User::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('email', 'like', "%{$searchQuery}%");

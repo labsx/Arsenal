@@ -38,22 +38,10 @@ class FieldGroupController extends Controller
         return response()->noContent();
     }
 
-    public function getName()
+    public function show($id)
     {
-        $categories = FieldGroup::latest()->select('id', 'name')->get();
+        $field_groups = FieldGroup::findOrFail($id);
 
-        return response()->json($categories);
-    }
-
-    // public function getFields()
-    // {
-    //     $field_groups = FieldGroup::latest()->select('id', 'name')->get();
-
-    //     return response()->json($field_groups);
-    // }
-
-    public function show(FieldGroup $field_groups)
-    {
         return response()->json($field_groups);
     }
 
@@ -70,31 +58,10 @@ class FieldGroupController extends Controller
         return response()->json(['message' => 'Field groups updated successfully', 'field_groups' => $field_groups]);
     }
 
-    public function getFieldGroupName($id)
-    {
-        $fieldGroup = FieldGroup::findOrFail($id);//display in the table field group
-
-        return response()->json(['name' => $fieldGroup->name]);
-    }
-
     public function getFieldsByFieldGroupId($id)
     {
         $fieldsData = Field::where('field_groups_id', $id)->get();
 
         return response()->json($fieldsData);
     }
-
-    // public function fieldShow()
-    // {
-    //     $field_groups = FieldGroup::latest()->select('id', 'name')->get();
-
-    //     return response()->json($field_groups);
-    // }
-
-    // public function getList()
-    // {
-    //     $categories = Category::latest()->get();
-
-    //     return response()->json($categories);
-    // }
 }

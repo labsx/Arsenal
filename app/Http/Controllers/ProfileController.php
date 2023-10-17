@@ -20,9 +20,10 @@ class ProfileController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->user()->id)],
         ]);
+        
         $request->user()->update($validated);
 
-        return response()->json(['success' => true]);
+        return response()->json($request);
     }
 
     public function upload(Request $request)
@@ -38,7 +39,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function updatePassword(Request $request, UpdateUserPassword $updater)
+    public function store(Request $request, UpdateUserPassword $updater)
     {
         $updater->update(auth()->user(), [
             'current_password' => $request->currentPassword,

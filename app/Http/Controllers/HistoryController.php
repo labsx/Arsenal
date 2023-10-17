@@ -16,9 +16,9 @@ class HistoryController extends Controller
         return response()->json($histories);
     }
 
-    public function show($employeeId)
+    public function show($id)
     {
-        $employee = Employee::findOrFail($employeeId);
+        $employee = Employee::findOrFail($id);
 
         return response()->json($employee);
     }

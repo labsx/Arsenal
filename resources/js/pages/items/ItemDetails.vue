@@ -107,7 +107,7 @@ const removeAttribute = (index) => {
 //
 const getItems = () => {
   axios
-    .get(`/items/${route.params.id}/show`)
+    .get(`/items/${route.params.id}`)
     .then((response) => {
       console.log("Response data:", response.data);
 

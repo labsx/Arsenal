@@ -51,9 +51,9 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        $employee = Employee::findOrFail($id);
+        $employees = Employee::findOrFail($id);
 
-        return response()->json($employee);
+        return response()->json($employees);
     }
 
     public function update(Request $request, Employee $employee)

@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createParent">Category List</h5>
+          <h5 class="modal-title" id="createParent">Category List name</h5>
           <button
             type="button"
             class="close"

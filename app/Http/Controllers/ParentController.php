@@ -23,9 +23,18 @@ class ParentController extends Controller
         ]);
 
         $parent = ParentModel::create($formField);
-
+    
+        $category = Category::find($formField['category_id']);
+        if ($category) {
+            $category->parent_id = $parent->id;
+            $category->save();
+        } else {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+    
         return response()->json($parent);
     }
+    
 
     public function search(Request $request)
     {

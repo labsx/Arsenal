@@ -158,7 +158,7 @@ const clearForm = () => {
 
 const getFieldsGroupsId = () => {
   axios
-    .get(`/fields-data/${route.params.id}`)
+    .get(`/field-group/${route.params.id}`)
     .then(({ data }) => {
       console.log("Fields data:", data);
       form.field_groups_id = data.id;

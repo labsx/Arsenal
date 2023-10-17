@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\History;
 use App\Models\Issue;
 use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReturnController extends Controller
@@ -16,28 +17,35 @@ class ReturnController extends Controller
         return response()->json($issue);
     }
 
-    // public function return(Request $request, Item $item)
-    // {
-    //     $formFields = $request->validate([
-    //         'name' => ['required', 'min:3', 'max:50'],
-    //         'date_issued' => ['required', 'date'],
-    //         'status' => ['required', 'in:operating,decommissioned,under repair'],
-    //         'issued_to' => ['required', 'min:3', 'max:50'],
-    //         'return_date' => ['required', 'date', 'after_or_equal:date_issued'],
-    //         'serial' => ['max:255'],
-    //         'model' => ['required'],
-    //         'mfg_date' => ['required'],
-    //         'price' => ['required'],
-    //     ], [
-    //         'return_date' => 'Error date selection !',
-    //     ]);
+    public function update(Request $request, $item_id)
+    {
+        $formFields = $request->validate([
+            'remarks' => ['required', 'max:50'],
+            'return_at' => ['required', 'date'],
+            'status' => ['required'],
+            'history_id' => ['required'],
+        ]);
 
-    //     History::create($formFields);
-    //     Issue::where('serial', $formFields['serial'])->delete();
+        $issuedDate = Carbon::parse($formFields['return_at']);
+        $currentDate = Carbon::now();
+        if ($issuedDate->gt($currentDate)) {
+            return response()->json(['error' => 'Return date cannot be in the future'], 400);
+        }
 
-    //     $item = Item::where('serial', $formFields['serial'])->first();
-    //     if ($item) {
-    //         $item->update(['status' => $formFields['status']]);
-    //     }
-    // }
+        $history = History::findOrFail($formFields['history_id']);
+
+        $history->remarks = $formFields['remarks'];
+        $history->return_at = $formFields['return_at'];
+        $history->status = $formFields['status'];
+        $history->save();
+
+        $item = Item::find($history->item_id);
+
+        $item = Item::where('id', $history->item_id)->first();
+        if ($item) {
+            $item->update(['status' => $formFields['status']]);
+        }
+
+        return response()->json(['success' => true, 'history' => $history]);
+    }
 }

@@ -55,7 +55,7 @@ class ItemController extends Controller
         return response()->noContent();
     }
 
-    public function getItems($id)
+    public function show($id)
     {
         $items = Item::findOrFail($id);
 
@@ -66,7 +66,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -112,7 +112,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (! $item) {
+        if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -123,8 +123,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (! $duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
+        if (!$duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -161,16 +161,16 @@ class ItemController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function show($id)
-    {
-        $items = Item::where('parent_id', $id)->paginate(10);
+    // public function show($id) //show in item details
+    // {
+    //     $items = Item::where('parent_id', $id)->paginate(10);
 
-        if ($items->isEmpty()) {
-            return response()->json(['error' => 'No items found for the specified field group'], 404);
-        }
+    //     if ($items->isEmpty()) {
+    //         return response()->json(['error' => 'No items found for the specified field group'], 404);
+    //     }
 
-        return response()->json($items);
-    }
+    //     return response()->json($items);
+    // }
 
     public function store(Request $request)
     {
