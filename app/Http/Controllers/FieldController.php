@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {
-    public function filterFields(Request $request)
-    {
-        $fieldGroupId = $request->query('field_groups_id');
-        $filteredFields = Field::where('field_groups_id', $fieldGroupId)->get();
+    // public function filterFields(Request $request)
+    // {
+    //     $fieldGroupId = $request->query('field_groups_id');
+    //     $filteredFields = Field::where('field_groups_id', $fieldGroupId)->get();
 
-        return response()->json($filteredFields);
-    }
+    //     return response()->json($filteredFields);
+    // }
 
-    public function show($fieldGroupId)
+    public function showFilterFileds($fieldGroupId)
     {
         $fields = Field::where('field_groups_id', $fieldGroupId)->paginate(10);
 
@@ -27,11 +27,16 @@ class FieldController extends Controller
         return response()->json($fields);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $fields = Field::latest()->get();
+        $searchQuery = $request->input('query');
+        $fields = Field::where(function ($query) use ($searchQuery) {
+            $query->where('label', 'like', "%{$searchQuery}%")
+                ->orWhere('description', 'like', "%{$searchQuery}%")
+                ->orWhere('is_required', 'like', "%{$searchQuery}%");
+        })->paginate(10);
 
-        return $fields;
+        return response()->json($fields);
     }
 
     public function store(Request $request)
@@ -56,17 +61,17 @@ class FieldController extends Controller
         return response()->json($category);
     }
 
-    public function search()
-    {
-        $searchQuery = request('query');
-        $fields = Field::where(function ($query) use ($searchQuery) {
-            $query->where('label', 'like', "%{$searchQuery}%")
-                ->orWhere('description', 'like', "%{$searchQuery}%")
-                ->orWhere('is_required', 'like', "%{$searchQuery}%");
-        })->paginate(10);
+    // public function search()
+    // {
+    //     $searchQuery = request('query');
+    //     $fields = Field::where(function ($query) use ($searchQuery) {
+    //         $query->where('label', 'like', "%{$searchQuery}%")
+    //             ->orWhere('description', 'like', "%{$searchQuery}%")
+    //             ->orWhere('is_required', 'like', "%{$searchQuery}%");
+    //     })->paginate(10);
 
-        return response()->json($fields);
-    }
+    //     return response()->json($fields);
+    // }
 
     public function destroy($id)
     {
@@ -76,9 +81,9 @@ class FieldController extends Controller
         return response()->json($fields);
     }
 
-    public function editShow(Field $field)
+    public function show(Field $field)
     {
-        return $field;
+        return response()->json($field); //edit fields
     }
 
     public function update(Request $request, $id)
@@ -97,15 +102,15 @@ class FieldController extends Controller
 
     public function getFieldsDetails()
     {
-        $fields_groups = FieldGroup::latest()->select('id', 'name')->get();
+        $fields_groups = FieldGroup::latest()->select('id', 'name')->get(); //fields for edit category
 
         return $fields_groups;
     }
 
-    public function getFieldsId($id)
-    {
-        $ids = FieldGroup::findOrFail($id);
+    // public function getFieldsId($id)
+    // {
+    //     $ids = FieldGroup::findOrFail($id);
 
-        return response()->json($ids);
-    }
+    //     return response()->json($ids);
+    // }
 }

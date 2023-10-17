@@ -140,7 +140,7 @@ const deleteFields = (id) => {
 const searchQuery = ref(null);
 const search = () => {
   axios
-    .get("/fields/search", {
+    .get("/fields", {
       params: {
         query: searchQuery.value,
       },

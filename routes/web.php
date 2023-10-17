@@ -25,19 +25,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/field-group', [FieldGroupController::class, 'search']);
-    Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
-    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
-    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
+    // Route::get('/field-group/data', [FieldGroupController::class, 'getFields']);
+     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldGroupName']);
+     Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
 
     Route::resource('fields', FieldController::class)->only([
-        'index', 'store', 'destroy', 'update',
+        'index', 'store', 'destroy', 'update', 'show'
     ]);
-    Route::get('/fields/{id}/show', [FieldController::class, 'show']);
-    Route::get('/fields/search', [FieldController::class, 'search']);
-    Route::get('/fields/{field}', [FieldController::class, 'editShow']);
-    Route::get('/fields', [FieldController::class, 'filterFields']);
-    Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
+    Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']);
+   // Route::get('/fields/search', [FieldController::class, 'search']);
+   // Route::get('/fields/{field}', [FieldController::class, 'editShow']);
+   // Route::get('/fields', [FieldController::class, 'filterFields']);
+  //  Route::get('/fields-data/{field}', [FieldController::class, 'getFieldsId']);
     Route::get('/fields', [FieldController::class, 'getFieldsDetails']);
 
     Route::resource('items', ItemController::class)->only([
@@ -45,8 +44,8 @@ Route::middleware('auth')->group(function () {
     ]);
     Route::get('/items/{item}/show', [ItemController::class, 'getItems']);
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
-    Route::get('/items', [ItemController::class, 'search']);
-    Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
+   // Route::get('/items', [ItemController::class, 'search']);
+   // Route::get('/items/{id}/filter-item', [ItemController::class, 'show']);
 
     Route::resource('parent', ParentController::class)->only([
         'index', 'store', 'destroy', 'update',

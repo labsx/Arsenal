@@ -8,6 +8,13 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    public function listName($id)
+    {
+        $ids = Category::findOrFail($id);
+
+        return response()->json($ids);
+    }
+
     public function index(Request $request)
     {
         $searchQuery = $request->input('query');
@@ -63,6 +70,13 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return response()->json($category);
+        return $category;
+    }
+
+    public function categoryData()
+    {
+        $categories = Category::latest()->get();
+
+        return response()->json($categories);
     }
 }

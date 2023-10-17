@@ -9,11 +9,21 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::latest()->paginate(10);
+        $searchQuery = $request->input('query');
+        $items = Item::where(function ($query) use ($searchQuery) {
+            $query->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('serial', 'like', "%{$searchQuery}%")
+                ->orWhere('status', 'like', "%{$searchQuery}%")
+                ->orWhere('model', 'like', "%{$searchQuery}%")
+                ->orWhere('manufacturer', 'like', "%{$searchQuery}%")
+                ->orWhere('price', 'like', "%{$searchQuery}%")
+                ->orWhere('mfg_date', 'like', "%{$searchQuery}%")
+                ->orWhere('location', 'like', "%{$searchQuery}%");
+        })->paginate(10);
 
-        return $items;
+        return response()->json($items);
     }
 
     public function getItemAttributes()
@@ -36,18 +46,6 @@ class ItemController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
-    }
-
-    public function search(Request $request)
-    {
-        $searchQuery = $request->input('query');
-        $fields = Item::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('serial', 'like', "%{$searchQuery}%")
-                ->orWhere('status', 'like', "%{$searchQuery}%");
-        })->paginate(10);
-
-        return response()->json($fields);
     }
 
     public function destroy(Item $item)

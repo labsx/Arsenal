@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Field;
 use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
 class FieldGroupController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $field_groups = FieldGroup::latest()->paginate(10);
+        $searchQuery = $request->input('query');
+        $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
+            $query->where('name', 'like', "%{$searchQuery}%")
+                ->orWhere('description', 'like', "%{$searchQuery}%");
+        })->paginate(10);
 
-        return $field_groups;
+        return response()->json($fieldGroups);
     }
 
     public function store(Request $request)
@@ -35,17 +38,6 @@ class FieldGroupController extends Controller
         return response()->noContent();
     }
 
-    public function search(Request $request)
-    {
-        $searchQuery = $request->input('query');
-        $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('description', 'like', "%{$searchQuery}%");
-        })->paginate(10);
-
-        return response()->json($fieldGroups);
-    }
-
     public function getName()
     {
         $categories = FieldGroup::latest()->select('id', 'name')->get();
@@ -53,17 +45,15 @@ class FieldGroupController extends Controller
         return response()->json($categories);
     }
 
-    public function getFields()
+    // public function getFields()
+    // {
+    //     $field_groups = FieldGroup::latest()->select('id', 'name')->get();
+
+    //     return response()->json($field_groups);
+    // }
+
+    public function show(FieldGroup $field_groups)
     {
-        $field_groups = FieldGroup::latest()->select('id', 'name')->get();
-
-        return response()->json($field_groups);
-    }
-
-    public function show($id)
-    {
-        $field_groups = FieldGroup::findOrFail($id);
-
         return response()->json($field_groups);
     }
 
@@ -82,13 +72,9 @@ class FieldGroupController extends Controller
 
     public function getFieldGroupName($id)
     {
-        try {
-            $fieldGroup = FieldGroup::findOrFail($id);
+        $fieldGroup = FieldGroup::findOrFail($id);//display in the table field group
 
-            return response()->json(['name' => $fieldGroup->name]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Field group not found'], 404);
-        }
+        return response()->json(['name' => $fieldGroup->name]);
     }
 
     public function getFieldsByFieldGroupId($id)
@@ -98,17 +84,17 @@ class FieldGroupController extends Controller
         return response()->json($fieldsData);
     }
 
-    public function fieldShow()
-    {
-        $field_groups = FieldGroup::latest()->select('id', 'name')->get();
+    // public function fieldShow()
+    // {
+    //     $field_groups = FieldGroup::latest()->select('id', 'name')->get();
 
-        return response()->json($field_groups);
-    }
+    //     return response()->json($field_groups);
+    // }
 
-    public function getList()
-    {
-        $categories = Category::latest()->get();
+    // public function getList()
+    // {
+    //     $categories = Category::latest()->get();
 
-        return response()->json($categories);
-    }
+    //     return response()->json($categories);
+    // }
 }
