@@ -51,6 +51,8 @@ class CategoryController extends Controller
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
             'field_group_id' => ['required'],
+        ], [
+            'name.required' => 'The category name field is required !',
         ]);
 
         $category = Category::findOrfail($id);

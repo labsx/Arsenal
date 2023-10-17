@@ -8,22 +8,29 @@
             <div class="card-header">
               <h3 class="card-title">Update Category</h3>
             </div>
-
             <form>
               <div class="card-body">
                 <div class="form-group">
                   <label for="appName">Category Name</label>
+                  <span class="text-danger"> *</span>
                   <input
                     v-model="form.name"
                     type="text"
                     class="form-control"
                     id="appName"
-                    placeholder="Enter app display name"
+                    placeholder="Enter category name"
+                    :class="{ 'is-invalid': errors.name }"
                   />
+                  <span
+                    v-if="errors && errors.name"
+                    class="text-danger text-sm"
+                    >{{ errors.name[0] }}</span
+                  >
                 </div>
 
                 <div class="form-group">
                   <label for="dateFormat">Group Fields</label>
+                  <span class="text-danger"> *</span>
                   <select class="form-control" v-model="form.field_group_id">
                     <option
                       :value="field.id"
@@ -97,7 +104,11 @@ const saveCategory = () => {
       toastr.success("Category updated successfully!");
     })
     .catch((error) => {
-      console.error("Error updating category:", error);
+      if (error.response && error.response.status === 400) {
+        toastr.error(error.response.data.error);
+      } else if (error.response && error.response.status === 422) {
+        errors.value = error.response.data.errors;
+      }
     });
 };
 
