@@ -7,13 +7,20 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::latest()->paginate(10);
+        $searchQuery = $request->input('query');
+        $employees = Employee::where(function ($query) use ($searchQuery) {
+            $query->where('first_name', 'like', "%{$searchQuery}%")
+                ->orWhere('last_name', 'like', "%{$searchQuery}%")
+                ->orWhere('position', 'like', "%{$searchQuery}%");
+        })
+        ->latest() 
+        ->paginate(10); 
 
         return response()->json($employees);
     }
-
+    
     public function store(Request $request)
     {
         $formFields = $request->validate([
@@ -40,18 +47,6 @@ class EmployeeController extends Controller
         $employee->delete();
 
         return response()->noContent();
-    }
-
-    public function search(Request $request)
-    {
-        $searchQuery = $request->input('query');
-        $employees = Employee::where(function ($query) use ($searchQuery) {
-            $query->where('first_name', 'like', "%{$searchQuery}%")
-                ->orWhere('last_name', 'like', "%{$searchQuery}%")
-                ->orWhere('position', 'like', "%{$searchQuery}%");
-        })->paginate(10);
-
-        return response()->json($employees);
     }
 
     public function show($id)

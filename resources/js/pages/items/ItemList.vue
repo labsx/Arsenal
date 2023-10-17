@@ -47,7 +47,7 @@
                     <th scope="col">Model</th>
                     <th scope="col">Mfg. Date</th>
                     <th scope="col">Manufacturer</th>
-                    <th scope="col">Location</th>
+                    <th scope="col">Manufacturer Address</th>
                     <th scope="col">Unit price</th>
                     <th scope="col">Status</th>
                     <!-- <th scope="col">Barcode</th> -->

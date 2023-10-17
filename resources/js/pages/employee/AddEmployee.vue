@@ -116,41 +116,9 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { ref, defineProps } from "vue";
-import { useToastr } from "../../toastr";
+import { defineProps } from "vue";
+import addEmployee from "../../store/employeejs/employee.js";
 
 const { getEmployeeFn } = defineProps(["getEmployeeFn"]);
-const errors = ref([]);
-const toastr = useToastr();
-const form = ref({
-  first_name: "",
-  last_name: "",
-  position: "",
-});
-
-const clearForm = () => {
-  form.value.first_name = "";
-  form.value.last_name = "";
-  form.value.position = "";
-};
-
-const createEmployee = () => {
-  axios
-    .post("/employee", form.value)
-    .then((response) => {
-      toastr.success("Employee created successfully");
-      clearForm();
-      $("#addEmployee").modal("hide");
-      getEmployeeFn();
-      errors.value = "";
-    })
-    .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        toastr.error(error.response.data.error);
-      } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors || {};
-      }
-    });
-};
+const { errors, form, createEmployee } = addEmployee(getEmployeeFn);
 </script>

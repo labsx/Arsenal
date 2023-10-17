@@ -13,7 +13,7 @@
                     <span class="text-danger"> *</span>
                     <select
                       id="fieldGroup"
-                     class="form-control"
+                      class="form-control"
                       v-model="form.parent_id"
                       @change="getFields"
                       :class="{ 'is-invalid': errors.parent_id }"
@@ -178,14 +178,14 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="price">Location</label>
+                      <label for="price">Manufacturer address</label>
                       <span class="text-danger"> *</span>
                       <input
                         v-model="form.location"
                         type="text"
                         class="form-control"
                         id="location"
-                        placeholder="Enter item location"
+                        placeholder="Enter item manufacturer address"
                         :class="{ 'is-invalid': errors.location }"
                       />
                       <span
@@ -218,7 +218,12 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="price">Warranty</label>
+                      <label class="d-flex align-items-center"
+                        >Warranty
+                        <small class="form-text text-muted ml-2"
+                          >( enter days/months/year )</small
+                        >
+                      </label>
                       <input
                         v-model="form.warranty"
                         type="text"
@@ -378,7 +383,7 @@ const createItem = () => {
     .then((response) => {
       toastr.success("Item created successfully!");
       clearForm();
-      errors.value ="";
+      errors.value = "";
     })
     .catch((error) => {
       if (error.response && error.response.status === 400) {

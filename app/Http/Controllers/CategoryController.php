@@ -84,6 +84,6 @@ class CategoryController extends Controller
     {
         $categories = Category::latest()->get();
 
-        return $categories;
+        return response()->json($categories);
     }
 }

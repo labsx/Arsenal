@@ -22,9 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
         ->only(['index', 'store', 'destroy', 'update']);
     Route::get('/category', [CategoryController::class, 'search']);
-    Route::get('/category/{category}/show', [CategoryController::class, 'show']);
     Route::get('/category-data/{category}', [CategoryController::class, 'listName']);
     Route::get('/category-data', [CategoryController::class, 'categoryData']);
+    Route::get('/category/{category}/show', [CategoryController::class, 'show']);
 
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
@@ -64,7 +64,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update',
     ]);
-    Route::get('/employee', [EmployeeController::class, 'search']);
 
     Route::resource('issue', IssueItemController::class)->only([
         'show', 'store', 'update',
@@ -74,9 +73,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/histories', [HistoryController::class, 'index']);
     Route::get('/histories/{employeeId}', [HistoryController::class, 'show']);
-
-    // Route::get('/history', [HistoryController::class, 'index']);
-    // Route::get('/history', [HistoryController::class, 'search']);
 
     Route::resource('users', UserController::class)->only([
         'index', 'store', 'destroy',

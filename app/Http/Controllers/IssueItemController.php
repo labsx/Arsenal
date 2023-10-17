@@ -49,6 +49,7 @@ class IssueItemController extends Controller
             'remarks' => $formFields['remarks'],
             'status' => 'issued',
         ]);
+
         $item = Item::where('id', $formFields['item_id'])->first();
         if ($item) {
             $item->update(['status' => 'issued']);

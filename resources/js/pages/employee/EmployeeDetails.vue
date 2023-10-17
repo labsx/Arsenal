@@ -102,6 +102,7 @@ import AddEmployee from "./AddEmployee.vue";
 import { debounce } from "lodash";
 import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+// import { searchQuery, search } from './employeejs/employee.js';
 
 const showImage = ref(false);
 const toastr = useToastr();
@@ -118,6 +119,8 @@ const getEmployee = (page = 1) => {
       console.error("An error occurred:", error);
     });
 };
+
+
 
 const searchQuery = ref(null);
 const search = () => {
