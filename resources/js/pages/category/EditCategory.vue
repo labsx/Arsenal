@@ -113,12 +113,11 @@ const saveCategory = () => {
 };
 
 const field_groups = ref([]);
-field_groups;
 const getFieldGroup = () => {
   axios
-    .get("/fields")
+    .get("/field-group")
     .then((response) => {
-      field_groups.value = response.data;
+     field_groups.value = response.data;
     })
     .catch((error) => {
       console.error("Error fetching field_group:", error);

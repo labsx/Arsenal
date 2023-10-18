@@ -23,7 +23,7 @@ class ParentController extends Controller
         ]);
 
         $parent = ParentModel::create($formField);
-    
+
         $category = Category::find($formField['category_id']);
         if ($category) {
             $category->parent_id = $parent->id;
@@ -31,31 +31,37 @@ class ParentController extends Controller
         } else {
             return response()->json(['error' => 'Category not found'], 404);
         }
-    
+
         return response()->json($parent);
     }
-    
 
-    public function search(Request $request)
-    {
-        $searchQuery = $request->input('query');
-        $parents = ParentModel::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%");
-        })->paginate(10);
 
-        return response()->json($parents);
-    }
+    // public function search(Request $request)
+    // {
+    //     $searchQuery = $request->input('query');
+    //     $parents = ParentModel::where(function ($query) use ($searchQuery) {
+    //         $query->where('name', 'like', "%{$searchQuery}%");
+    //     })->paginate(10);
+
+    //     return response()->json($parents);
+    // }
 
     public function showData($fieldGroupId)
     {
         $parents = ParentModel::where('category_id', $fieldGroupId)->paginate(10);
 
-        if ($parents->isEmpty()) {
-            return response()->json(['error' => 'No parents found for the specified field group'], 404);
-        }
-
         return response()->json($parents);
     }
+    // public function showData($fieldGroupId)
+    // {
+    //     $parents = ParentModel::where('category_id', $fieldGroupId)->paginate(10);
+
+    //     if ($parents->isEmpty()) {
+    //         return response()->json(['error' => 'No parents found for the specified field group'], 404);
+    //     }
+
+    //     return response()->json($parents);
+    // }
 
     public function destroy(ParentModel $parent)
     {
@@ -90,10 +96,10 @@ class ParentController extends Controller
         return response()->json($parents);
     }
 
-    public function getSubCategroy()
-    {
-        $subcategories = Category::with('parent_models')->get();
+    // public function getSubCategroy()
+    // {
+    //     $subcategories = Category::with('parent_models')->get();
 
-        return response()->json($subcategories);
-    }
+    //     return response()->json($subcategories);
+    // }
 }

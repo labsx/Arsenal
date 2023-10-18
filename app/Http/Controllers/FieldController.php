@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Field;
-use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 
 class FieldController extends Controller
@@ -14,18 +13,6 @@ class FieldController extends Controller
 
         return response()->json($fields);
     }
-
-    // public function search(Request $request)
-    // {
-    //     $searchQuery = $request->input('query');
-    //     $fields = Field::where(function ($query) use ($searchQuery) {
-    //         $query->where('label', 'like', "%{$searchQuery}%")
-    //             ->orWhere('description', 'like', "%{$searchQuery}%")
-    //             ->orWhere('is_required', 'like', "%{$searchQuery}%");
-    //     })->paginate(10);
-
-    //     return response()->json($fields);
-    // }
 
     public function store(Request $request)
     {
@@ -74,12 +61,5 @@ class FieldController extends Controller
         $category->update($formField);
 
         return response()->json($category);
-    }
-
-    public function getFieldsDetails()
-    {
-        $fields_groups = FieldGroup::latest()->select('id', 'name')->get(); //fields for edit category
-
-        return $fields_groups;
     }
 }

@@ -15,7 +15,7 @@
               </button>
             </div>
             <div>
-              <div class="input-group">
+              <!-- <div class="input-group">
                 <input
                   v-model="searchQuery"
                   type="text"
@@ -27,7 +27,7 @@
                     ><i class="fa fa-search text-primary" aria-hidden="true"></i
                   ></span>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card">

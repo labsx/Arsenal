@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\ItemAttribute;
 use Carbon\Carbon;
+use App\Models\Item;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\ItemAttribute;
 
 class ItemController extends Controller
 {
@@ -24,28 +25,6 @@ class ItemController extends Controller
         })->paginate(10);
 
         return response()->json($items);
-    }
-
-    public function getItemAttributes()
-    {
-        try {
-            $items = Item::all();
-            $itemsWithAttributes = [];
-
-            foreach ($items as $item) {
-                $attributes = ItemAttribute::where('item_id', $item->id)->get();
-                $itemWithAttributes = [
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'attributes' => $attributes,
-                ];
-                array_push($itemsWithAttributes, $itemWithAttributes);
-            }
-
-            return response()->json($itemsWithAttributes, 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Internal Server Error'], 500);
-        }
     }
 
     public function destroy(Item $item)
@@ -234,5 +213,12 @@ class ItemController extends Controller
         }
 
         return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
+    }
+
+    public function getSubCategroy()
+    {
+        $subcategories = Category::with('parent_models')->get();
+
+        return response()->json($subcategories);
     }
 }

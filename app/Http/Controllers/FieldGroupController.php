@@ -64,4 +64,11 @@ class FieldGroupController extends Controller
 
         return response()->json($fieldsData);
     }
+
+    public function getFieldsDetails()
+    {
+        $fields_groups = FieldGroup::latest()->select('id', 'name')->get(); //fields for edit category
+
+        return $fields_groups;
+    }
 }

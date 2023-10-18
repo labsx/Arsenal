@@ -25,27 +25,25 @@ Route::middleware('auth')->group(function () {
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']);
+    Route::get('/field-group', [FieldGroupController::class, 'getFieldsDetails']); //fields for edit category
+    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields in dropdown
 
     Route::resource('fields', FieldController::class)->only([
-        'index', 'store', 'destroy', 'update', 'show'
+        'store', 'destroy', 'update', 'show'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
-    Route::get('/fields', [FieldController::class, 'getFieldsDetails']); //fields for edit category
 
     Route::resource('items', ItemController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
+    Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']); //item details attributes
+    Route::get('/parent/sub', [ItemController::class, 'getSubCategroy']); //item dropdown
 
     Route::resource('parent', ParentController::class)->only([
-        'store', 'destroy', 'update',
+        'store', 'destroy', 'update', 'show'
     ]);
-    Route::get('/parent/sub', [ParentController::class, 'getSubCategroy']); //item dropdown
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']); //table
-    Route::get('/parent/{parent}', [ParentController::class, 'show']); //dropdown and edit
-    // Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update',

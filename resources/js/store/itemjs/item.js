@@ -241,17 +241,17 @@ export function editItems() {
             });
     };
 
-    const parents = ref([]);
-    const getParent = () => {
-        axios
-            .get("/parent-data")
-            .then((response) => {
-                parents.value = response.data;
-            })
-            .catch((error) => {
-                console.error("Error fetching field_group:", error);
-            });
-    };
+    // const parents = ref([]);
+    // const getParent = () => {
+    //     axios
+    //         .get("/parent-data")
+    //         .then((response) => {
+    //             parents.value = response.data;
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching field_group:", error);
+    //         });
+    // };
 
     const subcategories = ref([]);
     const getSubCategory = () => {
@@ -267,7 +267,7 @@ export function editItems() {
 
     onMounted(() => {
         getSubCategory();
-        getParent();
+        // getParent();
         getItems();
         getAttributes();
 
