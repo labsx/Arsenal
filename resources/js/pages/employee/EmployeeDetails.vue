@@ -50,7 +50,7 @@
                       <router-link :to="`/admin/employee/${employee.id}/edit`">
                         <i class="fas fa-edit"></i>
                       </router-link>
-                      
+
                       <router-link
                         to=""
                         @click.prevent="deleteEmployee(employee.id)"
@@ -92,87 +92,19 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { ref, onMounted, watch } from "vue";
-import Swal from "sweetalert2";
-import { deleteEmployees } from "../../store/swal.js";
-import { Bootstrap4Pagination } from "laravel-vue-pagination";
-import { useToastr } from "../../toastr";
+import { employeeDetails } from "../../store/employeejs/employee.js";
 import AddEmployee from "./AddEmployee.vue";
-import { debounce } from "lodash";
-import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
-// import { searchQuery, search } from './employeejs/employee.js';
-
-const showImage = ref(false);
-const toastr = useToastr();
-const errors = ref([]);
-const employees = ref({ data: [] });
-
-const getEmployee = (page = 1) => {
-  axios
-    .get(`/employee?page=${page}`)
-    .then((response) => {
-      employees.value = response.data;
-    })
-    .catch((error) => {
-      console.error("An error occurred:", error);
-    });
-};
-
-
-
-const searchQuery = ref(null);
-const search = () => {
-  axios
-    .get("/employee", {
-      params: {
-        query: searchQuery.value,
-      },
-    })
-    .then((response) => {
-      employees.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-watch(
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
+import imagePath from "/resources/image/no data.gif";
+const {
+  showImage,
+  errors,
+  employees,
   searchQuery,
-  debounce(() => {
-    search();
-  }, 300)
-);
-
-const deleteEmployee = (id) => {
-  deleteEmployees()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/employee/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      employees.value.data = employees.value.data.filter(
-        (employee) => employee.id !== id
-      );
-      Swal.fire("Deleted!", "Employee has been deleted.", "success");
-    })
-    .catch((error) => {
-      console.error("Error deleting Employee:", error);
-    });
-};
-
-onMounted(() => {
-  getEmployee();
-
-  setTimeout(() => {
-    if (employees.value.data.length === 0) {
-      showImage.value = true;
-    }
-  }, 100);
-});
+  getEmployee,
+  deleteEmployee,
+} = employeeDetails();
 </script>
 
 
