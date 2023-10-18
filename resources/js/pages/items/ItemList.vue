@@ -60,8 +60,8 @@
                     <td>{{ item.serial }}</td>
                     <td>{{ item.model }}</td>
                     <td>{{ formatDate(item.mfg_date) }}</td>
-                    <td>{{ item.manufacturer }}</td>
-                    <td>{{ item.location }}</td>
+                    <td>{{ item.manufacturer ? item.manufacturer : "none" }}</td>
+                    <td>{{ item.location ? item.location : "none" }}</td>
                     <td>{{ formatPrice(item.price) }}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{
@@ -140,6 +140,9 @@ import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 
 const formatPrice = (price) => {
+   if (!price) {
+    return "none";
+  }
   const parts = price.toString().split(".");
   const integerPart = parts[0]
     .split("")

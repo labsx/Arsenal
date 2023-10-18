@@ -138,7 +138,6 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="title">Mfg Date</label>
-                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.mfg_date"
                         type="date"
@@ -159,7 +158,6 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="price">Manufacturer</label>
-                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.manufacturer"
                         type="text"
@@ -179,7 +177,6 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="price">Manufacturer address</label>
-                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.location"
                         type="text"
@@ -199,7 +196,6 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="price">Unit price</label>
-                      <span class="text-danger"> *</span>
                       <input
                         v-model="form.price"
                         type="text"

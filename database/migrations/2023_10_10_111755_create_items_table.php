@@ -17,12 +17,12 @@ return new class extends Migration
             $table->foreignId('parent_id')->constrained('parent_models')->onDelete('cascade');
             $table->string('name');
             $table->string('model');
-            $table->decimal('price', 10, 2)->default(0);
-            $table->dateTime('mfg_date');
+            $table->decimal('price', 10, 2)->default(0)->nullable();
             $table->string('serial');
             $table->string('status');
-            $table->string('manufacturer');
-            $table->string('location');
+            $table->dateTime('mfg_date')->nullable();
+            $table->string('manufacturer')->nullable();
+            $table->string('location')->nullable();
             $table->string('warranty')->nullable();
             $table->string('insurance')->nullable();
             $table->decimal('net_weight', 10, 2)->default(0)->nullable();
