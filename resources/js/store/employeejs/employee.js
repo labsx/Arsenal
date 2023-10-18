@@ -45,7 +45,6 @@ export default function addEmployee(getEmployeeFn) {
 
 export function updateEmployee() {
     const toastr = useToastr();
-
     const router = useRouter();
     const route = useRoute();
     const errors = ref([]);

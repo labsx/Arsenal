@@ -42,7 +42,7 @@
                                 id="title"
                                 placeholder="Enter item name"
                                 v-model="form.name"
-                                 :class="{ 'is-invalid': errors.name }"
+                                :class="{ 'is-invalid': errors.name }"
                               />
                               <span
                                 v-if="errors && errors.name"
@@ -76,10 +76,18 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            data-dismiss="modal"
+          >
             <i class="fa fa-times mr-2 text-danger"></i>Close
           </button>
-          <button @click="createFields()" type="submit" class="btn btn-outline-primary btn-sm">
+          <button
+            @click="createFields()"
+            type="submit"
+            class="btn btn-outline-primary btn-sm"
+          >
             <i class="fa fa-save mr-2"></i>Save Item
           </button>
         </div>
@@ -89,41 +97,9 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { onMounted, ref, watch, defineProps } from "vue";
-import { useToastr } from "../../toastr";
+import { defineProps } from "vue";
+import addFieldGroups from "../../store/field-groups/field-groups.js";
 
-const { getFieldsGroupsFn } = defineProps(['getFieldsGroupsFn']);
-
-const form = ref({
-  name: "",
-  description: "",
-});
-const errors = ref([]);
-const toastr = useToastr();
-
-const clearForm = () => {
-  form.value.name = "";
-  form.value.description = "";
-};
-
-const createFields = () => {
-  axios
-    .post("/field-group", form.value)
-    .then((response) => {
-      toastr.success("fields created successfully!");
-      $("#createFieldsGroup").modal("hide");
-      clearForm();
-      getFieldsGroupsFn();
-    })
-    .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        toastr.error(error.response.data.error);
-      } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors;
-        toastr.error(message);
-        errors.value = [];
-      }
-    });
-};
+const { errors, form, createFields } = addFieldGroups(getFieldsGroupsFn);
+const { getFieldsGroupsFn } = defineProps(["getFieldsGroupsFn"]);
 </script>

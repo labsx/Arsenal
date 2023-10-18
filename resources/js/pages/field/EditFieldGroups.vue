@@ -1,5 +1,5 @@
 <template>
-<ContentHeader title="Edit Field Groups" data="item" datas="edit"/>
+  <ContentHeader title="Edit Field Groups" data="item" datas="edit" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -20,7 +20,7 @@
                     class="form-control"
                     id="appName"
                     placeholder=""
-                    :class="{'is-invalid': errors.name}"
+                    :class="{ 'is-invalid': errors.name }"
                   />
                   <span
                     v-if="errors && errors.name"
@@ -55,57 +55,8 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
-import { reactive, onMounted, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useToastr } from "../../toastr";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+import { editFieldGroups } from "../../store/field-groups/field-groups.js";
 
-const router = useRouter();
-const route = useRoute();
-const toastr = useToastr();
-const errors = ref([]);
-
-const form = reactive({
-  name: "",
-  description: "",
-});
-
-const groupDetails = () => {
-  axios
-    .get(`/field-group/${route.params.id}`)
-    .then(({ data }) => {
-      console.log("Field Group data:", data);
-      form.name = data.name;
-      form.description = data.description;
-    })
-    .catch((error) => {
-      console.error("Error fetching field group details:", error);
-    });
-};
-
-const saveGroupFields = () => {
-  axios
-    .put(`/field-group/${route.params.id}`, {
-      name: form.name,
-      description: form.description,
-    })
-    .then(() => {
-      toastr.success("Group fields updated successfully!");
-    })
-   .catch((error) => {
-      if (error.response && error.response.status === 400) {
-        toastr.error(error.response.data.error);
-      } else if (error.response && error.response.status === 422) {
-        errors.value = error.response.data.errors;
-        toastr.error(message);
-        // getItemsFn();
-        errors.value = [];
-      }
-    });
-};
-
-onMounted(() => {
-  groupDetails();
-});
+const { form, errors, saveGroupFields } = editFieldGroups();
 </script>

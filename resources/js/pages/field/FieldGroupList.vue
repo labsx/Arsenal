@@ -95,79 +95,11 @@
 </template>
 <script setup>
 import axios from "axios";
-import { onMounted, ref, watch } from "vue";
-import { deleteFieldGroups } from "../../store/swal.js";
-import Swal from "sweetalert2";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
-import { debounce } from "lodash";
 import AddFieldGroups from "./AddFieldGroups.vue";
 import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+import { fieldGroupDetails } from "../../store/field-groups/field-groups.js";
 
-const showImage = ref(false);
-
-const field_groups = ref({ data: [] });
-
-const getFieldsGroups = (page = 1) => {
-  axios
-    .get(`/field-group?page=${page}`)
-    .then((response) => {
-      field_groups.value = response.data;
-    })
-    .catch((error) => {
-      console.error("An error occurred:", error);
-    });
-};
-
-const deleteFields = (id) => {
-  deleteFieldGroups()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/field-group/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      field_groups.value.data = field_groups.value.data.filter(
-        (field) => field.id !== id
-      );
-      Swal.fire("Deleted!", "Fields has been deleted.", "success");
-    })
-    .catch((error) => {
-      console.error("Error deleting Fields:", error);
-    });
-};
-
-const searchQuery = ref(null);
-const search = () => {
-  axios
-    .get("/field-group", {
-      params: {
-        query: searchQuery.value,
-      },
-    })
-    .then((response) => {
-      field_groups.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-watch(
-  searchQuery,
-  debounce(() => {
-    search();
-  }, 300)
-);
-
-onMounted(() => {
-  getFieldsGroups();
-
-  setTimeout(() => {
-    if (field_groups.value.data.length === 0) {
-      showImage.value = true;
-    }
-  }, 100);
-});
+const { showImage,field_groups, searchQuery, getFieldsGroups, deleteFields } = fieldGroupDetails();
 </script>

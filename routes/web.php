@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('fields', FieldController::class)->only([
         'index', 'store', 'destroy', 'update', 'show'
     ]);
-    //Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']);
+    Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
     Route::get('/fields', [FieldController::class, 'getFieldsDetails']); //fields for edit category
 
     Route::resource('items', ItemController::class)->only([
@@ -39,13 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']);
 
     Route::resource('parent', ParentController::class)->only([
-         'store', 'destroy', 'update',
+        'store', 'destroy', 'update',
     ]);
     Route::get('/parent/sub', [ParentController::class, 'getSubCategroy']); //item dropdown
     Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']); //table
     Route::get('/parent/{parent}', [ParentController::class, 'show']); //dropdown and edit
-   // Route::put('/parent/{parent}', [ParentController::class, 'update']);
+    // Route::put('/parent/{parent}', [ParentController::class, 'update']);
 
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update',

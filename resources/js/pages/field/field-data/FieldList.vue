@@ -15,7 +15,7 @@
               </button>
             </div>
             <div>
-              <div class="input-group">
+              <!-- <div class="input-group">
                 <input
                   v-model="searchQuery"
                   type="text"
@@ -27,7 +27,7 @@
                     ><i class="fa fa-search text-primary" aria-hidden="true"></i
                   ></span>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card">
@@ -89,84 +89,13 @@
   </div>
   <AddFieldsData :getFieldByIdFn="getFieldsById" />
 </template>
+
 <script setup>
-import axios from "axios";
-import { onMounted, ref, watch, getCurrentInstance } from "vue";
-import Swal from "sweetalert2";
-import { Bootstrap4Pagination } from "laravel-vue-pagination";
-import { debounce } from "lodash";
-import { useToastr } from "../../../toastr";
-import AddFieldsData from "./AddFieldsData.vue";
-import { deleteFieldGroups } from "../../../store/swal.js";
-import imagePath from "/resources/image/no data.gif";
-import ContentHeader from "../../../pages/layout/ContentHeader.vue";
+import { fieldDetails } from "../../../store/fields/fields.js";
+ import { Bootstrap4Pagination } from "laravel-vue-pagination";
+ import AddFieldsData from "./AddFieldsData.vue";
+ import imagePath from "/resources/image/no data.gif";
+ import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 
-const showImage = ref(false);
-const toastr = useToastr();
-const route = getCurrentInstance().proxy.$route;
-const fields = ref({ data: [] });
-//display fields by id
-const getFieldsById = (page = 1) => {
-  const fieldId = route.params.id;
-
-  axios
-    .get(`/fields/${fieldId}/show?page=${page}`)
-    .then((response) => {
-      fields.value = response.data;
-    })
-    .catch((error) => {
-      console.error("An error occurred:", error);
-    });
-};
-
-const deleteFields = (id) => {
-  deleteFieldGroups()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/fields/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      fields.value.data = fields.value.data.filter((field) => field.id !== id);
-      Swal.fire("Deleted!", "Fields has been deleted.", "success");
-      getFieldsById();
-    })
-    .catch((error) => {
-      console.error("Error deleting Fields:", error);
-    });
-};
-
-const searchQuery = ref(null);
-const search = () => {
-  axios
-    .get("/fields", {
-      params: {
-        query: searchQuery.value,
-      },
-    })
-    .then((response) => {
-      fields.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error in search:", error);
-    });
-};
-
-watch(
-  searchQuery,
-  debounce(() => {
-    search();
-  }, 300)
-);
-
-onMounted(() => {
-  getFieldsById();
-
-  setTimeout(() => {
-    if (fields.value.data.length === 0) {
-      showImage.value = true;
-    }
-  }, 100);
-});
+ const { showImage, toastr, route, fields, getFieldsById, deleteFields, searchQuery, search } = fieldDetails();
 </script>

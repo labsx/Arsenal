@@ -15,7 +15,7 @@ class FieldController extends Controller
         return response()->json($fields);
     }
 
-    // public function index(Request $request)
+    // public function search(Request $request)
     // {
     //     $searchQuery = $request->input('query');
     //     $fields = Field::where(function ($query) use ($searchQuery) {
