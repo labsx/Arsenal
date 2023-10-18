@@ -2,104 +2,76 @@
 .no-margin {
   margin: 0;
 }
-.text-align-left {
-  text-align: left;
-}
-
-* {
-  font-family: Calibri, sans-serif;
-  font-weight: normal;
-  color: #333;
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
-h1 {
-  font-size: 48px;
-  margin: 10px 0;
+body {
+  font-size: 1.125rem;
+  line-height: 1.25;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Lobster", cursive;
 }
 
 p {
-  margin-bottom: 40px;
+  margin-top: 1rem;
 }
 
-#pop-up {
-  position: relative;
-  top: 200px;
-  width: 800px;
-  margin: 0 auto;
-  text-align: center;
+a {
+  text-decoration: none;
 }
 
-#pop-up .container {
-  background: #f0e4d4;
-  padding: 30px;
-  position: absolute;
-  top: 50px;
+header {
+  display: flex;
+}
+
+h1 {
   width: 100%;
-  box-sizing: border-box;
+  font-size: 2rem;
+  padding: 2rem 3.5rem;
+  color: black;
 }
 
-#pop-up input {
-  padding: 10px;
-  border: 0;
-  border-radius: 10px 0 0 10px;
-  border: 1px solid #333;
-  font-size: 18px;
+.nav__menu ul {
+  width: 100%;
+  margin-top: 2.5rem;
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-end;
 }
 
-button {
-  padding: 5px;
-  border: 0;
-  color: #fff;
-  background: #333;
-  margin-left: -5px;
-  border-radius: 0 10px 10px 0;
-  border: 1px solid #333;
-  font-size: 18px;
+.container {
+  display: flex;
+  align-items: stretch;
 }
 
-.cross {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: #555;
-  color: #ddd;
-  font-weight: bold;
-  width: 22px;
-  height: 22px;
-  border-radius: 11px;
+.main {
+  width: 80%;
+  padding: 2rem 3.5rem;
 }
 
-#pop-up {
-  top: -490px;
-  transform-origin: 10px 10px;
-  animation: drop 0.5s ease forwards, swing 2s 3s ease forwards;
+h2 {
+  font-size: 1.5rem;
 }
 
-@keyframes drop {
-  0% {
-    opacity: 0;
-  }
-  70% {
-    transform: translateY(500px);
-  }
-  100% {
-    transform: translateY(450px);
-    opacity: 1;
-  }
+.sidebar {
+  width: 60%;
+  flex-basis: auto;
+  min-height: calc(100vh - 10.5rem);
+  min-width: 11.25rem;
+
+  color: black;
+  padding: 2rem 2.5rem;
 }
 
-@keyframes swing {
-  0% {
-    transform: translateY(450px) rotateZ(0deg);
-  }
-  40% {
-    transform: translateY(450px) rotateZ(90deg);
-  }
-  70% {
-    transform: translateY(450px) rotateZ(35deg);
-  }
-  100% {
-    transform: translateY(450px) rotateZ(40deg);
-  }
+.sidebar ul {
+  margin-top: 1rem;
 }

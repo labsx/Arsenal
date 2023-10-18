@@ -21,11 +21,15 @@
       <h2>Item Details</h2>
       <p class="no-margin">Model: {{ form.serial }}</p>
       <p class="no-margin">Model: {{ form.model }}</p>
-      <p class="no-margin">Price: ₱ {{ form.price }}</p>
-      <p class="no-margin">Mfg. Date: {{ form.mfg_date }}</p>
-      <p class="no-margin">Manufacturer: {{ form.manufacturer }}</p>
-      <p class="no-margin" v-if="form.location !== ''">
-        Location: {{ form.location }}
+      <p class="no-margin">Price: ₱ {{ form.price ? form.price : "none" }}</p>
+      <p class="no-margin">
+        Mfg. Date: {{ form.mfg_date ? form.mfg_date : "none" }}
+      </p>
+      <p class="no-margin">
+        Manufacturer: {{ form.manufacturer ? form.manufacturer : "none" }}
+      </p>
+      <p class="no-margin">
+        Location: {{ form.location ? form.location : "none" }}
       </p>
       <p class="no-margin">
         Warranty: {{ form.warranty ? form.warranty : "none" }}
@@ -34,7 +38,7 @@
         Insurance: {{ form.insurance ? form.insurance : "none" }}
       </p>
       <p class="no-margin">
-        Net Weight: {{ form.net_weight ? form.net_weight : "none" }} kg
+        Net Weight: {{ form.net_weight ? form.net_weight : "none" }}
       </p>
       <div class="col-6 justify-content mt-4 text-align-left">
         <h2>Attributes</h2>
@@ -60,7 +64,7 @@
           Issued Date: {{ formatDate(history.issued_at) }}
         </p>
         <p class="no-margin">
-          Return Date:
+          a Return Date:
           {{
             history.return_at
               ? formatDate(history.return_at)
