@@ -45,11 +45,11 @@
                     <td>{{ parent.name }}</td>
                     <td>{{ formatDate(parent.created_at) }}</td>
                     <td>
-                      <router-link
+                      <!-- <router-link
                         :to="`/admin/subcategory/${parent.id}/item-filter`"
                       >
                         <i class="fas fa-eye mr-2"></i>
-                      </router-link>
+                      </router-link> -->
 
                       <router-link :to="`/admin/subcategory/${parent.id}/edit`">
                         <i class="fas fa-edit mr-2"></i>

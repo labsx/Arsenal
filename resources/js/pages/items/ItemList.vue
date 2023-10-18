@@ -1,5 +1,5 @@
 <template>
-<ContentHeader title="Item List" data="item" datas="list"/>
+  <ContentHeader title="Item List" data="item" datas="list" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -48,7 +48,7 @@
                     <th scope="col">Mfg. Date</th>
                     <th scope="col">Manufacturer</th>
                     <th scope="col">Manufacturer Address</th>
-                    <th scope="col">Unit price</th>
+                    <th scope="col">Unit&nbsp;price</th>
                     <th scope="col">Status</th>
                     <!-- <th scope="col">Barcode</th> -->
                     <th scope="col">Option</th>
@@ -62,7 +62,7 @@
                     <td>{{ formatDate(item.mfg_date) }}</td>
                     <td>{{ item.manufacturer }}</td>
                     <td>{{ item.location }}</td>
-                    <td>₱ {{ item.price }}</td>
+                    <td>{{ formatPrice(item.price) }}</td>
                     <td>
                       <span :class="getStatusClass(item.status)">{{
                         item.status
@@ -128,7 +128,7 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, onMounted, watch, nextTick, computed } from "vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import { debounce } from "lodash";
 import { deleteItemsData } from "../../store/swal.js";
@@ -138,6 +138,18 @@ import { printItemsData } from "../../store/print.js";
 import { formatDate } from "../../helper.js";
 import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+
+const formatPrice = (price) => {
+  const parts = price.toString().split(".");
+  const integerPart = parts[0]
+    .split("")
+    .reverse()
+    .map((digit, index) => (index > 0 && index % 3 === 0 ? digit + " " : digit))
+    .reverse()
+    .join("");
+  const decimalPart = parts[1] ? `.${parts[1]}` : "";
+  return `₱ ${integerPart}${decimalPart}`;
+};
 
 const showImage = ref(false);
 const printItems = () => {

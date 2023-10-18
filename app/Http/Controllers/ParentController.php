@@ -8,12 +8,12 @@ use Illuminate\Http\Request;
 
 class ParentController extends Controller
 {
-    public function index()
-    {
-        $parents = ParentModel::latest()->paginate(10);
+    // public function index()
+    // {
+    //     $parents = ParentModel::latest()->paginate(10);
 
-        return response()->json($parents);
-    }
+    //     return response()->json($parents);
+    // }
 
     public function store(Request $request)
     {
@@ -75,7 +75,7 @@ class ParentController extends Controller
     {
         $parents = ParentModel::findOrFail($id);
 
-        return $parents;
+        return response()->json($parents);
     }
 
     public function update(Request $request, $id)
