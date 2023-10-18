@@ -15,10 +15,7 @@
                   <input
                     v-model="form.history_id"
                     type="text"
-                    class="form-control"
-                    id="appName"
-                    placeholder="Enter app display name"
-                    
+                    style="display: none"
                   />
                 </div>
 
@@ -58,12 +55,12 @@
                   >
                 </div>
 
-                  <div class="form-group">
+                <div class="form-group">
                   <label for="appName">Return Date</label>
                   <input
                     v-model="form.return_at"
                     type="date"
-                    class="form-control flatpickr"
+                    class="form-control"
                     id="appName"
                     placeholder="Enter return date"
                     style="background-color: white"
@@ -75,7 +72,6 @@
                     >{{ errors.return_at[0] }}</span
                   >
                 </div>
-
               </div>
 
               <div class="card-footer">
@@ -94,6 +90,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import axios from "axios";
 import { reactive, onMounted, ref, watch } from "vue";
@@ -117,7 +114,6 @@ const form = reactive({
 const returnItem = () => {
   axios.get(`/return/${route.params.id}`).then(({ data }) => {
     form.history_id = data.id;
-    // form.return_at = data.return_at;
     form.employee_id = data.employee_id;
   });
 };
@@ -143,29 +139,17 @@ const UpdateHistory = () => {
 };
 
 const setCurrentDate = () => {
-  const currentDateTime = new Date();
-  const year = currentDateTime.getFullYear();
-  const month = String(currentDateTime.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDateTime.getDate()).padStart(2, "0");
-  let hours = String(currentDateTime.getHours()).padStart(2, "0");
-  const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
-  const ampm = hours >= 12 ? "AM" : "PM";
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
 
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-
-  form.return_at = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+  form.return_at = `${year}-${month}-${day}`;
 };
 
 onMounted(() => {
   returnItem();
   setCurrentDate();
-
-  flatpickr(".flatpickr", {
-    enableTime: true,
-    dateFormat: "Y-m-dTH:i:00",
-    defaultHour: 10,
-  });
 });
 </script>
 

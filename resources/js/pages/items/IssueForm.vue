@@ -67,7 +67,7 @@
                   <input
                     v-model="form.issued_at"
                     type="date"
-                    class="form-control flatpickr"
+                    class="form-control"
                     id="appName"
                     placeholder="Enter issued date"
                     style="background-color: white"
@@ -156,31 +156,18 @@ const saveIssue = () => {
 };
 
 const setCurrentDate = () => {
-  const currentDateTime = new Date();
-  const year = currentDateTime.getFullYear();
-  const month = String(currentDateTime.getMonth() + 1).padStart(2, "0");
-  const day = String(currentDateTime.getDate()).padStart(2, "0");
-  let hours = currentDateTime.getHours();
-  const minutes = String(currentDateTime.getMinutes()).padStart(2, "0");
-  const ampm = hours >= 12 ? "AM" : "PM";
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
 
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-
-  form.issued_at = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`;
+  form.issued_at = `${year}-${month}-${day}`;
 };
 
 onMounted(() => {
   getItemsData();
   getEmployee();
   setCurrentDate();
-  
-
-    flatpickr(".flatpickr", {
-    enableTime: true,
-    dateFormat: "Y-m-dTH:i:00",
-    defaultHour: 10,
-  });
 });
 </script>
 
