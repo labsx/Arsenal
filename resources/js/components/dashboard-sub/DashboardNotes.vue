@@ -32,53 +32,7 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
-import { onMounted, ref, watch } from "vue";
+import { displayNotes } from "../../store/dashboardjs/dashboard.js";
 
-const totalNotes = ref(0);
-const notes = ref([]);
-
-const getNotes = () => {
-  axios
-    .get("/notes/data")
-    .then((response) => {
-      const notesData = response.data;
-      const notePromises = notesData.map((note) => {
-        return axios
-          .get(`/user/${note.user_id}`)
-          .then((userResponse) => ({
-            id: note.id,
-            notes: note.notes,
-            created_at: note.created_at,
-            userName: userResponse.data.name,
-            userAvatar: userResponse.data.avatar,
-          }))
-          .catch((error) => {
-            console.error("Error fetching user:", error);
-            return null;
-          });
-      });
-
-      Promise.all(notePromises).then((notesWithUser) => {
-        notes.value = notesWithUser.filter((note) => note !== null);
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching all items:", error);
-    });
-};
-
-const fetchNote = () => {
-  axios
-    .get("/dashboard/notes")
-    .then((response) => {
-      totalNotes.value = response.data.count;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-onMounted(() => {
-  getNotes();
-});
+const { totalNotes, fetchNote, notes } = displayNotes();
 </script>

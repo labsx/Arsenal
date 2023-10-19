@@ -3,27 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function listName($id)
-    {
-        $ids = Category::findOrFail($id);
-
-        return response()->json($ids);
-    }
-
     public function index(Request $request)
     {
         $searchQuery = $request->input('query');
         $categories = Category::where(function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('parent_id', 'like', "%{$searchQuery}%")
                 ->orWhere('field_group_id', 'like', "%{$searchQuery}%");
-        })->paginate(10);
+        })
+            ->latest()
+            ->paginate(10);
 
         return response()->json($categories);
     }
@@ -62,29 +55,8 @@ class CategoryController extends Controller
         return response()->noContent();
     }
 
-    public function fetchCategory()
-    {
-        $categories = Category::latest()->get();
-
-        return response()->json($categories);
-    }
-
     public function show(Category $category)
     {
         return $category;
-    }
-
-    public function categoryData()
-    {
-        $categories = Category::latest()->get();
-
-        return response()->json($categories);
-    }
-
-    public function getFieldsDetails()
-    {
-        $fields_groups = FieldGroup::latest()->get(); //fields for edit category
-
-        return $fields_groups;
     }
 }

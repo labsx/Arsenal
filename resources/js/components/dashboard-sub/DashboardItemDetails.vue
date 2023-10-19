@@ -92,76 +92,7 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
-import { onMounted, ref } from "vue";
+import { displayCount } from "../../store/dashboardjs/dashboard.js";
 
-const totalCategoryCount = ref(0);
-const totalFiedlsCount = ref(0);
-const uniqueItems = ref([]);
-const totalUsersCount = ref(0);
-const totalNotes = ref(0);
-
-const getCategoryCount = () => {
-  axios
-    .get("/dashboard/fields")
-    .then((response) => {
-      totalFiedlsCount.value = response.data.fields;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-//
-const getFieldsCount = () => {
-  axios
-    .get("/dashboard/category")
-    .then((response) => {
-      totalCategoryCount.value = response.data.categories;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-const fetchItems = () => {
-  axios
-    .get("/dashboard/items")
-    .then((response) => {
-      const itemsData = response.data.items;
-      const uniqueItemNames = new Set(itemsData.map((item) => item.name));
-      uniqueItems.value = Array.from(uniqueItemNames).map((name) => ({ name }));
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-//
-const getUsersCount = () => {
-  axios
-    .get("/dashboard/users")
-    .then((response) => {
-      totalUsersCount.value = response.data.count;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-//
-const fetchNote = () => {
-  axios
-    .get("/dashboard/notes")
-    .then((response) => {
-      totalNotes.value = response.data.count;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-onMounted(() => {
-  getCategoryCount();
-  getFieldsCount();
-  fetchItems();
-  getUsersCount();
-  fetchNote();
-});
+const { totalCategoryCount, totalUsersCount,totalFiedlsCount, totalNotes  } = displayCount();
 </script>

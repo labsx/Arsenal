@@ -67,31 +67,9 @@
     </div>
   </div>
 </template>
-  <script setup>
-import axios from "axios";
-import { onMounted, ref } from "vue";
 
-const goodItemCountPercent = ref([]);
-const badItemCountPercent = ref([]);
-const issuedItemCountPercent = ref([]);
-const underRepairItemCountPercent = ref([]);
+<script setup>
+import { progressBar } from "../../store/dashboardjs/dashboard.js";
 
-const countAll = () => {
-  axios
-    .get("/dashboard/progress")
-    .then((response) => {
-      goodItemCountPercent.value = response.data.goodItemCountPercent;
-      badItemCountPercent.value = response.data.badItemCountPercent;
-      issuedItemCountPercent.value = response.data.issuedItemCountPercent;
-      underRepairItemCountPercent.value =
-        response.data.underRepairItemCountPercent;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-onMounted(() => {
-  countAll();
-});
+const { goodItemCountPercent, badItemCountPercent, issuedItemCountPercent, underRepairItemCountPercent } = progressBar();
 </script>

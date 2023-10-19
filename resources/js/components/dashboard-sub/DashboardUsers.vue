@@ -36,22 +36,7 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { ref, onMounted } from "vue";
+import { dashboardUsers } from "../../store/dashboardjs/dashboard.js";
 
-const users = ref([]);
-const getUsersData = () => {
-  axios
-    .get("/dashboard/users/data")
-    .then((response) => {
-      users.value = response.data;
-    })
-    .catch((error) => {
-      console.error("Error fetching users:", error);
-    });
-};
-
-onMounted(() => {
-  getUsersData();
-});
+const { users } = dashboardUsers();
 </script>

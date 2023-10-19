@@ -21,12 +21,10 @@ Route::get('/dashboard', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
         ->only(['index', 'store', 'destroy', 'update', 'show']);
-    Route::get('/category-fieldgroup', [CategoryController::class, 'getFieldsDetails']); //fields for edit category
-
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields in dropdown
+    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields dropdown
 
     Route::resource('fields', FieldController::class)->only([
         'store', 'destroy', 'update', 'show', 'index'

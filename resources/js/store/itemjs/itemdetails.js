@@ -124,10 +124,13 @@ export function itemDetails() {
   };
 
   const fetchEmployeeData = async (employeeId) => {
-    console.log("Fetching employee data for employee ID:", employeeId);
+    if (!employeeId) {
+      console.error("Employee ID is empty.");
+      return null;
+    }
+  
     try {
       const response = await axios.get(`/histories/${employeeId}`);
-      console.log("Employee data response:", response.data);
       if (response.data) {
         return response.data;
       }

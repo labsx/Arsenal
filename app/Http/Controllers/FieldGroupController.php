@@ -11,13 +11,26 @@ class FieldGroupController extends Controller
     public function index(Request $request)
     {
         $searchQuery = $request->input('query');
-        $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
+
+        $field_groups = FieldGroup::when($searchQuery, function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('description', 'like', "%{$searchQuery}%");
-        })->paginate(10);
+        })
+            ->latest()
+            ->paginate(10);
 
-        return response()->json($fieldGroups);
+        return response()->json($field_groups);
     }
+    // public function index(Request $request)
+    // {
+    //     $searchQuery = $request->input('query');
+    //     $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
+    //         $query->where('name', 'like', "%{$searchQuery}%")
+    //             ->orWhere('description', 'like', "%{$searchQuery}%");
+    //     })->paginate(10);
+
+    //     return response()->json($fieldGroups);
+    // }
 
     public function store(Request $request)
     {
@@ -55,7 +68,7 @@ class FieldGroupController extends Controller
         $field_groups = FieldGroup::findOrFail($id);
         $field_groups->update($formFields);
 
-        return response()->json(['message' => 'Field groups updated successfully', 'field_groups' => $field_groups]);
+        return response()->json($field_groups);
     }
 
     public function getFieldsByFieldGroupId($id)

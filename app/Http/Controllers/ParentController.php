@@ -70,12 +70,12 @@ class ParentController extends Controller
         return response()->noContent();
     }
 
-    public function getData()
-    {
-        $parents = ParentModel::latest()->get(['id', 'name']);
+    // public function getData()
+    // {
+    //     $parents = ParentModel::latest()->get(['id', 'name']);
 
-        return response()->json($parents);
-    }
+    //     return response()->json($parents);
+    // }
 
     public function show($id)
     {

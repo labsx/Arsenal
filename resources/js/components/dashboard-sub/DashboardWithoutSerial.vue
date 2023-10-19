@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-3 mb-4 ">
+  <div class="col-md-3 mb-4">
     <div class="card border-left-primary shadow h-80 py-3">
       <div class="d-flex justify-content-between mr-1">
         <h3></h3>
@@ -50,36 +50,7 @@
   </div>
 </template>
 <script setup>
-import axios from "axios";
-import { onMounted, ref } from "vue";
+import { displayCount } from "../../store/dashboardjs/dashboard.js";
 
-const totalItemsCount = ref(0);
-const totalHistoryCount = ref(0);
-
-const gettotalItemsCount = () => {
-  axios
-    .get("/dashboard/items")
-    .then((response) => {
-      totalItemsCount.value = response.data.items;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-const gettotalItemsHistory = () => {
-  axios
-    .get("/dashboard/history")
-    .then((response) => {
-      totalHistoryCount.value = response.data.histories;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-};
-
-onMounted(() => {
-  gettotalItemsCount();
-  gettotalItemsHistory();
-});
+const { totalItemsCount, totalHistoryCount } = displayCount();
 </script>

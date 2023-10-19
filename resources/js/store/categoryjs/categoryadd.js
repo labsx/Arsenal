@@ -53,5 +53,5 @@ export function addCategory(getCategoryFn) {
     onMounted(() => {
         getFieldGroup();
     });
-    return { errors, form, getFieldGroup, field_groups, createItem };
+    return { errors, form, getFieldGroup, field_groups, createItem};
 }

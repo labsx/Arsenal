@@ -15,9 +15,9 @@ body {
 
 h1,
 h2,
-h3 {
-  font-family: "Lobster", cursive;
-}
+/* h3 {
+  font-family: "sans-serif";
+} */
 
 p {
   margin-top: 1rem;
@@ -31,12 +31,12 @@ header {
   display: flex;
 }
 
-h1 {
+/* h1 {
   width: 100%;
   font-size: 2rem;
   padding: 2rem 3.5rem;
   color: black;
-}
+} */
 
 .nav__menu ul {
   width: 100%;
