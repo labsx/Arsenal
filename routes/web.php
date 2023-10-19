@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields in dropdown
 
     Route::resource('fields', FieldController::class)->only([
-        'store', 'destroy', 'update', 'show'
+        'store', 'destroy', 'update', 'show', 'index'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
 

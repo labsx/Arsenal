@@ -64,6 +64,13 @@ class FieldController extends Controller
         return response()->json($category);
     }
 
+    public function index()
+    {
+        $field_groups = FieldGroup::latest()->get();
+
+        return response()->json($field_groups);
+    }
+
     // public function getFieldsDetails()
     // {
     //     $fields_groups = FieldGroup::latest()->select('id', 'name')->get(); //fields for edit category

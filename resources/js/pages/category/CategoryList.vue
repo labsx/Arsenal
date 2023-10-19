@@ -94,114 +94,22 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { ref, onMounted, watch, reactive } from "vue";
-import Swal from "sweetalert2";
-import { deleteCategoryData, bulkDeleteItemsData } from "../../store/swal.js";
-import { printItemsData } from "../../store/print.js";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
-import { formatDate } from "../../helper.js";
-import { computed } from "vue";
-import { useToastr } from "../../toastr";
+import imagePath from "/resources/image/no data.gif";
 import flatpickr from "flatpickr";
 import CategoryAdd from "./CategoryAdd.vue";
-import { debounce } from "lodash";
-import imagePath from "/resources/image/no data.gif";
+import { formatDate } from "../../helper.js";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
+import { categoryDetails } from "../../store/categoryjs/categorydetails.js";
 
-const showImage = ref(false);
-const toastr = useToastr();
-const errors = ref([]);
-const categories = ref({ data: [] });
-
-const getFieldGroupName = async (fieldGroupId) => {
-  try {
-    const response = await axios.get(`/field-group/${fieldGroupId}`);
-    return response.data.name;
-  } catch (error) {
-    console.error("Error fetching field group name:", error);
-    return "";
-  }
-};
-
-const getCategory = async (page = 1) => {
-  try {
-    const response = await axios.get(`/category?page=${page}`);
-    let responseData;
-
-    if (Array.isArray(response.data)) {
-      responseData = response.data;
-    } else if (response.data && Array.isArray(response.data.data)) {
-      responseData = response.data.data;
-    } else {
-      console.error("Unexpected response structure:", response.data);
-      return;
-    }
-
-    categories.value.data = await Promise.all(
-      responseData.map(async (category) => {
-        return {
-          ...category,
-          field_group_name: await getFieldGroupName(category.field_group_id),
-        };
-      })
-    );
-  } catch (error) {
-    console.error("Error fetching category:", error);
-  }
-};
-
-const searchQuery = ref(null);
-const search = () => {
-  axios
-    .get("/category", {
-      params: {
-        query: searchQuery.value,
-      },
-    })
-    .then((response) => {
-      categories.value = response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-watch(
+const {
+  errors,
+  getCategory,
+  showImage,
+  categories,
+  deleteCategory,
   searchQuery,
-  debounce(() => {
-    search();
-  }, 300)
-);
-
-const deleteCategory = (id) => {
-  deleteCategoryData()
-    .then((result) => {
-      if (result.isConfirmed) {
-        return axios.delete(`/category/${id}`);
-      }
-      throw new Error("Deletion not confirmed.");
-    })
-    .then(() => {
-      categories.value.data = categories.value.data.filter(
-        (category) => category.id !== id
-      );
-      Swal.fire("Deleted!", "category has been deleted.", "success");
-      getItems();
-    })
-    .catch((error) => {
-      console.error("Error deleting event:", error);
-    });
-};
-
-onMounted(() => {
-  getCategory();
-
-  setTimeout(() => {
-    if (categories.value.data.length === 0) {
-      showImage.value = true;
-    }
-  }, 100);
-});
+} = categoryDetails();
 </script>
+
 
