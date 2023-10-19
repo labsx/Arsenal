@@ -78,7 +78,7 @@ export function addItem() {
                     )
                 );
                 const fieldGroupId = selectedSubcategory.field_group_id;
-                const response = await axios.get(`/field-groups/${fieldGroupId}/fields`);
+                const response = await axios.get(`/field-groups/${fieldGroupId}`);
                 fieldsData.value = response.data;
             } catch (error) {
                 console.error("Error fetching fields:", error);

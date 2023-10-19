@@ -121,4 +121,9 @@ import addEmployee from "../../store/employeejs/employee.js";
 
 const { getEmployeeFn } = defineProps(["getEmployeeFn"]);
 const { errors, form, createEmployee } = addEmployee(getEmployeeFn);
+//import AddEmployee from '../employee/AddEmployee.js';
+
+// export default {
+//   mixins: [AddEmployee], 
+// };
 </script>

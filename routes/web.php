@@ -21,12 +21,12 @@ Route::get('/dashboard', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
         ->only(['index', 'store', 'destroy', 'update', 'show']);
+    Route::get('/category-fieldgroup', [CategoryController::class, 'getFieldsDetails']); //fields for edit category
 
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/field-group', [FieldGroupController::class, 'getFieldsDetails']); //fields for edit category
-    Route::get('/field-groups/{id}/fields', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields in dropdown
+    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields in dropdown
 
     Route::resource('fields', FieldController::class)->only([
         'store', 'destroy', 'update', 'show'
@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('parent', ParentController::class)->only([
         'store', 'destroy', 'update', 'show'
     ]);
-    Route::get('/parent', [ParentController::class, 'search']);
+    // Route::get('/parent', [ParentController::class, 'search']);
     Route::get('/parent/{id}/show', [ParentController::class, 'showData']); //table
 
     Route::resource('employee', EmployeeController::class)->only([

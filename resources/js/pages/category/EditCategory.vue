@@ -115,7 +115,7 @@ const saveCategory = () => {
 const field_groups = ref([]);
 const getFieldGroup = () => {
   axios
-    .get("/field-group")
+    .get("/category-fieldgroup")
     .then((response) => {
      field_groups.value = response.data;
     })

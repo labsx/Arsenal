@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\FieldGroup;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -78,5 +79,12 @@ class CategoryController extends Controller
         $categories = Category::latest()->get();
 
         return response()->json($categories);
+    }
+
+    public function getFieldsDetails()
+    {
+        $fields_groups = FieldGroup::latest()->get(); //fields for edit category
+
+        return $fields_groups;
     }
 }
