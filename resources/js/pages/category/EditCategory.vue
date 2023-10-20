@@ -28,7 +28,32 @@
                   >
                 </div>
 
-                <div class="form-group">
+                   <div class="form-group" v-if="form.parent_id">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <label for="client">Parent Category</label>
+                              <select
+                                id="client"
+                                class="form-control"
+                                v-model="form.parent_id"
+                                name="parent_id"
+                              >
+                                <option value="" disabled selected hidden>
+                                  Select Parent
+                                </option>
+                                <option
+                                  v-for="category in filterCategory"
+                                  :key="category.id"
+                                  :value="category.id"
+                                >
+                                  {{ category.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+
+                <div class="form-group" v-if="form.parent_id">
                   <label for="dateFormat">Group Fields</label>
                   <span class="text-danger"> *</span>
                   <select class="form-control" v-model="form.field_group_id">
@@ -64,7 +89,7 @@
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { editCategory } from "../../store/categoryjs/editcategory.js";
 
-const { errors, form, field_groups, getFieldGroup, ItemDetails, saveCategory } = editCategory();
+const { errors, form, field_groups, getFieldGroup, ItemDetails, saveCategory, categories,filterCategory } = editCategory();
 
 // const router = useRouter();
 // const route = useRoute();

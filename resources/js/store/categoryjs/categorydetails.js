@@ -74,6 +74,7 @@ export function categoryDetails() {
     };
 
     onMounted(() => {
+        
         getCategory();
         setTimeout(() => {
             showImage.value = categories.value.data.length === 0;

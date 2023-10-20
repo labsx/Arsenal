@@ -1,5 +1,5 @@
 import axios from "axios";
-import { reactive, onMounted, ref } from "vue";
+import { reactive, onMounted, ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 
@@ -12,6 +12,7 @@ export function editCategory() {
     const form = reactive({
         name: "",
         field_group_id: "",
+        parent_id: "",
     });
 
     const ItemDetails = () => {
@@ -22,6 +23,7 @@ export function editCategory() {
                 if (data && data.name) {
                     form.name = data.name;
                     form.field_group_id = data.field_group_id;
+                    form.parent_id = data.parent_id;
                 } else {
                     console.error("Category name not found in the response data.");
                 }
@@ -36,6 +38,7 @@ export function editCategory() {
             .put(`/category/${route.params.id}`, {
                 name: form.name,
                 field_group_id: form.field_group_id,
+                parent_id: form.parent_id,
             })
             .then(() => {
                 toastr.success("Category updated successfully!");
@@ -61,10 +64,27 @@ export function editCategory() {
             });
     };
 
+    const categories = ref([]);
+
+    const getCategory = () => {
+        axios
+            .get("/categories")
+            .then((response) => {
+                categories.value = response.data;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+    const filterCategory = computed(() => {
+        return categories.value.filter((category) => category.parent_id === null);
+    });
+
     onMounted(() => {
+        getCategory();
         getFieldGroup();
         ItemDetails();
     });
 
-    return { errors, form, field_groups, getFieldGroup, ItemDetails, saveCategory };
+    return { errors, form, field_groups, getFieldGroup, ItemDetails, saveCategory, categories, filterCategory };
 }

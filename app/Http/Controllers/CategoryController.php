@@ -12,8 +12,7 @@ class CategoryController extends Controller
     {
         $searchQuery = $request->input('query');
         $categories = Category::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('field_group_id', 'like', "%{$searchQuery}%");
+            $query->where('name', 'like', "%{$searchQuery}%");
         })
             ->latest()
             ->paginate(10);
@@ -38,7 +37,8 @@ class CategoryController extends Controller
     {
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50'],
-            'field_group_id' => ['required'],
+            'field_group_id' => ['nullable'],
+            'parent_id' => ['nullable'],
         ], [
             'name.required' => 'The category name field is required !',
         ]);
