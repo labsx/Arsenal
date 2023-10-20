@@ -5,146 +5,145 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
 import { useRouter, useRoute } from "vue-router";
 
-// export function addItem() {
-//     const toastr = useToastr();
-//     const errors = ref([]);
-//     const fieldsData = ref([]);
+export function addItem() {
+    const toastr = useToastr();
+    const errors = ref([]);
+    const fieldsData = ref([]);
 
-//     const form = ref({
-//         category_id: "",
-//         item_name: "",
-//         parent_id: "",
-//         price: "",
-//         mfg_date: "",
-//         model: "",
-//         serial: "",
-//         status: "",
-//         manufacturer: "",
-//         location: "",
-//         warranty: "",
-//         insurance: "",
-//         net_weight: "",
-//         fields: {},
-//     });
+    const form = ref({
+        category_id: "",
+        item_name: "",
+        parent_id: "",
+        price: "",
+        mfg_date: "",
+        model: "",
+        serial: "",
+        status: "",
+        manufacturer: "",
+        location: "",
+        warranty: "",
+        insurance: "",
+        net_weight: "",
+        fields: {},
+    });
 
-//     const createItem = () => {
-//         const dataToSave = {
-//             category_id: form.value.category_id,
-//             parent_id: form.value.parent_id,
-//             item_name: form.value.item_name,
-//             price: form.value.price,
-//             mfg_date: form.value.mfg_date,
-//             model: form.value.model,
-//             serial: form.value.serial,
-//             status: form.value.status,
-//             manufacturer: form.value.manufacturer,
-//             location: form.value.location,
-//             warranty: form.value.warranty,
-//             insurance: form.value.insurance,
-//             net_weight: form.value.net_weight,
-//             value: Object.keys(form.value.fields).map((label) => ({
-//                 label,
-//                 value: form.value.fields[label],
-//             })),
-//         };
+    const createItem = () => {
+        const dataToSave = {
+            category_id: form.value.category_id,
+            parent_id: form.value.parent_id,
+            item_name: form.value.item_name,
+            price: form.value.price,
+            mfg_date: form.value.mfg_date,
+            model: form.value.model,
+            serial: form.value.serial,
+            status: form.value.status,
+            manufacturer: form.value.manufacturer,
+            location: form.value.location,
+            warranty: form.value.warranty,
+            insurance: form.value.insurance,
+            net_weight: form.value.net_weight,
+            value: Object.keys(form.value.fields).map((label) => ({
+                label,
+                value: form.value.fields[label],
+            })),
+        };
 
-//         axios
-//             .post("/items", dataToSave)
-//             .then((response) => {
-//                 toastr.success("Item created successfully!");
-//                 clearForm();
-//                 errors.value = "";
-//             })
-//             .catch((error) => {
-//                 if (error.response && error.response.status === 400) {
-//                     toastr.error(error.response.data.error);
-//                 } else if (error.response && error.response.status === 422) {
-//                     errors.value = error.response.data.errors;
-//                     toastr.error(message);
-//                     errors.value = [];
-//                 }
-//                 s;
-//             });
-//     };
+        axios
+            .post("/items", dataToSave)
+            .then((response) => {
+                toastr.success("Item created successfully!");
+                clearForm();
+                errors.value = "";
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    toastr.error(error.response.data.error);
+                } else if (error.response && error.response.status === 422) {
+                    errors.value = error.response.data.errors;
+                    toastr.error(message);
+                    errors.value = [];
+                };
+            });
+    };
 
-//     const getFields = async () => {
-//         const selectedSubcategoryId = form.value.parent_id;
+    const getFields = async () => {
+        const selectedCategoryId = form.value.parent_id;
 
-//         if (selectedSubcategoryId) {
-//             try {
-//                 const selectedSubcategory = subcategories.value.find((subcategory) =>
-//                     subcategory.parent_models.some(
-//                         (model) => model.id === selectedSubcategoryId
-//                     )
-//                 );
-//                 const fieldGroupId = selectedSubcategory.field_group_id;
-//                 const response = await axios.get(`/field-groups/${fieldGroupId}`);
-//                 fieldsData.value = response.data;
-//             } catch (error) {
-//                 console.error("Error fetching fields:", error);
-//             }
-//         } else {
-//             fieldsData.value = [];
-//         }
-//     };
+        if (selectedCategoryId) {
+            try {
+                const selectedCategory = categories.value.find(
+                    (category) => category.id === selectedCategoryId
+                );
 
-//     const clearForm = () => {
-//         form.value.item_id = "";
-//         form.value.parent_id = "";
-//         form.value.serial = "";
-//         form.value.price = "";
-//         form.value.model = "";
-//         form.value.mfg_date = "";
-//         form.value.status = "";
-//         form.value.item_name = "";
-//         form.value.fields = {};
-//         form.value.category_id = "";
-//         form.value.manufacturer = "";
-//         form.value.location = "";
-//         form.value.warranty = "";
-//         form.value.net_weight = "";
-//     };
+                if (selectedCategory) {
+                    const fieldGroupId = selectedCategory.field_group_id;
+                    const response = await axios.get(`/field-groups/${fieldGroupId}/fields`);
+                    fieldsData.value = response.data;
+                } else {
+                    fieldsData.value = [];
+                }
+            } catch (error) {
+                console.error("Error fetching fields:", error);
+            }
+        } else {
+            fieldsData.value = [];
+        }
+    };
 
-//     const categories = ref();
-//     const getCategory = () => {
-//         axios
-//             .get("/category")
-//             .then((response) => {
-//                 categories.value = response.data;
-//             })
-//             .catch((error) => {
-//                 console.error("Error fetching field_group:", error);
-//             });
-//     };
+    const clearForm = () => {
+        form.value.item_id = "";
+        form.value.parent_id = "";
+        form.value.serial = "";
+        form.value.price = "";
+        form.value.model = "";
+        form.value.mfg_date = "";
+        form.value.status = "";
+        form.value.item_name = "";
+        form.value.fields = {};
+        form.value.category_id = "";
+        form.value.manufacturer = "";
+        form.value.location = "";
+        form.value.warranty = "";
+        form.value.net_weight = "";
+    };
 
-//     const subcategories = ref([]);
-//     const getSubCategory = () => {
-//         axios
-//             .get("/parent/sub")
-//             .then((response) => {
-//                 subcategories.value = response.data;
-//             })
-//             .catch((error) => {
-//                 console.error("Error fetching sub-category", error);
-//             });
-//     };
+    const categories = ref([]);
+    const categoryGroups = ref([]);
 
-//     onMounted(() => {
-//         getSubCategory();
-//         getCategory();
+    const getCategory = () => {
+        axios
+            .get("/categories")
+            .then((response) => {
+                categories.value = response.data;
+                categoryGroups.value = categories.value.filter(
+                    (sample) => sample.parent_id === null
+                );
+                console.log("Car Groups:", categoryGroups.value);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+    const filteredSamples = (categoryGroupsId) => {
+        return categories.value.filter(
+            (category) => category.parent_id === categoryGroupsId
+        );
+    };
 
-//         flatpickr(".flatpickr", {
-//             enableTime: true,
-//             dateFormat: "Y-m-d h:i K",
-//             defaultHour: 10,
-//         });
-//     });
-//     watch(form.category_id, () => {
-//         getFields();
-//     });
+    onMounted(() => {
+        getCategory();
+        flatpickr(".flatpickr", {
+            enableTime: true,
+            dateFormat: "Y-m-d h:i K",
+            defaultHour: 10,
+        });
+    });
+    watch(form.category_id, () => {
+        getFields();
+    });
 
-//     return { errors, subcategories, fieldsData, form, createItem, getSubCategory, getCategory, getFields };
-// }
+    return { errors, fieldsData, form, createItem, getCategory, getFields, categories, filteredSamples, categoryGroups };
+}
 
 export function editItems() {
     const errors = ref({});
@@ -170,7 +169,6 @@ export function editItems() {
         form.value.splice(index, 1);
     };
 
-    //
     const getItems = () => {
         axios
             .get(`/items/${route.params.id}`)
@@ -275,5 +273,8 @@ export function editItems() {
             defaultHour: 10,
         });
     });
-    return { errors, form, handleSubmit, addAttribute, removeAttribute, getAttributes, categories, categoryGroups, filteredSamples };
+    return {
+        errors, form, handleSubmit, addAttribute, removeAttribute,
+        getAttributes, categories, categoryGroups, filteredSamples
+    };
 }

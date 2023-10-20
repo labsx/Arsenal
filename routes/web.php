@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
         'store', 'destroy', 'update', 'show', 'index'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
-    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']);
+    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']);//field switch input in items
 
     Route::resource('items', ItemController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
