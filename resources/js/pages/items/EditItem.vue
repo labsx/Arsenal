@@ -10,32 +10,40 @@
                 <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="client">Select Category</label>
+                      <label for="client">Select category</label>
                       <span class="text-danger"> *</span>
                       <select
                         id="fieldGroup"
                         class="form-control"
                         v-model="form.parent_id"
+                        @change="getFields"
                         :class="{ 'is-invalid': errors.parent_id }"
                       >
                         <optgroup
-                          v-for="subcategory in subcategories"
-                          :key="subcategory.id"
-                          :label="subcategory.name"
+                          v-for="categoryGroup in categoryGroups"
+                          :key="categoryGroup.id"
+                          :label="categoryGroup.name"
                         >
-                          <option value="" disabled selected hidden>
-                            Select Sub Category
+                          <option
+                            value=""
+                            disabled
+                            selected
+                            hidden
+                            class="text-center"
+                          >
+                            Choose Category
                           </option>
                           <option
-                            v-for="parentModel in subcategory.parent_models"
-                            :key="parentModel.id"
-                            :value="parentModel.id"
+                            v-for="category in filteredSamples(
+                              categoryGroup.id
+                            )"
+                            :key="category.id"
+                            :value="category.id"
                           >
-                            {{ parentModel.name }}
+                            {{ category.name }}
                           </option>
                         </optgroup>
                       </select>
-
                       <span
                         v-if="errors && errors.parent_id"
                         class="text-danger text-sm"
@@ -353,8 +361,9 @@ const {
   addAttribute,
   removeAttribute,
   getAttributes,
-  subcategories,
+  categories,
+  categoryGroups,
+  filteredSamples,
 } = editItems();
-
 </script>
 

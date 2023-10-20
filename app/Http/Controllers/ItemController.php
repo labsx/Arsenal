@@ -154,7 +154,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $formData = $request->validate([
-            'parent_id' => 'required|numeric',
+            'parent_id' => 'nullable|numeric',
             'item_name' => 'required|string',
             'model' => 'required',
             'mfg_date' => 'nullable',
@@ -215,10 +215,10 @@ class ItemController extends Controller
         return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
     }
 
-    public function getSubCategroy()
-    {
-        $subcategories = Category::with('parent_models')->get();
+    // public function getSubCategroy()
+    // {
+    //     $subcategories = Category::with('parent_models')->get();
 
-        return response()->json($subcategories);
-    }
+    //     return response()->json($subcategories);
+    // }
 }

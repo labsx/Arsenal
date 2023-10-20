@@ -11,7 +11,6 @@ use App\Http\Controllers\IssueItemController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\NavBarController;
-use App\Http\Controllers\ParentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\UserController;
@@ -21,27 +20,22 @@ Route::get('/dashboard', [LoginController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)
         ->only(['index', 'store', 'destroy', 'update', 'show']);
+    Route::get('/categories', [CategoryController::class, 'getAllCategories']);
+
     Route::resource('field-group', FieldGroupController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
-    Route::get('/field-groups/{id}', [FieldGroupController::class, 'getFieldsByFieldGroupId']); //switch fields dropdown
 
     Route::resource('fields', FieldController::class)->only([
         'store', 'destroy', 'update', 'show', 'index'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
+    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']);
 
     Route::resource('items', ItemController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',
     ]);
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']); //item details attributes
-    Route::get('/parent/sub', [ItemController::class, 'getSubCategroy']); //item dropdown
-
-    Route::resource('parent', ParentController::class)->only([
-        'store', 'destroy', 'update', 'show'
-    ]);
-    // Route::get('/parent', [ParentController::class, 'search']);
-    Route::get('/parent/{id}/show', [ParentController::class, 'showData']); //table
 
     Route::resource('employee', EmployeeController::class)->only([
         'index', 'store', 'destroy', 'show', 'update',

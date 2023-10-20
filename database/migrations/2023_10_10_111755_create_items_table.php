@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             // $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('parent_id')->constrained('parent_models')->onDelete('cascade');
+            $table->foreignId('parent_id')->constrained('categories')->onDelete('cascade');
             $table->string('name');
             $table->string('model');
             $table->decimal('price', 10, 2)->default(0)->nullable();

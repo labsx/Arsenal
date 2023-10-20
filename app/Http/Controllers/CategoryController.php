@@ -26,6 +26,7 @@ class CategoryController extends Controller
         $formField = $request->validate([
             'name' => ['required', 'min:3', 'max:50', Rule::unique('categories', 'name')],
             'field_group_id' => ['nullable', Rule::exists('field_groups', 'id')],
+            'parent_id' => ['nullable'],
         ]);
 
         $category = Category::create($formField);
@@ -58,5 +59,11 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return $category;
+    }
+
+    public function getAllCategories()
+    {
+        $categories = Category::latest()->get();
+        return response()->json($categories);
     }
 }

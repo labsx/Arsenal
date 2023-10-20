@@ -70,4 +70,11 @@ class FieldController extends Controller
 
         return response()->json($field_groups);
     }
+
+    public function displayFields(Request $request, $fieldGroupId)
+    {
+        $fields = Field::where('field_groups_id', $fieldGroupId)->get();
+
+        return response()->json($fields);
+    }
 }
