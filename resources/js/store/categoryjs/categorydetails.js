@@ -36,8 +36,6 @@ export function categoryDetails() {
             });
     }, 300);
 
-
-
     watch(searchQuery, search);
 
     const deleteCategory = async (id) => {
@@ -114,9 +112,6 @@ export function categoryDetails() {
         }
     };
 
-
-
-
     onMounted(() => {
 
         getCategory();
@@ -125,5 +120,6 @@ export function categoryDetails() {
         }, 100);
     });
 
-    return { errors, getCategory, categories, showImage, categories, deleteCategory, searchQuery, getParentCategoryName, getFieldGroupName };
+    return { errors, getCategory, categories, showImage, categories, deleteCategory,
+         searchQuery, getParentCategoryName, getFieldGroupName };
 }

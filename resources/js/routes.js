@@ -3,10 +3,8 @@ import ItemList from './pages/items/ItemList.vue';
 import EditItems from './pages/items/EditItem.vue';
 import ItemDetails from './pages/items/ItemDetails.vue';
 import IssueForm from './pages/items/IssueForm.vue';
-//import ItemUserList from './pages/item-issued/ItemUserList.vue';
 import ItemUserUpdate from './pages/item-issued/ItemUserUpdate.vue';
 import ReturnForm from './pages/item-issued/ReturnForm.vue';
-//import History from './pages/history/History.vue';
 import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
@@ -18,13 +16,10 @@ import EditFields from './pages/field/field-data/EditFields.vue';
 import AddItem from './pages/items/AddItem.vue';
 import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
-import FilterSubCategory from './pages/category/CategorySubDetails.vue';
-import SubCategoryItemFilter from './pages/category/ItemFilter.vue';
-import EditCategorySub from './pages/category/EditCategorySub.vue';
 import EmployeeDetails from './pages/employee/EmployeeDetails.vue';
 import EditEmployee from './pages/employee/EditEmployee.vue';
 
-export default[
+export default [
     {
         path: '/login',
         name: 'admin.login',
@@ -86,21 +81,6 @@ export default[
         component: EditCategory,
     },
     {
-        path: '/admin/category/:id/sub',
-        name: 'admin.category.sub',
-        component: FilterSubCategory,
-    },
-    {
-        path: '/admin/subcategory/:id/item-filter',
-        name: 'admin.subcategory.item.filter',
-        component: SubCategoryItemFilter,
-    },
-    {
-        path: '/admin/subcategory/:id/edit',
-        name: 'admin.subcategory.edit',
-        component: EditCategorySub,
-    },
-    {
         path: '/admin/dashboard',
         name: 'admin.dashboard',
         component: Dashboard,
@@ -110,26 +90,11 @@ export default[
         name: 'admin.items.list',
         component: ItemList,
     },
-    // {
-    //     path: '/admin/items/create',
-    //     name: 'admin.items.create',
-    //     component: ItemForm,
-    // },
-    // {
-    //     path: '/admin/items/:id/edit',
-    //     name: 'admin.items.edit',
-    //     component: ItemForm,
-    // },
     {
         path: '/admin/items/:id/issue',
         name: 'admin.items.issue',
         component: IssueForm,
     },
-    // {
-    //     path: '/admin/items/issue/list',
-    //     name: 'admin.items.issue.list',
-    //     component: ItemUserList,
-    // },
     {
         path: '/admin/items/:id/lists',
         name: 'admin.items.issue.lists',
@@ -140,11 +105,6 @@ export default[
         name: 'admin.items.return',
         component: ReturnForm,
     },
-    // {
-    //     path: '/admin/items/history',
-    //     name: 'admin.items.history',
-    //     component: History,
-    // },
     {
         path: '/admin/users',
         name: 'admin.users',

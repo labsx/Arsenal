@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Item;
-use App\Models\Issue;
-use App\Models\History;
 use App\Models\Employee;
-use App\Models\FieldGroup;
+use App\Models\History;
+use App\Models\Issue;
+use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class IssueItemController extends Controller
@@ -48,12 +47,12 @@ class IssueItemController extends Controller
             'employee_id' => $formFields['employee_id'],
             'issued_at' => $formFields['issued_at'],
             'remarks' => $formFields['remarks'],
-            'status' => 'issued',
+            'status' => 'issue',
         ]);
 
         $item = Item::where('id', $formFields['item_id'])->first();
         if ($item) {
-            $item->update(['status' => 'issued']);
+            $item->update(['status' => 'issue']);
         }
 
         return response()->json($issue);

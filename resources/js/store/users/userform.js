@@ -3,7 +3,7 @@ import { reactive, ref } from "vue";
 import { useToastr } from "../../toastr";
 import { useRouter, useRoute } from "vue-router";
 
-export function addUser() {
+export function addUser(getUsersFn) {
     const toastr = useToastr();
     const router = useRouter();
     const route = useRoute();
@@ -19,6 +19,10 @@ export function addUser() {
             .post("/users", form)
             .then((response) => {
                 toastr.success("Successfully created user !");
+                getUsersFn();
+                errors.value = "";
+                $("#createUsers").modal("hide");
+                clearForm();
                 router.push("/admin/users");
             })
             .catch((error) => {
@@ -28,5 +32,11 @@ export function addUser() {
             });
     };
 
-    return { errors, form, creatUser };
+    const clearForm = () => {
+        form.name = "";
+        form.email = "";
+        form.password = "";
+    };
+
+    return { errors, form, creatUser, getUsersFn };
 }

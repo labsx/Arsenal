@@ -9,14 +9,25 @@ export function formatDate(value) {
 }
 
 export function timeDate(value) {
-    if (value) {
-        return moment(String(value)).format('dddd / h:mm A ');
+    if (!value) {
+       return 'none';
     }
+    return moment(String(value)).format('dddd / h:mm A ');
 }
 
 export function year(value) {
-    if (value) {
-        return moment(String(value)).format('Y');
+    if (!value) {
+    return 'none';
     }
+    
+    return moment(String(value)).format('Y');
+}
+
+export function formatdmy(value) {
+    if (!value) {
+        return 'none';
+    }
+
+    return moment(String(value)).format('DD MMMM Y');
 }
 

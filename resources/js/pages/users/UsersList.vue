@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader title="" data="users" datas="list" />
+  <ContentHeader title="Users Information" data="users" datas="list" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -10,12 +10,13 @@
                 class="ml-2"
                 v-if="authuserStore.user.email == 'admin@gmail.com'"
               >
-                <router-link
-                  to="/admin/users/create"
+                <button
                   class="btn btn-outline-primary btn-sm"
+                  data-toggle="modal"
+                  data-target="#createUsers"
                 >
-                  <i class="fa fa-user-plus mr-2"></i> New User
-                </router-link>
+                  <i class="fa fa-plus-circle mr-1"></i>Add new user
+                </button>
               </div>
             </div>
 
@@ -93,6 +94,7 @@
       </div>
     </div>
   </div>
+<UserForm :getUsersFn="getUsers" />
 </template>
 
 <script setup>
@@ -100,6 +102,7 @@ import axios from "axios";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { userList } from "../../store/users/userslist.js";
+import UserForm from "./UserForm.vue";
 
 const { users, searchQuery, authuserStore, deleteUsers, getUsers } = userList();
 </script>

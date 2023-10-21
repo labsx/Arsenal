@@ -72,7 +72,7 @@
                 <button
                   @click.prevent="saveCategory"
                   type="submit"
-                  class="btn btn-primary"
+                  class="btn  btn-outline-primary"
                 >
                   <i class="fa fa-save mr-1"></i>Save Changes
                 </button>

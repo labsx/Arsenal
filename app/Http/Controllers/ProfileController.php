@@ -20,7 +20,7 @@ class ProfileController extends Controller
             'name' => ['required'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->user()->id)],
         ]);
-        
+
         $request->user()->update($validated);
 
         return response()->json($request);

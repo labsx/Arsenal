@@ -340,7 +340,7 @@
                   class="btn btn-outline-primary"
                 >
                   <i class="fa fa-save mr-2"></i>
-                  Submit
+                  Save Changes
                 </button>
               </form>
             </div>

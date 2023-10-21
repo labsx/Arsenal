@@ -223,7 +223,7 @@ const getStatusClass = (status) => {
     return "badge badge-danger bad-status";
   } else if (status === "under repair") {
     return "badge badge-warning bad-status";
-  } else if (status === "issued") {
+  } else if (status === "issue") {
     return "badge badge-primary bad-status";
   } else {
     return "badge badge-default";

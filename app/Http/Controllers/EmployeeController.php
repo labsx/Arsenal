@@ -15,12 +15,12 @@ class EmployeeController extends Controller
                 ->orWhere('last_name', 'like', "%{$searchQuery}%")
                 ->orWhere('position', 'like', "%{$searchQuery}%");
         })
-        ->latest() 
-        ->paginate(10); 
+            ->latest()
+            ->paginate(10);
 
         return response()->json($employees);
     }
-    
+
     public function store(Request $request)
     {
         $formFields = $request->validate([

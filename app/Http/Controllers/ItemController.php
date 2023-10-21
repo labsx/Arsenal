@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Item;
-use App\Models\Category;
-use Illuminate\Http\Request;
 use App\Models\ItemAttribute;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
@@ -45,7 +44,7 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
         $attributes = $item->attributes()->get(['name', 'value']);
@@ -91,7 +90,7 @@ class ItemController extends Controller
 
         $item = Item::find($id);
 
-        if (!$item) {
+        if (! $item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
 
@@ -102,8 +101,8 @@ class ItemController extends Controller
             })
             ->keys();
 
-        if (!$duplicateNames->isEmpty()) {
-            return response()->json(['error' => 'Duplicate attribute name  ' . $duplicateNames->implode(', ')], 400);
+        if (! $duplicateNames->isEmpty()) {
+            return response()->json(['error' => 'Duplicate attribute name  '.$duplicateNames->implode(', ')], 400);
         }
 
         $item->name = $formData['name'];
@@ -140,21 +139,10 @@ class ItemController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function show($id) //show in item details
-    // {
-    //     $items = Item::where('parent_id', $id)->paginate(10);
-
-    //     if ($items->isEmpty()) {
-    //         return response()->json(['error' => 'No items found for the specified field group'], 404);
-    //     }
-
-    //     return response()->json($items);
-    // }
-
     public function store(Request $request)
     {
         $formData = $request->validate([
-            'parent_id' => 'nullable|numeric',
+            'parent_id' => 'required|numeric',
             'item_name' => 'required|string',
             'model' => 'required',
             'mfg_date' => 'nullable',
@@ -170,7 +158,7 @@ class ItemController extends Controller
             'value.*.label' => 'nullable|string',
             'value.*.value' => 'nullable|string',
         ], [
-            'parent_id.required' => 'Select sub category name is required !',
+            'parent_id.required' => 'The category name is required.',
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
             'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
@@ -214,11 +202,4 @@ class ItemController extends Controller
 
         return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
     }
-
-    // public function getSubCategroy()
-    // {
-    //     $subcategories = Category::with('parent_models')->get();
-
-    //     return response()->json($subcategories);
-    // }
 }

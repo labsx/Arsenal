@@ -60,7 +60,7 @@ export function addItem() {
                     toastr.error(error.response.data.error);
                 } else if (error.response && error.response.status === 422) {
                     errors.value = error.response.data.errors;
-                    toastr.error(message);
+                     toastr.error(message);
                     errors.value = [];
                 };
             });
@@ -116,9 +116,9 @@ export function addItem() {
             .then((response) => {
                 categories.value = response.data;
                 categoryGroups.value = categories.value.filter(
-                    (sample) => sample.parent_id === null
+                    (category) => category.parent_id === null
                 );
-                console.log("Car Groups:", categoryGroups.value);
+                console.log("Categories Groups:", categoryGroups.value);
             })
             .catch((error) => {
                 console.error("Error:", error);
@@ -248,7 +248,7 @@ export function editItems() {
             .then((response) => {
                 categories.value = response.data;
                 categoryGroups.value = categories.value.filter(
-                    (sample) => sample.parent_id === null
+                    (category) => category.parent_id === null
                 );
                 console.log("Car Groups:", categoryGroups.value);
             })

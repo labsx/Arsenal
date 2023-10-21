@@ -1,8 +1,6 @@
 import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 import { useToastr } from "../../toastr";
-import flatpickr from "flatpickr";
-import "flatpickr/dist/themes/light.css";
 import { useRouter, useRoute } from "vue-router";
 
 export function itemDetails() {

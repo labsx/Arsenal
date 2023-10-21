@@ -48,7 +48,7 @@
                     >
                   </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="form.parent_id" >
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>
@@ -279,7 +279,7 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div class="row" v-if="form.parent_id">
                   <div
                     class="col-md-3"
                     v-for="(field, index) in fieldsData"
@@ -311,7 +311,7 @@
                 </div>
 
                 <div class="row"></div>
-                <button type="submit" class="btn btn-outline-primary btn-sm">
+                <button v-if="form.parent_id" type="submit" class="btn btn-outline-primary btn-sm">
                   <i class="fa fa-save mr-2"></i>Save
                 </button>
               </form>

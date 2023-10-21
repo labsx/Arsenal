@@ -64,6 +64,7 @@ class CategoryController extends Controller
     public function getAllCategories()
     {
         $categories = Category::latest()->get();
+
         return response()->json($categories);
     }
 }

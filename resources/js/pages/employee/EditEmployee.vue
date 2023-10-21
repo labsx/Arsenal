@@ -69,7 +69,7 @@
                   type="submit"
                   class="btn btn-outline-primary"
                 >
-                  <i class="fa fa-save mr-1"></i>Update Employee
+                  <i class="fa fa-save mr-1"></i>Save Changes
                 </button>
               </div>
             </form>

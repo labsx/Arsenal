@@ -134,4 +134,5 @@ const { getCategoryFn } = defineProps(["getCategoryFn"]);
 const { errors, form, categories, filterCategory, getCategory,  getFieldGroup, field_groups, createItem } =
 addCategory(getCategoryFn);
 
+
 </script>
