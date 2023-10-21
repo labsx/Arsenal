@@ -14,6 +14,7 @@ use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\UserController;
+use App\Models\FieldGroup;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', [LoginController::class, 'index']);
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
         'store', 'destroy', 'update', 'show', 'index'
     ]);
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
-    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']);//field switch input in items
+    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']); //field switch input in items
 
     Route::resource('items', ItemController::class)->only([
         'index', 'store', 'destroy', 'update', 'show',

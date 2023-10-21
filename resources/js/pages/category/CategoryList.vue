@@ -44,16 +44,13 @@
                 <tbody v-if="categories.data.length > 0">
                   <tr v-for="category in categories.data" :key="category.id">
                     <td>{{ category.name }}</td>
-                    <td>{{category.parent_id}}
-                      <!-- {{
-                        category.parent_id
-                          ? categories.data.find(
-                              (cat) => cat.id === category.parent_id
-                            )?.name
-                          : "main category"
-                      }} -->
+                    <td>
+                      <span v-if="category.parent_name === null"
+                        >Main Category</span
+                      >
+                      <span v-else>{{ category.parent_name }}</span>
                     </td>
-                    <td>{{ category.field_group_id }}</td>
+                    <td>{{ category.field_group_name }}</td>
                     <td>
                       <router-link :to="`/admin/category/${category.id}/sub`">
                         <i class="fas fa-eye mr-2"></i>
@@ -90,7 +87,7 @@
               </table>
             </div>
           </div>
-          <div>
+          <div class="float-right">
             <Bootstrap4Pagination
               :data="categories"
               @pagination-change-page="getCategory"
@@ -119,6 +116,8 @@ const {
   categories,
   deleteCategory,
   searchQuery,
+  getParentCategoryName,
+  getFieldGroupName,
 } = categoryDetails();
 </script>
 

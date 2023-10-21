@@ -22,10 +22,10 @@ export function addCategory(getCategoryFn) {
             .post("/category", formData)
             .then((response) => {
                 toastr.success("Category created successfully!");
-                $("#createCategory").modal("hide");
-                clearForm();
-                errors.value = [];
                 getCategoryFn();
+                $("#createCategory").modal("hide");
+                errors.value = [];
+                clearForm();
             })
             .catch((error) => {
                 if (error.response && error.response.status === 400) {
@@ -37,7 +37,9 @@ export function addCategory(getCategoryFn) {
     };
 
     const clearForm = () => {
-        form.value.name = "";
+        form.name = "";
+        form.parent_id = "";
+        form.field_groups_id = "";
     };
 
     const field_groups = ref([]);
@@ -71,5 +73,5 @@ export function addCategory(getCategoryFn) {
         getFieldGroup();
         getCategory();
     });
-    return { errors, form, categories, filterCategory, getCategory, getFieldGroup, field_groups, createItem, };
+    return { errors, form, categories, filterCategory, getCategory, getFieldGroup, field_groups, createItem, getCategoryFn };
 }

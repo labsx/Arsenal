@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin',
         ]);
 
-        \App\Models\Category::factory()->create([
-            'field_group_id' => '1',
-            'name' => 'Computer',
-        ]);
+        // \App\Models\Category::factory()->create([
+        //     'field_group_id' => '1',
+        //     'name' => 'Computer',
+        // ]);
 
-        \App\Models\Category::factory()->create([
-            'field_group_id' => '2',
-            'name' => 'Vehicle',
-        ]);
+        // \App\Models\Category::factory()->create([
+        //     'field_group_id' => '2',
+        //     'name' => 'Vehicle',
+        // ]);
 
         \App\Models\FieldGroup::factory()->create([
             'name' => 'fields for computer',

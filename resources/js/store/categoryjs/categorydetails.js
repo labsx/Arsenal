@@ -10,52 +10,33 @@ export function categoryDetails() {
     const toastr = useToastr();
     const errors = ref([]);
     const categories = ref({ data: [] });
-
-    // const getFieldGroupName = async (fieldGroupId) => {
-    //     if (fieldGroupId === null) {
-    //         return "No field group selected";
-    //     }
-
-    //     try {
-    //         const response = await axios.get(`/field-group/${fieldGroupId}`);
-    //         return response.data.name || "No field group selected";
-    //     } catch (error) {
-    //         return "No field group selected";
-    //     }
-    // };
-
-    // const getCategory = async (page = 1) => {
-    //     try {
-    //         const response = await axios.get(`/category?page=${page}`);
-    //         const responseData = Array.isArray(response.data) ? response.data : response.data.data;
-
-    //         if (responseData.length === 0) {
-    //             categories.value.data = [];
-    //         } else {
-    //             categories.value.data = await Promise.all(
-    //                 responseData.map(async (category) => ({
-    //                     ...category,
-    //                     field_group_name: await getFieldGroupName(category.field_group_id),
-    //                 })
-    //                 )
-    //             );
-    //         }
-    //     } catch (error) {
-    //         console.error("Error fetching category:", error);
-    //     }
-    // };
-
     const searchQuery = ref(null);
 
     const search = debounce(() => {
         axios.get("/category", { params: { query: searchQuery.value } })
-            .then((response) => {
-                categories.value = response.data;
+            .then(async (response) => {
+                const searchData = response.data;
+
+                if (searchData.data.length === 0) {
+                    categories.value.data = [];
+                } else {
+                    categories.value.data = await Promise.all(searchData.data.map(async (category) => {
+                        const parentCategoryName = await getParentCategoryName(category.parent_id);
+                        const fieldGroupName = await getFieldGroupName(category.field_group_id);
+                        return {
+                            ...category,
+                            parent_name: parentCategoryName,
+                            field_group_name: fieldGroupName,
+                        };
+                    }));
+                }
             })
             .catch((error) => {
                 console.error("Error searching for categories:", error);
             });
     }, 300);
+
+
 
     watch(searchQuery, search);
 
@@ -66,31 +47,83 @@ export function categoryDetails() {
                 await axios.delete(`/category/${id}`);
                 categories.value.data = categories.value.data.filter(category => category.id !== id);
                 Swal.fire("Deleted!", "Category has been deleted.", "success");
-                getItems(); // You should define getItems function
             }
         } catch (error) {
             console.error("Error deleting category:", error);
         }
     };
 
-    const getCategory = (page = 1) => {
-        axios
-            .get(`/category?page=${page}`)
-            .then((response) => {
-                categories.value = response.data;
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+    const getCategory = async (page = 1) => {
+        try {
+            const response = await axios.get(`/category?page=${page}`);
+            categories.value = response.data;
+            const responseData = Array.isArray(response.data) ? response.data : response.data.data;
+            if (responseData.length === 0) {
+                categories.value.data = [];
+            } else {
+                categories.value.data = await Promise.all(
+                    responseData.map(async (category) => {
+                        const parentCategoryName = await getParentCategoryName(category.parent_id);
+                        const fieldGroupName = await getFieldGroupName(category.field_group_id);
+                        return {
+                            ...category,
+                            parent_name: parentCategoryName,
+                            field_group_name: fieldGroupName,
+                        };
+                    })
+                );
+            }
+        } catch (error) {
+            console.error("Error fetching category:", error);
+        }
     };
 
+    const getParentCategoryName = async (parent_id) => {
+        if (parent_id === null) {
+            return "Main Category";
+        }
+
+        const parentCategory = categories.value.data.find(category => category.id === parent_id);
+
+        if (parentCategory) {
+            return parentCategory.name;
+        } else {
+            try {
+                const response = await axios.get(`/category/${parent_id}`);
+                return response.data.name || "Unknown Parent Category";
+            } catch (error) {
+                return "Unknown Parent Category";
+            }
+        }
+    };
+
+    const getFieldGroupName = async (fieldGroupId) => {
+        try {
+            if (fieldGroupId === null) {
+                return "Main Category";
+            }
+
+            const response = await axios.get(`/field-group/${fieldGroupId}`);
+            if (response.data && response.data.name) {
+                return response.data.name;
+            } else {
+                return "Main Category";
+            }
+        } catch (error) {
+            return "Main Category";
+        }
+    };
+
+
+
+
     onMounted(() => {
-        
+
         getCategory();
         setTimeout(() => {
             showImage.value = categories.value.data.length === 0;
         }, 100);
     });
 
-    return { errors, getCategory, categories, showImage, categories, deleteCategory, searchQuery };
+    return { errors, getCategory, categories, showImage, categories, deleteCategory, searchQuery, getParentCategoryName, getFieldGroupName };
 }
