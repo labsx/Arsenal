@@ -25,11 +25,11 @@ class IssueItemController extends Controller
         return response()->json($employees);
     }
 
-    public function store(Request $request, Issue $issue, Item $item)
+    public function store(Request $request)
     {
         $formFields = $request->validate([
-            'item_id' => ['required', 'max:50'],
-            'employee_id' => ['required', 'max:100'],
+            'item_id' => ['required'],
+            'employee_id' => ['required'],
             'issued_at' => ['required', 'date'],
             'remarks' => ['nullable', 'min:3', 'max:50'],
         ], [
@@ -38,11 +38,12 @@ class IssueItemController extends Controller
 
         $issuedDate = Carbon::parse($formFields['issued_at']);
         $currentDate = Carbon::now();
+
         if ($issuedDate->gt($currentDate)) {
             return response()->json(['error' => 'Issued date cannot be in the future'], 400);
         }
 
-        $issue = History::create([
+        $history = History::create([
             'item_id' => $formFields['item_id'],
             'employee_id' => $formFields['employee_id'],
             'issued_at' => $formFields['issued_at'],
@@ -50,11 +51,11 @@ class IssueItemController extends Controller
             'status' => 'issue',
         ]);
 
-        $item = Item::where('id', $formFields['item_id'])->first();
+        $item = Item::find($formFields['item_id']);
         if ($item) {
             $item->update(['status' => 'issue']);
         }
 
-        return response()->json($issue);
+        return response()->json($history);
     }
 }

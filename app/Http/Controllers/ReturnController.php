@@ -25,13 +25,12 @@ class ReturnController extends Controller
             'history_id' => ['required'],
         ]);
 
-        $issuedDate = Carbon::parse($formFields['return_at']);
-        $currentDate = Carbon::now();
-        if ($issuedDate->gt($currentDate)) {
-            return response()->json(['error' => 'Return date cannot be in the future'], 400);
-        }
-
+        $returnDate = Carbon::parse($formFields['return_at']);
         $history = History::findOrFail($formFields['history_id']);
+
+        if ($history->issued_at && $returnDate->lt($history->issued_at)) {
+            return response()->json(['error' => 'Issued date is after the return date'], 400);
+        }
 
         $history->remarks = $formFields['remarks'];
         $history->return_at = $formFields['return_at'];

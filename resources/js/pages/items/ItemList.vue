@@ -83,7 +83,7 @@
 
                       <router-link
                         v-if="
-                          !['issued', 'decommissioned'].includes(item.status)
+                          !['issue', 'decommissioned'].includes(item.status)
                         "
                         :to="`/admin/items/${item.id}/edit`"
                       >

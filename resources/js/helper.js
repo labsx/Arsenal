@@ -5,7 +5,7 @@ export function formatDate(value) {
         return 'none';
     }
 
-    return moment(String(value)).format('MMMM DD, Y / dddd / h:mm A');
+    return moment(String(value)).format('MMMM DD, Y - dddd ');
 }
 
 export function timeDate(value) {

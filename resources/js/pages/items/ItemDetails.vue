@@ -110,8 +110,6 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted, reactive } from "vue";
-import { useRouter, useRoute } from "vue-router";
 import { useToastr } from "../../toastr";
 import { formatDate } from "../../helper.js";
 import { formatdmy } from "../../helper.js";
