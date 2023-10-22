@@ -8,9 +8,18 @@ use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {
-    public function showFilterFileds($id) //field table
+    public function showFilterFileds(Request $request, $id) 
     {
-        $fields = Field::where('field_groups_id', $id)->paginate(10);
+        $query = $request->input('query'); 
+        $fields = Field::where('field_groups_id', $id);
+
+        $fields = $fields->where(function ($queryBuilder) use ($query) {
+            $queryBuilder->where('label', 'like', '%' . $query . '%')
+                ->orWhere('description', 'like', '%' . $query . '%')
+                ->orWhere('is_required', 'like', '%' . $query . '%');
+        });
+
+        $fields = $fields->paginate(10);
 
         return response()->json($fields);
     }
@@ -64,7 +73,7 @@ class FieldController extends Controller
         return response()->json($category);
     }
 
-    public function index()
+    public function index() //dropdown add
     {
         $field_groups = FieldGroup::latest()->get();
 

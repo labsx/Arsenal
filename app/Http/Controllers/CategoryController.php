@@ -58,7 +58,7 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return $category;
+        return response()->json($category);
     }
 
     public function getAllCategories()

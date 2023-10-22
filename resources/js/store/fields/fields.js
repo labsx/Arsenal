@@ -159,11 +159,12 @@ export function fieldDetails() {
                 console.error("Error deleting Fields:", error);
             });
     };
-
     const searchQuery = ref(null);
     const search = () => {
+        const fieldId = route.params.id;
+
         axios
-            .get("/fields", {
+            .get(`/fields/${fieldId}/show?page=1`, {
                 params: {
                     query: searchQuery.value,
                 },
