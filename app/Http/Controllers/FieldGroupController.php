@@ -21,16 +21,6 @@ class FieldGroupController extends Controller
 
         return response()->json($field_groups);
     }
-    // public function index(Request $request)
-    // {
-    //     $searchQuery = $request->input('query');
-    //     $fieldGroups = FieldGroup::where(function ($query) use ($searchQuery) {
-    //         $query->where('name', 'like', "%{$searchQuery}%")
-    //             ->orWhere('description', 'like', "%{$searchQuery}%");
-    //     })->paginate(10);
-
-    //     return response()->json($fieldGroups);
-    // }
 
     public function store(Request $request)
     {

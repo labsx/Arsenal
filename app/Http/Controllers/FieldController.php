@@ -8,15 +8,15 @@ use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {
-    public function showFilterFileds(Request $request, $id) 
+    public function showFilterFileds(Request $request, $id)
     {
-        $query = $request->input('query'); 
+        $query = $request->input('query');
         $fields = Field::where('field_groups_id', $id);
 
         $fields = $fields->where(function ($queryBuilder) use ($query) {
-            $queryBuilder->where('label', 'like', '%' . $query . '%')
-                ->orWhere('description', 'like', '%' . $query . '%')
-                ->orWhere('is_required', 'like', '%' . $query . '%');
+            $queryBuilder->where('label', 'like', '%'.$query.'%')
+                ->orWhere('description', 'like', '%'.$query.'%')
+                ->orWhere('is_required', 'like', '%'.$query.'%');
         });
 
         $fields = $fields->paginate(10);

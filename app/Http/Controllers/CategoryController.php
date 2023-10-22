@@ -12,7 +12,8 @@ class CategoryController extends Controller
     {
         $searchQuery = $request->input('query');
         $categories = Category::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%");
+            $query->where('name', 'like', "%{$searchQuery}%")
+                ->orWhereNull('parent_id');
         })
             ->latest()
             ->paginate(10);

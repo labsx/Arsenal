@@ -11,7 +11,16 @@ class ProfileController extends Controller
 {
     public function index(Request $request)
     {
-        return $request->user()->only(['name', 'email', 'avatar', 'created_at']);
+        $user = $request->user();
+
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'avatar' => $user->avatar,
+            'created_at' => $user->created_at,
+        ];
+
+        return response()->json($data);
     }
 
     public function update(Request $request)

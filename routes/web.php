@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
         'index', 'store',
     ]);
     Route::put('/users/profile', [ProfileController::class, 'update']);
-    Route::post('/users/profile/picture', [ProfileController::class, 'upload']);
+    Route::post('/users/profile', [ProfileController::class, 'upload']);
 
     Route::prefix('dashboard')->group(function () {
         Route::get('category', [DashboardController::class, 'categoryCount']);

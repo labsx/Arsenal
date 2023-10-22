@@ -37,7 +37,7 @@ export function userProfile() {
         const formData = new FormData();
         formData.append("profile_picture", file);
 
-        axios.post("/users/profile/picture", formData).then((response) => {
+        axios.post("/users/profile", formData).then((response) => {
             toastr.success("Image uploaded successfully!");
         });
     };
