@@ -15,7 +15,7 @@ export default function addFieldGroups(getFieldsGroupsFn) {
         form.value.description = "";
     };
 
-    const createFields = () => {
+    const dataTosave = () => {
         axios
             .post("/field-group", form.value)
             .then((response) => {
@@ -34,5 +34,5 @@ export default function addFieldGroups(getFieldsGroupsFn) {
             });
     };
 
-    return { errors, form, createFields };
+    return { errors, form, dataTosave };
 }

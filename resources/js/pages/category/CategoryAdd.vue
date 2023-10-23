@@ -9,17 +9,7 @@
   >
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createCategory">ADD NEW CATEGORY</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <Header header="Add Category" />
         <div class="modal-body">
           <div class="content">
             <div class="container-fluid">
@@ -106,22 +96,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            data-dismiss="modal"
-          >
-            <i class="fa fa-times mr-2 text-danger"></i>Close
-          </button>
-          <button
-            @click="createItem"
-            type="submit"
-            class="btn btn-outline-primary btn-sm"
-          >
-            <i class="fa fa-save mr-2"></i>Save Item
-          </button>
-        </div>
+        <ModalFooter :dataTosave="dataTosave" />
       </div>
     </div>
   </div>
@@ -130,6 +105,8 @@
 <script setup>
 import { defineProps } from "vue";
 import { addCategory } from "../../store/categoryjs/categoryadd.js";
+import Header from "../../pages/layout/Modal-header.vue";
+import ModalFooter from "../../pages/layout/ModalFooter.vue";
 
 const { getCategoryFn } = defineProps(["getCategoryFn"]);
 const {
@@ -140,6 +117,6 @@ const {
   getCategory,
   getFieldGroup,
   field_groups,
-  createItem,
+  dataTosave,
 } = addCategory(getCategoryFn);
 </script>

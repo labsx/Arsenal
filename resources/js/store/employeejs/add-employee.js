@@ -17,7 +17,7 @@ export default function addEmployee(getEmployeeFn) {
         form.value.position = "";
     };
 
-    const createEmployee = () => {
+    const dataTosave = () => {
         axios
             .post("/employee", form.value)
             .then((response) => {
@@ -36,5 +36,5 @@ export default function addEmployee(getEmployeeFn) {
             });
     };
 
-    return { errors, form, createEmployee };
+    return { errors, form, dataTosave };
 }

@@ -11,7 +11,6 @@ class FieldGroupController extends Controller
     public function index(Request $request)
     {
         $searchQuery = $request->input('query');
-
         $field_groups = FieldGroup::when($searchQuery, function ($query) use ($searchQuery) {
             $query->where('name', 'like', "%{$searchQuery}%")
                 ->orWhere('description', 'like', "%{$searchQuery}%");

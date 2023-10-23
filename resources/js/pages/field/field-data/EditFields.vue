@@ -67,7 +67,6 @@
 </template>
 
 <script setup>
-
 import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 import { editFields } from "../../../store/fields/editfield.js";
 

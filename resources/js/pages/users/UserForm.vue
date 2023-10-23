@@ -9,17 +9,7 @@
   >
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createUsers">Create user information</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <Header header="Add user information" />
         <div class="modal-body">
           <div class="content">
             <div class="container-fluid">
@@ -32,6 +22,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">First Name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 v-model="form.name"
                                 type="text"
@@ -51,6 +42,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">Email</label>
+                                 <span class="text-danger"> *</span>
                               <input
                                 v-model="form.email"
                                 type="email"
@@ -69,6 +61,7 @@
                             <div class="col-md-12">
                               <div class="form-group">
                                 <label for="title">Password</label>
+                                   <span class="text-danger"> *</span>
                                 <input
                                   v-model="form.password"
                                   type="text"
@@ -94,22 +87,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            data-dismiss="modal"
-          >
-            <i class="fa fa-times mr-2 text-danger"></i>Close
-          </button>
-          <button
-            @click.prevent="creatUser()"
-            type="submit"
-            class="btn btn-outline-primary btn-sm"
-          >
-            <i class="fa fa-save mr-2"></i>Save Item
-          </button>
-        </div>
+        <ModalFooter :dataTosave="dataTosave" />
       </div>
     </div>
   </div>
@@ -118,7 +96,9 @@
 <script setup>
 import { addUser } from "../../store/users/userform.js";
 import { defineProps } from "vue";
+import Header from "./../../pages/layout/Modal-header.vue";
+import ModalFooter from "./../../pages/layout/ModalFooter.vue";
 
 const { getUsersFn } = defineProps(["getUsersFn"]);
-const { errors, form, creatUser } = addUser(getUsersFn);
+const { errors, form, dataTosave } = addUser(getUsersFn);
 </script>

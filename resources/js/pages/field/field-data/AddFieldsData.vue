@@ -9,17 +9,7 @@
   >
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="createFieldData">{{ form.name }}</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <Header :header="`Add fields for ${form.name}`" />
         <div class="modal-body">
           <div class="content">
             <div class="container-fluid">
@@ -80,22 +70,7 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            data-dismiss="modal"
-          >
-            <i class="fa fa-times mr-2 text-danger"></i>Close
-          </button>
-          <button
-            @click.prevent="createField()"
-            type="submit"
-            class="btn btn-outline-primary btn-sm"
-          >
-            <i class="fa fa-save mr-2"></i>Save Item
-          </button>
-        </div>
+        <ModalFooter :dataTosave="dataTosave" />
       </div>
     </div>
   </div>
@@ -104,7 +79,9 @@
 <script setup>
 import { defineProps } from "vue";
 import { addField } from "../../../store/fields/addfield.js";
+import Header from "../../../pages/layout/Modal-header.vue";
+import ModalFooter from "../../../pages/layout/ModalFooter.vue";
 
-const { errors, form, createField } = addField(getFieldByIdFn);
+const { errors, form, dataTosave } = addField(getFieldByIdFn);
 const { getFieldByIdFn } = defineProps(["getFieldByIdFn"]);
 </script>

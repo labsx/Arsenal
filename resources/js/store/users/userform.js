@@ -14,7 +14,7 @@ export function addUser(getUsersFn) {
     });
 
     const errors = ref([]);
-    const creatUser = () => {
+    const dataTosave = () => {
         axios
             .post("/users", form)
             .then((response) => {
@@ -38,5 +38,5 @@ export function addUser(getUsersFn) {
         form.password = "";
     };
 
-    return { errors, form, creatUser, getUsersFn };
+    return { errors, form, dataTosave, getUsersFn };
 }

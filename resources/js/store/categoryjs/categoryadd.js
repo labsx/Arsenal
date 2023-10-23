@@ -11,7 +11,7 @@ export function addCategory(getCategoryFn) {
         parent_id: "",
     });
 
-    const createItem = () => {
+    const dataTosave = () => {
         const formData = {
             name: form.name,
             field_group_id: form.field_groups_id,
@@ -74,5 +74,5 @@ export function addCategory(getCategoryFn) {
         getFieldGroup();
         getCategory();
     });
-    return { errors, form, categories, filterCategory, getCategory, getFieldGroup, field_groups, createItem, getCategoryFn };
+    return { errors, form, categories, filterCategory, getCategory, getFieldGroup, field_groups, dataTosave, getCategoryFn };
 }

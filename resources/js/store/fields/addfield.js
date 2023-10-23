@@ -16,7 +16,7 @@ export function addField(getFieldByIdFn) {
         field_id: "",
     });
 
-    const createField = () => {
+    const dataTosave = () => {
         const isRequired = form.is_required ? "required" : "not required";
         const formData = {
             label: form.label,
@@ -65,5 +65,5 @@ export function addField(getFieldByIdFn) {
         getFieldsGroupsId();
     });
 
-    return { errors, form, createField };
+    return { errors, form, dataTosave };
 }

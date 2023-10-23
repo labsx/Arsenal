@@ -44,6 +44,6 @@ class ReturnController extends Controller
             $item->update(['status' => $formFields['status']]);
         }
 
-        return response()->json(['success' => true, 'history' => $history]);
+        return response()->json($history);
     }
 }
