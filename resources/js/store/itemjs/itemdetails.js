@@ -83,7 +83,7 @@ export function itemDetails() {
 
     if (form.id) {
       axios
-        .get(`/histories?item_id=${form.id}`)
+        .get(`/historiess?item_id=${form.id}`)
         .then(async ({ data }) => {
           console.log("Histories data:", data);
           if (data.length > 0) {

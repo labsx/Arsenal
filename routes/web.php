@@ -14,6 +14,7 @@ use App\Http\Controllers\NavBarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReturnController;
 use App\Http\Controllers\UserController;
+use App\Models\History;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', [LoginController::class, 'index']);
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('histories', HistoryController::class)->only([
         'index', 'show',
     ]);
+    Route::get('/historiess', [HistoryController::class, 'itemDetails']);
     Route::resource('users', UserController::class)->only([
         'index', 'store', 'destroy',
     ]);

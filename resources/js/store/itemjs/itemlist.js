@@ -26,7 +26,6 @@ export function itemList() {
     const printItems = () => {
         printItemsData(items.value.data, formatDate);
     };
-
     const deleteItems = (id) => {
         deleteItemsData()
             .then((result) => {
@@ -98,9 +97,26 @@ export function itemList() {
         }
     };
 
+    const histories = ref([]);
+
+    const fetchHistories = () => {
+        axios
+            .get("/histories")
+            .then((response) => {
+                histories.value = response.data || [];
+            })
+            .catch((error) => {
+                console.error("Error fetching histories:", error);
+            });
+    };
+
+    const hasHistory = (itemId) => {
+        return histories.value.some((history) => history.item_id === itemId);
+    };
+
     onMounted(() => {
         getItems();
-
+        fetchHistories();
         setTimeout(() => {
             if (items.value.data.length === 0) {
                 showImage.value = true;
@@ -108,5 +124,5 @@ export function itemList() {
         }, 100);
     });
 
-    return { formatPrice, printItems, deleteItems, items, searchQuery, getStatusClass, showImage, getItems };
+    return { formatPrice, printItems, deleteItems, items, searchQuery, getStatusClass, showImage, getItems, hasHistory };
 }

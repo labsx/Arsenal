@@ -10,8 +10,7 @@ class HistoryController extends Controller
 {
     public function index(Request $request)
     {
-        $itemId = $request->query('item_id');
-        $histories = History::where('item_id', $itemId)->latest()->get();
+        $histories = History::latest()->get();
 
         return response()->json($histories);
     }
@@ -21,5 +20,13 @@ class HistoryController extends Controller
         $employee = Employee::findOrFail($id);
 
         return response()->json($employee);
+    }
+
+    public function itemDetails(Request $request)
+    {
+        $itemId = $request->query('item_id');
+        $histories = History::where('item_id', $itemId)->latest()->get();
+
+        return response()->json($histories);
     }
 }

@@ -4,7 +4,7 @@ import EditItems from './pages/items/EditItem.vue';
 import ItemDetails from './pages/items/ItemDetails.vue';
 import IssueForm from './pages/items/IssueForm.vue';
 import ReturnForm from './pages/item-issued/ReturnForm.vue';
- import UserLists from './pages/users/UsersList.vue';
+import UserLists from './pages/users/UsersList.vue';
 import UserForm from './pages/users/UserForm.vue';
 import UserProfile from './pages/users/UserProfile.vue';
 import Login from './pages/auth/Login.vue';

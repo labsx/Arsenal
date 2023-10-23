@@ -85,7 +85,11 @@
                         <i class="fas fa-edit text-info"></i>
                       </router-link>
 
-                      <router-link to="" @click.prevent="deleteItems(item.id)">
+                      <router-link
+                        to=""
+                        @click.prevent="deleteItems(item.id)"
+                        v-if="!hasHistory(item.id)"
+                      >
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>
                     </td>
@@ -138,6 +142,7 @@ const {
   getStatusClass,
   showImage,
   getItems,
+  hasHistory,
 } = itemList();
 </script>
  
