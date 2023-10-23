@@ -51,21 +51,7 @@
                     </td>
                   </tr>
                 </tbody>
-                <tbody v-else>
-                  <tr>
-                    <td colspan="8" style="text-align: center">
-                      <img
-                        v-if="showImage && categories.data.length === 0"
-                        :src="imagePath"
-                        alt="No Data Found"
-                        style="max-width: 750px; height: auto"
-                      />
-                      <p style="font-weight: bold; color: red">
-                        No data found !
-                      </p>
-                    </td>
-                  </tr>
-                </tbody>
+                <TableNoData v-else :showImage="showImage" :imagePath="imagePath" />
               </table>
             </div>
           </div>
@@ -91,6 +77,7 @@ import { formatDate } from "../../helper.js";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import Search from "../../pages/layout/Search.vue";
 import { categoryDetails } from "../../store/categoryjs/categorydetails.js";
+import TableNoData from "../../pages/layout/TableNoData.vue";
 
 const {
   errors,
