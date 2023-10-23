@@ -7,9 +7,17 @@
             <div class="profile-header-cover"></div>
             <div class="profile-header-content">
               <div class="profile-header-info">
-                <div class="column">
-                  <h4 class="m-t-10 m-b-5">{{ form.name }}</h4>
-                  <p class="m-b-10">( {{ form.status }})</p>
+                <div class="column" style="max-height: 100px; overflow-y: auto">
+                  <h4 class="no-margin">
+                    {{ form.name }}  <span class="small-text" style="font-size: 18px">({{ form.status }})</span>
+                  </h4>
+                  <p class="">
+                    <img
+                      :src="generateBarcode(form.barcode)"
+                      alt="Barcode"
+                      style="height: 50px; width: 150px"
+                    />
+                  </p>
                 </div>
                 <div class="column" style="max-height: 100px; overflow-y: auto">
                   <h5>Details</h5>
@@ -142,6 +150,7 @@ const {
   histories,
   historyId,
   status,
+  generateBarcode,
 } = itemDetails();
 </script>
 

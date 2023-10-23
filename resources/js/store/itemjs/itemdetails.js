@@ -2,6 +2,7 @@ import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 import { useToastr } from "../../toastr";
 import { useRouter, useRoute } from "vue-router";
+import JsBarcode from "jsbarcode";
 
 export function itemDetails() {
   const status = ref("");
@@ -10,6 +11,16 @@ export function itemDetails() {
   const toastr = useToastr();
   const router = useRouter();
   const route = useRoute();
+
+  const generateBarcode = (barcodeValue) => {
+    const canvas = document.createElement("canvas");
+    JsBarcode(canvas, barcodeValue, {
+      format: "CODE128",
+      displayValue: true,
+    });
+    return canvas.toDataURL();
+  };
+
   const form = reactive({
     name: "",
     serial: "",
@@ -47,6 +58,7 @@ export function itemDetails() {
           form.net_weight = response.data.net_weight;
           form.insurance = response.data.insurance;
           status.value = form.status;
+          form.barcode = response.data.barcode;
           fetchHistories();
         } else {
           console.error("Item data not found in the response.");
@@ -145,5 +157,5 @@ export function itemDetails() {
     getAttributes();
   });
 
-  return { fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute, removeAttribute, form, histories, historyId, status };
+  return { fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute, removeAttribute, form, histories, historyId, status, generateBarcode };
 }
