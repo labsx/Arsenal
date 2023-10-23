@@ -48,7 +48,7 @@
                     >
                   </div>
                 </div>
-                <div class="row" v-if="form.parent_id" >
+                <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="title">Item Name</label>

@@ -73,7 +73,7 @@ class FieldController extends Controller
         return response()->json($category);
     }
 
-    public function index() //dropdown add
+    public function index() //dropdown add category
     {
         $field_groups = FieldGroup::latest()->get();
 

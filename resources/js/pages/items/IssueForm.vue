@@ -24,6 +24,7 @@
 
                 <div class="form-group">
                   <label>Employee List</label>
+                  <span class="text-danger"> *</span>
                   <select
                     class="form-control"
                     v-model="form.employee_id"
@@ -64,6 +65,7 @@
 
                 <div class="form-group">
                   <label for="appName">Date Issued</label>
+                   <span class="text-danger"> *</span>
                   <input
                     v-model="form.issued_at"
                     type="date"

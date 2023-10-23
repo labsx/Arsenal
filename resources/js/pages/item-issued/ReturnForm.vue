@@ -21,6 +21,7 @@
 
                 <div class="form-group">
                   <label for="appName">Remarks</label>
+                   <span class="text-danger"> *</span>
                   <input
                     v-model="form.remarks"
                     type="text"
@@ -38,6 +39,7 @@
 
                 <div class="form-group">
                   <label>Status</label>
+                   <span class="text-danger"> *</span>
                   <select
                     class="form-control"
                     v-model="form.status"
@@ -57,6 +59,7 @@
 
                 <div class="form-group">
                   <label for="appName">Return Date</label>
+                   <span class="text-danger"> *</span>
                   <input
                     v-model="form.return_at"
                     type="date"

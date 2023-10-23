@@ -97,8 +97,8 @@
                         >
                         <small></small
                       ></span>
-                      <span class="pull-right text-muted"
-                        >( {{ history.status }} )</span
+                      <span class="pull-right text-muted">
+                        ( {{ history.status }} )</span
                       >
                     </div>
                     <div class="timeline-content" v-if="history.return_at">
