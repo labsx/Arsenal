@@ -74,5 +74,6 @@ export function addCategory(getCategoryFn) {
         getFieldGroup();
         getCategory();
     });
+    
     return { errors, form, categories, filterCategory, getCategory, getFieldGroup, field_groups, dataTosave, getCategoryFn };
 }
