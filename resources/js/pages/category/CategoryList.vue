@@ -5,16 +5,8 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
-              <button
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="modal"
-                data-target="#createCategory"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>New Category
-              </button>
-            </div>
-             <Search v-model="searchQuery" /> 
+            <ModalButtonAdd :modalTarget="'#createCategory'" :title="'New Category'" />
+            <Search v-model="searchQuery" /> 
           </div>
           <div class="card">
             <div class="card-body">
@@ -78,6 +70,7 @@ import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import Search from "../../pages/layout/Search.vue";
 import { categoryDetails } from "../../store/categoryjs/categorydetails.js";
 import TableNoData from "../../pages/layout/TableNoData.vue";
+import ModalButtonAdd from "../../pages/layout/ModalButtonAdd.vue";
 
 const {
   errors,

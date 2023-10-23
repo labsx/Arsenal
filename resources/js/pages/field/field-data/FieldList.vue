@@ -5,15 +5,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
-              <button
-                class="btn btn-outline-primary ml-1 btn-sm"
-                data-toggle="modal"
-                data-target="#createFieldData"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>ADD FIELDS
-              </button>
-            </div>
+            <ModalButtonAdd :modalTarget="'#createFieldData'" :title="'Add field'" />
             <Search v-model="searchQuery" />
           </div>
           <div class="card">
@@ -72,6 +64,7 @@ import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 import Search from "../../../pages/layout/Search.vue";
 import TableNoData from "../../../pages/layout/TableNoData.vue";
+import ModalButtonAdd from "../../../pages/layout/ModalButtonAdd.vue";
 
 const {
   showImage,

@@ -5,15 +5,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
-              <button
-                class="btn btn-outline-primary ml-1 btn-sm"
-                data-toggle="modal"
-                data-target="#createFieldsGroup"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>ADD FIELD GROUPS
-              </button>
-            </div>
+            <ModalButtonAdd :modalTarget="'#createFieldsGroup'" :title="'ADD FIELD GROUPS'" />
             <Search v-model="searchQuery" />
           </div>
           <div class="card">
@@ -74,6 +66,7 @@ import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { fieldGroupDetails } from "../../store/field-groups/field-groups.js";
 import Search from "../../pages/layout/Search.vue";
 import TableNoData from "../../pages/layout/TableNoData.vue";
+import ModalButtonAdd from "../../pages/layout/ModalButtonAdd.vue";
 
 const { showImage, field_groups, searchQuery, getFieldsGroups, deleteFields } =
   fieldGroupDetails();

@@ -5,15 +5,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex justify-content-between mb-2">
-            <div>
-              <button
-                class="btn btn-outline-primary btn-sm"
-                data-toggle="modal"
-                data-target="#addEmployee"
-              >
-                <i class="fa fa-plus-circle mr-1"></i>Add employee
-              </button>
-            </div>
+            <ModalButtonAdd :modalTarget="'#addEmployee'" :title="'Add employee'" />
             <Search v-model="searchQuery" />
           </div>
           <div class="card">
@@ -71,6 +63,7 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import imagePath from "/resources/image/no data.gif";
 import Search from "../../pages/layout/Search.vue";
 import TableNoData from "../../pages/layout/TableNoData.vue";
+import ModalButtonAdd from "../../pages/layout/ModalButtonAdd.vue";
 
 const {
   showImage,

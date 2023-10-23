@@ -10,13 +10,7 @@
                 class="ml-2"
                 v-if="authuserStore.user.email == 'admin@gmail.com'"
               >
-                <button
-                  class="btn btn-outline-primary btn-sm"
-                  data-toggle="modal"
-                  data-target="#createUsers"
-                >
-                  <i class="fa fa-plus-circle mr-1"></i>Add new user
-                </button>
+                <ModalButtonAdd :modalTarget="'#createUsers'" :title="'Add new user'" />
               </div>
             </div>
             <Search v-model="searchQuery" />
@@ -89,6 +83,7 @@ import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { userList } from "../../store/users/userslist.js";
 import UserForm from "./UserForm.vue";
 import Search from "../../pages/layout/Search.vue";
+import ModalButtonAdd from "../../pages/layout/ModalButtonAdd.vue";
 
 const { users, searchQuery, authuserStore, deleteUsers, getUsers } = userList();
 </script>
