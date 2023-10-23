@@ -56,7 +56,7 @@
 </template>
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
-import { editFieldGroups } from "../../store/field-groups/field-groups.js";
+import { editFieldGroups } from "../../store/field-groups/editfield-groups.js";
 
 const { form, errors, saveGroupFields } = editFieldGroups();
 </script>

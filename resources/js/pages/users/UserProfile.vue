@@ -1,5 +1,9 @@
 <template>
-  <ContentHeader title="Profile information" data="profile" datas="information" />
+  <ContentHeader
+    title="Profile information"
+    data="profile"
+    datas="information"
+  />
   <div class="content mt-5">
     <div class="container-fluid">
       <div class="row">
@@ -27,7 +31,6 @@
             </div>
           </div>
         </div>
-
         <div class="col-md-9">
           <div class="card">
             <div class="card-header p-2">

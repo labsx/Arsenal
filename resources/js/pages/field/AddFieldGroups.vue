@@ -40,7 +40,7 @@
                                 type="text"
                                 class="form-control"
                                 id="title"
-                                placeholder="Enter item name"
+                                placeholder="Enter field groups name"
                                 v-model="form.name"
                                 :class="{ 'is-invalid': errors.name }"
                               />
@@ -58,7 +58,7 @@
                           <textarea
                             class="form-control"
                             rows="3"
-                            placeholder="Enter description"
+                            placeholder="Enter field groups description"
                             v-model="form.description"
                           ></textarea>
                           <span
@@ -98,7 +98,7 @@
 
 <script setup>
 import { defineProps } from "vue";
-import addFieldGroups from "../../store/field-groups/field-groups.js";
+import addFieldGroups from "../../store/field-groups/addfield-groups.js";
 
 const { errors, form, createFields } = addFieldGroups(getFieldsGroupsFn);
 const { getFieldsGroupsFn } = defineProps(["getFieldsGroupsFn"]);

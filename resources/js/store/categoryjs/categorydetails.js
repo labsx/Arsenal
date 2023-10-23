@@ -45,6 +45,7 @@ export function categoryDetails() {
                 await axios.delete(`/category/${id}`);
                 categories.value.data = categories.value.data.filter(category => category.id !== id);
                 Swal.fire("Deleted!", "Category has been deleted.", "success");
+                getCategory();
             }
         } catch (error) {
             console.error("Error deleting category:", error);

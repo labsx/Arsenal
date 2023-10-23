@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader data="employees" datas="edit" />
+  <ContentHeader title="" data="employees" datas="edit" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -13,6 +13,7 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="appName">First Name</label>
+                  <span class="text-danger"> *</span>
                   <input
                     v-model="form.first_name"
                     type="text"
@@ -30,6 +31,7 @@
 
                 <div class="form-group">
                   <label for="appName">Last Name</label>
+                  <span class="text-danger"> *</span>
                   <input
                     v-model="form.last_name"
                     type="text"
@@ -47,6 +49,7 @@
 
                 <div class="form-group">
                   <label for="appName">Position</label>
+                  <span class="text-danger"> *</span>
                   <input
                     v-model="form.position"
                     type="text"
@@ -82,7 +85,7 @@
 
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
-import { updateEmployee } from "../../store/employeejs/employee.js";
+import { updateEmployee } from "../../store/employeejs/edit-employee.js";
 
 const { form, errors, saveEmployee } = updateEmployee();
 </script>

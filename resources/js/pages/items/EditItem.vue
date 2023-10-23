@@ -353,7 +353,8 @@
 
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
-import { editItems } from "../../store/itemjs/item.js";
+import { editItems } from "../../store/itemjs/edititem.js";
+
 const {
   errors,
   form,

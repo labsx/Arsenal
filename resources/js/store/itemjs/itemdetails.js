@@ -27,7 +27,6 @@ export function itemDetails() {
     form.value.splice(index, 1);
   };
 
-  //
   const getItems = () => {
     axios
       .get(`/items/${route.params.id}`)
@@ -126,7 +125,7 @@ export function itemDetails() {
       console.error("Employee ID is empty.");
       return null;
     }
-  
+
     try {
       const response = await axios.get(`/histories/${employeeId}`);
       if (response.data) {

@@ -32,6 +32,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">Category Name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 v-model="form.name"
                                 type="text"
@@ -131,8 +132,14 @@ import { defineProps } from "vue";
 import { addCategory } from "../../store/categoryjs/categoryadd.js";
 
 const { getCategoryFn } = defineProps(["getCategoryFn"]);
-const { errors, form, categories, filterCategory, getCategory,  getFieldGroup, field_groups, createItem } =
-addCategory(getCategoryFn);
-
-
+const {
+  errors,
+  form,
+  categories,
+  filterCategory,
+  getCategory,
+  getFieldGroup,
+  field_groups,
+  createItem,
+} = addCategory(getCategoryFn);
 </script>

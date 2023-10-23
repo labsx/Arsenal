@@ -103,7 +103,7 @@
 
 <script setup>
 import { defineProps } from "vue";
-import { addField } from "../../../store/fields/fields.js";
+import { addField } from "../../../store/fields/addfield.js";
 
 const { errors, form, createField } = addField(getFieldByIdFn);
 const { getFieldByIdFn } = defineProps(["getFieldByIdFn"]);

@@ -18,7 +18,7 @@ export function addUser(getUsersFn) {
         axios
             .post("/users", form)
             .then((response) => {
-                toastr.success("Successfully created user !");
+                toastr.success("User created successfully.");
                 getUsersFn();
                 errors.value = "";
                 $("#createUsers").modal("hide");

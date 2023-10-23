@@ -32,6 +32,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">First Name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 v-model="form.first_name"
                                 type="text"
@@ -51,6 +52,7 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="title">Last Name</label>
+                              <span class="text-danger"> *</span>
                               <input
                                 v-model="form.last_name"
                                 type="text"
@@ -69,6 +71,7 @@
                             <div class="col-md-12">
                               <div class="form-group">
                                 <label for="title">Position</label>
+                                <span class="text-danger"> *</span>
                                 <input
                                   v-model="form.position"
                                   type="text"
@@ -117,13 +120,13 @@
 
 <script setup>
 import { defineProps } from "vue";
-import addEmployee from "../../store/employeejs/employee.js";
+import addEmployee from "../../store/employeejs/add-employee.js";
 
 const { getEmployeeFn } = defineProps(["getEmployeeFn"]);
 const { errors, form, createEmployee } = addEmployee(getEmployeeFn);
 //import AddEmployee from '../employee/AddEmployee.js';
 
 // export default {
-//   mixins: [AddEmployee], 
+//   mixins: [AddEmployee],
 // };
 </script>

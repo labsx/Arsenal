@@ -63,6 +63,6 @@ export function userProfile() {
                 }
             });
     };
-    return { updateProfile, openFileInput, fileInput, handleFileChange, handleChangePassword, authuserStore, errors, changePasswordForm };
 
+    return { updateProfile, openFileInput, fileInput, handleFileChange, handleChangePassword, authuserStore, errors, changePasswordForm };
 }

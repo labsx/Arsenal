@@ -94,7 +94,7 @@
       </div>
     </div>
   </div>
-<UserForm :getUsersFn="getUsers" />
+  <UserForm :getUsersFn="getUsers" />
 </template>
 
 <script setup>

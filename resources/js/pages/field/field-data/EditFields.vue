@@ -55,7 +55,7 @@
                   class="btn btn-outline-primary"
                 >
                   <i class="fa fa-save mr-1"></i>
-                  Submit
+                  Save changes
                 </button>
               </form>
             </div>
@@ -69,7 +69,7 @@
 <script setup>
 
 import ContentHeader from "../../../pages/layout/ContentHeader.vue";
-import { editFields } from "../../../store/fields/fields.js";
+import { editFields } from "../../../store/fields/editfield.js";
 
 const { errors, form, saveField } = editFields();
 </script>

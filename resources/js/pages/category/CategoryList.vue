@@ -52,7 +52,6 @@
                     </td>
                     <td>{{ category.field_group_name }}</td>
                     <td>
-
                       <router-link :to="`/admin/category/${category.id}/edit`">
                         <i class="fas fa-edit"></i>
                       </router-link>

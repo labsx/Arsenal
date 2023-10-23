@@ -15,13 +15,28 @@
                   <h5>Details</h5>
                   <p class="no-margin">Model: {{ form.serial }}</p>
                   <p class="no-margin">Model: {{ form.model }}</p>
-                  <p class="no-margin"> Price: ₱ {{ form.price ? form.price : "none" }}</p>
-                  <p class="no-margin"> Mfg. Date: {{ form.mfg_date ? form.mfg_date : "none" }} </p>
-                  <p class="no-margin"> Manufacturer: {{ form.manufacturer ? form.manufacturer : "none" }}</p>
-                  <p class="no-margin"> Location: {{ form.location ? form.location : "none" }} </p>
-                  <p class="no-margin"> Warranty: {{ form.warranty ? form.warranty : "none" }}  </p>
-                  <p class="no-margin"> Insurance: {{ form.insurance ? form.insurance : "none" }}</p>
-                  <p class="no-margin"> Net Weight: {{ form.net_weight ? form.net_weight : "none" }} </p>
+                  <p class="no-margin">
+                    Price: ₱ {{ form.price ? form.price : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Mfg. Date: {{ form.mfg_date ? form.mfg_date : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Manufacturer:
+                    {{ form.manufacturer ? form.manufacturer : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Location: {{ form.location ? form.location : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Warranty: {{ form.warranty ? form.warranty : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Insurance: {{ form.insurance ? form.insurance : "none" }}
+                  </p>
+                  <p class="no-margin">
+                    Net Weight: {{ form.net_weight ? form.net_weight : "none" }}
+                  </p>
                 </div>
                 <div class="column" style="max-height: 100px; overflow-y: auto">
                   <h5>Attributes</h5>

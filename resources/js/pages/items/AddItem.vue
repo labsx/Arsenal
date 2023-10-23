@@ -325,7 +325,8 @@
 
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
-import { addItem } from "../../store/itemjs/item.js";
+import { addItem } from "../../store/itemjs/additem.js";
+
 const {
   errors,
   form,

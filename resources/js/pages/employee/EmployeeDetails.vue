@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { employeeDetails } from "../../store/employeejs/employee.js";
+import { employeeDetails } from "../../store/employeejs/employee-dashboard.js";
 import AddEmployee from "./AddEmployee.vue";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";

@@ -1,5 +1,5 @@
 <template>
-<ContentHeader title="Fields" data="field groups" datas="data"/>
+  <ContentHeader title="Fields" data="field groups" datas="data" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -92,10 +92,19 @@
 
 <script setup>
 import { fieldDetails } from "../../../store/fields/fields.js";
- import { Bootstrap4Pagination } from "laravel-vue-pagination";
- import AddFieldsData from "./AddFieldsData.vue";
- import imagePath from "/resources/image/no data.gif";
- import ContentHeader from "../../../pages/layout/ContentHeader.vue";
+import { Bootstrap4Pagination } from "laravel-vue-pagination";
+import AddFieldsData from "./AddFieldsData.vue";
+import imagePath from "/resources/image/no data.gif";
+import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 
- const { showImage, toastr, route, fields, getFieldsById, deleteFields, searchQuery, search } = fieldDetails();
+const {
+  showImage,
+  toastr,
+  route,
+  fields,
+  getFieldsById,
+  deleteFields,
+  searchQuery,
+  search,
+} = fieldDetails();
 </script>

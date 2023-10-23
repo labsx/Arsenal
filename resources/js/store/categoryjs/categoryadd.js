@@ -26,6 +26,8 @@ export function addCategory(getCategoryFn) {
                 $("#createCategory").modal("hide");
                 errors.value = [];
                 clearForm();
+                categories.value.push(response.data);
+
             })
             .catch((error) => {
                 if (error.response && error.response.status === 400) {
@@ -55,7 +57,6 @@ export function addCategory(getCategoryFn) {
     };
 
     const categories = ref([]);
-
     const getCategory = () => {
         axios
             .get("/categories")
