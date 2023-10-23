@@ -21,6 +21,21 @@ export function itemDetails() {
     return canvas.toDataURL();
   };
 
+  const formatPrice = (price) => {
+    if (!price) {
+        return "none";
+    }
+    const parts = price.toString().split(".");
+    const integerPart = parts[0]
+        .split("")
+        .reverse()
+        .map((digit, index) => (index > 0 && index % 3 === 0 ? digit + " " : digit))
+        .reverse()
+        .join("");
+    const decimalPart = parts[1] ? `.${parts[1]}` : "";
+    return `₱ ${integerPart}${decimalPart}`;
+};
+
   const form = reactive({
     name: "",
     serial: "",
@@ -157,5 +172,6 @@ export function itemDetails() {
     getAttributes();
   });
 
-  return { fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute, removeAttribute, form, histories, historyId, status, generateBarcode };
+  return { fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute,
+     removeAttribute, form, histories, historyId, status, generateBarcode , formatPrice};
 }

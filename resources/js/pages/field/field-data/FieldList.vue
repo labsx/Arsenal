@@ -43,7 +43,7 @@
                 <tbody v-if="fields.data.length > 0">
                   <tr v-for="field in fields.data" :key="field.id">
                     <td>{{ field.label }}</td>
-                    <td>{{ field.description }}</td>
+                    <td>{{ field.description || 'no field description added ' }}</td>
                     <td>{{ field.is_required }}</td>
                     <td>
                       <router-link :to="`/admin/edit/${field.id}/fields`">

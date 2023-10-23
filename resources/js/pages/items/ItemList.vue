@@ -8,7 +8,7 @@
             <div>
               <router-link to="/admin/add/item">
                 <button type="button" class="btn btn-outline-primary btn-sm">
-                  <i class="nav-icon fas fa-plus"></i>
+                  <i class="nav-icon fas fa-plus-circle"></i>
                   Add item
                 </button>
               </router-link>

@@ -338,6 +338,6 @@ const {
   getCategory,
   categories,
   categoryGroups,
-  filteredSamples,
+  filteredSamples
 } = addItem();
 </script>

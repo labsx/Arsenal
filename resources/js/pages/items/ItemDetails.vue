@@ -9,7 +9,10 @@
               <div class="profile-header-info">
                 <div class="column" style="max-height: 100px; overflow-y: auto">
                   <h4 class="no-margin">
-                    {{ form.name }}  <span class="small-text" style="font-size: 18px">({{ form.status }})</span>
+                    {{ form.name }}
+                    <span class="small-text" style="font-size: 18px"
+                      >({{ form.status }})</span
+                    >
                   </h4>
                   <p class="">
                     <img
@@ -24,7 +27,7 @@
                   <p class="no-margin">Model: {{ form.serial }}</p>
                   <p class="no-margin">Model: {{ form.model }}</p>
                   <p class="no-margin">
-                    Price: ₱ {{ form.price ? form.price : "none" }}
+                    Price: {{ form.price ? formatPrice(form.price) : "none" }}
                   </p>
                   <p class="no-margin">
                     Mfg. Date: {{ form.mfg_date ? form.mfg_date : "none" }}
@@ -151,6 +154,7 @@ const {
   historyId,
   status,
   generateBarcode,
+  formatPrice,
 } = itemDetails();
 </script>
 

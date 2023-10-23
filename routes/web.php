@@ -29,15 +29,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('histories', HistoryController::class)->only(['index', 'show']);
     Route::resource('users', UserController::class)->only(['index', 'store', 'destroy']);
     Route::resource('users/profile', ProfileController::class)->only(['index', 'store']);
-    
+
     Route::get('/categories', [CategoryController::class, 'getAllCategories']); //categories for add
     Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']); //switch input in items
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']); //item details attribute
     Route::get('/historiess', [HistoryController::class, 'itemDetails']); //for items delete hide
-    Route::put('/users/profile', [ProfileController::class, 'update']); 
+    Route::put('/users/profile', [ProfileController::class, 'update']);
     Route::post('/users/profile', [ProfileController::class, 'upload']);
-    
+
     Route::prefix('dashboard')->group(function () {
         Route::get('category', [DashboardController::class, 'categoryCount']);
         Route::get('users', [DashboardController::class, 'usersCount']);
@@ -48,14 +48,13 @@ Route::middleware('auth')->group(function () {
         Route::get('progress', [DashboardController::class, 'progressBar']);
         Route::get('users/data', [DashboardController::class, 'usersGet']);
     });
-    
+
     Route::get('/notes/data', [NavBarController::class, 'index']);
     Route::get('/notification', [NavBarController::class, 'notification']);
     Route::delete('/notification/{id}', [NavBarController::class, 'deleteNotification']);
     Route::post('/notes', [NavBarController::class, 'notes']);
     Route::get('/user/{id}', [NavBarController::class, 'getUser']);
     Route::delete('/notes/{note}', [NavBarController::class, 'destroy']);
-    
+
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
 });
-

@@ -43,7 +43,7 @@
                 <tbody v-if="field_groups.data.length > 0">
                   <tr v-for="field in field_groups.data" :key="field.id">
                     <td>{{ field.name }}</td>
-                    <td>{{ field.description }}</td>
+                    <td>{{ field.description || 'no description added' }}</td>
 
                     <td>
                       <router-link :to="`/admin/fields/${field.id}/add`">
