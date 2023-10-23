@@ -140,11 +140,10 @@
                       <input
                         v-model="form.mfg_date"
                         type="date"
-                        class="form-control flatpickr"
+                        class="form-control"
                         id="title"
                         placeholder="Select manufacturing date"
                         :class="{ 'is-invalid': errors.mfg_date }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.mfg_date"
@@ -311,7 +310,11 @@
                 </div>
 
                 <div class="row"></div>
-                <button v-if="form.parent_id" type="submit" class="btn btn-outline-primary btn-sm">
+                <button
+                  v-if="form.parent_id"
+                  type="submit"
+                  class="btn btn-outline-primary btn-sm"
+                >
                   <i class="fa fa-save mr-2"></i>Save
                 </button>
               </form>
@@ -338,6 +341,6 @@ const {
   getCategory,
   categories,
   categoryGroups,
-  filteredSamples
+  filteredSamples,
 } = addItem();
 </script>

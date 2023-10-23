@@ -30,6 +30,9 @@
                                 id="title"
                                 placeholder="Enter category name"
                                 :class="{ 'is-invalid': errors.name }"
+                                :style="{
+                                  borderColor: form.name ? 'green' : '',
+                                }"
                               />
                               <span
                                 v-if="errors && errors.name"

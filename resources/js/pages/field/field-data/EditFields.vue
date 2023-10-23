@@ -19,6 +19,7 @@
                         id="title"
                         placeholder="Enter label"
                         :class="{ 'is-invalid': errors.label }"
+                         :style="{ borderColor: form.label ? 'green' : '' }"
                       />
                       <span
                         v-if="errors && errors.label"
@@ -37,6 +38,7 @@
                     id="description"
                     rows="3"
                     placeholder="Enter Description"
+                     :style="{ borderColor: form.description ? 'green' : '' }"
                   ></textarea>
                 </div>
                 <div class="form-group">

@@ -66,6 +66,9 @@
                           id="inputName"
                           placeholder="Name"
                           :class="{ 'is-invalid': errors.name }"
+                          :style="{
+                            borderColor: authuserStore.user.name ? 'green' : '',
+                          }"
                         />
                         <span
                           v-if="errors && errors.name"
@@ -86,6 +89,11 @@
                           id="inputEmail"
                           placeholder="Email"
                           :class="{ 'is-invalid': errors.email }"
+                          :style="{
+                            borderColor: authuserStore.user.email
+                              ? 'green'
+                              : '',
+                          }"
                         />
                         <span
                           v-if="errors && errors.email"
@@ -122,6 +130,11 @@
                           class="form-control"
                           id="currentPassword"
                           placeholder="Current Password"
+                          :style="{
+                            borderColor: changePasswordForm.currentPassword
+                              ? 'green'
+                              : '',
+                          }"
                         />
                         <span
                           v-if="errors && errors.current_password"
@@ -141,6 +154,11 @@
                           class="form-control"
                           id="newPassword"
                           placeholder="New Password"
+                          :style="{
+                            borderColor: changePasswordForm.password
+                              ? 'green'
+                              : '',
+                          }"
                         />
                         <span
                           v-if="errors && errors.password"
@@ -162,6 +180,11 @@
                           class="form-control"
                           id="passwordConfirmation"
                           placeholder="Confirm New Password"
+                          :style="{
+                            borderColor: changePasswordForm.passwordConfirmation
+                              ? 'green'
+                              : '',
+                          }"
                         />
                       </div>
                     </div>

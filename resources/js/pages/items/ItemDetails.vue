@@ -113,7 +113,7 @@
                       >
                     </div>
                     <div class="timeline-content" v-if="history.return_at">
-                      <p class="no-margin">Remarks: {{ history.remarks }}</p>
+                      <p class="no-margin text-black">Remarks: {{ history.remarks }}</p>
                       <p class="no-margin">
                         Return Date:
                         {{

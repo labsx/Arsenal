@@ -21,6 +21,7 @@
                     id="appName"
                     placeholder="Enter employee first name"
                     :class="{ 'is-invalid': errors.first_name }"
+                    :style="{ borderColor: form.first_name ? 'green' : '' }"
                   />
                   <span
                     v-if="errors && errors.first_name"
@@ -39,6 +40,7 @@
                     id="appName"
                     placeholder="Enter employee last name"
                     :class="{ 'is-invalid': errors.last_name }"
+                    :style="{ borderColor: form.last_name ? 'green' : '' }"
                   />
                   <span
                     v-if="errors && errors.last_name"
@@ -57,6 +59,7 @@
                     id="appName"
                     placeholder="Enter employee position"
                     :class="{ 'is-invalid': errors.position }"
+                    :style="{ borderColor: form.position ? 'green' : '' }"
                   />
                   <span
                     v-if="errors && errors.position"

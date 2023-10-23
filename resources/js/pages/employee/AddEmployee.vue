@@ -30,6 +30,9 @@
                                 id="title"
                                 placeholder="Enter first name"
                                 :class="{ 'is-invalid': errors.first_name }"
+                                :style="{
+                                  borderColor: form.first_name ? 'green' : '',
+                                }"
                               />
                               <span
                                 v-if="errors && errors.first_name"
@@ -50,6 +53,9 @@
                                 id="title"
                                 placeholder="Enter last name"
                                 :class="{ 'is-invalid': errors.last_name }"
+                                :style="{
+                                  borderColor: form.last_name ? 'green' : '',
+                                }"
                               />
                               <span
                                 v-if="errors && errors.last_name"
@@ -69,6 +75,9 @@
                                   id="title"
                                   placeholder="Enter position "
                                   :class="{ 'is-invalid': errors.position }"
+                                  :style="{
+                                    borderColor: form.position ? 'green' : '',
+                                  }"
                                 />
                                 <span
                                   v-if="errors && errors.position"

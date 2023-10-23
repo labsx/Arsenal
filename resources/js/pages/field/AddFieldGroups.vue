@@ -33,6 +33,9 @@
                                 placeholder="Enter field groups name"
                                 v-model="form.name"
                                 :class="{ 'is-invalid': errors.name }"
+                                :style="{
+                                  borderColor: form.name ? 'green' : '',
+                                }"
                               />
                               <span
                                 v-if="errors && errors.name"
@@ -50,6 +53,9 @@
                             rows="3"
                             placeholder="Enter field groups description"
                             v-model="form.description"
+                            :style="{
+                              borderColor: form.description ? 'green' : '',
+                            }"
                           ></textarea>
                           <span
                             v-if="errors && errors.description"

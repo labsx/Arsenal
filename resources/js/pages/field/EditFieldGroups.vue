@@ -21,6 +21,7 @@
                     id="appName"
                     placeholder=""
                     :class="{ 'is-invalid': errors.name }"
+                    :style="{ borderColor: form.name ? 'green' : '' }"
                   />
                   <span
                     v-if="errors && errors.name"
@@ -34,6 +35,7 @@
                     v-model="form.description"
                     type="text"
                     class="form-control"
+                    :style="{ borderColor: form.description ? 'green' : '' }"
                   ></textarea>
                 </div>
               </div>

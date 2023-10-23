@@ -20,6 +20,7 @@
                     id="appName"
                     placeholder="Enter category name"
                     :class="{ 'is-invalid': errors.name }"
+                    :style="{ borderColor: form.name ? 'green' : '' }"
                   />
                   <span
                     v-if="errors && errors.name"
@@ -37,6 +38,7 @@
                       class="form-control"
                       v-model="form.parent_id"
                       name="parent_id"
+                      :style="{ borderColor: form.parent_id ? 'green' : '' }"
                     >
                       <option value="" disabled selected hidden>
                         Select Parent
@@ -55,7 +57,11 @@
                 <div class="form-group" v-if="form.parent_id">
                   <label for="dateFormat">Group Fields</label>
                   <span class="text-danger"> *</span>
-                  <select class="form-control" v-model="form.field_group_id">
+                  <select
+                    class="form-control"
+                    v-model="form.field_group_id"
+                    :style="{ borderColor: form.field_group_id ? 'green' : '' }"
+                  >
                     <option
                       :value="field.id"
                       v-for="field in field_groups"

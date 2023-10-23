@@ -47,7 +47,7 @@
                     <th scope="col">Model</th>
                     <th scope="col">Mfg. Date</th>
                     <th scope="col">Manufacturer</th>
-                    <th scope="col">Manufacturer Address</th>
+                    <th scope="col">Manufacturer address</th>
                     <th scope="col">Unit&nbsp;price</th>
                     <th scope="col">Status</th>
                     <!-- <th scope="col">Barcode</th> -->
@@ -88,7 +88,10 @@
                       <router-link
                         to=""
                         @click.prevent="deleteItems(item.id)"
-                        v-if="!hasHistory(item.id)"
+                        v-if="
+                          !hasHistory(item.id) &&
+                          item.status !== 'decommissioned'
+                        "
                       >
                         <i class="fa fa-trash text-danger ml-2"></i>
                       </router-link>

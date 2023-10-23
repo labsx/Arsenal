@@ -38,6 +38,7 @@
                                 class="form-control"
                                 id="text"
                                 :class="{ 'is-invalid': errors.label }"
+                                 :style="{ borderColor: form.label ? 'green' : '' }"
                               />
                               <span
                                 v-if="errors && errors.label"
@@ -55,6 +56,7 @@
                               rows="3"
                               v-model="form.description"
                               placeholder="Enter Description"
+                               :style="{ borderColor: form.description ? 'green' : '' }"
                             ></textarea>
                           </div>
                           <div class="form-group ml-2">

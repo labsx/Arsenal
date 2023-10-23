@@ -139,10 +139,9 @@
                       <input
                         v-model="form.mfg_date"
                         type="date"
-                        class="form-control flatpickr"
+                        class="form-control"
                         id="date"
                         :class="{ 'is-invalid': errors.mfg_date }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.mfg_date"
@@ -162,7 +161,6 @@
                         class="form-control"
                         id="date"
                         :class="{ 'is-invalid': errors.manufacturer }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.manufacturer"
@@ -174,7 +172,7 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="date">Location</label>
+                      <label for="date">Manufacturer address</label>
                       <span class="text-danger"> *</span>
                       <input
                         v-model="form.location"
@@ -182,7 +180,6 @@
                         class="form-control"
                         id="date"
                         :class="{ 'is-invalid': errors.location }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.location"
@@ -220,7 +217,6 @@
                         class="form-control"
                         id="date"
                         :class="{ 'is-invalid': errors.warranty }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.warranty"
@@ -244,7 +240,6 @@
                         class="form-control"
                         id="text"
                         :class="{ 'is-invalid': errors.net_weight }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.net_weight"
@@ -263,7 +258,6 @@
                         class="form-control"
                         id="date"
                         :class="{ 'is-invalid': errors.insurance }"
-                        style="background: white"
                       />
                       <span
                         v-if="errors && errors.insurance"
