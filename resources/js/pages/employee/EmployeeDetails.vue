@@ -14,21 +14,7 @@
                 <i class="fa fa-plus-circle mr-1"></i>Add employee
               </button>
             </div>
-            <div>
-              <div class="input-group">
-                <input
-                  v-model="searchQuery"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search..."
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text"
-                    ><i class="fa fa-search text-primary" aria-hidden="true"></i
-                  ></span>
-                </div>
-              </div>
-            </div>
+            <Search v-model="searchQuery" />
           </div>
           <div class="card">
             <div class="card-body">
@@ -97,6 +83,8 @@ import AddEmployee from "./AddEmployee.vue";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import imagePath from "/resources/image/no data.gif";
+import Search from "../../pages/layout/Search.vue";
+
 const {
   showImage,
   errors,

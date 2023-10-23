@@ -14,21 +14,7 @@
                 <i class="fa fa-plus-circle mr-1"></i>ADD FIELD GROUPS
               </button>
             </div>
-            <div>
-              <div class="input-group">
-                <input
-                  v-model="searchQuery"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search..."
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text"
-                    ><i class="fa fa-search text-primary" aria-hidden="true"></i
-                  ></span>
-                </div>
-              </div>
-            </div>
+            <Search v-model="searchQuery" />
           </div>
           <div class="card">
             <div class="card-body">
@@ -43,7 +29,7 @@
                 <tbody v-if="field_groups.data.length > 0">
                   <tr v-for="field in field_groups.data" :key="field.id">
                     <td>{{ field.name }}</td>
-                    <td>{{ field.description || 'no description added' }}</td>
+                    <td>{{ field.description || "no description added" }}</td>
 
                     <td>
                       <router-link :to="`/admin/fields/${field.id}/add`">
@@ -100,6 +86,7 @@ import AddFieldGroups from "./AddFieldGroups.vue";
 import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { fieldGroupDetails } from "../../store/field-groups/field-groups.js";
+import Search from "../../pages/layout/Search.vue";
 
 const { showImage, field_groups, searchQuery, getFieldsGroups, deleteFields } =
   fieldGroupDetails();

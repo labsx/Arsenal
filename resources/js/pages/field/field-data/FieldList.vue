@@ -14,21 +14,7 @@
                 <i class="fa fa-plus-circle mr-1"></i>ADD FIELDS
               </button>
             </div>
-            <div>
-              <div class="input-group">
-                <input
-                  v-model="searchQuery"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search..."
-                />
-                <div class="input-group-append">
-                  <span class="input-group-text"
-                    ><i class="fa fa-search text-primary" aria-hidden="true"></i
-                  ></span>
-                </div>
-              </div>
-            </div>
+            <Search v-model="searchQuery" />
           </div>
           <div class="card">
             <div class="card-body">
@@ -43,7 +29,9 @@
                 <tbody v-if="fields.data.length > 0">
                   <tr v-for="field in fields.data" :key="field.id">
                     <td>{{ field.label }}</td>
-                    <td>{{ field.description || 'no field description added ' }}</td>
+                    <td>
+                      {{ field.description || "no field description added " }}
+                    </td>
                     <td>{{ field.is_required }}</td>
                     <td>
                       <router-link :to="`/admin/edit/${field.id}/fields`">
@@ -96,6 +84,7 @@ import { Bootstrap4Pagination } from "laravel-vue-pagination";
 import AddFieldsData from "./AddFieldsData.vue";
 import imagePath from "/resources/image/no data.gif";
 import ContentHeader from "../../../pages/layout/ContentHeader.vue";
+import Search from "../../../pages/layout/Search.vue";
 
 const {
   showImage,
