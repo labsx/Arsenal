@@ -8,6 +8,7 @@
       class="form-control"
       :class="{ 'is-invalid': error }"
       @change="updateStatus"
+      :style="{ borderColor: model ? 'green' : '' }"
     >
       <option value="" disabled selected hidden>Select Status</option>
       <option value="operating">Operating</option>
