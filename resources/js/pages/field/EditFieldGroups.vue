@@ -8,36 +8,14 @@
             <div class="card-header">
               <h3 class="card-title">Update Field Groups</h3>
             </div>
-
             <form>
               <div class="card-body">
-                <div class="form-group">
-                  <label for="appName">Field Name</label>
-                  <span class="text-danger"> *</span>
-                  <input
-                    v-model="form.name"
-                    type="text"
-                    class="form-control"
-                    id="appName"
-                    placeholder=""
-                    :class="{ 'is-invalid': errors.name }"
-                    :style="{ borderColor: form.name ? 'green' : '' }"
+                 <TextInput label="Field group name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
+                    type="text" placeholder="Enter field group name"
                   />
-                  <span
-                    v-if="errors && errors.name"
-                    class="text-danger text-sm"
-                    >{{ errors.name[0] }}</span
-                  >
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea
-                    v-model="form.description"
-                    type="text"
-                    class="form-control"
-                    :style="{ borderColor: form.description ? 'green' : '' }"
-                  ></textarea>
-                </div>
+                <TextAreaInput label="Description" :model="form.description" :error="errors && errors.description ? errors.description[0] : null"
+                    @update:model="form.description = $event"
+                />
               </div>
 
               <div class="card-footer">
@@ -59,6 +37,8 @@
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { editFieldGroups } from "../../store/field-groups/editfield-groups.js";
+import TextInput from "../../pages/layout/TextInput.vue";
+import TextAreaInput from "../../pages/layout/TextAreaInput.vue";
 
 const { form, errors, saveGroupFields } = editFieldGroups();
 </script>

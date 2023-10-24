@@ -9,38 +9,14 @@
               <form>
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="form-group">
-                      <label for="title">Label</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.label"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter label"
-                        :class="{ 'is-invalid': errors.label }"
-                         :style="{ borderColor: form.label ? 'green' : '' }"
-                      />
-                      <span
-                        v-if="errors && errors.label"
-                        class="text-danger text-sm"
-                        >{{ errors.label[0] }}</span
-                      >
-                    </div>
+                     <TextInput label="Label" :model="form.label" :error="errors.label ? errors.label[0] : null" @update:model="form.label = $event" 
+                        type="text" placeholder="Enter label name"
+                     />
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea
-                    v-model="form.description"
-                    class="form-control"
-                    id="description"
-                    rows="3"
-                    placeholder="Enter Description"
-                     :style="{ borderColor: form.description ? 'green' : '' }"
-                  ></textarea>
-                </div>
+                    <TextAreaInput label="Description" :model="form.description" :error="errors && errors.description ? errors.description[0] : null"
+                      @update:model="form.description = $event"
+                      />
                 <div class="form-group">
                   <input
                     v-model="form.is_required"
@@ -71,6 +47,8 @@
 <script setup>
 import ContentHeader from "../../../pages/layout/ContentHeader.vue";
 import { editFields } from "../../../store/fields/editfield.js";
+import TextInput from "../../../pages/layout/TextInput.vue";
+import TextAreaInput from "../../../pages/layout/TextAreaInput.vue";
 
 const { errors, form, saveField } = editFields();
 </script>

@@ -19,45 +19,14 @@
                     <div class="card-body">
                       <form>
                         <div class="row">
-                          <div class="col-md-12">
-                            <input
-                              v-model="form.field_groups_id"
-                              type="text"
-                              name=""
-                              id=""
-                              style="display: none"
-                            />
-                          </div>
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="date">Label</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.label"
-                                type="text"
-                                class="form-control"
-                                id="text"
-                                :class="{ 'is-invalid': errors.label }"
-                                 :style="{ borderColor: form.label ? 'green' : '' }"
-                              />
-                              <span
-                                v-if="errors && errors.label"
-                                class="text-danger text-sm"
-                                >{{ errors.label[0] }}</span
-                              >
-                            </div>
-                          </div>
-
+                          <TextInput :model="form.field_groups_id"  @update:model="form.field_groups_id = $event"  type="text"  style="display: none"/>
+                          <TextInput label="Label" :model="form.label" :error="errors.label ? errors.label[0] : null" @update:model="form.label = $event" 
+                                type="text" placeholder="Enter label name"
+                          />
                           <div class="form-group col-md-12">
-                            <label for="description">Description</label>
-                            <textarea
-                              class="form-control"
-                              id="description"
-                              rows="3"
-                              v-model="form.description"
-                              placeholder="Enter Description"
-                               :style="{ borderColor: form.description ? 'green' : '' }"
-                            ></textarea>
+                             <TextAreaInput label="Description" :model="form.description" :error="errors && errors.description ? errors.description[0] : null"
+                                  @update:model="form.description = $event"
+                            />
                           </div>
                           <div class="form-group ml-2">
                             <input v-model="form.is_required" type="checkbox" />
@@ -83,6 +52,8 @@ import { defineProps } from "vue";
 import { addField } from "../../../store/fields/addfield.js";
 import Header from "../../../pages/layout/Modal-header.vue";
 import ModalFooter from "../../../pages/layout/ModalFooter.vue";
+import TextInput from "../../../pages/layout/TextInput.vue";
+import TextAreaInput from "../../../pages/layout/TextAreaInput.vue";
 
 const { errors, form, dataTosave } = addField(getFieldByIdFn);
 const { getFieldByIdFn } = defineProps(["getFieldByIdFn"]);

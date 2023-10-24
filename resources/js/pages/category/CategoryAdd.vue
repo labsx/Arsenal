@@ -19,78 +19,12 @@
                     <div class="card-body">
                       <form @submit.prevent="createItem()">
                         <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">Category Name</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.name"
-                                type="text"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter category name"
-                                :class="{ 'is-invalid': errors.name }"
-                                :style="{
-                                  borderColor: form.name ? 'green' : '',
-                                }"
+                          <TextInput label="Category Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
+                                  type="text" placeholder="Enter category name"
                               />
-                              <span
-                                v-if="errors && errors.name"
-                                class="text-danger text-sm"
-                                >{{ errors.name[0] }}</span
-                              >
-                            </div>
-                          </div>
                         </div>
-
-                        <div class="form-group">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="client">Parent Category</label>
-                              <select
-                                id="client"
-                                class="form-control"
-                                v-model="form.parent_id"
-                                name="parent_id"
-                              >
-                                <option value="" disabled selected hidden>
-                                  Select Parent
-                                </option>
-                                <option
-                                  v-for="category in filterCategory"
-                                  :key="category.id"
-                                  :value="category.id"
-                                >
-                                  {{ category.name }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="client">Fields Group</label>
-                              <select
-                                id="client"
-                                class="form-control"
-                                v-model="form.field_groups_id"
-                              >
-                                <option value="" disabled selected hidden>
-                                  Select Field Groups
-                                </option>
-                                <option
-                                  :value="field.id"
-                                  v-for="field in field_groups"
-                                  :key="field.id"
-                                >
-                                  {{ field.name }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
+                        <Dropdown label="Parent Category" placeholder="Select Parent" :items="filterCategory" :model="form.parent_id"  :updateModel="value => form.parent_id = value" />
+                        <Dropdown label="Fields Group" placeholder="Select Field Groups" :items="field_groups" :model="form.field_groups_id" :updateModel="value => form.field_groups_id = value" />
                       </form>
                     </div>
                   </div>
@@ -110,6 +44,8 @@ import { defineProps } from "vue";
 import { addCategory } from "../../store/categoryjs/categoryadd.js";
 import Header from "../../pages/layout/Modal-header.vue";
 import ModalFooter from "../../pages/layout/ModalFooter.vue";
+import TextInput from "../../pages/layout/TextInput.vue";
+import Dropdown from "../../pages/layout/Dropdown.vue";
 
 const { getCategoryFn } = defineProps(["getCategoryFn"]);
 const {

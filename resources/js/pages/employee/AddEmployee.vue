@@ -1,12 +1,5 @@
 <template>
-  <div
-    class="modal fade"
-    id="addEmployee"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="addEmployee"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="addEmployee" tabindex="-1" role="dialog" aria-labelledby="addEmployee" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width: 40%">
       <div class="modal-content">
         <Header header="Add Employee" />
@@ -19,74 +12,15 @@
                     <div class="card-body">
                       <form @submit.prevent="createEmployee()">
                         <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">First Name</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.first_name"
-                                type="text"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter first name"
-                                :class="{ 'is-invalid': errors.first_name }"
-                                :style="{
-                                  borderColor: form.first_name ? 'green' : '',
-                                }"
+                              <TextInput label="First Name" :model="form.first_name" :error="errors.first_name ? errors.first_name[0] : null" @update:model="form.first_name = $event" 
+                                  type="text" placeholder="Enter first name"
                               />
-                              <span
-                                v-if="errors && errors.first_name"
-                                class="text-danger text-sm"
-                                >{{ errors.first_name[0] }}</span
-                              >
-                            </div>
-                          </div>
-
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">Last Name</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.last_name"
-                                type="text"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter last name"
-                                :class="{ 'is-invalid': errors.last_name }"
-                                :style="{
-                                  borderColor: form.last_name ? 'green' : '',
-                                }"
+                              <TextInput label="Last Name" :model="form.last_name" :error="errors.last_name ? errors.last_name[0] : null" @update:model="form.last_name = $event"
+                                  type="text" placeholder="Enter last name"
                               />
-                              <span
-                                v-if="errors && errors.last_name"
-                                class="text-danger text-sm"
-                                >{{ errors.last_name[0] }}</span
-                              >
-                            </div>
-
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <label for="title">Position</label>
-                                <span class="text-danger"> *</span>
-                                <input
-                                  v-model="form.position"
-                                  type="text"
-                                  class="form-control"
-                                  id="title"
-                                  placeholder="Enter position "
-                                  :class="{ 'is-invalid': errors.position }"
-                                  :style="{
-                                    borderColor: form.position ? 'green' : '',
-                                  }"
-                                />
-                                <span
-                                  v-if="errors && errors.position"
-                                  class="text-danger text-sm"
-                                  >{{ errors.position[0] }}</span
-                                >
-                              </div>
-                            </div>
-                          </div>
+                              <TextInput label="Position" :model="form.position" :error="errors.position ? errors.position[0] : null" @update:model="form.position = $event"
+                                  type="text" placeholder="Enter position"
+                            />
                         </div>
                       </form>
                     </div>
@@ -107,6 +41,7 @@ import { defineProps } from "vue";
 import addEmployee from "../../store/employeejs/add-employee.js";
 import Header from "../../pages/layout/Modal-header.vue";
 import ModalFooter from "../../pages/layout/ModalFooter.vue";
+import TextInput from "../../pages/layout/TextInput.vue";
 
 const { getEmployeeFn } = defineProps(["getEmployeeFn"]);
 const { errors, form, dataTosave } = addEmployee(getEmployeeFn);

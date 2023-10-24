@@ -19,75 +19,16 @@
                     <div class="card-body">
                       <form @submit.prevent="createEmployee()">
                         <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">First Name</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.name"
-                                type="text"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter full name"
-                                :class="{ 'is-invalid': errors.name }"
-                                :style="{
-                                  borderColor: form.name ? 'green' : '',
-                                }"
-                              />
-                              <span
-                                v-if="errors && errors.name"
-                                class="text-danger text-sm"
-                                >{{ errors.name[0] }}</span
-                              >
-                            </div>
-                          </div>
-
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">Email</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                v-model="form.email"
-                                type="email"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter email address"
-                                :class="{ 'is-invalid': errors.email }"
-                                :style="{
-                                  borderColor: form.email ? 'green' : '',
-                                }"
-                              />
-                              <span
-                                v-if="errors && errors.email"
-                                class="text-danger text-sm"
-                                >{{ errors.email[0] }}</span
-                              >
-                            </div>
-
-                            <div class="col-md-12">
-                              <div class="form-group">
-                                <label for="title">Password</label>
-                                <span class="text-danger"> *</span>
-                                <input
-                                  v-model="form.password"
-                                  type="text"
-                                  class="form-control"
-                                  id="title"
-                                  placeholder="Enter user password "
-                                  :class="{ 'is-invalid': errors.password }"
-                                  :style="{
-                                    borderColor: form.password ? 'green' : '',
-                                  }"
+                              <TextInput label="Full Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
+                                    type="text" placeholder="Enter full name"
                                 />
-                                <span
-                                  v-if="errors && errors.password"
-                                  class="text-danger text-sm"
-                                  >{{ errors.password[0] }}</span
-                                >
-                              </div>
-                            </div>
+                              <TextInput label="Email" :model="form.email" :error="errors.email ? errors.email[0] : null" @update:model="form.email = $event" 
+                                    type="email" placeholder="Enter user email"
+                                />
+                                <TextInput label="Password" :model="form.password" :error="errors.password ? errors.password[0] : null" @update:model="form.password = $event" 
+                                    type="password" placeholder="Enter user password"
+                                />
                           </div>
-                        </div>
                       </form>
                     </div>
                   </div>
@@ -107,6 +48,7 @@ import { addUser } from "../../store/users/userform.js";
 import { defineProps } from "vue";
 import Header from "./../../pages/layout/Modal-header.vue";
 import ModalFooter from "./../../pages/layout/ModalFooter.vue";
+import TextInput from "../../pages/layout/TextInput.vue";
 
 const { getUsersFn } = defineProps(["getUsersFn"]);
 const { errors, form, dataTosave } = addUser(getUsersFn);

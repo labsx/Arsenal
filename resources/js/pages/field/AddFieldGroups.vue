@@ -22,47 +22,13 @@
                           <div class="col-md-6"></div>
                         </div>
                         <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="title">Field Name</label>
-                              <span class="text-danger"> *</span>
-                              <input
-                                type="text"
-                                class="form-control"
-                                id="title"
-                                placeholder="Enter field groups name"
-                                v-model="form.name"
-                                :class="{ 'is-invalid': errors.name }"
-                                :style="{
-                                  borderColor: form.name ? 'green' : '',
-                                }"
+                            <TextInput label="Field group name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
+                                  type="text" placeholder="Enter first name"
                               />
-                              <span
-                                v-if="errors && errors.name"
-                                class="text-danger text-sm"
-                                >{{ errors.name[0] }}</span
-                              >
-                            </div>
-                          </div>
                         </div>
-
-                        <div class="form-group">
-                          <label for="description">Description</label>
-                          <textarea
-                            class="form-control"
-                            rows="3"
-                            placeholder="Enter field groups description"
-                            v-model="form.description"
-                            :style="{
-                              borderColor: form.description ? 'green' : '',
-                            }"
-                          ></textarea>
-                          <span
-                            v-if="errors && errors.description"
-                            class="text-danger text-sm"
-                            >{{ errors.description[0] }}</span
-                          >
-                        </div>
+                            <TextAreaInput label="Description" :model="form.description" :error="errors && errors.description ? errors.description[0] : null"
+                                  @update:model="form.description = $event"
+                            />
                       </form>
                     </div>
                   </div>
@@ -82,6 +48,8 @@ import { defineProps } from "vue";
 import addFieldGroups from "../../store/field-groups/addfield-groups.js";
 import Header from "../../pages/layout/Modal-header.vue";
 import ModalFooter from "../../pages/layout/ModalFooter.vue";
+import TextInput from "../../pages/layout/TextInput.vue";
+import TextAreaInput from "../../pages/layout/TextAreaInput.vue";
 
 const { errors, form, dataTosave } = addFieldGroups(getFieldsGroupsFn);
 const { getFieldsGroupsFn } = defineProps(["getFieldsGroupsFn"]);
