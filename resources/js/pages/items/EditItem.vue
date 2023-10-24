@@ -55,219 +55,60 @@
 
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="title">Item Name</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.name"
-                        type="text"
-                        class="form-control"
-                        id="title"
-                        placeholder="Enter Title"
-                        :class="{ 'is-invalid': errors.name }"
+                    <TextInput label="Item Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
+                        type="text" placeholder="Enter item name"
                       />
-                      <span
-                        v-if="errors && errors.name"
-                        class="text-danger text-sm"
-                        >{{ errors.name[0] }}</span
-                      >
-                    </div>
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="client">Status</label>
-                      <span class="text-danger"> *</span>
-                      <select
-                        v-model="form.status"
-                        id="client"
-                        class="form-control"
-                        :class="{ 'is-invalid': errors.status }"
-                      >
-                        <option value="" disabled selected hidden>
-                          Select Status
-                        </option>
-                        <option value="operating">Operating</option>
-                        <option value="decommissioned">Decommissioned</option>
-                        <option value="under repair">Under Repair</option>
-                      </select>
-                    </div>
+                    <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" />
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Serial</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.serial"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.serial }"
+                   <TextInput label="Serial" :model="form.serial" :error="errors.serial ? errors.serial[0] : null" @update:model="form.serial = $event" 
+                      type="text" placeholder="Enter item serial"
+                    />
+                  </div>
+                  <div class="col-md-3">
+                  <TextInput label="Model" :model="form.model" :error="errors.model ? errors.model[0] : null" @update:model="form.model = $event" 
+                      type="text" placeholder="Enter item name"
+                  />
+                  </div>
+                  <div class="col-md-3">
+                     <TextInput label="Manufacture Date" :model="form.mfg_date" :error="errors.mfg_date ? errors.mfg_date[0] : null" @update:model="form.mfg_date = $event" 
+                        type="date" placeholder="Enter manufaturing date" :showAsterisk ="false"
+                     />
+                  </div>
+                  <div class="col-md-3">
+                      <TextInput label="Manufacturer" :model="form.manufacturer" :error="errors.manufacturer ? errors.manufacturer[0] : null" @update:model="form.manufacturer = $event" 
+                        type="text" placeholder="Enter manufacturer " :showAsterisk ="false"
                       />
-                      <span
-                        v-if="errors && errors.serial"
-                        class="text-danger text-sm"
-                        >{{ errors.serial[0] }}</span
-                      >
-                    </div>
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Model</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.model"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.model }"
+                    <TextInput label="Manufacturer address" :model="form.location" :error="errors.location ? errors.location[0] : null" @update:model="form.location = $event" 
+                        type="text" placeholder="Enter manufaturer location" :showAsterisk ="false"
                       />
-                      <span
-                        v-if="errors && errors.model"
-                        class="text-danger text-sm"
-                        >{{ errors.model[0] }}</span
-                      >
-                    </div>
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Mfg. Date</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.mfg_date"
-                        type="date"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.mfg_date }"
-                      />
-                      <span
-                        v-if="errors && errors.mfg_date"
-                        class="text-danger text-sm"
-                        >{{ errors.mfg_date[0] }}</span
-                      >
-                    </div>
+                    <TextInput label="Unit Price" :model="form.price" :error="errors.price ? errors.price[0] : null" @update:model="form.price = $event" 
+                        type="text" placeholder="Enter item unit price" :showAsterisk ="false"
+                    />
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Manufacturer</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.manufacturer"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.manufacturer }"
+                     <TextInput label="Warranty" :model="form.warranty" :error="errors.warranty ? errors.warranty[0] : null" @update:model="form.warranty = $event" 
+                        type="text" placeholder="Enter item item warranty" :showAsterisk ="false" :smallText = "true" smallMessage = "enter days/months/year"
                       />
-                      <span
-                        v-if="errors && errors.manufacturer"
-                        class="text-danger text-sm"
-                        >{{ errors.manufacturer[0] }}</span
-                      >
-                    </div>
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Manufacturer address</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.location"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.location }"
+                    <TextInput label="Net Weight" :model="form.net_weight" :error="errors.net_weight ? errors.net_weight[0] : null" @update:model="form.net_weight = $event" 
+                        type="text" placeholder="Enter item weight" :showAsterisk ="false" :smallText = "true" smallMessage = "enter only number in kg"
                       />
-                      <span
-                        v-if="errors && errors.location"
-                        class="text-danger text-sm"
-                        >{{ errors.location[0] }}</span
-                      >
-                    </div>
                   </div>
-
                   <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Unit Price</label>
-                      <span class="text-danger"> *</span>
-                      <input
-                        v-model="form.price"
-                        type="integer"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.price }"
-                      />
-                      <span
-                        v-if="errors && errors.price"
-                        class="text-danger text-sm"
-                        >{{ errors.price[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Warranty</label>
-                      <input
-                        v-model="form.warranty"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.warranty }"
-                      />
-                      <span
-                        v-if="errors && errors.warranty"
-                        class="text-danger text-sm"
-                        >{{ errors.warranty[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label class="d-flex align-items-center"
-                        >Net. Weight
-                        <small class="form-text text-muted ml-2"
-                          >( enter only number in kg )</small
-                        >
-                      </label>
-                      <input
-                        v-model="form.net_weight"
-                        type="text"
-                        class="form-control"
-                        id="text"
-                        :class="{ 'is-invalid': errors.net_weight }"
-                      />
-                      <span
-                        v-if="errors && errors.net_weight"
-                        class="text-danger text-sm"
-                        >{{ errors.net_weight[0] }}</span
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label for="date">Insurance</label>
-                      <input
-                        v-model="form.insurance"
-                        type="text"
-                        class="form-control"
-                        id="date"
-                        :class="{ 'is-invalid': errors.insurance }"
-                      />
-                      <span
-                        v-if="errors && errors.insurance"
-                        class="text-danger text-sm"
-                        >{{ errors.insurance[0] }}</span
-                      >
-                    </div>
+                   <TextInput label="Insurance" :model="form.insurance" :error="errors.insurance ? errors.insurance[0] : null" @update:model="form.insurance = $event" 
+                        type="text" placeholder="Enter item insurance" :showAsterisk ="false"
+                    />
                   </div>
                 </div>
-
+                
                 <h4>Attributes:</h4>
 
                 <div
@@ -348,6 +189,8 @@
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { editItems } from "../../store/itemjs/edititem.js";
+import StatusDropdown from "../../pages/layout/StatusDropdown.vue";
+import TextInput from "../../pages/layout/TextInput.vue";
 
 const {
   errors,
