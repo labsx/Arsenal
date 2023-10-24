@@ -16,30 +16,19 @@ class ReturnController extends Controller
         return response()->json($issue);
     }
 
-    public function update(Request $request, $item_id)
+    public function update(Request $request, History $history, Item $item, $history_id)
     {
+        $currentDate = Carbon::now();
         $formFields = $request->validate([
             'remarks' => ['required', 'max:50'],
-            'return_at' => ['required', 'date'],
+            'return_at' => ['required', 'date', 'after_or_equal:' . $currentDate->toDateString()],
             'status' => ['required'],
-            'history_id' => ['required'],
         ]);
 
-        $returnDate = Carbon::parse($formFields['return_at']);
-        $history = History::findOrFail($formFields['history_id']);
-
-        if ($history->issued_at && $returnDate->lt($history->issued_at)) {
-            return response()->json(['error' => 'Issued date is after the return date'], 400);
-        }
-
-        $history->remarks = $formFields['remarks'];
-        $history->return_at = $formFields['return_at'];
-        $history->status = $formFields['status'];
-        $history->save();
-
+        $history = History::findOrFail($history_id);
+        $history->update($formFields);
         $item = Item::find($history->item_id);
 
-        $item = Item::where('id', $history->item_id)->first();
         if ($item) {
             $item->update(['status' => $formFields['status']]);
         }

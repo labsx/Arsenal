@@ -74,7 +74,7 @@
                   </div>
                   <div class="col-md-3">
                      <TextInput label="Manufacture Date" :model="form.mfg_date" :error="errors.mfg_date ? errors.mfg_date[0] : null" @update:model="form.mfg_date = $event" 
-                        type="date" placeholder="Enter manufaturing date" :showAsterisk ="false"
+                        type="date" placeholder="" :showAsterisk ="false"
                      />
                   </div>
                   <div class="col-md-3">

@@ -62,31 +62,25 @@ class ItemController extends Controller
     public function update(Request $request, $id)
     {
         $formData = $request->validate([
-            'name' => 'required|string',
-            'parent_id' => 'required',
-            'model' => 'required',
-            'price' => 'nullable|numeric',
-            'mfg_date' => 'nullable',
-            'serial' => 'required',
-            'status' => 'required',
-            'manufacturer' => 'nullable',
-            'location' => 'nullable',
-            'warranty' => 'nullable',
-            'insurance' => 'nullable',
-            'net_weight' => 'nullable|numeric',
-            'value' => 'nullable|array',
-            'value.*.name' => 'required|string',
-            'value.*.value' => 'required|string',
+            'name' => ['required'],
+            'parent_id' => ['required'],
+            'model' => ['required'],
+            'price' => ['nullable','numeric'],
+            'mfg_date' => ['nullable','before_or_equal:' . now()->toDateString()],
+            'serial' => ['required'],
+            'status' => ['required'],
+            'manufacturer' => ['nullable'],
+            'location' => ['nullable'],
+            'warranty' => ['nullable'],
+            'insurance' => ['nullable'],
+            'net_weight' => ['nullable','numeric'],
+            'value' => ['nullable','array'],
+            'value.*.name' => ['required','string'],
+            'value.*.value' => ['required','string'],
         ], [
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
             'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
         ]);
-
-        $issuedDate = Carbon::parse($formData['mfg_date']);
-        $currentDate = Carbon::now();
-        if ($issuedDate->gt($currentDate)) {
-            return response()->json(['error' => 'Manufacture date cannot be in the future'], 400);
-        }
 
         $item = Item::find($id);
 
@@ -141,22 +135,23 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
+        $currentDate = Carbon::now();
         $formData = $request->validate([
-            'parent_id' => 'required|numeric',
-            'item_name' => 'required|string',
-            'model' => 'required',
-            'mfg_date' => 'nullable',
-            'price' => 'nullable|numeric',
-            'serial' => 'required|unique:items,serial',
-            'status' => 'required',
-            'manufacturer' => 'nullable',
-            'location' => 'nullable',
-            'warranty' => 'nullable',
-            'insurance' => 'nullable',
-            'net_weight' => 'nullable|numeric',
-            'value' => 'nullable|array',
-            'value.*.label' => 'nullable|string',
-            'value.*.value' => 'nullable|string',
+            'item_name' => ['required'],
+            'parent_id' => ['required'],
+            'model' => ['required'],
+            'price' => ['nullable', 'numeric'],
+            'mfg_date' => ['nullable', 'date', 'before_or_equal:' . now()->toDateString()],
+            'serial' => ['required'],
+            'status' => ['required'],
+            'manufacturer' => ['nullable'],
+            'location' => ['nullable'],
+            'warranty' => ['nullable'],
+            'insurance' => ['nullable'],
+            'net_weight' => ['nullable', 'numeric'],
+            'value' => ['nullable', 'array'],
+            'value.*.label' => ['nullable', 'string'],
+            'value.*.value' => ['nullable', 'string'],
         ], [
             'parent_id.required' => 'The category name is required.',
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
