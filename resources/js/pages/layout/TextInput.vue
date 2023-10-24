@@ -2,7 +2,7 @@
  <div class="col-md-12">
   <div class="form-group">
     <label>{{ label }}</label>
-    <span class="text-danger"> *</span>
+    <span class="text-danger" v-if="showAsterisk" > *</span>
     <input
       :value="model"
       @input="updateModel"
@@ -25,8 +25,11 @@ export default {
     type: String,
     placeholder: String,
     error: String,
+     showAsterisk: {
+      type: Boolean,
+      default: true,
+    },
   },
-
   methods: {
     updateModel(event) {
       this.$emit('update:model', event.target.value);

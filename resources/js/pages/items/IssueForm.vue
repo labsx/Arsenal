@@ -21,7 +21,6 @@
                     style="display: none"
                   />
                 </div>
-
                 <div class="form-group">
                   <label>Employee List</label>
                   <span class="text-danger"> *</span>
@@ -45,43 +44,11 @@
                     >{{ errors.employee_id[0] }}</span
                   >
                 </div>
-
-                <div class="form-group">
-                  <label for="appName">Remarks</label>
-                  <input
-                    v-model="form.remarks"
-                    type="text"
-                    class="form-control"
-                    id="appName"
-                    placeholder="Enter remarks"
-                    :class="{ 'is-invalid': errors.remarks }"
-                  />
-                  <span
-                    v-if="errors && errors.remarks"
-                    class="text-danger text-sm"
-                    >{{ errors.remarks[0] }}</span
-                  >
+                  <TextInput label="Remarks" :model="form.remarks" :error="errors.remarks ? errors.remarks[0] : null" @update:model="form.remarks = $event" 
+                      type="text" :showAsterisk="false"
+                   />
+                  <TextInput label="Date Issue" :model="form.issued_at" :error="errors.issued_at ? errors.issued_at[0] : null" @update:model="form.issued_at = $event" type="date" />
                 </div>
-
-                <div class="form-group">
-                  <label for="appName">Date Issued</label>
-                   <span class="text-danger"> *</span>
-                  <input
-                    v-model="form.issued_at"
-                    type="date"
-                    class="form-control"
-                    id="appName"
-                    placeholder="Enter issued date"
-                    style="background-color: white"
-                    :class="{ 'is-invalid': errors.issued_at }"
-                  />
-                  <span
-                    v-if="errors && errors.issued_at"
-                    class="text-danger text-sm"
-                    >{{ errors.issued_at[0] }}</span
-                  >
-                </div>
-              </div>
 
               <div class="card-footer">
                 <button
@@ -104,7 +71,9 @@
 import { formatDate } from "../../helper.js";
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { IssueItem } from "../../store/itemjs/issueitem.js";
+import TextInput from "../../pages/layout/TextInput.vue";
 
+let showAsterisk = false;
 const {
   getItemsData,
   getEmployee,

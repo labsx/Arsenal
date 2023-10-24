@@ -11,32 +11,8 @@
 
             <form>
               <div class="card-body">
-                <div class="form-group">
-                  <input
-                    v-model="form.history_id"
-                    type="text"
-                    style="display: none"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label for="appName">Remarks</label>
-                   <span class="text-danger"> *</span>
-                  <input
-                    v-model="form.remarks"
-                    type="text"
-                    class="form-control"
-                    id="appName"
-                    placeholder="Enter remarks"
-                    :class="{ 'is-invalid': errors.remarks }"
-                  />
-                  <span
-                    v-if="errors && errors.remarks"
-                    class="text-danger text-sm"
-                    >{{ errors.remarks[0] }}</span
-                  >
-                </div>
-
+                <TextInput :model="form.history_id" @update:model="form.history_id = $event" type="text"  style="display: none" />
+                <TextInput label="Remarks" :model="form.remarks" :error="errors.remarks ? errors.remarks[0] : null" @update:model="form.remarks = $event" type="text" placeholder = "Enter remarks"/>
                 <div class="form-group">
                   <label>Status</label>
                    <span class="text-danger"> *</span>
@@ -56,27 +32,8 @@
                     >{{ errors.status[0] }}</span
                   >
                 </div>
-
-                <div class="form-group">
-                  <label for="appName">Return Date</label>
-                   <span class="text-danger"> *</span>
-                  <input
-                    v-model="form.return_at"
-                    type="date"
-                    class="form-control"
-                    id="appName"
-                    placeholder="Enter return date"
-                    style="background-color: white"
-                    :class="{ 'is-invalid': errors.return_at }"
-                  />
-                  <span
-                    v-if="errors && errors.return_at"
-                    class="text-danger text-sm"
-                    >{{ errors.return_at[0] }}</span
-                  >
-                </div>
+                 <TextInput label="Return Date" :model="form.return_at" :error="errors.return_at ? errors.return_at[0] : null" @update:model="form.return_at = $event" type="date" />
               </div>
-
               <div class="card-footer">
                 <button
                   @click.prevent="UpdateHistory"
@@ -97,6 +54,7 @@
 <script setup>
 import ContentHeader from "../../pages/layout/ContentHeader.vue";
 import { returnFormItem } from "../../store/itemjs/returnitem.js";
+import TextInput from "../../pages/layout/TextInput.vue";
 
 const { errors, form, setCurrentDate, UpdateHistory, returnItem } =
   returnFormItem();
