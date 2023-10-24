@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json(['success' => true]);
+        return response()->noContent();
     }
 
     public function store(Request $request, User $users)

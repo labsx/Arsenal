@@ -13,14 +13,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        $data = [
-            'name' => $user->name,
-            'email' => $user->email,
-            'avatar' => $user->avatar,
-            'created_at' => $user->created_at,
-        ];
-
-        return response()->json($data);
+        return response()->json($user);
     }
 
     public function update(Request $request)
@@ -32,19 +25,27 @@ class ProfileController extends Controller
 
         $request->user()->update($validated);
 
-        return response()->json($request);
+        return response()->json($request->user);
     }
 
     public function upload(Request $request)
     {
         if ($request->hasFile('profile_picture')) {
-            $previousPath = $request->user()->getRawOriginal('avatar');
-            $link = Storage::put('/photos', $request->file('profile_picture'));
-            $request->user()->update(['avatar' => $link]);
+            $file = $request->file('profile_picture');
 
-            Storage::delete($previousPath);
+            if ($file->isValid()) {
+                $previousPath = $request->user()->getRawOriginal('avatar');
+                $link = Storage::put('/photos', $file);
+                $request->user()->update(['avatar' => $link]);
 
-            return response()->json(['message' => 'Profile picture uploaded successfully!']);
+                Storage::delete($previousPath);
+
+                return response()->json(['message' => 'Profile picture uploaded successfully!']);
+            } else {
+                return response()->json(['message' => 'The uploaded file is empty or invalid.']);
+            }
+        } else {
+            return response()->json(['message' => 'No file was uploaded.']);
         }
     }
 

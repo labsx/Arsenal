@@ -46,12 +46,11 @@ class FieldController extends Controller
         return response()->json($category);
     }
 
-    public function destroy($id)
+    public function destroy(Field $field)
     {
-        $fields = Field::findOrFail($id);
-        $fields->delete();
+        $field->delete();
 
-        return response()->json($fields);
+        return response()->noContent();
     }
 
     public function show(Field $field)
