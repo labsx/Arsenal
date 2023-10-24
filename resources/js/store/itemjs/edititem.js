@@ -15,7 +15,7 @@ export function editItems() {
         serial: "",
         model: "",
         price: "",
-        mfg_date: "",
+        mfg_date: "YYYY-MM-DD",
         status: "",
         parent_id: "",
         value: [{ name: "", value: "" }],
@@ -41,7 +41,7 @@ export function editItems() {
                     form.status = response.data.status;
                     form.parent_id = response.data.parent_id;
                     form.model = response.data.model;
-                    form.mfg_date = response.data.mfg_date;
+                    form.mfg_date = formatDateForInput(response.data.mfg_date); 
                     form.price = response.data.price;
                     form.manufacturer = response.data.manufacturer;
                     form.location = response.data.location;
@@ -121,6 +121,11 @@ export function editItems() {
             (category) => category.parent_id === categoryGroupsId
         );
     };
+
+    function formatDateForInput(date) {
+        const parsedDate = new Date(date);
+        return parsedDate.toISOString().split('T')[0];
+    }
 
     onMounted(() => {
         getCategory();

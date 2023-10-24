@@ -52,7 +52,7 @@
                     </div>
                   </div>
                 </div>
-
+  
                 <div class="row">
                   <div class="col-md-6">
                     <TextInput label="Item Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
@@ -60,7 +60,24 @@
                       />
                   </div>
                   <div class="col-md-3">
-                    <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" />
+                     <div class="form-group">
+                      <label for="client">Status</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        v-model="form.status"
+                        id="client"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors.status }"
+                      >
+                        <option value="" disabled selected hidden>
+                          Select Status
+                        </option>
+                        <option value="operating">Operating</option>
+                        <option value="decommissioned">Decommissioned</option>
+                        <option value="under repair">Under Repair</option>
+                      </select>
+                    </div>
+                  <!-- <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" /> -->
                   </div>
                   <div class="col-md-3">
                    <TextInput label="Serial" :model="form.serial" :error="errors.serial ? errors.serial[0] : null" @update:model="form.serial = $event" 
@@ -203,5 +220,6 @@ const {
   categoryGroups,
   filteredSamples,
 } = editItems();
+
 </script>
 
