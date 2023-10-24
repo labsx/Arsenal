@@ -65,10 +65,7 @@
                           class="form-control"
                           id="inputName"
                           placeholder="Name"
-                          :class="{ 'is-invalid': errors.name }"
-                          :style="{
-                            borderColor: authuserStore.user.name ? 'green' : '',
-                          }"
+                          :class="{ 'is-invalid': errors.name }"  
                         />
                         <span
                           v-if="errors && errors.name"
@@ -89,11 +86,6 @@
                           id="inputEmail"
                           placeholder="Email"
                           :class="{ 'is-invalid': errors.email }"
-                          :style="{
-                            borderColor: authuserStore.user.email
-                              ? 'green'
-                              : '',
-                          }"
                         />
                         <span
                           v-if="errors && errors.email"

@@ -19,7 +19,7 @@
                                   type="text" placeholder="Enter last name"
                               />
                               <TextInput label="Position" :model="form.position" :error="errors.position ? errors.position[0] : null" @update:model="form.position = $event"
-                                  type="text" placeholder="Enter position"
+                                  type="text" placeholder="Enter position" :showAsterisk ="false"
                             />
                         </div>
                       </form>

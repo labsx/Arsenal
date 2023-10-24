@@ -26,16 +26,8 @@ class EmployeeController extends Controller
         $formFields = $request->validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'position' => ['required', 'max:50'],
+            'position' => ['max:50'],
         ]);
-
-        $existEmployee = Employee::where('first_name', $formFields['first_name'])
-            ->where('last_name', $formFields['last_name'])
-            ->first();
-
-        if ($existEmployee) {
-            return response()->json(['error' => 'Employee already registered !'], 400);
-        }
 
         $employees = Employee::create($formFields);
 
@@ -61,7 +53,7 @@ class EmployeeController extends Controller
         $formFields = $request->validate([
             'first_name' => ['required', 'max:50'],
             'last_name' => ['required', 'max:50'],
-            'position' => ['required', 'max:50'],
+            'position' => ['max:50'],
         ]);
 
         $employee->update($formFields);
