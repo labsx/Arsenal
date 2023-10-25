@@ -107,7 +107,28 @@
         </ul>
       </nav>
     </div>
-  </aside>
+    
+   <div class="d-flex align-items-end bd-highlight mb-3" style="height: 530px;">
+    <div class="mt-auto p-2 bd-highlight">
+        <div class="user-panel mt-3 pb-3 mb-3 ">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="image">
+                        <img :src="authUserStore.user.avatar" 
+                            style="height: 40px; width: 40px; border-radius: 50%;"
+                        />
+                    </div>
+                </div>
+                <div >
+                    <div class="info" >
+                        <h5 class="d-block mt-1 text-white" >Arsenal</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
    
 </template>
 

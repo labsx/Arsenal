@@ -21,7 +21,7 @@ class ReturnController extends Controller
         $currentDate = Carbon::now();
         $formFields = $request->validate([
             'remarks' => ['required', 'max:50'],
-            'return_at' => ['required', 'date', 'after_or_equal:' . $currentDate->toDateString()],
+            'return_at' => ['required', 'date', 'after_or_equal:'.$currentDate->toDateString()],
             'status' => ['required'],
         ]);
 

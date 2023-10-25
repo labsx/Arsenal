@@ -13,7 +13,7 @@ class ItemController extends Controller
     {
         $searchQuery = $request->input('query');
         $itemsQuery = Item::query();
-    
+
         if ($searchQuery) {
             $itemsQuery->where(function ($query) use ($searchQuery) {
                 $query->where('name', 'like', "%{$searchQuery}%")
@@ -26,9 +26,9 @@ class ItemController extends Controller
                     ->orWhere('location', 'like', "%{$searchQuery}%");
             });
         }
-    
+
         $items = $itemsQuery->paginate(10);
-    
+
         return response()->json($items);
         // $searchQuery = $request->input('query');
         // $items = Item::where(function ($query) use ($searchQuery) {
@@ -84,18 +84,18 @@ class ItemController extends Controller
             'name' => ['required'],
             'parent_id' => ['required'],
             'model' => ['required'],
-            'price' => ['nullable','numeric'],
-            'mfg_date' => ['nullable','before_or_equal:' . now()->toDateString()],
+            'price' => ['nullable', 'numeric'],
+            'mfg_date' => ['nullable', 'before_or_equal:'.now()->toDateString()],
             'serial' => ['required'],
             'status' => ['required'],
             'manufacturer' => ['nullable'],
             'location' => ['nullable'],
             'warranty' => ['nullable'],
             'insurance' => ['nullable'],
-            'net_weight' => ['nullable','numeric'],
-            'value' => ['nullable','array'],
-            'value.*.name' => ['required','string'],
-            'value.*.value' => ['required','string'],
+            'net_weight' => ['nullable', 'numeric'],
+            'value' => ['nullable', 'array'],
+            'value.*.name' => ['required', 'string'],
+            'value.*.value' => ['required', 'string'],
         ], [
             'price.numeric' => 'Input only number w/ out comma, space, letter !',
             'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
@@ -160,7 +160,7 @@ class ItemController extends Controller
             'parent_id' => ['required'],
             'model' => ['required'],
             'price' => ['nullable', 'numeric'],
-            'mfg_date' => ['nullable', 'date', 'before_or_equal:' . now()->toDateString()],
+            'mfg_date' => ['nullable', 'date', 'before_or_equal:'.now()->toDateString()],
             'serial' => ['required'],
             'status' => ['required'],
             'manufacturer' => ['nullable'],

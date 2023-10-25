@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
-use App\Models\History;
 use App\Models\Employee;
+use App\Models\History;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
@@ -40,9 +40,9 @@ class HistoryController extends Controller
 
     public function getItems()
     {
-           // $items = Item::all(['id', 'name']); 
-           $items = Item::latest()->get();
+        // $items = Item::all(['id', 'name']);
+        $items = Item::latest()->get();
 
-            return response()->json($items);
+        return response()->json($items);
     }
 }
