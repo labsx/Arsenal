@@ -17,6 +17,7 @@ import CategoryList from './pages/category/CategoryList.vue';
 import EditCategory from './pages/category/EditCategory.vue';
 import EmployeeDetails from './pages/employee/EmployeeDetails.vue';
 import EditEmployee from './pages/employee/EditEmployee.vue';
+import EmployeeHistory from './pages/employee/Employee-history.vue';
 
 export default [
     {
@@ -33,6 +34,11 @@ export default [
         path: '/admin/employee/:id/edit',
         name: 'admin.employee.edit',
         component: EditEmployee,
+    },
+    {
+        path: '/admin/employee/:id/history',
+        name: 'admin.employee.history',
+        component: EmployeeHistory,
     },
     {
         path: '/admin/field_groups/list',

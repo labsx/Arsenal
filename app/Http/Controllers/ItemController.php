@@ -12,18 +12,37 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $searchQuery = $request->input('query');
-        $items = Item::where(function ($query) use ($searchQuery) {
-            $query->where('name', 'like', "%{$searchQuery}%")
-                ->orWhere('serial', 'like', "%{$searchQuery}%")
-                ->orWhere('status', 'like', "%{$searchQuery}%")
-                ->orWhere('model', 'like', "%{$searchQuery}%")
-                ->orWhere('manufacturer', 'like', "%{$searchQuery}%")
-                ->orWhere('price', 'like', "%{$searchQuery}%")
-                ->orWhere('mfg_date', 'like', "%{$searchQuery}%")
-                ->orWhere('location', 'like', "%{$searchQuery}%");
-        })->paginate(10);
-
+        $itemsQuery = Item::query();
+    
+        if ($searchQuery) {
+            $itemsQuery->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'like', "%{$searchQuery}%")
+                    ->orWhere('serial', 'like', "%{$searchQuery}%")
+                    ->orWhere('status', 'like', "%{$searchQuery}%")
+                    ->orWhere('model', 'like', "%{$searchQuery}%")
+                    ->orWhere('manufacturer', 'like', "%{$searchQuery}%")
+                    ->orWhere('price', 'like', "%{$searchQuery}%")
+                    ->orWhere('mfg_date', 'like', "%{$searchQuery}%")
+                    ->orWhere('location', 'like', "%{$searchQuery}%");
+            });
+        }
+    
+        $items = $itemsQuery->paginate(10);
+    
         return response()->json($items);
+        // $searchQuery = $request->input('query');
+        // $items = Item::where(function ($query) use ($searchQuery) {
+        //     $query->where('name', 'like', "%{$searchQuery}%")
+        //         ->orWhere('serial', 'like', "%{$searchQuery}%")
+        //         ->orWhere('status', 'like', "%{$searchQuery}%")
+        //         ->orWhere('model', 'like', "%{$searchQuery}%")
+        //         ->orWhere('manufacturer', 'like', "%{$searchQuery}%")
+        //         ->orWhere('price', 'like', "%{$searchQuery}%")
+        //         ->orWhere('mfg_date', 'like', "%{$searchQuery}%")
+        //         ->orWhere('location', 'like', "%{$searchQuery}%");
+        // })->paginate(10);
+
+        // return response()->json($items);
     }
 
     public function destroy(Item $item)

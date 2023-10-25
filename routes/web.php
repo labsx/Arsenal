@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/historiess', [HistoryController::class, 'itemDetails']); //for items delete hide
     Route::put('/users/profile', [ProfileController::class, 'update']);
     Route::post('/users/profile', [ProfileController::class, 'upload']);
+    Route::get('/history/{id}', [HistoryController::class, 'getHistory']);
+    Route::get('/history', [HistoryController::class, 'getItems']);
 
     Route::prefix('dashboard')->group(function () {
         Route::get('category', [DashboardController::class, 'categoryCount']);

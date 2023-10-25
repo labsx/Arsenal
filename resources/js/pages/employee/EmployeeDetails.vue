@@ -25,6 +25,10 @@
                     <td>{{ employee.last_name }}</td>
                     <td>{{ employee.position }}</td>
                     <td>
+                       <router-link :to="`/admin/employee/${employee.id}/history`">
+                        <i class="fas fa-eye mr-2"></i>
+                      </router-link>
+
                       <router-link :to="`/admin/employee/${employee.id}/edit`">
                         <i class="fas fa-edit"></i>
                       </router-link>
