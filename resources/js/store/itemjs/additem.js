@@ -28,42 +28,46 @@ export function addItem() {
     });
 
     const createItem = () => {
-        const dataToSave = {
-            category_id: form.value.category_id,
-            parent_id: form.value.parent_id,
-            name: form.value.name,
-            price: form.value.price,
-            mfg_date: form.value.mfg_date,
-            model: form.value.model,
-            serial: form.value.serial,
-            status: form.value.status,
-            manufacturer: form.value.manufacturer,
-            location: form.value.location,
-            warranty: form.value.warranty,
-            insurance: form.value.insurance,
-            net_weight: form.value.net_weight,
-            value: Object.keys(form.value.fields).map((name) => ({
-                name,
-                value: form.value.fields[name],
-            })),
-        };
+        const requiredFields = fieldsData.value.filter((field) => field.is_required === 'required');
+        const missingRequiredFields = requiredFields.filter((field) => !form.value.fields[field.label]);
 
-        axios
-            .post("/items", dataToSave)
-            .then((response) => {
-                toastr.success("Item created successfully!");
-                clearForm();
-                errors.value = "";
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 400) {
-                    toastr.error(error.response.data.error);
-                } else if (error.response && error.response.status === 422) {
-                    errors.value = error.response.data.errors;
-                    toastr.error(message);
-                    errors.value = [];
-                };
-            });
+        if (missingRequiredFields.length > 0) {
+            toastr.error('Please fill in all required fields');
+        } else {
+            const dataToSave = {
+                category_id: form.value.category_id,
+                parent_id: form.value.parent_id,
+                name: form.value.name,
+                price: form.value.price,
+                mfg_date: form.value.mfg_date,
+                model: form.value.model,
+                serial: form.value.serial,
+                status: form.value.status,
+                manufacturer: form.value.manufacturer,
+                location: form.value.location,
+                warranty: form.value.warranty,
+                insurance: form.value.insurance,
+                net_weight: form.value.net_weight,
+                value: Object.keys(form.value.fields).map((name) => ({
+                    name,
+                    value: form.value.fields[name],
+                })),
+            };
+
+            axios
+                .post("/items", dataToSave)
+                .then((response) => {
+                    toastr.success("Item created successfully!");
+                    clearForm();
+                    errors.value = "";
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status === 422) {
+                        errors.value = error.response.data.errors || {};
+                        toastr.error(message);
+                    }
+                });
+        }
     };
 
     const getFields = async () => {

@@ -141,7 +141,6 @@
 
                 <div class="row"></div>
                 <button
-                  v-if="form.parent_id"
                   type="submit"
                   class="btn btn-outline-primary btn-sm"
                 >
