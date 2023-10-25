@@ -80,27 +80,7 @@ class ItemController extends Controller
 
     public function update(Request $request, $id)
     {
-        $formData = $request->validate([
-            'name' => ['required'],
-            'parent_id' => ['required'],
-            'model' => ['required'],
-            'price' => ['nullable', 'numeric'],
-            'mfg_date' => ['nullable', 'before_or_equal:'.now()->toDateString()],
-            'serial' => ['required'],
-            'status' => ['required'],
-            'manufacturer' => ['nullable'],
-            'location' => ['nullable'],
-            'warranty' => ['nullable'],
-            'insurance' => ['nullable'],
-            'net_weight' => ['nullable', 'numeric'],
-            'value' => ['nullable', 'array'],
-            'value.*.name' => ['required', 'string'],
-            'value.*.value' => ['required', 'string'],
-        ], [
-            'price.numeric' => 'Input only number w/ out comma, space, letter !',
-            'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
-        ]);
-
+        $formData = $this->validateFormData($request);
         $item = Item::find($id);
 
         if (! $item) {
@@ -154,40 +134,12 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        $currentDate = Carbon::now();
-        $formData = $request->validate([
-            'item_name' => ['required'],
-            'parent_id' => ['required'],
-            'model' => ['required'],
-            'price' => ['nullable', 'numeric'],
-            'mfg_date' => ['nullable', 'date', 'before_or_equal:'.now()->toDateString()],
-            'serial' => ['required'],
-            'status' => ['required'],
-            'manufacturer' => ['nullable'],
-            'location' => ['nullable'],
-            'warranty' => ['nullable'],
-            'insurance' => ['nullable'],
-            'net_weight' => ['nullable', 'numeric'],
-            'value' => ['nullable', 'array'],
-            'value.*.label' => ['nullable', 'string'],
-            'value.*.value' => ['nullable', 'string'],
-        ], [
-            'parent_id.required' => 'The category name is required.',
-            'price.numeric' => 'Input only number w/ out comma, space, letter !',
-            'net_weight.numeric' => 'Input only number in kg w/ out comma, space, letter !',
-        ]);
-
-        $issuedDate = Carbon::parse($formData['mfg_date']);
-        $currentDate = Carbon::now();
-        if ($issuedDate->gt($currentDate)) {
-            return response()->json(['error' => 'Manufacture date cannot be in the future'], 400);
-        }
-
+        $formData = $this->validateFormData($request);
         $number = mt_rand(1000000000, 9999999999);
         $request['barcode'] = $number;
 
         $item = Item::create([
-            'name' => $formData['item_name'],
+            'name' => $formData['name'],
             'parent_id' => $formData['parent_id'],
             'model' => $formData['model'],
             'price' => $formData['price'],
@@ -207,7 +159,7 @@ class ItemController extends Controller
         foreach ($formData['value'] as $fieldData) {
             $itemAttribute = ItemAttribute::create([
                 'item_id' => $item->id,
-                'name' => $fieldData['label'],
+                'name' => $fieldData['name'],
                 'value' => $fieldData['value'],
             ]);
 
@@ -216,4 +168,30 @@ class ItemController extends Controller
 
         return response()->json(['item' => $item, 'attributes' => $itemAttributes], 201);
     }
+
+    private function validateFormData(Request $request)
+    {
+        return $request->validate([
+            'name' => ['required'],
+            'parent_id' => ['required'],
+            'model' => ['required'],
+            'price' => ['nullable', 'numeric'],
+            'mfg_date' => ['nullable', 'before_or_equal:'.now()->toDateString()],
+            'serial' => ['required'],
+            'status' => ['required'],
+            'manufacturer' => ['nullable'],
+            'location' => ['nullable'],
+            'warranty' => ['nullable'],
+            'insurance' => ['nullable'],
+            'net_weight' => ['nullable', 'numeric'],
+            'value' => ['nullable', 'array'],
+            'value.*.name' => ['required', 'string'],
+            'value.*.value' => ['required', 'string'],
+        ], [
+            'price.numeric' => 'Input only a number without comma, space, or letters!',
+            'net_weight.numeric' => 'Input only a number in kg without comma, space, or letters!',
+        ]);
+    }
 }
+
+

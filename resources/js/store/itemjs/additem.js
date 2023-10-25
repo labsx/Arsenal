@@ -12,7 +12,7 @@ export function addItem() {
 
     const form = ref({
         category_id: "",
-        item_name: "",
+        name: "",
         parent_id: "",
         price: "",
         mfg_date: "",
@@ -31,7 +31,7 @@ export function addItem() {
         const dataToSave = {
             category_id: form.value.category_id,
             parent_id: form.value.parent_id,
-            item_name: form.value.item_name,
+            name: form.value.name,
             price: form.value.price,
             mfg_date: form.value.mfg_date,
             model: form.value.model,
@@ -42,9 +42,9 @@ export function addItem() {
             warranty: form.value.warranty,
             insurance: form.value.insurance,
             net_weight: form.value.net_weight,
-            value: Object.keys(form.value.fields).map((label) => ({
-                label,
-                value: form.value.fields[label],
+            value: Object.keys(form.value.fields).map((name) => ({
+                name,
+                value: form.value.fields[name],
             })),
         };
 
@@ -98,7 +98,7 @@ export function addItem() {
         form.value.model = "";
         form.value.mfg_date = "";
         form.value.status = "";
-        form.value.item_name = "";
+        form.value.name = "";
         form.value.fields = {};
         form.value.category_id = "";
         form.value.manufacturer = "";

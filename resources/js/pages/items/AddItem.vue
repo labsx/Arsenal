@@ -50,7 +50,7 @@
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                      <TextInput label="Item Name" :model="form.item_name" :error="errors.item_name ? errors.item_name[0] : null" @update:model="form.item_name = $event" 
+                      <TextInput label="Item Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
                         type="text" placeholder="Enter item name"
                       />
                   </div>

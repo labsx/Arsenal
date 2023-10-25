@@ -26,28 +26,19 @@ class IssueItemController extends Controller
 
     public function store(Request $request)
     {
-        $currentDate = Carbon::now();
-        $formFields = $request->validate([
-            'item_id' => ['required'],
-            'employee_id' => ['required'],
-            'issued_at' => ['required', 'date', 'before:'.$currentDate],
-            'remarks' => ['nullable', 'min:3', 'max:50'],
+        $formData = $request->validate([
+            'item_id' => 'required',
+            'employee_id' => 'required',
+            'issued_at' => ['required', 'date', 'before:now'],
+            'remarks' => ['nullable'],
         ], [
             'employee_id.required' => 'The employee name is required.',
         ]);
 
-        $history = History::create([
-            'item_id' => $formFields['item_id'],
-            'employee_id' => $formFields['employee_id'],
-            'issued_at' => $formFields['issued_at'],
-            'remarks' => $formFields['remarks'],
-            'status' => 'issue',
-        ]);
+        $historyData = array_merge($formData, ['status' => 'issue']);
+        $history = History::create($historyData);
 
-        $item = Item::find($formFields['item_id']);
-        if ($item) {
-            $item->update(['status' => 'issue']);
-        }
+        Item::where('id', $formData['item_id'])->update(['status' => 'issue']);
 
         return response()->json($history);
     }

@@ -14,6 +14,7 @@ import { useAuthUserStore } from './store/themeStore';
 const app = createApp(App);
 const pinia = createPinia();
 
+
 const router = createRouter({
     routes: Routes,
     history: createWebHistory(),
@@ -29,4 +30,3 @@ router.beforeEach((to, from) => {
 app.use(pinia);
 app.use(router);
 app.mount('#app');
-
