@@ -108,7 +108,7 @@
                         >
                         <small></small
                       ></span>
-                      <span class="pull-right text-muted">
+                      <span class="pull-right text-dark">
                         ( {{ history.status }} )</span
                       >
                     </div>

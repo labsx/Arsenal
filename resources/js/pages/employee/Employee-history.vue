@@ -10,7 +10,7 @@
                 <div class="column" style="max-height: 100px; overflow-y: auto">
                   <h4 class="no-margin">
                     {{ form.first_name }} {{ form.last_name }}
-                    <span class="small-text" style="font-size: 18px"
+                    <span v-if="form.position" class="small-text" style="font-size: 18px"
                       >({{ form.position }})</span
                     >
                   </h4>

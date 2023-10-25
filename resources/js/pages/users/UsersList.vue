@@ -10,7 +10,10 @@
                 class="ml-2"
                 v-if="authuserStore.user.email == 'admin@gmail.com'"
               >
-                <ModalButtonAdd :modalTarget="'#createUsers'" :title="'Add new user'" />
+                <ModalButtonAdd
+                  :modalTarget="'#createUsers'"
+                  :title="'Add new user'"
+                />
               </div>
             </div>
             <Search v-model="searchQuery" />
@@ -33,10 +36,10 @@
                 </thead>
                 <tbody v-if="users.data.length > 0">
                   <tr v-for="user in users.data" :key="user.id">
-                    <td>
+                    <td v-if="user.avatar">
                       <img
                         :src="user.avatar"
-                        alt="Avatar"
+                        alt="No Data Found"
                         style="width: 50px; height: 50px; border-radius: 50px"
                       />
                     </td>
@@ -84,6 +87,7 @@ import { userList } from "../../store/users/userslist.js";
 import UserForm from "./UserForm.vue";
 import Search from "../../pages/layout/Search.vue";
 import ModalButtonAdd from "../../pages/layout/ModalButtonAdd.vue";
+import imagePath from "/resources/image/nodata.jpg";
 
 const { users, searchQuery, authuserStore, deleteUsers, getUsers } = userList();
 </script>

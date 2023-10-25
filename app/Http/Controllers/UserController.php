@@ -36,8 +36,9 @@ class UserController extends Controller
         ]);
 
         $formFields['password'] = Hash::make($formFields['password']);
+        $formFields['avatar'] = 'photos/noimageavailable.jpg';
         $users = User::create($formFields);
 
-        return response()->json(['success' => true]);
+        return response()->json($users);
     }
 }
