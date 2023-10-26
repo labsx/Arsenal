@@ -3,7 +3,10 @@
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img :src="authUserStore.user.avatar" />
+          <img
+            :src="authUserStore.user.avatar"
+            style="height: 40px; width: 40px; border-radius: 50%"
+          />
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ authUserStore.user.name }}</a>
@@ -33,34 +36,34 @@
               active-class="active"
               class="nav-link"
             >
-               <i class="nav-icon fas fa-list"></i>
+              <i class="nav-icon fas fa-list"></i>
               <p>Item List</p>
             </router-link>
           </li>
 
-            <li class="nav-item">
+          <li class="nav-item">
             <router-link
               to="/admin/category/list"
               active-class="active"
               class="nav-link"
             >
-                <i class="fa fa-folder nav-icon"></i>
+              <i class="fa fa-folder nav-icon"></i>
               <p>Category List</p>
             </router-link>
           </li>
 
-             <li class="nav-item">
+          <li class="nav-item">
             <router-link
               to="/admin/field_groups/list"
               active-class="active"
               class="nav-link"
             >
-                  <i class="fa fa-archive nav-icon"></i>
+              <i class="fa fa-archive nav-icon"></i>
               <p>Field Groups List</p>
             </router-link>
           </li>
 
-            <li class="nav-item">
+          <li class="nav-item">
             <router-link
               to="/admin/employee"
               active-class="active"
@@ -107,29 +110,35 @@
         </ul>
       </nav>
     </div>
-    
-   <div class="d-flex align-items-end bd-highlight mb-3" style="height: 530px;">
-    <div class="mt-auto p-2 bd-highlight">
-        <div class="user-panel mt-3 pb-3 mb-3 ">
-            <div class="row">
-                <div class="col-auto">
-                    <div class="image">
-                        <img :src="authUserStore.user.avatar" 
-                            style="height: 40px; width: 40px; border-radius: 50%;"
-                        />
-                    </div>
-                </div>
-                <div >
-                    <div class="info" >
-                        <h5 class="d-block mt-1 text-white" >Arsenal</h5>
-                    </div>
-                </div>
-            </div>
+    <div
+      class="d-flex align-items-end bd-highlight mb-3"
+      style="height: 492px; position: absolute"
+    >
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <input
+            @change="handleFileChange"
+            ref="fileInput"
+            type="file"
+            class="d-none"
+          />
+          <img
+            @click="openFileInput"
+            :src="imagePath"
+            alt="No Data Found"
+            style="
+              height: 55px;
+              width: 55px;
+              border-radius: 50%;
+            "
+          />
         </div>
+        <div class="info">
+          <h5 class="d-block mt-3 text-white ml-2">Arsenal</h5>
+        </div>
+      </div>
     </div>
-</div>
-</aside>
-   
+  </aside>
 </template>
 
 <script setup>
@@ -137,6 +146,7 @@ import axios from "axios";
 import { useRouter } from "vue-router";
 import { useAuthUserStore } from "../store/themeStore.js";
 import { ref } from "vue";
+import imagePath from "/resources/image/logo.png";
 
 const authUserStore = useAuthUserStore();
 defineProps({
@@ -150,5 +160,4 @@ const logout = () => {
     authUserStore.user.name = "";
   });
 };
-
 </script>
