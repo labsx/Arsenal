@@ -34,14 +34,15 @@ class ProfileController extends Controller
             $file = $request->file('profile_picture');
 
             if ($file->isValid()) {
-                $previousPath = $request->user()->getRawOriginal('avatar');
-                $link = Storage::put('/photos', $file);
+                $user = $request->user();
+                $previousPath = $user->avatar;
 
                 if ($previousPath !== 'noimageavailable.jpg' && Storage::exists($previousPath)) {
                     Storage::delete($previousPath);
                 }
 
-                $request->user()->update(['avatar' => $link]);
+                $link = Storage::put('/photos', $file);
+                $user->update(['avatar' => $link]);
 
                 return response()->json(['message' => 'Profile picture uploaded successfully!']);
             } else {

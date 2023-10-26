@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $histories = History::latest()->get();
 
