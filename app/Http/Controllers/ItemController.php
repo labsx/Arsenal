@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemAttribute;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
@@ -193,5 +192,3 @@ class ItemController extends Controller
         ]);
     }
 }
-
-

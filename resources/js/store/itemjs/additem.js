@@ -72,27 +72,27 @@ export function addItem() {
 
     const getFields = async () => {
         const selectedCategoryId = form.value.parent_id;
-
+      
         if (selectedCategoryId) {
-            try {
-                const selectedCategory = categories.value.find(
-                    (category) => category.id === selectedCategoryId
-                );
-
-                if (selectedCategory) {
-                    const fieldGroupId = selectedCategory.field_group_id;
-                    const response = await axios.get(`/field-groups/${fieldGroupId}/fields`);
-                    fieldsData.value = response.data;
-                } else {
-                    fieldsData.value = [];
-                }
-            } catch (error) {
-                console.error("Error fetching fields:", error);
+          try {
+            const selectedCategory = categories.value.find(category => category.id === selectedCategoryId);
+      
+            if (selectedCategory) {
+              const fieldGroupId = selectedCategory.field_group_id;
+              const response = await axios.get(`/fields/${fieldGroupId}/show`);
+              fieldsData.value = response.data;
+              console.log("Fields Data:", fieldsData.value); // Log the data
+            } else {
+              fieldsData.value = [];
             }
+          } catch (error) {
+            console.error("Error fetching fields:", error);
+          }
         } else {
-            fieldsData.value = [];
+          fieldsData.value = [];
         }
-    };
+      };
+      
 
     const clearForm = () => {
         form.value.item_id = "";

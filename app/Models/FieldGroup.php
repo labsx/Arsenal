@@ -19,5 +19,5 @@ class FieldGroup extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'field_group_id');
-    }   
+    }
 }

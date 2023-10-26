@@ -15,28 +15,17 @@ class FieldController extends Controller
 
         $fields = $fields->when($request->has('field_group_id'), function ($query) use ($request) {
             $query->where('field_group_id', $request->get('field_group_id'));
-        })
-            ->where(function ($queryBuilder) use ($query) {
-                $queryBuilder->where('label', 'like', '%'.$query.'%')
-                    ->orWhere('description', 'like', '%'.$query.'%')
-                    ->orWhere('is_required', 'like', '%'.$query.'%');
-            });
+        });
 
-        $fields = $fields->paginate(10);
+        $fields = $fields->where(function ($queryBuilder) use ($query) {
+            $queryBuilder->where('label', 'like', '%'.$query.'%')
+                ->orWhere('description', 'like', '%'.$query.'%')
+                ->orWhere('is_required', 'like', '%'.$query.'%');
+        });
+
+        $fields = $fields->get();
 
         return response()->json($fields);
-        //$query = $request->input('query');
-        // $fields = Field::where('field_groups_id', $id);
-
-        // $fields = $fields->where(function ($queryBuilder) use ($query) {
-        //     $queryBuilder->where('label', 'like', '%'.$query.'%')
-        //         ->orWhere('description', 'like', '%'.$query.'%')
-        //         ->orWhere('is_required', 'like', '%'.$query.'%');
-        // });
-
-        // $fields = $fields->paginate(10);
-
-        // return response()->json($fields);
     }
 
     public function store(Request $request)
@@ -92,12 +81,5 @@ class FieldController extends Controller
         $field_groups = FieldGroup::latest()->get();
 
         return response()->json($field_groups);
-    }
-
-    public function displayFields($fieldGroupId)
-    {
-        $fields = Field::where('field_groups_id', $fieldGroupId)->get();
-
-        return response()->json($fields);
     }
 }

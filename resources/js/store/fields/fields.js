@@ -10,13 +10,14 @@ export function fieldDetails() {
     const showImage = ref(false);
     const toastr = useToastr();
     const route = getCurrentInstance().proxy.$route;
-    const fields = ref({ data: [] });
+    // const fields = ref({ data: [] });
+    const fields = ref([]);
 
-    const getFieldsById = (page = 1) => {
+    const getFieldsById = () => {
         const fieldId = route.params.id;
 
         axios
-            .get(`/fields/${fieldId}/show?page=${page}`)
+            .get(`/fields/${fieldId}/show`)
             .then((response) => {
                 fields.value = response.data;
             })
@@ -34,7 +35,7 @@ export function fieldDetails() {
                 throw new Error("Deletion not confirmed.");
             })
             .then(() => {
-                fields.value.data = fields.value.data.filter((field) => field.id !== id);
+                fields.value = fields.value.filter((field) => field.id !== id);
                 Swal.fire("Deleted!", "Fields has been deleted.", "success");
                 getFieldsById();
             })
@@ -71,7 +72,7 @@ export function fieldDetails() {
         getFieldsById();
 
         setTimeout(() => {
-            if (fields.value.data.length === 0) {
+            if (fields.value.length === 0) {
                 showImage.value = true;
             }
         }, 100);

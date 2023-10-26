@@ -12,14 +12,14 @@
             <div class="card-body">
               <table class="table align-middle">
                 <thead>
-                  <tr v-if="fields.data.length > 0">
+                  <tr v-if="fields.length > 0">
                     <th scope="col">Label</th>
                     <th scope="col">Description</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
-                <tbody v-if="fields.data.length > 0">
-                  <tr v-for="field in fields.data" :key="field.id">
+                <tbody v-if="fields.length > 0">
+                  <tr v-for="field in fields" :key="field.id">
                     <td>{{ field.label }}</td>
                     <td>
                       {{ field.description || "no field description added " }}

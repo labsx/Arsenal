@@ -31,7 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('users/profile', ProfileController::class)->only(['index', 'store']);
 
     Route::get('/categories', [CategoryController::class, 'getAllCategories']); //categories for add
-    Route::get('/field-groups/{fieldGroupId}/fields', [FieldController::class, 'displayFields']); //switch input in items
     Route::get('/fields/{id}/show', [FieldController::class, 'showFilterFileds']); //table for fields
     Route::get('items/{item}/attributes', [ItemController::class, 'getAttributes']); //item details attribute
     Route::get('/historiess', [HistoryController::class, 'itemDetails']); //for items delete hide
