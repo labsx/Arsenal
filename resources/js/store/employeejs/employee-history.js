@@ -28,7 +28,7 @@ export function employeeHistory() {
 
     const getEmployeeHistory = () => {
         axios
-            .get(`/history/${route.params.id}`)
+            .get(`/histories/${route.params.id}`)
             .then((response) => {
                 histories.value = response.data;
 

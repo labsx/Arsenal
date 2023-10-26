@@ -22,6 +22,7 @@
                   class="profile-user-img img-circle"
                   :src="authuserStore.user.avatar"
                   alt="User profile picture"
+                    style="height: 150px; width: 150px "
                 />
               </div>
 

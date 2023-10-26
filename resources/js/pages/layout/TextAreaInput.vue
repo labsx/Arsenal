@@ -7,7 +7,6 @@
       class="form-control"
       :placeholder="placeholder"
       :class="{ 'is-invalid': error }"
-      :style="{ borderColor: model ? 'green' : '' }"
     ></textarea>
     <span v-if="error" class="text-danger text-sm">{{ error }}</span>
   </div>

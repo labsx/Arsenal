@@ -20,8 +20,8 @@
                       <form @submit.prevent="createItem()">
                         <div class="row">
                           <TextInput label="Category Name" :model="form.name" :error="errors.name ? errors.name[0] : null" @update:model="form.name = $event" 
-                                  type="text" placeholder="Enter category name"
-                              />
+                              type="text" placeholder="Enter category name"
+                          />
                         </div>
                         <Dropdown label="Parent Category" placeholder="Select Parent" :items="filterCategory" :model="form.parent_id"  :updateModel="value => form.parent_id = value" />
                         <Dropdown label="Fields Group" placeholder="Select Field Groups" :items="field_groups" :model="form.field_groups_id" :updateModel="value => form.field_groups_id = value" />

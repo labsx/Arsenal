@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use App\Models\History;
 use App\Models\Item;
 use Illuminate\Http\Request;
@@ -16,13 +15,6 @@ class HistoryController extends Controller
         return response()->json($histories);
     }
 
-    public function show($id)
-    {
-        $employee = Employee::findOrFail($id);
-
-        return response()->json($employee);
-    }
-
     public function itemDetails(Request $request)
     {
         $itemId = $request->query('item_id');
@@ -31,7 +23,7 @@ class HistoryController extends Controller
         return response()->json($histories);
     }
 
-    public function getHistory($id)
+    public function show($id)
     {
         $histories = History::where('employee_id', $id)->get();
 
@@ -40,7 +32,6 @@ class HistoryController extends Controller
 
     public function getItems()
     {
-        // $items = Item::all(['id', 'name']);
         $items = Item::latest()->get();
 
         return response()->json($items);

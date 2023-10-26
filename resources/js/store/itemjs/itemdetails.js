@@ -23,18 +23,18 @@ export function itemDetails() {
 
   const formatPrice = (price) => {
     if (!price) {
-        return "none";
+      return "none";
     }
     const parts = price.toString().split(".");
     const integerPart = parts[0]
-        .split("")
-        .reverse()
-        .map((digit, index) => (index > 0 && index % 3 === 0 ? digit + " " : digit))
-        .reverse()
-        .join("");
+      .split("")
+      .reverse()
+      .map((digit, index) => (index > 0 && index % 3 === 0 ? digit + " " : digit))
+      .reverse()
+      .join("");
     const decimalPart = parts[1] ? `.${parts[1]}` : "";
     return `₱ ${integerPart}${decimalPart}`;
-};
+  };
 
   const form = reactive({
     name: "",
@@ -154,7 +154,7 @@ export function itemDetails() {
     }
 
     try {
-      const response = await axios.get(`/histories/${employeeId}`);
+      const response = await axios.get(`/employee/${employeeId}`);
       if (response.data) {
         return response.data;
       }
@@ -172,6 +172,8 @@ export function itemDetails() {
     getAttributes();
   });
 
-  return { fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute,
-     removeAttribute, form, histories, historyId, status, generateBarcode , formatPrice};
+  return {
+    fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute,
+    removeAttribute, form, histories, historyId, status, generateBarcode, formatPrice
+  };
 }
