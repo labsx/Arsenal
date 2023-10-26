@@ -146,11 +146,6 @@
                           class="form-control"
                           id="newPassword"
                           placeholder="New Password"
-                          :style="{
-                            borderColor: changePasswordForm.password
-                              ? 'green'
-                              : '',
-                          }"
                         />
                         <span
                           v-if="errors && errors.password"
@@ -172,11 +167,7 @@
                           class="form-control"
                           id="passwordConfirmation"
                           placeholder="Confirm New Password"
-                          :style="{
-                            borderColor: changePasswordForm.passwordConfirmation
-                              ? 'green'
-                              : '',
-                          }"
+                         
                         />
                       </div>
                     </div>

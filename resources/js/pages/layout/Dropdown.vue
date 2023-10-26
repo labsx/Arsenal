@@ -4,7 +4,6 @@
     <select
       v-model="selectedValue"
       class="form-control"
-       :style="{ borderColor: model ? 'green' : '' }"
     >
       <option value="" disabled selected hidden>{{ placeholder }}</option>
       <option
