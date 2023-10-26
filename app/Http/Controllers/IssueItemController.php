@@ -28,7 +28,7 @@ class IssueItemController extends Controller
         $formData = $request->validate([
             'item_id' => 'required',
             'employee_id' => 'required',
-            'issued_at' => ['required', 'date', 'before:now'],
+            'issued_at' => ['required', 'date','before_or_equal:'.now()->toDateString()],
             'remarks' => ['nullable'],
         ], [
             'employee_id.required' => 'The employee name is required.',

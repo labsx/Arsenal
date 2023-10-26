@@ -59,7 +59,7 @@ class DashboardController extends Controller
         $totalItemCount = Item::count();
         $goodItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'operating')->count() / $totalItemCount) * 100 : 0;
         $badItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'decommissioned')->count() / $totalItemCount) * 100 : 0;
-        $issuedItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'issued')->count() / $totalItemCount) * 100 : 0;
+        $issuedItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'issue')->count() / $totalItemCount) * 100 : 0;
         $underRepairItemCountPercent = ($totalItemCount > 0) ? (Item::where('status', 'under repair')->count() / $totalItemCount) * 100 : 0;
 
         return [
