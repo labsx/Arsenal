@@ -111,7 +111,7 @@
                   </div>
                   <div class="col-md-3">
                      <TextInput label="Warranty" :model="form.warranty" :error="errors.warranty ? errors.warranty[0] : null" @update:model="form.warranty = $event" 
-                        type="text" placeholder="Enter item item warranty" :showAsterisk ="false" :smallText = "true" smallMessage = "enter days/months/year"
+                        type="date" placeholder="Enter item item warranty" :showAsterisk ="false" :smallText = "true" smallMessage = "enter warranty date"
                       />
                   </div>
                   <div class="col-md-3">

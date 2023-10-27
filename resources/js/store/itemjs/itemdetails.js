@@ -165,6 +165,19 @@ export function itemDetails() {
     }
   };
 
+  const calculateWarrantyRemainingDays = () => {
+    if (form.warranty) {
+      const warrantyDate = new Date(form.warranty);
+      const currentDate = new Date();
+      const timeDifference = warrantyDate - currentDate;
+
+      const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+      return daysRemaining;
+    }
+    return null;
+  };
+
   onMounted(() => {
     fetchEmployeeData();
     fetchHistories();
@@ -174,6 +187,6 @@ export function itemDetails() {
 
   return {
     fetchEmployeeData, fetchHistories, getItems, getAttributes, history, addAttribute,
-    removeAttribute, form, histories, historyId, status, generateBarcode, formatPrice
+    removeAttribute, form, histories, historyId, status, generateBarcode, formatPrice, calculateWarrantyRemainingDays
   };
 }

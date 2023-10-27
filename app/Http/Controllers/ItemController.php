@@ -180,7 +180,7 @@ class ItemController extends Controller
             'status' => ['required'],
             'manufacturer' => ['nullable'],
             'location' => ['nullable'],
-            'warranty' => ['nullable'],
+            'warranty' => ['nullable', 'after_or_equal:'.now()->toDateString()],
             'insurance' => ['nullable'],
             'net_weight' => ['nullable', 'numeric'],
             'value' => ['nullable', 'array'],

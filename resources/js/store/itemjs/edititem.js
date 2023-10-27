@@ -47,7 +47,7 @@ export function editItems() {
                     form.location = response.data.location;
                     form.insurance = response.data.insurance;
                     form.net_weight = response.data.net_weight;
-                    form.warranty = response.data.warranty;
+                    form.warranty = formatDateForInput(response.data.warranty);
                 } else {
                     console.error("Item data not found in the response.");
                 }

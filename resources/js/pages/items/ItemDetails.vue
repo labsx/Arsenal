@@ -30,7 +30,8 @@
                     Price: {{ form.price ? formatPrice(form.price) : "none" }}
                   </p>
                   <p class="no-margin">
-                    Mfg. Date: {{ form.mfg_date ? form.mfg_date : "none" }}
+                    Mfg. Date:
+                    {{ form.mfg_date ? formatDate(form.mfg_date) : "none" }}
                   </p>
                   <p class="no-margin">
                     Manufacturer:
@@ -40,7 +41,10 @@
                     Location: {{ form.location ? form.location : "none" }}
                   </p>
                   <p class="no-margin">
-                    Warranty: {{ form.warranty ? form.warranty : "none" }}
+                    Warranty:
+                     {{ form.warranty ? formatDate(form.warranty) : "none" }} /
+                     {{ calculateWarrantyRemainingDays() }}
+                     {{ calculateWarrantyRemainingDays() === 1 ? 'day' : calculateWarrantyRemainingDays() === 0 ? 'day' : 'days' }}
                   </p>
                   <p class="no-margin">
                     Insurance: {{ form.insurance ? form.insurance : "none" }}
@@ -113,7 +117,9 @@
                       >
                     </div>
                     <div class="timeline-content" v-if="history.return_at">
-                      <p class="no-margin text-black">Remarks: {{ history.remarks }}</p>
+                      <p class="no-margin text-black">
+                        Remarks: {{ history.remarks }}
+                      </p>
                       <p class="no-margin">
                         Return Date:
                         {{
@@ -155,6 +161,7 @@ const {
   status,
   generateBarcode,
   formatPrice,
+  calculateWarrantyRemainingDays,
 } = itemDetails();
 </script>
 

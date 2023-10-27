@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', [LoginController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
+// Route::middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class)->only(['index', 'store', 'destroy', 'update', 'show']);
     Route::resource('field-group', FieldGroupController::class)->only(['index', 'store', 'destroy', 'update', 'show']);
     Route::resource('fields', FieldController::class)->only(['store', 'destroy', 'update', 'show', 'index']);
@@ -57,4 +57,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/notes/{note}', [NavBarController::class, 'destroy']);
 
     Route::get('{view}', ApplicationController::class)->where('view', '(.*)');
-});
+// });
