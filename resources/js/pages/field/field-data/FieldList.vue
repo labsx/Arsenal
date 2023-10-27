@@ -1,5 +1,5 @@
 <template>
-  <ContentHeader title="Fields" data="field groups" datas="data" />
+  <ContentHeader title="Fields" data="field groups" datas="fields" />
   <div class="content">
     <div class="container-fluid">
       <div class="row">

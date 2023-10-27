@@ -55,9 +55,30 @@
                       />
                   </div>
 
-                  <div class="col-md-3">
-                     <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" />
+                    <div class="col-md-3">
+                     <div class="form-group">
+                      <label for="client">Status</label>
+                      <span class="text-danger"> *</span>
+                      <select
+                        v-model="form.status"
+                        id="client"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors.status }"
+                      >
+                        <option value="" disabled selected hidden>
+                          Select Status
+                        </option>
+                        <option value="operating">Operating</option>
+                        <option value="decommissioned">Decommissioned</option>
+                        <option value="under repair">Under Repair</option>
+                      </select>
+                    </div>
+                  <!-- <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" /> -->
                   </div>
+
+                  <!-- <div class="col-md-3">
+                     <StatusDropdown v-bind:value="form.status" @update:value="form.status = $event" v-bind:error="errors.status ? errors.status[0] : null" />
+                  </div> -->
                   <div class="col-md-3">
                     <TextInput label="Serial" :model="form.serial" :error="errors.serial ? errors.serial[0] : null" @update:model="form.serial = $event" 
                         type="text" placeholder="Enter item serial"
@@ -110,7 +131,7 @@
 
                 <div class="row" v-if="form.parent_id">
                   <div
-                    class="col-md-3"
+                    class="col-md-3 ml-2"
                     v-for="(field, index) in fieldsData"
                     :key="index"
                   >
@@ -139,13 +160,14 @@
                   </div>
                 </div>
 
-                <div class="row"></div>
+                <div class="row ml-2">
                 <button
                   type="submit"
                   class="btn btn-outline-primary btn-sm"
                 >
                   <i class="fa fa-save mr-2"></i>Save
                 </button>
+                </div>
               </form>
             </div>
           </div>
