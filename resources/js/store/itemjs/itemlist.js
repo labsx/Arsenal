@@ -18,8 +18,8 @@ export function itemList() {
             .map((digit, index) => (index > 0 && index % 3 === 0 ? digit + " " : digit))
             .reverse()
             .join("");
-        const decimalPart = parts[1] ? `.${parts[1]}` : "";
-        return `₱ ${integerPart}${decimalPart}`;
+            price = Number(price);
+            return `₱ ${price.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
     };
 
     const showImage = ref(false);
